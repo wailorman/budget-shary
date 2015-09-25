@@ -4,7 +4,7 @@ var sourcemaps = require('gulp-sourcemaps');
 
 
 gulp.task('scripts', function () {
-	return gulp.src('src/app.js')
+	return gulp.src('src/**/*.js')
 			.pipe(sourcemaps.init({loadMaps: true}))
 			.pipe(browserify({transform: 'reactify', insertGlobals: true, debug: true}))
    			.pipe(sourcemaps.write('./'))
