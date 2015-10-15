@@ -1,0 +1,178 @@
+<link rel="stylesheet" href="../../node_modules/semantic/dist/semantic.min.css"/>
+<link rel="stylesheet" href="../../dist/css/bundle.css"/>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>product list</title>
+
+
+<div class="ui one column text top-indented grid container">
+
+    <!-- title -->
+
+    <div class="middle aligned center aligned row">
+        <div class="four wide column">
+            <button class="ui icon large button">
+                <i class="angle left icon"></i>
+            </button>
+        </div>
+
+        <div class="eight wide centered column">
+            <h1>Products</h1>
+        </div>
+        <div class="four wide column"></div>
+    </div>
+
+    <!-- /title -->
+
+
+    <!-- products grid-->
+
+    <div class="ui left aligned top-indented grid">
+
+        <!-- products accordion -->
+
+        <div class="ui styled fluid accordion">
+
+            <!-- person group -->
+
+            <div class="active title">
+                <i class="dropdown icon"></i>
+
+                <!--  person name  -->
+                Ash (25%)
+
+            </div>
+            <div class="active content">
+
+                <div class="ui grid">
+
+                    <!-- products list -->
+
+                    <!-- list item -->
+                    <div class="row">
+                        <div class="ten wide column">
+                            Water
+                        </div>
+                        <div class="four wide column">
+                            30
+                        </div>
+                        <div class="two wide column">
+                            <i class="write icon"></i>
+                        </div>
+                    </div>
+
+                    <!-- list item -->
+                    <div class="row">
+                        <div class="ten wide column">
+                            Chips
+                        </div>
+                        <div class="four wide column">
+                            58
+                        </div>
+                        <div class="two wide column">
+                            <i class="write icon"></i>
+                        </div>
+                    </div>
+
+                    <div class="middle aligned input-item--highlighted row">
+
+                        <div class="column">
+
+                            <div class="ui form without margin-on-last-field">
+
+                                <div class="two fields">
+
+                                    <div class="field">
+
+                                        <div class="ui fluid left action input">
+                                            <button class="ui icon circular large right floated red button">
+                                                <i class="remove icon"></i>
+                                                <!--sure?-->
+                                            </button>
+                                            <input type="text" placeholder="product name"/>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="field">
+
+                                        <div class="ui fluid action input">
+                                            <input type="number" placeholder="cost"/>
+                                            <button class="ui icon circular large left floated green button">
+                                                <i class="checkmark icon"></i>
+                                            </button>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <!-- /input item -->
+
+                    <!-- add item button -->
+                    <div class="row">
+                        <div class="column">
+                            <button class="ui large right floated right labeled icon button">
+                                <i class="plus icon"></i>
+                                Add product
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- /products list -->
+
+                </div>
+
+            </div>
+
+            <!-- /person group -->
+
+
+            <!-- person group -->
+
+            <div class="title">
+                <i class="dropdown icon"></i>
+                Ash
+            </div>
+            <div class="content">
+
+            </div>
+
+            <!--  /person group  -->
+
+
+            <!-- person group -->
+
+
+            <button class="ui fluid basic button bottom-margined">Edit persons</button>
+
+
+            <!--  /person group  -->
+
+        </div>
+
+        <div class="row">
+            <div class="column">
+                <button class="ui huge blue fluid button">
+                    Generate balance sheet
+                </button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script src="../../node_modules/jquery/dist/jquery.min.js"></script>
+<script src="../../node_modules/semantic/dist/semantic.min.js"></script>
+<script src="../../node_modules/livereload-js/dist/livereload.js?host=localhost"></script>
+
+<script>
+    $('.ui.accordion').accordion({exclusive: false});
+</script>

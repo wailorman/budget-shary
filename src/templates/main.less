@@ -1,0 +1,48 @@
+// Semantic UI dependencies
+@import '../../node_modules/semantic/src/themes/default/globals/site.variables';
+
+.vertical-centered {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.top-indented.grid {
+  margin-top: 0;
+}
+
+.input-item--highlighted {
+  background-color: #E0E1E2;
+}
+
+.accordion > button.bottom-margined {
+  margin-bottom: 1rem !important;
+}
+
+//noinspection LessUnresolvedVariable
+@media (max-width: @largestMobileScreen) {
+
+  .form.without.margin-on-last-field .field:last-child {
+    margin-bottom: 0 !important;
+  }
+
+};
+
+.row.without.padding {
+  padding: 0 !important;
+}
+
+// I know, it's too bad to use !important in my css file
+// but I have no other way to fix some bad looked on phones
+// stuff from Semantic UI
+
+
+.transaction {
+  .row {
+    padding-bottom: 5px !important;
+    padding-top: 5px !important;
+  }
+  margin-bottom: 3rem !important;
+
+  font-size: 1.5em;
+}
