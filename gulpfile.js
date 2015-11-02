@@ -1,5 +1,4 @@
 var gulp = require('gulp'),
-    browserify = require('gulp-browserify'),
     uglify = require('gulp-uglify'),
     plumber = require('gulp-plumber'),
     less = require('gulp-less'),
@@ -7,96 +6,74 @@ var gulp = require('gulp'),
     minifyCss = require('gulp-minify-css'),
     copy = require('gulp-copy'),
     clean = require('gulp-rimraf'),
+    concat = require('gulp-concat'),
+    rename = require('gulp-rename'),
+    source = require('vinyl-source-stream'),
+    gutil = require('gulp-util'),
+
+    browserify = require('browserify'),
+    babelify = require('babelify'),
+    watchify = require('watchify'),
 
     // live reload
     connect = require('connect'),
     connectLiveReload = require('connect-livereload'),
     opn = require('opn'),
-    gulpLiveReload = require('gulp-livereload');
+    livereload = require('gulp-livereload');
 
-var DEV_MODE = false;
+///////////////  scripts  ///////////////////////
 
-gulp.task('scripts', function () {
-    gulp.src('src/**/*.js')
-        .pipe(plumber())
-        .pipe(browserify({transform: 'reactify', insertGlobals: true, debug: true}))
-        //.pipe(uglify())
-        .pipe(gulp.dest('dist'))
-        .pipe(gulpLiveReload());
-});
+var bundlePaths = {
+        src: {
+            js: [
+                'src/**/*.js'
+            ],
+            jsEntry: 'src/main.js'
+        },
+        dest: 'dist/'
+    },
 
+    browserifyOpts = {
+        entries: [bundlePaths.src.jsEntry],
+        debug: true,
+        cache: {},
+        packageCache: {}
+    },
 
-gulp.task('styles', function () {
-
-    gulp.src('src/**/*.less')
-        .pipe(plumber())
-        .pipe(less({
-            compress: true,
-            paths: ['./']
-        }))
-        .pipe(concatCss('css/bundle.css'))
-        .pipe(gulp.dest('dist'))
-        .pipe(gulpLiveReload());
-
-});
-
-gulp.task('templates', function () {
-
-    gulp.src('src/**/*.html')
-        .pipe(plumber())
-        .pipe(copy('dist/templates', {prefix: 10}));
-
-});
-
-gulp.task('clean', function () {
-
-    var filesToClean = [ './src/**/*.css' ];
-
-    gulp.src(filesToClean, {read: false})
-        .pipe(clean());
-
-});
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-gulp.task('open', function () {
-    opn('http://localhost:8080/dist');
-});
-
-gulp.task('connect', function () {
-
-    //noinspection JSUnresolvedFunction
-    connect()
-        .use(connectLiveReload())
-        .use(connect.static('./'))
-        .listen(8080);
-
-});
-
-gulp.task('serve', ['watch', 'connect', 'open']);
-
-gulp.task('set-dev-mode', function () {
-
-    DEV_MODE = true;
-
-});
-
-gulp.task('watch', function () {
-
-    gulpLiveReload.listen();
-
-    var gulpReloadFunction = function (file) {
-        
-        return gulp.src(file.path)
-            .pipe(gulpLiveReload());
-
+    babelifyOpts = {
+        presets: ['react', 'es2015']
     };
 
-    //gulp.watch('dist/**/*', gulpReloadFunction);
+function bundle(bundler) {
 
-    gulp.watch('src/js/**/*.js', ['scripts']);
-    gulp.watch('src/templates/**/*.less', ['styles']);
-    gulp.watch('src/templates/**/*.html', gulpReloadFunction);
+    //noinspection JSUnresolvedFunction
+    return bundler.bundle()
+        .pipe(source('bundle.js'))
+        .pipe(gulp.dest(bundlePaths.dest));
+
+}
+
+gulp.task('watchify', function () {
+
+    //noinspection JSUnresolvedFunction
+    var bundler = watchify(browserify(browserifyOpts)).transform(babelify, babelifyOpts);
+
+    // fire livereload update event after
+    bundle(bundler).pipe(livereload());
+
+});
+
+/////////////   /scripts   ///////////////
+
+
+
+gulp.task('livereload-server', function () {
+    livereload({start: true});
+});
+
+gulp.task('watch', ['livereload-server', 'watchify'], function () {
+
+    gulp.watch('src/**/*.js', ['watchify']);
 
 });
 
