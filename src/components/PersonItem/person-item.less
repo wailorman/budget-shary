@@ -1,0 +1,83 @@
+@import (optional) "../../../node_modules/bootstrap/less/bootstrap";
+
+.PersonItem {
+
+  .make-row(0);
+  .well;
+  margin-top: 10px;
+
+}
+
+.PersonItem__person-props {
+
+  .make-row(0);
+
+  div {
+
+    padding: 0 5px;
+    &:first-child {
+      padding-left: 0;
+    }
+    &:last-child {
+      padding-right: 0;
+    }
+
+  }
+
+}
+
+.PersonItem__person-props_name {
+  .make-xs-column(6);
+  .make-sm-column(7);
+
+  & input {
+    .form-control;
+    .input-lg;
+    @media (max-width: @screen-xs-max) {
+      //.input-sm;
+    }
+  }
+}
+
+.PersonItem__person-props_share {
+  .make-xs-column(4);
+
+  & input {
+    .form-control;
+    .input-lg;
+    @media (max-width: @screen-xs-max) {
+      //.input-sm;
+    }
+  }
+}
+
+.PersonItem__person-props_remove-person {
+  .make-xs-column(2);
+  .make-sm-column(1);
+
+  button {
+    .btn;
+    .btn-lg;
+    .btn-danger;
+
+
+    .glyphicon;
+    .glyphicon-trash;
+  }
+}
+
+.PersonItem__products {
+  .well-sm;
+
+  div {
+
+    &:first-child {
+      padding-left: 0;
+    }
+    &:last-child {
+      padding-right: 0;
+    }
+
+  }
+
+}

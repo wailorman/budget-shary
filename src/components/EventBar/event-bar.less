@@ -1,0 +1,23 @@
+@import (optional) "../../../node_modules/bootstrap/less/bootstrap";
+
+.EventBar {
+  .make-row(0);
+  margin-top: 10px;
+}
+
+.EventBar__event-name {
+  .make-xs-column(8);
+
+  input[type=text] {
+    .form-control;
+  }
+}
+
+.EventBar__change-event {
+  .make-xs-column(4);
+
+  button {
+    .btn;
+    .btn-block;
+  }
+}

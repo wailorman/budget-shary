@@ -1,0 +1,65 @@
+@import (optional) "../../../node_modules/bootstrap/less/bootstrap";
+
+.ProductItem {
+
+  .make-row(0);
+  //.well-sm;
+  //margin-top: 5px;
+  //margin-bottom: 5px;
+
+  div {
+
+    padding: 0 5px;
+    &:first-child {
+      padding-left: 0;
+    }
+    &:last-child {
+      padding-right: 0;
+    }
+
+  }
+
+}
+
+.ProductItem__name {
+
+  //.make-xs-column(12);
+  .make-xs-column(7);
+  .make-md-column(7);
+
+  input {
+    .form-control;
+  }
+
+}
+
+.ProductItem__price {
+
+  //.make-xs-column(8);
+  .make-xs-column(3);
+  .make-md-column(4);
+
+  input {
+    .form-control;
+  }
+
+}
+
+.ProductItem__remove-product {
+
+  //.make-xs-column(4);
+  .make-xs-column(2);
+  .make-md-column(1);
+
+  button {
+    .btn;
+    .btn-danger;
+
+
+    .glyphicon;
+    .glyphicon-remove;
+
+    //.center-block;
+  }
+
+}
