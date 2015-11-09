@@ -35,7 +35,9 @@ describe('Person model unit', function () {
             expect(newPerson.get('id')).to.not.exist;
 
             newPerson.save()
-                .then(function () {
+                .then(function (resp) {
+
+                    expect(resp.get('id')).to.exist;
 
                     expect(newPerson.get('id')).to.exist;
                     expect(newPerson.get('name')).to.eql(examplePerson.name);
@@ -74,7 +76,9 @@ describe('Person model unit', function () {
             var newPerson = new Person({id: examplePersonId});
 
             newPerson.fetch()
-                .then(function () {
+                .then(function (resp) {
+
+                    expect(resp.get('id')).to.exist;
 
                     expect(newPerson.get('id')).to.eql(examplePersonId);
                     expect(newPerson.get('name')).to.eql(examplePerson.name);

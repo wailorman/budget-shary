@@ -15,8 +15,12 @@ module.exports = Backbone.Model.extend({
 
         return DbUtils.backboneMiddleware(personsTable, method, model.attributes)
             .then(function (newModelAttributes) {
-                model.set(newModelAttributes);
+                options.success(newModelAttributes);
                 return model
+            })
+            .catch(function (err) {
+                options.error(err);
+                return err;
             });
 
     }

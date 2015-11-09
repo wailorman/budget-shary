@@ -35,7 +35,9 @@ describe('Budget model unit', function () {
             expect(newBudget.get('id')).to.not.exist;
 
             newBudget.save()
-                .then(function () {
+                .then(function (resp) {
+
+                    expect(resp.get('id')).to.exist;
 
                     expect(newBudget.get('id')).to.exist;
                     expect(newBudget.get('name')).to.eql(exampleBudget.name);
@@ -73,7 +75,9 @@ describe('Budget model unit', function () {
             var newBudget = new Budget({id: exampleBudgetId});
 
             newBudget.fetch()
-                .then(function () {
+                .then(function (resp) {
+
+                    expect(resp.get('id')).to.exist;
 
                     expect(newBudget.get('id')).to.eql(exampleBudgetId);
                     expect(newBudget.get('name')).to.eql(exampleBudget.name);

@@ -35,7 +35,9 @@ describe('Product model unit', function() {
             expect(newProduct.get('id')).to.not.exist;
 
             newProduct.save()
-                .then(function () {
+                .then(function (resp) {
+
+                    expect(resp.get('id')).to.exist;
 
                     expect(newProduct.get('id')).to.exist;
                     expect(newProduct.get('name')).to.eql(exampleProduct.name);
@@ -74,7 +76,9 @@ describe('Product model unit', function() {
             var newProduct = new Product({id: exampleProductId});
 
             newProduct.fetch()
-                .then(function () {
+                .then(function (resp) {
+
+                    expect(resp.get('id')).to.exist;
 
                     expect(newProduct.get('id')).to.eql(exampleProductId);
                     expect(newProduct.get('name')).to.eql(exampleProduct.name);
