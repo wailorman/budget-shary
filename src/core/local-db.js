@@ -5,7 +5,7 @@ var db = new Dexie('BudgetSharyDatabase');
 db.version(1).stores({
     persons: "++id,name,share",
     products: "++id,name,price",
-    events: "++id,name"
+    budgets: "++id,name"
 });
 
 db.open();

@@ -1,5 +1,5 @@
 import React from 'react'
-import EventBar from '../EventBar/event-bar.js'
+import BudgetBar from '../BudgetBar/budget-bar.js'
 import PersonItem from '../PersonItem/person-item.js'
 
 export default class App extends React.Component {
@@ -7,7 +7,7 @@ export default class App extends React.Component {
     render() {
         return (
             <div className="App">
-                <EventBar />
+                <BudgetBar />
                 <PersonItem />
             </div>
         );
