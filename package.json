@@ -20,6 +20,7 @@
     "better-console": "^0.2.4",
     "bootstrap": "^3.3.5",
     "del": "^2.0.2",
+    "dexie": "^1.2.0",
     "extend": "^3.0.0",
     "jquery": "^2.1.4",
     "map-stream": "0.0.6",
@@ -27,6 +28,7 @@
     "react-dom": "^0.14.1",
     "require-dot-file": "^0.4.0",
     "run-sequence": "^1.1.4",
+    "underscore": "^1.8.3",
     "yamljs": "^0.2.4"
   },
   "devDependencies": {
@@ -34,6 +36,8 @@
     "babel-preset-react": "^6.0.14",
     "babelify": "^7.0.2",
     "browserify": "^12.0.1",
+    "chai": "^3.4.0",
+    "fake-indexeddb": "^1.0.3",
     "gulp": "^3.9.0",
     "gulp-concat-css": "^2.2.0",
     "gulp-copy": "0.0.2",
@@ -42,6 +46,8 @@
     "gulp-plumber": "^1.0.1",
     "less": "^2.5.3",
     "livereload-js": "^2.2.2",
+    "sinon": "^1.17.2",
+    "sinon-as-promised": "^4.0.0",
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.6.0"
   }
