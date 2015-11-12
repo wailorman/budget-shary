@@ -1,10 +1,36 @@
 var BackboneSyncDexieAdapter = function (dexieTable) {
 
+    var methodMapper = {
+        create: "create",
+        read: "findOne",
+        update: "update",
+        delete: "delete"
+    };
+
+    return function (method, model, options) {
+
+        var crudMethod = _tableWrapper(dexieTable)[methodMapper[method]];
+        var jsonObj = model.attributes;
+
+        var serializeDexieResponse = function (response) {
+            return model.set(response);
+        };
+
+        return crudMethod(jsonObj, options)
+            .then(serializeDexieResponse);
+
+    };
+
+};
+
+var _tableWrapper = function (dexieTable) {
+
     return {
-        create: _create.bind(this, dexieTable),
-        read: _read.bind(this, dexieTable),
-        update: _update.bind(this, dexieTable),
-        delete: _delete.bind(this, dexieTable)
+        create:     _create.bind(this, dexieTable),
+        find:       _find.bind(this, dexieTable),
+        findOne:    _findOne.bind(this, dexieTable),
+        update:     _update.bind(this, dexieTable),
+        delete:     _delete.bind(this, dexieTable)
     };
 
 };
@@ -17,7 +43,13 @@ var _create = function (table, jsonObject, opts) {
 
 };
 
-var _read = function (table, jsonObject, opts) {
+var _find = function (table, opts) {
+
+    return table.toArray();
+
+};
+
+var _findOne = function (table, jsonObject, opts) {
 
     return table.get(jsonObject.id);
 
@@ -38,8 +70,10 @@ var _delete = function (table, jsonObject, opts) {
 };
 
 // static private methods
+BackboneSyncDexieAdapter._tableWrapper = _tableWrapper;
 BackboneSyncDexieAdapter._create = _create;
-BackboneSyncDexieAdapter._read = _read;
+BackboneSyncDexieAdapter._find = _find;
+BackboneSyncDexieAdapter._findOne = _findOne;
 BackboneSyncDexieAdapter._update = _update;
 BackboneSyncDexieAdapter._delete = _delete;
 
