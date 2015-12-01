@@ -1,6 +1,8 @@
 var Dexie = require('dexie');
 
-var db = new Dexie('BudgetSharyDatabase');
+var dbName = process.env.ENV == 'test' ? 'BudgetSharyDatabaseDev' : 'BudgetSharyDatabase';
+
+var db = new Dexie(dbName);
 
 db.version(1).stores({
     persons: "++id,name,share",
