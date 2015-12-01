@@ -5,6 +5,8 @@ var Q = require('q');
 var fixturesLoader = function (dexieTable, fixturesArray) {
     var deferred = Q.defer();
 
+    dexieTable.clear();
+
     async.each(fixturesArray, function (fixture, callback) {
 
         dexieTable.add(fixture)
