@@ -3,10 +3,18 @@ global.indexedDB = require('fake-indexeddb');
 var Product = require('../../../../src/core/models/product');
 var expect = require('chai').expect;
 var DB = require('../../../../src/core/local-db');
+var fixtures = require('../fixtures/products');
+var fixturesLoader = require('../../../helpers/fixtures-loader');
+var _ = require('underscore');
 
 describe('Product model unit', function() {
 
     var exampleProduct = {name: 'Milk', price: 50};
+    var sandboxTable = DB.products;
+
+    beforeEach(function () {
+        return fixturesLoader(sandboxTable, fixtures);
+    });
 
     it('should use default values', function() {
 
@@ -28,24 +36,24 @@ describe('Product model unit', function() {
 
     describe('.save()', function () {
 
-        it('should upload new model to DB and update model', function (done) {
+        it('should upload new model to DB and update model', function () {
 
             var newProduct = new Product(exampleProduct);
 
             expect(newProduct.get('id')).to.not.exist;
 
-            newProduct.save()
+            return newProduct.save()
                 .then(function (resp) {
 
-                    expect(resp.get('id')).to.exist;
+                    var expectedNewId = _.last(fixtures).id + 1;
+
+                    expect(resp.get('id')).to.eql(expectedNewId);
 
                     expect(newProduct.get('id')).to.exist;
                     expect(newProduct.get('name')).to.eql(exampleProduct.name);
                     expect(newProduct.get('price')).to.eql(exampleProduct.price);
 
-                    done();
-
-                }).catch(done);
+                });
 
         });
 
@@ -53,40 +61,20 @@ describe('Product model unit', function() {
 
     describe('.fetch()', function () {
 
-        var productsTable = DB.products;
-        var exampleProductId;
+        var exampleProductId = 1;
 
-        // create product for testing
-        before(function (done) {
-
-            productsTable.clear().then(function () {
-                productsTable.add(exampleProduct)
-                    .then(function (id) {
-                        exampleProductId = id;
-
-                        done();
-
-                    }).catch(done);
-            });
-
-        });
-
-        it('should fetch model and update model', function (done) {
+        it('should fetch model and update model', function () {
 
             var newProduct = new Product({id: exampleProductId});
 
             newProduct.fetch()
                 .then(function (resp) {
 
-                    expect(resp.get('id')).to.exist;
-
                     expect(newProduct.get('id')).to.eql(exampleProductId);
-                    expect(newProduct.get('name')).to.eql(exampleProduct.name);
-                    expect(newProduct.get('price')).to.eql(exampleProduct.price);
+                    expect(newProduct.get('name')).to.eql(fixtures[0].name);
+                    expect(newProduct.get('price')).to.eql(fixtures[0].price);
 
-                    done();
-
-                }).catch(done);
+                });
 
         });
 
@@ -95,30 +83,19 @@ describe('Product model unit', function() {
     describe('.destroy()', function () {
 
         var productsTable = DB.products;
-        var exampleProductId;
+        var exampleProductId = 1;
 
-        // create product for testing
-        before(function (done) {
-
-            productsTable.clear().then(function () {
-                productsTable.add(exampleProduct)
-                    .then(function (id) {
-                        exampleProductId = id;
-                        done();
-                    }).catch(done);
-            });
-
-        });
-
-        it('should remove object from db', function (done) {
+        it('should remove object from db', function () {
 
             var newProduct = new Product({id: exampleProductId});
 
-            newProduct.fetch().then(function (product) {
+            return newProduct.fetch().then(function (product) {
                 return product.destroy();
             }).then(function () {
-                done();
-            }).catch(done);
+                productsTable.get(exampleProductId)
+            }).then(function (destroyedObjectResponse) {
+                expect(destroyedObjectResponse).to.eql(undefined);
+            });
 
         });
 

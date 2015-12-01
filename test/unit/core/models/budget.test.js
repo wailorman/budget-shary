@@ -3,11 +3,32 @@ global.indexedDB = require('fake-indexeddb');
 var Budget = require('../../../../src/core/models/budget');
 var expect = require('chai').expect;
 var DB = require('../../../../src/core/local-db');
+var fixtures = require('../fixtures/budgets');
+var fixturesLoader = require('../../../helpers/fixtures-loader');
+var _ = require('underscore');
 
 describe('Budget model unit', function () {
 
     var exampleBudget = {name: 'Christmas'};
-    
+    var sandboxTable = DB.budgets;
+
+    ///////////// generators ///////////////
+
+    beforeEach(function () {
+        return fixturesLoader(sandboxTable, fixtures);
+    });
+
+    it("should successfully load fixtures", function () {
+
+        return DB.budgets.toArray()
+            .then(function (budgetsArray) {
+
+                expect(budgetsArray.length).to.eql(3);
+
+            });
+
+    });
+
     it('should construct object with specified values', function () {
 
         //noinspection JSClosureCompilerSyntax
@@ -28,23 +49,24 @@ describe('Budget model unit', function () {
 
     describe('.save()', function () {
 
-        it('should upload new model to DB and update model', function (done) {
+        it('should upload new model to DB and update model', function () {
 
             var newBudget = new Budget(exampleBudget);
 
             expect(newBudget.get('id')).to.not.exist;
+            expect(newBudget.id).to.not.exist;
 
-            newBudget.save()
+            return newBudget.save()
                 .then(function (resp) {
 
-                    expect(resp.get('id')).to.exist;
+                    var expectedNewId = _.last(fixtures).id + 1;
 
-                    expect(newBudget.get('id')).to.exist;
+                    expect(resp.get('id')).to.eql(expectedNewId);
+
+                    expect(newBudget.get('id')).to.eql(expectedNewId);
                     expect(newBudget.get('name')).to.eql(exampleBudget.name);
 
-                    done();
-
-                }).catch(done);
+                });
 
         });
 
@@ -52,39 +74,20 @@ describe('Budget model unit', function () {
 
     describe('.fetch()', function () {
 
-        var budgetsTable = DB.budgets;
-        var exampleBudgetId;
+        var exampleBudgetId = 1;
 
-        // create budget for testing
-        before(function (done) {
-
-            budgetsTable.clear().then(function () {
-                budgetsTable.add(exampleBudget)
-                    .then(function (id) {
-                        exampleBudgetId = id;
-
-                        done();
-
-                    }).catch(done);
-            });
-
-        });
-
-        it('should fetch model and update model', function (done) {
+        it('should fetch object', function () {
 
             var newBudget = new Budget({id: exampleBudgetId});
 
-            newBudget.fetch()
+            return newBudget.fetch()
                 .then(function (resp) {
 
-                    expect(resp.get('id')).to.exist;
-
                     expect(newBudget.get('id')).to.eql(exampleBudgetId);
-                    expect(newBudget.get('name')).to.eql(exampleBudget.name);
 
-                    done();
+                    expect(newBudget.get('name')).to.eql(fixtures[0].name);
 
-                }).catch(done);
+                });
 
         });
 
@@ -93,30 +96,19 @@ describe('Budget model unit', function () {
     describe('.destroy()', function () {
 
         var budgetsTable = DB.budgets;
-        var exampleBudgetId;
+        var exampleBudgetId = 1;
 
-        // create budget for testing
-        before(function (done) {
-
-            budgetsTable.clear().then(function () {
-                budgetsTable.add(exampleBudget)
-                    .then(function (id) {
-                        exampleBudgetId = id;
-                        done();
-                    }).catch(done);
-            });
-
-        });
-
-        it('should remove object from db', function (done) {
+        it('should remove object from db', function () {
 
             var newBudget = new Budget({id: exampleBudgetId});
 
-            newBudget.fetch().then(function (budget) {
+            return newBudget.fetch().then(function (budget) {
                 return budget.destroy();
             }).then(function () {
-                done();
-            }).catch(done);
+                budgetsTable.get(exampleBudgetId)
+            }).then(function (destroyedObjectResponse) {
+                expect(destroyedObjectResponse).to.eql(undefined);
+            });
 
         });
 
