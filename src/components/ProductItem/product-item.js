@@ -1,5 +1,7 @@
 import React from 'react'
 
+import './product-item.less'
+
 export default class ProductItem extends React.Component {
 
     render() {

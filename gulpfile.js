@@ -4,99 +4,67 @@ var gulp = require('gulp'),
     concatCss = require('gulp-concat-css'),
     source = require('vinyl-source-stream'),
     copy = require('gulp-copy'),
+    watch = require('gulp-watch'),
+    clean = require('gulp-rimraf'),
 
     browserify = require('browserify'),
     babelify = require('babelify'),
     watchify = require('watchify'),
 
     // live reload
-    livereload = require('gulp-livereload');
+    livereload = require('gulp-livereload'),
 
-///////////////  scripts  ///////////////////////
+// webpack
+    gutil = require('gulp-util'),
+    webpack = require('webpack'),
+    browserSync = require('browser-sync').create();
 
-var bundlePaths = {
-        src: {
-            js: [
-                'src/**/*.js'
-            ],
-            css: [
-                'src/components/**/*.less'
-            ],
-            jsEntry: 'src/main.js'
-        },
-        dest: 'dist/'
-    },
+var webpackConfig = require('./webpack.config');
+var NODE_ENV = 'production';
 
-    browserifyOpts = {
-        entries: [bundlePaths.src.jsEntry],
-        debug: true,
-        cache: {},
-        packageCache: {}
-    },
+/////////////    webpack    ///////////////
 
-    babelifyOpts = {
-        presets: ['react', 'es2015']
-    };
+gulp.task('set-dev-mode', function () {
+    NODE_ENV = 'development';
+});
 
-function bundle(bundler) {
+gulp.task("webpack", ['copy-index-html'], function (callback) {
 
-    //noinspection JSUnresolvedFunction
-    return bundler.bundle()
-        .pipe(source('bundle.js'))
-        .pipe(gulp.dest(bundlePaths.dest));
+    if (NODE_ENV == 'development')
+        webpackConfig.watch = true;
 
-}
+    // run webpack
+    webpack(webpackConfig, function (err, stats) {
+        if (err) throw new gutil.PluginError("webpack", err);
+        gutil.log("[webpack]", stats.toString({
+            // output options
+        }));
+        //callback();
+    });
+});
 
-gulp.task('watchify', function () {
+gulp.task('copy-index-html', function () {
 
-    //noinspection JSUnresolvedFunction
-    var bundler = watchify(browserify(browserifyOpts)).transform(babelify, babelifyOpts);
-
-    // fire livereload update event after
-    bundle(bundler).pipe(livereload());
+    return gulp.src('./src/index.html')
+        .pipe(copy('./dist/', {prefix: 10}));
 
 });
 
-/////////////   /scripts   ///////////////
+gulp.task('browser-sync', ['copy-index-html'], function () {
+    browserSync.init({
+        server: {
+            baseDir: "./dist/"
+        }
+    });
 
-
-/////////////   styles  ///////////////
-
-gulp.task('styles', function () {
-
-    return gulp.src(bundlePaths.src.css)
-        .pipe(plumber())
-        .pipe(less({
-            paths: ['.']
-        }))
-        .pipe(concatCss('bundle.css'))
-        .pipe(gulp.dest(bundlePaths.dest))
-        .pipe(livereload())
-        .on('error', function (error) {
-            console.error('' + error);
-        });
-
+    watch('./dist/**/*', function () {
+        browserSync.reload();
+    });
+    gulp.watch('./src/index.html', ['copy-index-html']);
 });
 
-gulp.task('copy-glyphicons', function () {
+gulp.task('serve', ['set-dev-mode', 'webpack', 'browser-sync']);
 
-    return gulp.src('node_modules/bootstrap/fonts/**/*')
-        .pipe(copy(bundlePaths.dest + '/fonts', {prefix: 3}));
+/////////////    /webpack    ///////////////
 
-});
-
-/////////////   /styles  ///////////////
-
-
-gulp.task('livereload-server', function () {
-    livereload({start: true});
-});
-
-gulp.task('watch', ['livereload-server', 'watchify', 'styles'], function () {
-
-    gulp.watch('src/**/*.js', ['watchify']);
-    gulp.watch('src/**/*.less', ['styles']);
-
-});
-
-gulp.task('default', ['scripts']);
+gulp.task('default', ['webpack']);

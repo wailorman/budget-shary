@@ -1,5 +1,7 @@
 import React from 'react'
 
+import './budget-bar.less'
+
 export default class BudgetBar extends React.Component {
 
     render() {
