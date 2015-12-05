@@ -1,8 +1,8 @@
 import React from 'react'
-import BudgetBar from '../BudgetBar/budget-bar.js'
-import PersonItem from '../PersonItem/person-item.js'
+import BudgetBar from '../BudgetBar'
+import PersonItem from '../PersonItem'
 
-import './app.less'
+import './App.less'
 
 export default class App extends React.Component {
 

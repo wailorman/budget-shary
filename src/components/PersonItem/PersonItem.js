@@ -1,8 +1,8 @@
 import React from 'react'
-import ProductItem from '../ProductItem/product-item.js'
-import AddProductItem from '../AddProductItem/add-product-item.js'
+import ProductItem from '../ProductItem'
+import AddProductItem from '../AddProductItem'
 
-import './person-item.less'
+import './PersonItem.less'
 
 export default class PersonItem extends React.Component {
 

@@ -1,6 +1,6 @@
 import React from 'react'
 
-import './budget-bar.less'
+import './BudgetBar.less'
 
 export default class BudgetBar extends React.Component {
 

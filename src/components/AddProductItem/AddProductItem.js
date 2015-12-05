@@ -1,6 +1,6 @@
 import React from 'react'
 
-import './add-product-item.less'
+import './AddProductItem.less'
 
 export default class AddProductItem extends React.Component {
 
