@@ -3,17 +3,143 @@
 var fixturesLoader = require('../../helpers/fixtures-loader');
 var Dexie = require('dexie');
 
+const generateDexieDb = require('../../helpers/dexie-helper');
+
 describe('fixturesLoader', function () {
 
-    var _createSandboxTable,
+    let _createSandboxTable,
         _loadFixturesToTable,
-        _routePayload;
+        _routePayload,
+        forMultiplieTables,
+
+        sandboxDatabase;
+
+    let generateSandboxDatabase = function (dbName, schemas) {
+
+        dbName = dbName || "SandboxDatabase";
+
+        let db = new Dexie(dbName);
+
+        return db.delete()
+            .then(()=> {
+
+            });
+
+    };
+
+    let reloadFixtures = function () {
+
+        return generateDexieDb
+            .withName('SandboxDatabaseForTesting')
+            .withTables({
+                first: '++id,name',
+                second: '++id,name',
+                third: '++id,name'
+            })
+            .contains({
+                first: [
+                    {
+                        id: 1,
+                        name: '1-First'
+                    },
+                    {
+                        id: 2,
+                        name: '2-First'
+                    }
+                ],
+                second: [
+                    {
+                        id: 1,
+                        name: '1-Second'
+                    },
+                    {
+                        id: 2,
+                        name: '2-Second'
+                    }
+                ]
+            })
+            .andGenerateIt()
+            .then((db)=> {
+                sandboxDatabase = db;
+            })
+
+    };
 
     before(function () {
 
         _createSandboxTable = fixturesLoader._createSandboxTable;
         _loadFixturesToTable = fixturesLoader._loadFixturesToTable;
         _routePayload = fixturesLoader._routePayload;
+        forMultiplieTables = fixturesLoader.forMultiplieTables;
+
+    });
+
+    describe("forMultiplieTables", ()=> {
+
+        beforeEach(()=> {
+
+            return reloadFixtures();
+
+        });
+
+        it("should clean tables which will receive fixtures", () => {
+
+            return forMultiplieTables(sandboxDatabase, {
+                first: [
+                    {
+                        id: 1,
+                        name: 'Such wow'
+                    }
+                ],
+                third: [
+                    {
+                        id: 1,
+                        name: 'New record'
+                    }
+                ]
+            }).then(()=> {
+
+                return sandboxDatabase.first.get(1);
+
+            }).then((firstRecord)=> {
+
+                assert.equal(firstRecord.name, 'Such wow', "Fixtures didn't override old data");
+
+                return sandboxDatabase.third.get(1);
+
+            }).then((newRecordInThirdTable)=> {
+
+                assert.equal(newRecordInThirdTable.name, 'New record', "New fixtures wasn't loaded");
+
+            });
+
+        });
+
+        it("should insert all fixtures", () => {
+
+            return forMultiplieTables(sandboxDatabase, {
+                third: [
+                    {
+                        id: 1,
+                        name: 'New record'
+                    },
+                    {
+                        id: 2,
+                        name: 'Another record'
+                    }
+                ]
+            }).then(()=> {
+
+                return sandboxDatabase.third.toArray();
+
+            }).then((newRecords)=> {
+
+                assert.equal(newRecords[0].name, 'New record', "First fixture wasn't loaded");
+                assert.equal(newRecords[1].name, 'Another record', "Second fixture wasn't loaded");
+
+            });
+
+        });
 
     });
 

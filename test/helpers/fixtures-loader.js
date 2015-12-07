@@ -29,12 +29,6 @@ var fixturesLoader = function (dexieTable, fixturesArray) {
     return deferred.promise;
 };
 
-/**
- * @param db Dexie   database
- * @param {Object} payload   Object fixtures for loading ( { <tableName>: fixturesArray[] } )
- */
-fixturesLoader.forMultiplieTables = fixturesLoader._routePayload;
-
 fixturesLoader._createSandboxTable = function (schema) {
 
     schema = schema || "++id,name";
@@ -51,6 +45,23 @@ fixturesLoader._createSandboxTable = function (schema) {
 
 };
 
+/**
+ * @param db Dexie   database
+ * @param {Object} payload   Object fixtures for loading ( { <tableName>: fixturesArray[] } )
+ */
+fixturesLoader.forMultiplieTables = function (db, payload) {
+
+    let tablesToClean = _.keys(payload);
+
+    return fixturesLoader
+        ._clearTables(db, tablesToClean)
+        .then(()=> {
+            return fixturesLoader._routePayload(db, payload);
+        })
+
+};
+
+// passing each object property to the right table insertion
 fixturesLoader._routePayload = function (db, payload) {
 
     var deferred = Q.defer();
@@ -84,11 +95,28 @@ fixturesLoader._routePayload = function (db, payload) {
 
 };
 
-fixturesLoader._clearTable = function (dexieTable) {
+// clears tables in specified db
+fixturesLoader._clearTables = function (db, arrayOfTableNames) {
+    var deferred = Q.defer();
 
-    return dexieTable.clear();
+    async.each(arrayOfTableNames, function (tableName, cb) {
 
+        let table = db[tableName];
+
+        table.clear()
+            .then(()=> {
+                cb();
+            })
+            .catch(cb);
+
+    }, function (err) {
+        if (err) deferred.reject(err);
+        else deferred.resolve(null);
+    });
+
+    return deferred.promise;
 };
+
 
 fixturesLoader._loadFixturesToTable = function (dexieTable, fixturesArray) {
 
