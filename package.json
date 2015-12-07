@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "node ./node_modules/mocha/bin/_mocha --compilers js:babel-register -r ./test/babel-opts.js ./test/**/*.js",
+    "test": "node ./node_modules/mocha/bin/_mocha --harmony --require ./test/preconf.js ./test/**/*.js",
     "serve": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --content-base dist/",
     "build": "node ./node_modules/webpack/bin/webpack.js"
   },
