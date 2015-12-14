@@ -18,6 +18,11 @@
     "url": "https://github.com/wailorman/budget-shary/issues"
   },
   "homepage": "https://github.com/wailorman/budget-shary",
+  "babel": {
+    "retainLines": true,
+    "presets": [ "es2015", "react" ],
+    "sourceMaps": "inline"
+  },
   "dependencies": {
     "async": "^1.5.0",
     "better-console": "^0.2.4",
