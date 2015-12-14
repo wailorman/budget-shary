@@ -20,12 +20,16 @@
   "homepage": "https://github.com/wailorman/budget-shary",
   "babel": {
     "retainLines": true,
-    "presets": [ "es2015", "react" ],
+    "presets": [
+      "es2015",
+      "react"
+    ],
     "sourceMaps": "inline"
   },
   "dependencies": {
     "async": "^1.5.0",
     "backbone": "^1.2.3",
+    "backbone-validator": "^0.1.0",
     "better-console": "^0.2.4",
     "bootstrap": "^3.3.5",
     "del": "^2.0.2",
