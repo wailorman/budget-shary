@@ -1,16 +1,20 @@
-var Backbone = require('backbone');
-var DB = require('../local-db');
-var DbUtils = require('../local-db-utils');
-var BackboneDexieAdapter = require('../../lib/backbone-dexie-adapter/backbone-dexie-adapter');
+"use strict";
 
-var budgetsTable = DB.budgets;
+const Backbone = require('backbone');
+const validator = require('backbone-validator');
+const PersonsCollection = require('../collections/persons');
 
-module.exports = Backbone.Model.extend({
+
+let Budget = Backbone.Model.extend({
 
     defaults: {
         name: ''
     },
 
-    sync: BackboneDexieAdapter.forModel(budgetsTable)
+    validate: validator.create({
+        name: {type: 'string'}
+    })
 
 });
+
+module.exports = Budget;
