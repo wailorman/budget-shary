@@ -1,16 +1,13 @@
-var Backbone = require('backbone');
-var Person = require('../models/person');
-var BackboneSyncDexieAdapter = require('../../lib/backbone-dexie-adapter/backbone-dexie-adapter');
-var DB = require('../local-db');
+"use strict";
 
-var personsTable = DB.persons;
+const Backbone = require('backbone');
+const Person = require('../models/person');
 
-var Persons = Backbone.Collection.extend({
 
-    model: Person,
+let PersonsCollection = Backbone.Collection.extend({
 
-    sync: BackboneSyncDexieAdapter.forCollection(personsTable)
+    model: Person
 
 });
 
-module.exports = Persons;
+module.exports = PersonsCollection;
