@@ -1,16 +1,27 @@
-var Backbone = require('backbone');
-var Product = require('../models/product');
-var BackboneSyncDexieAdapter = require('../../lib/backbone-dexie-adapter/backbone-dexie-adapter');
-var DB = require('../local-db');
+"use strict";
 
-var productsTable = DB.products;
+const Backbone = require('backbone');
+const Product = require('../models/product');
+const _ = require('lodash');
 
-var Products = Backbone.Collection.extend({
+let ProductsCollection = Backbone.Collection.extend({
 
     model: Product,
 
-    sync: BackboneSyncDexieAdapter.forCollection(productsTable)
+    totalPrice: function () {
+
+        let totalPrice = 0;
+
+        _.forEach(this.models, (product)=> {
+
+            totalPrice += product.get('price');
+
+        });
+
+        return totalPrice;
+
+    }
 
 });
 
-module.exports = Products;
+module.exports = ProductsCollection;

@@ -12,6 +12,14 @@ module.exports = Backbone.Model.extend({
         price: 0
     },
 
-    sync: BackboneDexieAdapter.forModel(productsTable)
+    validate: function (attrs) {
+
+        if (attrs.name && typeof attrs.name !== "string")
+            return `Invalid name type. Except string instead of ${typeof attrs.name}`;
+
+        if (attrs.price && typeof attrs.price !== "number")
+            return `Invalid price type. Except number instead of ${typeof attrs.price}`;
+
+    }
 
 });
