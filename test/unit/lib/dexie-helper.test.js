@@ -1,6 +1,6 @@
 "use strict";
 
-const generateDexieDb = require('../../helpers/dexie-helper');
+const DexieGenerator = require('../../helpers/dexie-helper');
 const Dexie = require('dexie');
 
 describe("DexieHelper", ()=> {
@@ -9,7 +9,7 @@ describe("DexieHelper", ()=> {
 
         let sandboxDB;
 
-        return generateDexieDb
+        return DexieGenerator
             .withName('TestDexieDb')
             .withTables({
                 potatoes: '++id,name'
@@ -25,6 +25,8 @@ describe("DexieHelper", ()=> {
             .andGenerateIt()
             .then((db)=> {
                 sandboxDB = db;
+
+                // todo: check db name
 
                 assert(db.potatoes, "Can't access to created db");
 
@@ -43,7 +45,7 @@ describe("DexieHelper", ()=> {
 
         let sandboxDB;
 
-        return generateDexieDb
+        return DexieGenerator
             .withName('TestDexieDb')
             .withTables({
                 bananas: '++id,name'
@@ -71,6 +73,120 @@ describe("DexieHelper", ()=> {
                 assert.equal(banana.name, 'Ban', "Fixtures was loaded incorrectly");
 
             });
+
+    });
+
+    describe("clearTables", ()=> {
+
+        let generatedDb;
+
+        let countUpObjectsInTable = function (dexieTable) {
+            //var deferred = Q.defer();
+
+            return dexieTable.toArray().then((tableArray)=> {
+                return tableArray.length;
+            });
+
+            //return deferred.promise;
+        };
+
+        let countUpObjectsInTables = function (dexieTablesArray) {
+
+            let deferred = Q.defer();
+            let amountOfObjectsIn = {};
+
+            async.each(dexieTablesArray, (table, ecb)=> {
+
+                countUpObjectsInTable(table)
+                    .then((objectsAmount)=> {
+                        amountOfObjectsIn[table.name]
+                    })
+
+            });
+
+            return deferred.promise;
+
+        };
+
+        beforeEach(()=> {
+
+            generatedDb = DexieGenerator
+                .withTables({
+                    bananas: '++id,name',
+                    potatoes: '++id,name'
+                })
+                .contains({
+                    bananas: [
+                        {
+                            id: 1,
+                            name: 'Ban'
+                        }
+                    ],
+                    potatoes: [
+                        {
+                            id: 1,
+                            name: 'Pot'
+                        }
+                    ]
+                })
+                .andGenerateIt()
+                .then((db)=> {
+                    generatedDb = db;
+                });
+
+            return generatedDb;
+
+        });
+
+        it("should clear one table", () => {
+
+            let amountOfObjectsIn = {};
+
+            return DexieGenerator
+                .clearTables(['bananas'])
+                .then(()=> {
+                    return countUpObjectsInTable(DexieGenerator.db.bananas);
+                })
+                .then((amountOfObjectsInBananasTable)=> {
+                    assert.equal(amountOfObjectsInBananasTable, 0, "bananas table wasn't cleared");
+                    assert(generatedDb.potatoes, "Not right table was cleared");
+                });
+
+        });
+
+    });
+
+    describe("countUpObjectsInTable", ()=> {
+
+        it("should count correctly", () => {
+
+            return DexieGenerator.withTables({
+                    sand: '++id,name'
+                })
+                .contains({
+                    sand: [
+                        {
+                            id: 1,
+                            name: 'One'
+                        },
+                        {
+                            id: 2,
+                            name: 'Two'
+                        }
+                    ]
+                })
+                .andGenerateIt()
+                .then(()=> {
+                    return DexieGenerator
+                        .countUpObjectsInTable('sand');
+                })
+                .then((amountOfObjectsInSandTable)=> {
+
+                    assert.equal(amountOfObjectsInSandTable, 2, 'counting up has gone wrong');
+
+                });
+
+        });
 
     });
 
