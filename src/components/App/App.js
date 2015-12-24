@@ -1,18 +1,33 @@
-import React from 'react'
-import BudgetBar from '../BudgetBar'
-import PersonItem from '../PersonItem'
+"use strict";
 
-import './App.less'
+const React = require('react');
+const BudgetBar = require('../BudgetBar');
+const Budget = require('../../core/models/budget');
 
-export default class App extends React.Component {
+const PersonsList = require('../PersonsList');
+
+require('./App.less');
+
+let App = module.exports = React.createClass({
+
+    getInitialState() {
+        let budget = new Budget();
+
+        return {
+            budget: budget,
+            persons: budget.get('persons')
+        };
+    },
+
+
 
     render() {
         return (
             <div className="App">
-                <BudgetBar />
-                <PersonItem />
+                <BudgetBar budget={this.state.budget}/>
+                <PersonsList persons={this.state.persons} />
             </div>
         );
     }
 
-}
+});

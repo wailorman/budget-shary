@@ -1,8 +1,10 @@
-import React from 'react'
+"use strict";
 
-import './ProductItem.less'
+const React = require('react');
 
-export default class ProductItem extends React.Component {
+require('./ProductItem.less');
+
+let ProductItem = module.exports = React.createClass({
 
     render() {
 
@@ -26,4 +28,4 @@ export default class ProductItem extends React.Component {
 
     }
 
-}
+});

@@ -1,11 +1,12 @@
-import React from 'react'
+"use strict";
 
-import './AddProductItem.less'
+const React = require('react');
 
-export default class AddProductItem extends React.Component {
+require('./AddProductItem.less');
+
+let AddProductItem = module.exports = React.createClass({
 
     render() {
-
         return (
             <div className="AddProductItem">
                 <button>+ New product</button>
@@ -13,4 +14,4 @@ export default class AddProductItem extends React.Component {
         );
     }
 
-}
+});
