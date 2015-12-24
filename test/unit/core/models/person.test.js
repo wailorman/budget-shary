@@ -3,6 +3,8 @@
 const Person = require('../../../../src/core/models/person');
 const ProductsCollection = require('../../../../src/core/collections/products');
 const Product = require('../../../../src/core/models/product');
+const Dispatcher = require('../../../../src/dispatcher/dispatcher');
+const actionNames = require('../../../../src/constants/action-names');
 
 describe('Person model unit', ()=> {
 
@@ -134,6 +136,52 @@ describe('Person model unit', ()=> {
                 });
 
                 assert.isFalse(person.isValid(), "{} is not valid type");
+
+            });
+
+        });
+
+        describe("dispatcher", ()=> {
+
+            it("should handle dispatched 'update' event and change model", () => {
+
+                let person = new Person({name: 'Mike', share: 0.5});
+
+                let spy = sinon.spy();
+
+                person.on('change', spy);
+
+                Dispatcher.dispatch({
+                    eventName: actionNames.person.update,
+                    model: person,
+                    attributes: { name: 'John', share: 0.75 }
+                });
+
+                expect(spy.calledOnce).to.be.true;
+                expect(spy.lastCall.args[0].attributes).to.eql({name: 'John', share: 0.75});
+
+            });
+
+            it("should update model which passed with payload only", () => {
+
+                let person1 = new Person();
+                let person2 = new Person();
+
+                let spy1 = sinon.spy();
+                let spy2 = sinon.spy();
+
+                person1.on('change', spy1);
+                person2.on('change', spy2);
+
+                Dispatcher.dispatch({
+                    eventName: actionNames.person.update,
+                    model: person2,
+                    attributes: { name: 'John', share: 0.1 }
+                });
+
+                expect(spy1.callCount).to.eql(0);
+                expect(spy2.calledOnce).to.be.true;
+                expect(spy2.lastCall.args[0].attributes).to.eql({name: 'John', share: 0.1});
 
             });
 

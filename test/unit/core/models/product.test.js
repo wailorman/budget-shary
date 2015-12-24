@@ -1,6 +1,8 @@
 "use strict";
 
 const Product = require('../../../../src/core/models/product');
+const Dispatcher = require('../../../../src/dispatcher/dispatcher');
+const actionNames = require('../../../../src/constants/action-names');
 
 describe('Product model unit', ()=> {
 
@@ -61,6 +63,52 @@ describe('Product model unit', ()=> {
 
             assert.isFalse(prodStr.isValid(), "Product with string as price should not be valid");
             assert.isFalse(prodBoolean.isValid(), "Product with boolean as price should not be valid");
+
+        });
+
+    });
+
+    describe("dispatcher", ()=> {
+
+        it("should handle dispatched 'update' event and change model", () => {
+
+            let product = new Product({name: 'Potato', price: 50});
+
+            let spy = sinon.spy();
+
+            product.on('change', spy);
+
+            Dispatcher.dispatch({
+                eventName: actionNames.product.update,
+                model: product,
+                attributes: { name: 'Water', price: 100 }
+            });
+
+            expect(spy.calledOnce).to.be.true;
+            expect(spy.lastCall.args[0].attributes).to.eql({name: 'Water', price: 100});
+
+        });
+
+        it("should update model which passed with payload only", () => {
+
+            let product1 = new Product();
+            let product2 = new Product();
+
+            let spy1 = sinon.spy();
+            let spy2 = sinon.spy();
+
+            product1.on('change', spy1);
+            product2.on('change', spy2);
+
+            Dispatcher.dispatch({
+                eventName: actionNames.product.update,
+                model: product2,
+                attributes: { name: 'Lemon', price: 10 }
+            });
+
+            expect(spy1.callCount).to.eql(0);
+            expect(spy2.calledOnce).to.be.true;
+            expect(spy2.lastCall.args[0].attributes).to.eql({name: 'Lemon', price: 10});
 
         });
 

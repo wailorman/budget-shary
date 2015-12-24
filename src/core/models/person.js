@@ -1,7 +1,31 @@
+"use strict";
+
 const Backbone = require('backbone');
 const ProductsCollection = require('../collections/products');
+const Dispatcher = require('../../dispatcher/dispatcher');
+const actionNames = require('../../constants/action-names');
 
 module.exports = Backbone.Model.extend({
+
+    initialize: function () {
+
+        let model = this;
+
+        Dispatcher.register((payload)=> {
+
+            if (payload.model === model) {
+
+                const UPDATE = actionNames.person.update;
+
+                if (payload.eventName == UPDATE) {
+                    model.set(payload.attributes);
+                }
+
+            }
+
+        });
+
+    },
 
     defaults: {
         name: '',

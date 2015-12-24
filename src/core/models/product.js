@@ -1,11 +1,30 @@
-var Backbone = require('backbone');
-var DB = require('../local-db');
-var DbUtils = require('../local-db-utils');
-var BackboneDexieAdapter = require('../../lib/backbone-dexie-adapter/backbone-dexie-adapter');
+"use strict";
 
-var productsTable = DB.products;
+const Backbone = require('backbone');
+const Dispatcher = require('../../dispatcher/dispatcher');
+const actionNames = require('../../constants/action-names');
 
 module.exports = Backbone.Model.extend({
+
+    initialize: function () {
+
+        let model = this;
+
+        Dispatcher.register((payload)=> {
+
+            if (payload.model === model) {
+
+                const UPDATE = actionNames.product.update;
+
+                if (payload.eventName == UPDATE) {
+                    model.set(payload.attributes);
+                }
+
+            }
+
+        });
+
+    },
 
     defaults: {
         name: '',
