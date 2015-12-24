@@ -4,6 +4,9 @@ var sinon = require('sinon');
 var _ = require('underscore');
 require('sinon-as-promised');
 
+// fixme Stop using sinon-as-promised. Karma isn't support it
+// Use chai promised instead
+
 describe('DB Utils unit', function () {
 
     ///// mocks for table stubs /////

@@ -17,6 +17,8 @@ var Q = require('q');
 var async = require('async');
 
 require('sinon-as-promised');
+// fixme Stop using sinon-as-promised. Karma isn't support it
+// Use chai promised instead
 
 
 describe('BackboneSyncDexieAdapter', function () {
