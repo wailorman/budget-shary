@@ -1,9 +1,9 @@
 "use strict";
 
-const NewPersonButton = require('../../../src/components/NewPersonButton');
+const NewPersonButton = require('../../../src/components/NewPersonButton/NewPersonButton');
 const PersonsCollection = require('../../../src/core/collections/persons');
 
-describe("components/NewPersonsButton", ()=> {
+describe("integration/components/NewPersonsButton", ()=> {
 
     it("should not add person to collection", () => {
 

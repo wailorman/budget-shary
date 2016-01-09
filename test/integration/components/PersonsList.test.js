@@ -1,11 +1,11 @@
 "use strict";
 
-const PersonsList = require('../../../src/components/PersonsList');
+const PersonsList = require('../../../src/components/PersonsList/PersonsList');
 const PersonsCollection = require('../../../src/core/collections/persons');
-const NewPersonButton = require('../../../src/components/NewPersonButton');
-const PersonItem = require('../../../src/components/PersonItem');
+const NewPersonButton = require('../../../src/components/NewPersonButton/NewPersonButton');
+const PersonItem = require('../../../src/components/PersonItem/PersonItem');
 
-describe("components/PersonsList", ()=> {
+describe("integration/components/PersonsList", ()=> {
 
     it("should render only + button", () => {
 
@@ -81,15 +81,22 @@ describe("components/PersonsList", ()=> {
 
     });
     
-    xit(`should remove person from collection`, () => {
+    it(`should remove person from collection`, () => {
 
         let personsCollection = new PersonsCollection([
             {name: 'Jane', share: 0.8}
         ]);
 
-        let component = reactHelper.render(<PersonsList persons={personsCollection} />);
+        let component = ReactTestUtils.renderIntoDocument(<PersonsList persons={personsCollection} />);
+        let personItemInstance = ReactTestUtils.findRenderedComponentWithType(component, PersonItem);
+        let removeButtonDiv = ReactTestUtils.findRenderedDOMComponentWithClass(
+            personItemInstance, 'PersonItem__person-props_remove-person'
+        );
+        let removeButton = removeButtonDiv.children[0];
 
-        component.result.removePersonItemHandler(personsCollection.at(0))();
+        expect(personsCollection.length).to.eql(1);
+
+        ReactTestUtils.Simulate.click(removeButton);
 
         expect(personsCollection.length).to.eql(0);
 

@@ -20,7 +20,7 @@ module.exports = function (config) {
         files: [
             'test/preconf/preconf-karma.js',
             'test/unit/core/**/*.test.js',
-            'test/unit/components/**/*.test.js'
+            'test/integration/components/**/*.test.js'
         ],
 
         exclude: [
@@ -28,9 +28,7 @@ module.exports = function (config) {
         ],
 
         preprocessors: {
-            'test/preconf/preconf-karma.js': ['webpack', 'sourcemap'],
-            'test/unit/core/**/*.js': ['webpack', 'sourcemap'],
-            'test/unit/components/**/*.test.js': ['webpack', 'sourcemap']
+            'test/**/*.js': ['webpack', 'sourcemap']
         },
 
         browsers: ['Chrome'],

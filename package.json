@@ -7,7 +7,10 @@
     "test": "node ./node_modules/mocha/bin/_mocha --harmony --require ./test/preconf/preconf-mocha.js ./test/**/*.js",
     "serve": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --content-base dist/",
     "build": "node ./node_modules/webpack/bin/webpack.js",
-    "test:karma": "./node_modules/.bin/karma start"
+    "test:karma": "./node_modules/.bin/karma start",
+    "test:mocha": "node ./node_modules/.bin/mocha --harmony --require test/preconf/preconf-mocha.js --compilers js:babel-register ./test/unit/**/*.js",
+    "test:integration": "npm run test:karma",
+    "test:unit": "npm run test:mocha"
   },
   "repository": {
     "type": "git",
@@ -89,6 +92,7 @@
     "null-loader": "^0.1.1",
     "react-addons-test-utils": "^0.14.3",
     "react-dom": "^0.14.3",
+    "react-tools": "^0.13.3",
     "sinon": "^1.17.2",
     "sinon-as-promised": "^4.0.0",
     "style-loader": "^0.13.0",

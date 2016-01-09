@@ -1,9 +1,9 @@
 "use strict";
 
-const BudgetBar = require('../../../src/components/BudgetBar');
+const BudgetBar = require('../../../src/components/BudgetBar/BudgetBar');
 const Budget = require('../../../src/core/models/budget');
 
-describe("components/BudgetBar", ()=> {
+describe("integration/components/BudgetBar", ()=> {
 
     it("should render component without props", () => {
 
