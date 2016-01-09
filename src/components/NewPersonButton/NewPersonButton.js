@@ -2,7 +2,7 @@
 
 const React = require('react');
 const PersonsCollection = require('../../core/collections/persons');
-const personActions = require('../../actions/person-actions');
+const personActions = require('../../actions/actions').person;
 
 require('./NewPersonButton.less');
 

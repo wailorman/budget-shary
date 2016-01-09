@@ -1,5 +1,7 @@
-import React from 'react';
-import PersonItem from '../PersonItem/PersonItem'
+"use strict";
+
+const React = require('react');
+const PersonItem = require('../PersonItem/PersonItem');
 
 const PersonsCollection = require('../../core/collections/persons');
 const NewPersonButton = require('../NewPersonButton/NewPersonButton');
