@@ -1,7 +1,8 @@
 "use strict";
 
 const React = require('react');
-const budgetActions = require('../../actions/budget-actions');
+const budgetActions = require('../../actions/actions').budget;
+const _ = require('lodash');
 
 require('./BudgetBar.less');
 
@@ -25,10 +26,13 @@ let BudgetBar = module.exports = React.createClass({
 
     getInitialState() {
 
-        let budget = this.props.budget;
+        let budget = this.props.budget || {attributes: {}};
+        let attrs = _.defaultsDeep(budget.attributes, {
+            name: ''
+        });
 
         return {
-            name: budget ? budget.get('name') : ''
+            name: attrs.name
         };
 
     },
@@ -36,7 +40,8 @@ let BudgetBar = module.exports = React.createClass({
     handleNameChange(event) {
 
         let newName = event.target.value;
-        budgetActions.update({name: newName});
+        this.props.budget.set({name: newName});
+        this.setState({name: newName});
 
     },
 
