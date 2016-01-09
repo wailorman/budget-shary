@@ -4,14 +4,17 @@ const React = require('react');
 const ProductItem = require('../ProductItem/ProductItem');
 const AddProductItem = require('../AddProductItem/AddProductItem');
 const PersonsCollection = require('../../core/collections/persons');
+const Person = require('../../core/models/person');
+const improvedParseInt = require('../../lib/improvedParseInt');
 const _ = require('lodash');
+const actionCreator = require('../../actions/actions');
 
 require('./PersonItem.less');
 
 let PersonItem = module.exports = React.createClass({
 
     propTypes: {
-        person: React.PropTypes.instanceOf(PersonsCollection)/*,
+        person: React.PropTypes.instanceOf(Person)/*,
         removeHandler: React.PropTypes.func*/
     },
 
@@ -31,36 +34,21 @@ let PersonItem = module.exports = React.createClass({
     getInitialState() {
         let person = this.props.person;
 
-        if (!person) return {name: '', share: ''};
+        if (!person) return {name: '', share: 0};
 
         let share = person.get('share');
 
         return {
             name: person.get('name'),
-            share: share ? person.get('share') : ''
+            share: share === 0 || share ? person.get('share') : '',
+            _: {
+                valid: {
+                    name: true,
+                    share: true
+                }
+            }
         };
     },
-
-    //getStateByAttributes(attributes) {
-    //
-    //    if (!attributes) attributes = {};
-    //
-    //    attributes = _.defaults({
-    //        name: '',
-    //        share: ''
-    //    });
-    //
-    //    return _.transform(attributes, (result, n, key)=> {
-    //        let type = typeof attributes[key];
-    //
-    //        if (attributes[key] && (type == 'string' || type == 'number' )) {
-    //            result[key] = String(attributes[key]);
-    //        }else{
-    //            result[key] = '';
-    //        }
-    //    });
-    //
-    //},
 
     changeName(event) {
 
@@ -73,28 +61,41 @@ let PersonItem = module.exports = React.createClass({
         this.setState({name: newName});
 
     },
-    changeShare(event) {
 
-        if (!this.props.person) return undefined;
+    parseShare(typedShare){
+        return improvedParseInt(typedShare);
+    },
 
-        let newShareStringFromInput = event.target.value;
-        let newShare = parseFloat(newShareStringFromInput ? newShareStringFromInput : 0);
+    convertParsedShareForModel(parsedShare){
+        return parsedShare * 0.01;
+    },
 
-        if (newShare)
-            this.props.person.set('share', newShare);
+    isConvertedShareValid(convertedShare){
+        return Person.prototype.validate({share: convertedShare}) ? false : true;
+    },
 
-        this.setState({share: newShareStringFromInput})
+    handleShareChange(event) {
+
+        let typedShare = event.target.value,
+            parsedShare = this.parseShare(typedShare),
+            convertedShare = this.convertParsedShareForModel(parsedShare);
+
+        actionCreator.person.update(this.props.person, {share: convertedShare});
+
+        this.setState({share: typedShare});
 
     },
-    //removePerson(){
-    //
-    //    if (!this.props.removeHandler) return undefined;
-    //
-    //    this.props.removeHandler();
-    //
-    //},
+
+    handleRemoveButtonClick() {
+
+        actionCreator.person.delete(this.props.person);
+
+    },
 
     render() {
+
+
+        // todo: Highlight incorrect PersonItem
 
         return (
             <div className="PersonItem">
@@ -108,14 +109,14 @@ let PersonItem = module.exports = React.createClass({
                     </div>
 
                     <div className="PersonItem__person-props_share">
-                        <input type="text"
+                        <input type="number"
                                value={this.state.share}
-                               onChange={this.changeShare}
-                               placeholder="Share"/>
+                               onChange={this.handleShareChange}
+                               placeholder="Share (%)"/>
                     </div>
 
                     <div className="PersonItem__person-props_remove-person">
-                        <button></button>
+                        <button onClick={this.handleRemoveButtonClick}></button>
                     </div>
                 </div>
 
