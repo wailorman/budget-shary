@@ -17,6 +17,8 @@ let Budget = Backbone.Model.extend({
 
             // if payload.model is not specified, change
             // will apply to all budget models
+
+            // But if model was passed, we have to check it
             if (payload.model && payload.model !== model) return undefined;
 
             const UPDATE = actionNames.budget.update;
