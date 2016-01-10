@@ -4,7 +4,7 @@ const Backbone = require('backbone');
 const Dispatcher = require('../../dispatcher/dispatcher');
 const actionNames = require('../../constants/action-names');
 
-module.exports = Backbone.Model.extend({
+let Product = Backbone.Model.extend({
 
     initialize: function () {
 
@@ -42,3 +42,5 @@ module.exports = Backbone.Model.extend({
     }
 
 });
+
+module.exports = Product;
