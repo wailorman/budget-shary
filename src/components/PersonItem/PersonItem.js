@@ -5,7 +5,7 @@ const ProductItem = require('../ProductItem/ProductItem');
 const AddProductItem = require('../AddProductItem/AddProductItem');
 const PersonsCollection = require('../../core/collections/persons');
 const Person = require('../../core/models/person');
-const improvedParseInt = require('../../lib/improvedParseInt');
+const improvedParseInt = require('../../lib/improved-parse-int');
 const _ = require('lodash');
 const actionCreator = require('../../actions/actions');
 
