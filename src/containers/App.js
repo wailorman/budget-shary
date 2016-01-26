@@ -1,10 +1,11 @@
 import Product from '../components/Product'
+import ProductsList from '../containers/ProductsList'
 
 const App = React.createClass({
     render: function () {
         return (
             <div>
-                <Product name="Milk" price="100"/>
+                <ProductsList />
             </div>
         );
     }
