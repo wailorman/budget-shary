@@ -26,7 +26,13 @@ var webpackConfig = {
 
     },
 
-    plugins: []
+    plugins: [
+        new webpack.ProvidePlugin({
+            'React': 'react',
+            'ReactDOM': 'react-dom',
+            '_': 'lodash'
+        })
+    ]
 };
 
 if (NODE_ENV == 'development') {
