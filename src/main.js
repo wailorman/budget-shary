@@ -1,8 +1,6 @@
 "use strict";
 
-const React = require('react');
-const ReactDOM = require('react-dom');
-const App = require('./components/App/App');
+import App from './containers/App'
 
 ReactDOM.render(
     <App />,
