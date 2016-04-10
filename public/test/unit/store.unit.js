@@ -16,12 +16,14 @@ describe("UNIT / Store", ()=> {
 
             it(`should remove product`, () => {
 
-                fakeStore.dispatch(removeProduct(2));
+                fakeStore.dispatch(removeProduct("2"));
 
                 const resultState = fakeStore.getState();
 
-                expect(resultState.products[1]).to.exist;
-                expect(resultState.products[2]).to.not.exist;
+                debugger;
+
+                expect(resultState.products[0]).to.exist;
+                expect(resultState.products[1]).to.not.exist;
 
             });
 

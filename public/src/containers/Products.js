@@ -6,17 +6,16 @@ const ProductsList = React.createClass({
 
     propTypes: {
         actions: React.PropTypes.object,
-        products: React.PropTypes.object
+        products: React.PropTypes.array
     },
 
     render: function () {
 
-        let products = [];
-        _.transform(this.props.products, (result, product, id)=> {
-            products.push(
+        let products = _.map(this.props.products, (product)=> {
+            return (
                 <Product
-                    key={id}
-                    id={id}
+                    key={product.id}
+                    id={product.id}
                     name={product.name}
                     price={product.price}
                     onRemove={this.props.actions.removeProduct}

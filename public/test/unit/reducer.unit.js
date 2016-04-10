@@ -1,14 +1,10 @@
 "use strict";
 
 import { productsReducer } from '../../src/reducer'
-import { REMOVE_PRODUCT } from '../../src/actions'
+import { REMOVE_PRODUCT, NEW_PRODUCT } from '../../src/actions'
+import { fakeState } from '../fixtures/fake-state'
 
-const initialState = {
-    products: {
-        1: {name: 'Water', price: '40'},
-        2: {name: 'Milk', price: '60'}
-    }
-};
+const initialState = fakeState;
 
 describe("UNIT / Reducers / productsReducer", ()=> {
 
@@ -25,9 +21,9 @@ describe("UNIT / Reducers / productsReducer", ()=> {
 
             const actual = productsReducer(initialStateProducts, action);
 
-            const expected = {
-                2: {name: 'Milk', price: '60'}
-            };
+            const expected = [
+                {id: '2', name: 'Milk', price: '60'}
+            ];
 
             expect(actual).to.eql(expected);
 
@@ -45,7 +41,7 @@ describe("UNIT / Reducers / productsReducer", ()=> {
             expect(actual).to.eql(initialStateProducts);
 
         });
-        
+
         it(`should leave state alone if product id == null`, () => {
 
             const action = {
@@ -63,21 +59,46 @@ describe("UNIT / Reducers / productsReducer", ()=> {
 
     describe("NEW_PRODUCT", ()=> {
 
-        // should add new empty product
+        it(`should add new empty product`, () => {
 
-        // should add another empty product
+            const action = {
+                type: NEW_PRODUCT
+            };
+
+            const actual = productsReducer(initialStateProducts, action);
+            const newProduct = _.last(actual);
+
+            expect(actual.length).to.eql(initialStateProducts.length + 1);
+            expect(newProduct.id).to.match(/\d/);
+            expect(newProduct.name).to.eql('');
+            expect(newProduct.price).to.eql('');
+
+        });
+
+        it(`should add another empty product`, () => {
+
+            const action = {
+                type: NEW_PRODUCT
+            };
+
+            const firstCall = productsReducer(initialStateProducts, action);
+            const actual = productsReducer(firstCall, action);
+
+            expect(actual.length).to.eql(initialStateProducts.length + 2);
+
+        });
 
     });
 
 });
 
-describe("Reducers / main", ()=> {
+describe("UNIT / Reducers / main", ()=> {
 
     it(`should remove product`, () => {
 
         const action = {
             type: REMOVE_PRODUCT,
-            id: 1
+            id: '1'
         };
 
         //let expectedState =
