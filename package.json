@@ -46,11 +46,15 @@
     "backbone": "^1.2.3",
     "backbone-validator": "^0.1.0",
     "better-console": "^0.2.4",
+    "body-parser": "^1.15.0",
     "bootstrap": "^3.3.5",
     "del": "^2.0.2",
     "dexie": "^1.2.0",
+    "express": "^4.13.4",
     "extend": "^3.0.0",
     "flux": "^2.1.1",
+    "forever": "^0.15.1",
+    "immutable": "^3.7.6",
     "jquery": "^2.1.4",
     "lodash": "^3.10.1",
     "map-stream": "0.0.6",
@@ -62,10 +66,7 @@
     "require-dot-file": "^0.4.0",
     "run-sequence": "^1.1.4",
     "underscore": "^1.8.3",
-    "yamljs": "^0.2.4",
-    "body-parser": "^1.15.0",
-    "express": "^4.13.4",
-    "forever": "^0.15.1"
+    "yamljs": "^0.2.4"
   },
   "devDependencies": {
     "babel-core": "^6.3.13",

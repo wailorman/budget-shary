@@ -43,6 +43,7 @@ var webpackConfig = {
             '_': 'lodash',
             'Q': 'q',
             'logger': __dirname + '/public/lib/logger',
+            'Immutable': 'immutable',
 
             'React': 'react',
             'ReactDOM': 'react-dom',

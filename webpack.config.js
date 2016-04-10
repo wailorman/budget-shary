@@ -34,7 +34,8 @@ var webpackConfig = {
         new webpack.ProvidePlugin({
             'React': 'react',
             'ReactDOM': 'react-dom',
-            '_': 'lodash'
+            '_': 'lodash',
+            'Immutable': 'immutable'
         })
     ]
 };
