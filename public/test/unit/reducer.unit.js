@@ -91,18 +91,3 @@ describe("UNIT / Reducers / productsReducer", ()=> {
     });
 
 });
-
-describe("UNIT / Reducers / main", ()=> {
-
-    it(`should remove product`, () => {
-
-        const action = {
-            type: REMOVE_PRODUCT,
-            id: '1'
-        };
-
-        //let expectedState =
-
-    });
-
-});
