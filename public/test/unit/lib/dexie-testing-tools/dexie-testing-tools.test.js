@@ -1,7 +1,7 @@
 "use strict";
 
-const DexieTestingTools = require('../../../../src/lib/dexie-testing-tools');
-const _lib = require('../../../../src/lib/dexie-testing-tools/lib');
+const DexieTestingTools = require('../../.././dexie-testing-tools');
+const _lib = require('../../.././dexie-testing-tools/lib');
 const Dexie = require('dexie');
 
 describe("DexieTestingTools", ()=> {

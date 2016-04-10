@@ -15,12 +15,16 @@ const ProductsList = React.createClass({
         };
     },
 
+    onRemove(id){
+        delete this.state.products[id];
+    },
+
     render: function () {
 
         let products = [];
-        _.transform(this.state.products, function (result, product, id) {
+        _.transform(this.state.products, (result, product, id)=> {
             products.push(
-                <Product key={id} id={id} name={product.name} price={product.price}/>
+                <Product key={id} id={id} name={product.name} price={product.price} onRemove={this.onRemove.call()}/>
             );
         });
 

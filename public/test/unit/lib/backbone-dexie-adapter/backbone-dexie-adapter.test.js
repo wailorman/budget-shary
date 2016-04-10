@@ -6,7 +6,7 @@ var fixtures = require('./fixtures');
 
 var Backbone = require('backbone');
 
-var BackboneSyncDexieAdapter = require('../../../../src/lib/backbone-dexie-adapter/backbone-dexie-adapter');
+var BackboneSyncDexieAdapter = require('../../.././backbone-dexie-adapter/backbone-dexie-adapter');
 var chai = require('chai');
 var expect = chai.expect;
 var assert = chai.assert;

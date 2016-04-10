@@ -1,6 +1,6 @@
 "use strict";
 
-const improvedParseInt = require('../../../src/lib/improvedParseInt');
+const improvedParseInt = require('../.././improvedParseInt');
 
 describe("improvedParseInt", ()=> {
 
