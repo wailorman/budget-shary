@@ -44,6 +44,9 @@ var webpackConfig = {
             'Q': 'q',
             'logger': __dirname + '/public/lib/logger',
 
+            'React': 'react',
+            'ReactDOM': 'react-dom',
+
             'expect': __dirname + '/test/requirements/chai-expect.js',
             'sinon': 'sinon'
         }),
