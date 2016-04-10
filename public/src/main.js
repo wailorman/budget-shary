@@ -1,6 +1,6 @@
 "use strict";
 
-import App from 'src/containers/App'
+import App from './containers/App'
 
 ReactDOM.render(
     <App />,

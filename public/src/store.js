@@ -1,6 +1,12 @@
 import { createStore } from 'redux';
-import { reducer, defaultState } from './reducer'
+import { reducer, reducers, defaultState } from './reducer'
 
-export const store = createStore( reducer, defaultState );
+export const store = createStore( reducers, defaultState );
+
+export const generateStore = (initialState) => {
+
+    return createStore(reducers, initialState);
+
+};
 
 export default store;

@@ -1,22 +1,22 @@
 import Product from '../components/Product'
+import { removeProduct } from '../actions'
+import store from '../store'
 
 const ProductsList = React.createClass({
 
-    getInitialState(){
-        return {
-            products: {
-                1: {
-                    id: 1, name: 'Water', price: '120'
-                },
-                2: {
-                    id: 2, name: 'Potatoes', price: '50'
-                }
-            }
-        };
+    propTypes: {
+        actions: React.PropTypes.object
     },
 
-    onRemove(id){
-        delete this.state.products[id];
+    componentWillMount() {
+        store.subscribe(()=> {
+            this.setState(store.getState());
+        });
+    },
+
+
+    getInitialState(){
+        return store.getState();
     },
 
     render: function () {
@@ -24,7 +24,13 @@ const ProductsList = React.createClass({
         let products = [];
         _.transform(this.state.products, (result, product, id)=> {
             products.push(
-                <Product key={id} id={id} name={product.name} price={product.price} onRemove={this.onRemove.call()}/>
+                <Product
+                    key={id}
+                    id={id}
+                    name={product.name}
+                    price={product.price}
+                    onRemove={this.props.actions.removeProduct}
+                />
             );
         });
 
