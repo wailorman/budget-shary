@@ -28,9 +28,13 @@ describe("INT / Containers / Products", function () {
 
     it(`should render 2 products`, () => {
 
-        const {output} = setup();
+        const {output, component} = setup();
+        const productNodes = TestUtils.scryRenderedDOMComponentsWithClass(
+            component,
+            'Product'
+        );
 
-        expect(output.childElementCount).to.eql(2);
+        expect(productNodes.length).to.eql(2);
 
     });
 
@@ -38,42 +42,46 @@ describe("INT / Containers / Products", function () {
 
         const {output, component} = setup();
 
-        const buttons = TestUtils.scryRenderedDOMComponentsWithTag(
+        const buttons = TestUtils.scryRenderedDOMComponentsWithClass(
             component,
-            'button'
+            'Product__remove-product'
         );
 
         expect(buttons.length).to.eql(2);
 
     });
 
-    it(`should remove first product`, () => {
+    describe("product removing", ()=> {
 
-        const {output, component, props} = setup();
+        it(`should remove first product`, () => {
 
-        const buttons = TestUtils.scryRenderedDOMComponentsWithTag(
-            component,
-            'button'
-        );
+            const {output, component, props} = setup();
 
-        TestUtils.Simulate.click(buttons[0]);
+            const buttons = TestUtils.scryRenderedDOMComponentsWithClass(
+                component,
+                'Product__remove-product'
+            );
 
-        expect(props.actions.removeProduct.lastCall.args[0]).to.eql("1");
+            TestUtils.Simulate.click(buttons[0]);
 
-    });
+            expect(props.actions.removeProduct.lastCall.args[0]).to.eql("1");
 
-    it(`should remove second product`, () => {
+        });
 
-        const {output, component, props} = setup();
+        it(`should remove second product`, () => {
 
-        const buttons = TestUtils.scryRenderedDOMComponentsWithTag(
-            component,
-            'button'
-        );
+            const {output, component, props} = setup();
 
-        TestUtils.Simulate.click(buttons[1]);
+            const buttons = TestUtils.scryRenderedDOMComponentsWithClass(
+                component,
+                'Product__remove-product'
+            );
 
-        expect(props.actions.removeProduct.lastCall.args[0]).to.eql("2");
+            TestUtils.Simulate.click(buttons[1]);
+
+            expect(props.actions.removeProduct.lastCall.args[0]).to.eql("2");
+
+        });
 
     });
 

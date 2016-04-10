@@ -46,10 +46,10 @@ const Product = React.createClass({
 
     render: function () {
         return (
-            <div>
-                <input type="text" value={this.state.name} onChange={this.onNameChange}/>
-                <input type="text" value={this.state.price} onChange={this.onPriceChange}/>
-                <button onClick={this.onRemoveClick}>x</button>
+            <div className="Product">
+                <input className="Product__name-input" type="text" value={this.state.name} onChange={this.onNameChange}/>
+                <input className="Product__name-input" type="text" value={this.state.price} onChange={this.onPriceChange}/>
+                <button className="Product__remove-product" onClick={this.onRemoveClick}>x</button>
             </div>
         );
     }
