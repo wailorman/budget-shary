@@ -35,7 +35,7 @@ var webpackConfig = {
             'React': 'react',
             'ReactDOM': 'react-dom',
             '_': 'lodash',
-            'Immutable': 'immutable'
+            'Immutable': 'seamless-immutable'
         })
     ]
 };
