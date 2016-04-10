@@ -2,7 +2,7 @@ const NODE_ENV = process.env.NODE_ENV == 'production' ? 'production' : 'developm
 var webpack = require('webpack');
 
 var webpackConfig = {
-    entry: './src/main.js',
+    entry: './public/src/main.js',
     output: {
         path: __dirname + '/dist',
         filename: './bundle.js'
@@ -19,6 +19,10 @@ var webpackConfig = {
                     presets: ['es2015', 'react'],
                     plugins: ['transform-runtime']
                 }
+            },
+            {
+                test: /\.json$/,
+                loader: 'json'
             },
             { test: /\.less$/, loader: 'style!css!less' },
             { test: /\.(ttf|woff|woff2|eot|svg|png|jpg)$/, loader: 'url?name=[path][name].[ext]&limit=4096' }
@@ -37,7 +41,7 @@ var webpackConfig = {
 
 if (NODE_ENV == 'development') {
 
-    webpackConfig.devtool = 'cheap-inline-module-source-map';
+    webpackConfig.devtool = 'eval';
 
 }
 
