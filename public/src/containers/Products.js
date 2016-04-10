@@ -2,7 +2,7 @@ import Product from '../components/Product'
 import { removeProduct } from '../actions'
 import { store } from '../store'
 
-const ProductsList = React.createClass({
+const Products = React.createClass({
 
     propTypes: {
         actions: React.PropTypes.object,
@@ -26,9 +26,12 @@ const ProductsList = React.createClass({
         return (
             <div>
                 {products}
+                <button className="Products__new-product" onClick={this.props.actions.newProduct}>
+                    New product
+                </button>
             </div>
         );
     }
 });
 
-export default ProductsList;
+export default Products;

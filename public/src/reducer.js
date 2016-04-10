@@ -4,8 +4,8 @@ import { REMOVE_PRODUCT, NEW_PRODUCT } from './actions'
 export const defaultState = Immutable({
 
     products: [
-        {id: '1', name: 'Water', price: '120'},
-        {id: '2', name: 'Potatoes', price: '50'}
+        {id: '101', name: 'Water', price: '120'},
+        {id: '102', name: 'Potatoes', price: '50'}
     ]
 
 });

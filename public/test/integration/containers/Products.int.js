@@ -12,7 +12,8 @@ describe("INT / Containers / Products", function () {
         let props = {
             products: fakeState.products,
             actions: {
-                removeProduct: sinon.spy()
+                removeProduct: sinon.spy(),
+                newProduct: sinon.spy()
             }
         };
 
@@ -83,6 +84,25 @@ describe("INT / Containers / Products", function () {
 
         });
 
+    });
+
+    describe("new product", ()=> {
+        
+        it(`should call newProduct`, () => {
+
+            const {output, component, props} = setup();
+
+            const newButton = TestUtils.findRenderedDOMComponentWithClass(
+                component,
+                'Products__new-product'
+            );
+
+            TestUtils.Simulate.click(newButton);
+
+            expect(props.actions.newProduct.called).to.eql(true);
+
+        });
+        
     });
 
 });
