@@ -3,7 +3,7 @@ import { REMOVE_PRODUCT } from './actions'
 
 export const defaultState = {
 
-    persons: {},
+    //persons: {},
     products: {
         1: {
             id: 1, name: 'Water', price: '120'
@@ -14,20 +14,6 @@ export const defaultState = {
     }
 
 };
-
-export function reducer(state = defaultState, action) {
-    let newState = _.cloneDeep(state);
-
-    switch (action.type) {
-
-        case REMOVE_PRODUCT:
-            delete newState.products[action.id];
-            return newState;
-
-        default:
-            return newState;
-    }
-}
 
 export function productsReducer(state = defaultState.products, action) {
 
@@ -49,4 +35,4 @@ export const reducers = combineReducers({
     products: productsReducer
 });
 
-export default reducer;
+export default reducers;
