@@ -1,28 +1,18 @@
 import Product from '../components/Product'
 import { removeProduct } from '../actions'
-import store from '../store'
+import { store } from '../store'
 
 const ProductsList = React.createClass({
 
     propTypes: {
-        actions: React.PropTypes.object
-    },
-
-    componentWillMount() {
-        store.subscribe(()=> {
-            this.setState(store.getState());
-        });
-    },
-
-
-    getInitialState(){
-        return store.getState();
+        actions: React.PropTypes.object,
+        products: React.PropTypes.object
     },
 
     render: function () {
 
         let products = [];
-        _.transform(this.state.products, (result, product, id)=> {
+        _.transform(this.props.products, (result, product, id)=> {
             products.push(
                 <Product
                     key={id}
