@@ -1,6 +1,6 @@
 import { removeProduct } from '../../src/actions'
 import { store, generateStore } from '../../src/store'
-import { fakeState } from './fixtures/fake-state'
+import { fakeState } from '../fixtures/fake-state'
 
 describe("UNIT / Store", ()=> {
 
