@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux'
-import { REMOVE_PRODUCT, NEW_PRODUCT } from './actions'
+import { REMOVE_PRODUCT, NEW_PRODUCT, CHANGE_PRODUCT } from './actions'
 
 export const defaultState = Immutable({
 
@@ -21,6 +21,13 @@ export function productsReducer(productsState = defaultState.products, action) {
 
         case NEW_PRODUCT:
             return productsState.concat([{id: _.uniqueId(), name: '', price: ''}]);
+
+        case CHANGE_PRODUCT:
+            return productsState.map((product)=> {
+                if (product.id != action.id) return product;
+
+                return _.assign(product.asMutable(), action.values);
+            });
 
         default:
             return productsState;
