@@ -25,6 +25,7 @@ var webpackConfig = {
                 loader: 'json'
             },
             { test: /\.less$/, loader: 'style!css!less' },
+            { test: /\.css/, loader: 'style!css' },
             { test: /\.(ttf|woff|woff2|eot|svg|png|jpg)$/, loader: 'url?name=[path][name].[ext]&limit=4096' }
         ]
 
