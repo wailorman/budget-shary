@@ -1,5 +1,4 @@
 .idea/
 node_modules/
-!dist/index.html
-dist/
+dist/**/*.build.js
 .tmp/
