@@ -27,7 +27,7 @@ const Products = React.createClass({
         });
 
         return (
-            <div>
+            <div className="Products">
                 {products}
                 <button className="Products__new-product" onClick={this.props.actions.newProduct}>
                     New product
