@@ -12,13 +12,16 @@ const Products = React.createClass({
     render: function () {
 
         let products = _.map(this.props.products, (product)=> {
+            const productRefName = `product_${product.id}`;
             return (
                 <Product
+                    ref={productRefName}
                     key={product.id}
                     id={product.id}
                     name={product.name}
                     price={product.price}
                     onRemove={this.props.actions.removeProduct}
+                    onChange={this.props.actions.changeProduct}
                 />
             );
         });

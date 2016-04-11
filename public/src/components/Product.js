@@ -24,20 +24,18 @@ const Product = React.createClass({
         };
     },
 
-    onNameChange(event){
-        const newName = event.target.value;
+    onChange(event){
 
-        this.setState({
-            name: newName
-        });
-    },
+        const targetClassName = event.target.className;
 
-    onPriceChange(event){
-        const newPrice = event.target.value;
+        const name = targetClassName == 'Product__name-input' ? event.target.value : this.props.name;
+        const price = targetClassName == 'Product__price-input' ? event.target.value : this.props.price;
 
-        this.setState({
-            price: newPrice
-        });
+        // Product__name-input
+        // Product__price-input
+
+        this.props.onChange(this.props.id, {name, price});
+
     },
 
     onRemoveClick(){
@@ -47,9 +45,25 @@ const Product = React.createClass({
     render: function () {
         return (
             <div className="Product">
-                <input className="Product__name-input" type="text" value={this.state.name} onChange={this.onNameChange}/>
-                <input className="Product__name-input" type="text" value={this.state.price} onChange={this.onPriceChange}/>
-                <button className="Product__remove-product" onClick={this.onRemoveClick}>x</button>
+                <input
+                    className="Product__name-input"
+                    type="text"
+                    ref="name"
+                    value={this.props.name}
+                    onChange={this.onChange}
+                />
+
+                <input
+                    className="Product__price-input"
+                    type="text"
+                    ref="price"
+                    value={this.props.price}
+                    onChange={this.onChange}
+                />
+
+                <button className="Product__remove-product" onClick={this.onRemoveClick}>
+                    x
+                </button>
             </div>
         );
     }

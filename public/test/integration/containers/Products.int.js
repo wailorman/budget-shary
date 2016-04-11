@@ -13,7 +13,8 @@ describe("INT / Containers / Products", function () {
             products: fakeState.products,
             actions: {
                 removeProduct: sinon.spy(),
-                newProduct: sinon.spy()
+                newProduct: sinon.spy(),
+                changeProduct: sinon.spy()
             }
         };
 
@@ -105,6 +106,47 @@ describe("INT / Containers / Products", function () {
         
     });
 
-    // todo Fields edit
+    describe("fields edit", ()=> {
+
+        it(`should change state name`, () => {
+
+            const {output, component, props} = setup();
+
+            const nameInput = component.refs.product_1.refs.name;
+            const nameInputNode = nameInput.getDOMNode();
+
+            nameInputNode.value = 'Potato';
+
+            TestUtils.Simulate.change(nameInputNode);
+
+            const changeProductCallArgument = props.actions.changeProduct.lastCall.args;
+
+            expect(changeProductCallArgument[0]).to.eql('1');
+            expect(changeProductCallArgument[1].name).to.eql('Potato');
+            expect(changeProductCallArgument[1].price).to.eql('40');
+
+
+        });
+
+        it(`should change state price`, () => {
+
+            const {output, component, props} = setup();
+
+            const priceInput = component.refs.product_1.refs.price;
+            const priceInputNode = priceInput.getDOMNode();
+
+            priceInputNode.value = '60';
+
+            TestUtils.Simulate.change(priceInputNode);
+
+            const changeProductCallArgument = props.actions.changeProduct.lastCall.args;
+
+            expect(changeProductCallArgument[0]).to.eql('1');
+            expect(changeProductCallArgument[1].name).to.eql('Water');
+            expect(changeProductCallArgument[1].price).to.eql('60');
+
+        });
+
+    });
 
 });
