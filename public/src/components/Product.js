@@ -7,23 +7,6 @@ const Product = React.createClass({
         onRemove: React.PropTypes.func
     },
 
-    getDefaultProps() {
-        return {
-            id: null,
-            name: "",
-            price: "0",
-            onChange: ()=> {},
-            onRemove: ()=> {}
-        };
-    },
-
-    getInitialState(){
-        return {
-            name: this.props.name,
-            price: this.props.price
-        };
-    },
-
     onChange(event){
 
         const targetClassName = event.target.className;
