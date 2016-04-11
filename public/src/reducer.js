@@ -1,8 +1,15 @@
 import { combineReducers } from 'redux'
-import { REMOVE_PRODUCT, NEW_PRODUCT, CHANGE_PRODUCT } from './actions'
+import {
+    REMOVE_PRODUCT, NEW_PRODUCT, CHANGE_PRODUCT,
+    REMOVE_PERSON, NEW_PERSON, CHANGE_PERSON
+} from './actions'
 
 export const defaultState = Immutable({
 
+    persons: [
+        {id: '201', name: 'Mike', share: '120'},
+        {id: '202', name: 'Jack', share: '50'}
+    ],
     products: [
         {id: '101', name: 'Water', price: '120'},
         {id: '102', name: 'Potatoes', price: '50'}
@@ -35,8 +42,34 @@ export function productsReducer(productsState = defaultState.products, action) {
 
 }
 
+export function personsReducer(personsState = defaultState.persons, action) {
+
+    switch (action.type) {
+
+        case REMOVE_PERSON:
+            return personsState.filter((value)=> {
+                return value.id != action.id;
+            });
+
+        case NEW_PERSON:
+            return personsState.concat([{id: _.uniqueId(), name: '', share: ''}]);
+
+        case CHANGE_PERSON:
+            return personsState.map((person)=> {
+                if (person.id != action.id) return person;
+
+                return _.assign(person.asMutable(), action.values);
+            });
+
+        default:
+            return personsState;
+    }
+
+}
+
 export const reducers = combineReducers({
-    products: productsReducer
+    products: productsReducer,
+    persons: personsReducer
 });
 
 export default reducers;
