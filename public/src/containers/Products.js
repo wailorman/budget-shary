@@ -2,6 +2,8 @@ import Product from '../components/Product'
 import { removeProduct } from '../actions'
 import { store } from '../store'
 
+import '../styles/Products.css'
+
 const Products = React.createClass({
 
     propTypes: {
