@@ -113,11 +113,10 @@ describe("INT / Containers / Products", function () {
             const {output, component, props} = setup();
 
             const nameInput = component.refs.product_1.refs.name;
-            const nameInputNode = nameInput.getDOMNode();
 
-            nameInputNode.value = 'Potato';
+            nameInput.value = 'Potato';
 
-            TestUtils.Simulate.change(nameInputNode);
+            TestUtils.Simulate.change(nameInput);
 
             const changeProductCallArgument = props.actions.changeProduct.lastCall.args;
 
@@ -133,11 +132,12 @@ describe("INT / Containers / Products", function () {
             const {output, component, props} = setup();
 
             const priceInput = component.refs.product_1.refs.price;
-            const priceInputNode = priceInput.getDOMNode();
 
-            priceInputNode.value = '60';
+            debugger;
 
-            TestUtils.Simulate.change(priceInputNode);
+            priceInput.value = '60';
+
+            TestUtils.Simulate.change(priceInput);
 
             const changeProductCallArgument = props.actions.changeProduct.lastCall.args;
 
