@@ -1,7 +1,9 @@
 "use strict";
 
 import { productsReducer } from '../../src/reducer'
-import { REMOVE_PRODUCT, NEW_PRODUCT, CHANGE_PRODUCT } from '../../src/actions'
+import {
+    REMOVE_PRODUCT, NEW_PRODUCT, CHANGE_PRODUCT
+} from '../../src/actions'
 import { fakeState } from '../fixtures/fake-state'
 
 const initialState = fakeState;
