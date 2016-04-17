@@ -4,7 +4,7 @@ import {
     REMOVE_PERSON, NEW_PERSON, CHANGE_PERSON
 } from './actions'
 
-export const defaultState = Immutable({
+export const defaultState = {
 
     persons: [
         {id: '201', name: 'Mike', share: '120'},
@@ -15,7 +15,7 @@ export const defaultState = Immutable({
         {id: '102', name: 'Potatoes', price: '50', ownerId: '201'}
     ]
 
-});
+};
 
 export function productsReducer(productsState = defaultState.products, action) {
 
@@ -38,7 +38,7 @@ export function productsReducer(productsState = defaultState.products, action) {
             return productsState.map((product)=> {
                 if (product.id != action.id) return product;
 
-                return _.assign(product.asMutable(), action.values);
+                return _.assign(product, action.values);
             });
 
         default:
@@ -63,7 +63,7 @@ export function personsReducer(personsState = defaultState.persons, action) {
             return personsState.map((person)=> {
                 if (person.id != action.id) return person;
 
-                return _.assign(person.asMutable(), action.values);
+                return _.assign(person, action.values);
             });
 
         default:

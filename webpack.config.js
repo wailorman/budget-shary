@@ -17,7 +17,7 @@ var webpackConfig = {
                 loader: 'babel',
                 query: {
                     presets: ['es2015', 'react'],
-                    plugins: ['transform-runtime']
+                    plugins: ['transform-runtime', "transform-object-rest-spread"]
                 }
             },
             {
@@ -35,8 +35,7 @@ var webpackConfig = {
         new webpack.ProvidePlugin({
             'React': 'react',
             'ReactDOM': 'react-dom',
-            '_': 'lodash',
-            'Immutable': 'seamless-immutable'
+            '_': 'lodash'
         })
     ]
 };
