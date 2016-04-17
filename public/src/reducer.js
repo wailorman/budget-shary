@@ -11,8 +11,8 @@ export const defaultState = Immutable({
         {id: '202', name: 'Jack', share: '50'}
     ],
     products: [
-        {id: '101', name: 'Water', price: '120'},
-        {id: '102', name: 'Potatoes', price: '50'}
+        {id: '101', name: 'Water', price: '120', ownerId: '201'},
+        {id: '102', name: 'Potatoes', price: '50', ownerId: '201'}
     ]
 
 });
@@ -27,7 +27,12 @@ export function productsReducer(productsState = defaultState.products, action) {
             });
 
         case NEW_PRODUCT:
-            return productsState.concat([{id: _.uniqueId(), name: '', price: ''}]);
+            return productsState.concat([{
+                id: _.uniqueId(),
+                name: '',
+                price: '',
+                ownerId: action.ownerId
+            }]);
 
         case CHANGE_PRODUCT:
             return productsState.map((product)=> {

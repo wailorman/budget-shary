@@ -13,9 +13,10 @@ export function removeProduct(id) {
     }
 }
 
-export function newProduct() {
+export function newProduct(ownerId) {
     return {
-        type: NEW_PRODUCT
+        type: NEW_PRODUCT,
+        ownerId
     }
 }
 

@@ -61,32 +61,67 @@ describe("UNIT / Reducers / productsReducer", ()=> {
 
     describe("NEW_PRODUCT", ()=> {
 
-        it(`should add new empty product`, () => {
+        const doNewProduct = (actionParams = {})=> {
 
-            const action = {
-                type: NEW_PRODUCT
+            const defaultActionParams = {
+                ownerId: '1'
             };
 
-            const actual = productsReducer(initialStateProducts, action);
-            const newProduct = _.last(actual);
+            // make immutable and set default values
+            const { ownerId } = _(actionParams)
+                .defaults(defaultActionParams)
+                .value();
 
-            expect(actual.length).to.eql(initialStateProducts.length + 1);
-            expect(newProduct.id).to.match(/\d/);
-            expect(newProduct.name).to.eql('');
-            expect(newProduct.price).to.eql('');
+            const action = {
+                type: NEW_PRODUCT,
+                ownerId
+            };
+
+            const state = productsReducer(initialStateProducts, action);
+            const addedProduct = _.last(state);
+
+            return { state, addedProduct };
+
+        };
+
+        it(`products array length should increase`, () => {
+
+            const { state } = doNewProduct();
+
+            expect(state.length).to.eql(initialStateProducts.length + 1);
 
         });
 
-        it(`should add another empty product`, () => {
+        it(`id of new product should be a number`, () => {
 
-            const action = {
-                type: NEW_PRODUCT
-            };
+            const { addedProduct } = doNewProduct();
 
-            const firstCall = productsReducer(initialStateProducts, action);
-            const actual = productsReducer(firstCall, action);
+            expect(addedProduct.id).to.match(/\d/);
 
-            expect(actual.length).to.eql(initialStateProducts.length + 2);
+        });
+
+        it(`name & price should be empty`, () => {
+
+            const { addedProduct } = doNewProduct();
+
+            expect(addedProduct.name).to.eql('');
+            expect(addedProduct.price).to.eql('');
+
+        });
+
+        it(`ownerId should eql to action's ownerId`, () => {
+
+            const { addedProduct } = doNewProduct();
+
+            expect(addedProduct.ownerId).to.eql('1');
+
+        });
+
+        it(`ownerId == null or undefined if ownerId wasn't passed`, () => {
+
+            const { addedProduct } = doNewProduct({ownerId: null});
+
+            expect(addedProduct.ownerId).to.eql(null);
 
         });
 
