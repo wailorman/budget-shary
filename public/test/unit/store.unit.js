@@ -20,8 +20,6 @@ describe("UNIT / Store", ()=> {
 
                 const resultState = fakeStore.getState();
 
-                debugger;
-
                 expect(resultState.products[0]).to.exist;
                 expect(resultState.products[1]).to.not.exist;
 
