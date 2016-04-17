@@ -1,10 +1,9 @@
 const Person = React.createClass({
     propTypes: {
-        id: React.PropTypes.any,
         name: React.PropTypes.string,
         share: React.PropTypes.string,
-        onChange: React.PropTypes.func,
-        onRemove: React.PropTypes.func
+        changePerson: React.PropTypes.func,
+        removePerson: React.PropTypes.func
     },
 
     onChange(event){
@@ -17,12 +16,12 @@ const Person = React.createClass({
         // Person__name-input
         // Person__share-input
 
-        this.props.onChange(this.props.id, {name, share});
+        this.props.changePerson({name, share});
 
     },
 
     onRemoveClick(){
-        this.props.onRemove(this.props.id);
+        this.props.removePerson();
     },
 
     render: function () {

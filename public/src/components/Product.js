@@ -1,10 +1,9 @@
 const Product = React.createClass({
     propTypes: {
-        id: React.PropTypes.any,
         name: React.PropTypes.string,
         price: React.PropTypes.string,
-        onChange: React.PropTypes.func,
-        onRemove: React.PropTypes.func
+        changeProduct: React.PropTypes.func,
+        removeProduct: React.PropTypes.func
     },
 
     onChange(event){
@@ -17,12 +16,12 @@ const Product = React.createClass({
         // Product__name-input
         // Product__price-input
 
-        this.props.onChange(this.props.id, {name, price});
+        this.props.changeProduct({name, price});
 
     },
 
     onRemoveClick(){
-        this.props.onRemove(this.props.id);
+        this.props.removeProduct();
     },
 
     render: function () {
