@@ -41,6 +41,11 @@ export function productsReducer(productsState = defaultState.products, action) {
                 return _.assign(product, action.values);
             });
 
+        case REMOVE_PERSON:
+            return productsState.filter((product)=> {
+                return product.ownerId != action.id;
+            });
+
         default:
             return productsState;
     }

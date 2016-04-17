@@ -2,7 +2,8 @@
 
 import { productsReducer } from '../../src/reducer'
 import {
-    REMOVE_PRODUCT, NEW_PRODUCT, CHANGE_PRODUCT
+    REMOVE_PRODUCT, NEW_PRODUCT, CHANGE_PRODUCT,
+    REMOVE_PERSON
 } from '../../src/actions'
 import { fakeState } from '../fixtures/fake-state'
 
@@ -24,7 +25,7 @@ describe("UNIT / Reducers / productsReducer", ()=> {
             const actual = productsReducer(initialStateProducts, action);
 
             const expected = [
-                {id: '2', name: 'Milk', price: '60'}
+                {id: '2', name: 'Milk', price: '60', ownerId: '2'}
             ];
 
             expect(actual).to.eql(expected);
@@ -61,20 +62,11 @@ describe("UNIT / Reducers / productsReducer", ()=> {
 
     describe("NEW_PRODUCT", ()=> {
 
-        const doNewProduct = (actionParams = {})=> {
-
-            const defaultActionParams = {
-                ownerId: '1'
-            };
-
-            // make immutable and set default values
-            const { ownerId } = _(actionParams)
-                .defaults(defaultActionParams)
-                .value();
+        const doNewProduct = (actionParams = { ownerId: '1' })=> {
 
             const action = {
                 type: NEW_PRODUCT,
-                ownerId
+                ownerId: actionParams.ownerId
             };
 
             const state = productsReducer(initialStateProducts, action);
@@ -202,6 +194,39 @@ describe("UNIT / Reducers / productsReducer", ()=> {
 
             expect(changedProduct.name).to.eql('Clean water');
             expect(changedProduct.price).to.eql('40');
+
+        });
+
+    });
+
+    describe("REMOVE_PERSON", ()=> {
+
+        const doRemovePerson = (actionParams = { id: '1' })=> {
+
+            const action = {
+                type: REMOVE_PERSON,
+                id: actionParams.id
+            };
+
+            const state = productsReducer(initialStateProducts, action);
+
+            return {state};
+
+        };
+
+        it(`should remove all person's products`, () => {
+
+            const personId = '1';
+
+            const ownedProductsBefore = _.filter(initialStateProducts, ({ownerId}) => ownerId == personId);
+
+            expect(ownedProductsBefore.length > 0 ).to.eql(true);
+
+            const { state } = doRemovePerson({id: personId});
+
+            const ownedProductsAfter = _.filter(state, ({ownerId}) => ownerId == personId);
+
+            expect(ownedProductsAfter.length == 0 ).to.eql(true);
 
         });
 
