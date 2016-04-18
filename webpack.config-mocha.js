@@ -46,6 +46,7 @@ var webpackConfig = {
 
             'React': 'react',
             'ReactDOM': 'react-dom',
+            'TestUtils': 'react-addons-test-utils',
 
             'expect': __dirname + '/test/requirements/chai-expect.js',
             'sinon': 'sinon'
