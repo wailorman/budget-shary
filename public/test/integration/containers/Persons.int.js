@@ -1,12 +1,8 @@
-import TestUtils from 'react-addons-test-utils'
 import Persons from '../../../src/containers/Persons'
 
 import { fakeState } from '../../fixtures/fake-state'
-import { generateStore } from '../../../src/store'
 
-describe("INT / Containers / Persons", function () {
-
-    let store;
+xdescribe("INT / Containers / Persons", function () {
 
     const setup = function () {
         let props = {
@@ -30,7 +26,7 @@ describe("INT / Containers / Persons", function () {
 
     it(`should render 2 persons`, () => {
 
-        const {output, component} = setup();
+        const {component} = setup();
         const personNodes = TestUtils.scryRenderedDOMComponentsWithClass(
             component,
             'Person'
@@ -42,7 +38,7 @@ describe("INT / Containers / Persons", function () {
 
     it(`should have 2 buttons`, () => {
 
-        const {output, component} = setup();
+        const {component} = setup();
 
         const buttons = TestUtils.scryRenderedDOMComponentsWithClass(
             component,
@@ -57,7 +53,7 @@ describe("INT / Containers / Persons", function () {
 
         it(`should remove first person`, () => {
 
-            const {output, component, props} = setup();
+            const {component, props} = setup();
 
             const buttons = TestUtils.scryRenderedDOMComponentsWithClass(
                 component,
@@ -72,7 +68,7 @@ describe("INT / Containers / Persons", function () {
 
         it(`should remove second person`, () => {
 
-            const {output, component, props} = setup();
+            const {component, props} = setup();
 
             const buttons = TestUtils.scryRenderedDOMComponentsWithClass(
                 component,
@@ -91,7 +87,7 @@ describe("INT / Containers / Persons", function () {
         
         it(`should call newPerson`, () => {
 
-            const {output, component, props} = setup();
+            const {component, props} = setup();
 
             const newButton = TestUtils.findRenderedDOMComponentWithClass(
                 component,
@@ -110,7 +106,7 @@ describe("INT / Containers / Persons", function () {
 
         it(`should change state name`, () => {
 
-            const {output, component, props} = setup();
+            const {component, props} = setup();
 
             const nameInput = component.refs.person_1.refs.name;
 
@@ -129,7 +125,7 @@ describe("INT / Containers / Persons", function () {
 
         it(`should change state share`, () => {
 
-            const {output, component, props} = setup();
+            const {component, props} = setup();
 
             const shareInput = component.refs.person_1.refs.share;
 

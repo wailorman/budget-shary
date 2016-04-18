@@ -4,7 +4,7 @@ import Products from '../../../src/containers/Products'
 import { fakeState } from '../../fixtures/fake-state'
 import { generateStore } from '../../../src/store'
 
-describe("INT / Containers / Products", function () {
+xdescribe("INT / Containers / Products", function () {
 
     let store;
 
