@@ -45,7 +45,7 @@ const Person = React.createClass({
                     onChange={this.onChange}
                 />
 
-                <button className="Person__remove-person" onClick={this.onRemoveClick}>
+                <button className="Person__remove-button" onClick={this.onRemoveClick}>
                     x
                 </button>
             </div>

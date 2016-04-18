@@ -43,7 +43,7 @@ const Product = React.createClass({
                     onChange={this.onChange}
                 />
 
-                <button className="Product__remove-product" onClick={this.onRemoveClick}>
+                <button className="Product__remove-button" onClick={this.onRemoveClick}>
                     x
                 </button>
             </div>
