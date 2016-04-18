@@ -110,6 +110,7 @@
     "livereload-js": "^2.2.2",
     "mocha": "^2.3.4",
     "mocha-loader": "^0.7.1",
+    "mocha-testdata": "^1.2.0",
     "mocha-webpack": "^0.3.0",
     "null-loader": "^0.1.1",
     "phantomjs-polyfill": "0.0.2",

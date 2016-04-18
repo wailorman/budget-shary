@@ -38,3 +38,40 @@ export const shareInMonetary = function (state, personId) {
     return totalExp * shareInPercentage;
 
 };
+
+export const createTransaction = function (state, from, to, total) {
+
+    let newState = _.cloneDeep(state);
+
+    const newTransaction = { from, to, total };
+
+    if (!newState.transactions) newState.transactions = [];
+
+    newState.transactions.push(newTransaction);
+
+    return newState;
+
+};
+
+export const tryTransaction = function (positiveFunds, negativeFunds) {
+
+    if (positiveFunds < 0){
+        console.error(new Error(`positiveFunds can't be negative`));
+        return 0;
+    }
+
+    if (negativeFunds > 0) {
+        console.error(new Error(`negativeFunds can't be positive`));
+        return 0;
+    }
+
+    const absPositiveFunds = Math.abs(positiveFunds);
+    const absNegativeFunds = Math.abs(negativeFunds);
+
+    if ( absPositiveFunds <= absNegativeFunds ){
+        return absPositiveFunds;
+    }else{
+        return absNegativeFunds;
+    }
+
+};
