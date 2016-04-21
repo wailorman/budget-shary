@@ -58,12 +58,14 @@ describe("UNIT / Core / Utils", ()=> {
             const resultState = createTransaction(fakeState, '1', '2', 200);
 
             expect(resultState.transactions.length).to.eql(1);
-            expect(resultState.transactions).to.have.lengthOf(1);
             expect(resultState.transactions[0]).to.eql({from: '1', to: '2', total: 200});
 
         });
 
-        // todo: prevent interchange between nonexistent persons
+        // todo: prevent interchange between nonexistent persons (check involved persons)
+        // todo: prevent sending negative amounts
+        // todo: do not create transactions w/ total == 0
+        // todo:
 
     });
 
@@ -111,6 +113,8 @@ describe("UNIT / Core / Utils", ()=> {
             expect(console.error.lastCall.args[0].toString()).to.match(/can't be positive/);
 
         });
+
+        // todo: Return 0 if at least 1 member's funds == 0
 
     });
 
@@ -250,6 +254,8 @@ describe("UNIT / Core / Utils", ()=> {
             expect(result.negative).to.eql(['2', '3']);
 
         });
+
+        // todo: members w/ funds == 0
 
     });
 
