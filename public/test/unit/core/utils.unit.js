@@ -4,9 +4,15 @@ import {
     shareInMonetary,
     createTransaction,
     tryTransaction,
-    transactionsTotal, INCOME, OUTCOME
+    transactionsTotal, INCOME, OUTCOME,
+    getFunds
 } from '../../../src/core/utils'
-import fakeState from '../../fixtures/fake-state'
+
+import {
+    fakeState,
+    fakeStateCase1,
+    fakeStateCase1WithTransactions
+} from '../../fixtures/fake-state'
 
 import { given } from 'mocha-testdata';
 
@@ -150,6 +156,75 @@ describe("UNIT / Core / Utils", ()=> {
         it(`should throw error if direction is incorrect`, () => {
 
             expect(transactionsTotal.bind(null, state, '_', '2')).to.throw(/direction/);
+
+        });
+
+
+        it(`should not throw err if no transactions`, () => {
+
+            expect(transactionsTotal.bind(null, fakeStateCase1, '3')).to.not.throw(TypeError);
+
+        });
+
+
+        it(`should return 0 if no transactions`, () => {
+
+            expect(transactionsTotal(fakeStateCase1, INCOME, '3')).to.eql(0);
+            expect(transactionsTotal(fakeStateCase1, OUTCOME, '3')).to.eql(0);
+
+        });
+
+    });
+
+    describe("getFunds", ()=> {
+
+        describe("w/out transactions", ()=> {
+
+            it(`should calculate Jack's funds`, () => {
+                const calculatedFunds = getFunds(fakeStateCase1, '1');
+                const expectedRange = [1755, 1756];
+
+                expect(calculatedFunds).to.be.within(expectedRange[0], expectedRange[1]);
+            });
+
+            it(`should calculate Alice's funds`, () => {
+                const calculatedFunds = getFunds(fakeStateCase1, '2');
+                const expectedRange = [-612, -611];
+
+                expect(calculatedFunds).to.be.within(expectedRange[0], expectedRange[1]);
+            });
+
+            it(`should calculate Mike's funds`, () => {
+                const calculatedFunds = getFunds(fakeStateCase1, '3');
+                const expectedRange = [-1145, -1144];
+
+                expect(calculatedFunds).to.be.within(expectedRange[0], expectedRange[1]);
+            });
+
+        });
+
+        describe("w/ transactions", ()=> {
+
+            it(`Jack funds == 0`, () => {
+                const calculatedFunds = getFunds(fakeStateCase1WithTransactions, '1');
+                const roundedFunds = Math.abs(_.round(calculatedFunds));
+
+                expect(roundedFunds).to.eql(0);
+            });
+
+            it(`Alice funds == 0`, () => {
+                const calculatedFunds = getFunds(fakeStateCase1WithTransactions, '2');
+                const roundedFunds = Math.abs(_.round(calculatedFunds));
+
+                expect(roundedFunds).to.eql(0);
+            });
+
+            it(`Mike funds == 0`, () => {
+                const calculatedFunds = getFunds(fakeStateCase1WithTransactions, '3');
+                const roundedFunds = Math.abs(_.round(calculatedFunds));
+
+                expect(roundedFunds).to.eql(0);
+            });
 
         });
 

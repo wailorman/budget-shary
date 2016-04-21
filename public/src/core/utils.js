@@ -19,7 +19,6 @@ export const ownExpenses = function (state, personId) {
 
     _.chain(state.products)
         .filter((product) => {
-            debugger;
             return product.ownerId == personId;
         })
         .each((product)=> {
@@ -90,10 +89,22 @@ export const transactionsTotal = function (state, direction, personId) {
     else
         throw new Error(`Invalid direction: ${direction}`);
 
+    if (!state.transactions) return 0;
+
     const filteredTransactions = state.transactions.filter((transaction)=> {
         return transaction[directionFilterField] == personId;
     });
 
     return _.sum(filteredTransactions, 'total');
 
+};
+
+export const getFunds = function (state, personId) {
+
+    return (
+            shareInMonetary(state, personId) -
+            Math.abs(ownExpenses(state, personId)) +
+            transactionsTotal(state, INCOME, personId) -
+            transactionsTotal(state, OUTCOME, personId)
+        );
 };
