@@ -19,8 +19,6 @@ import { given } from 'mocha-testdata';
 
 describe("UNIT / Core / Utils", ()=> {
 
-    // todo: Better fixtures for comprehensive tests
-
     describe("totalExpenses", ()=> {
 
         it(`should calculate expenses of all persons`, () => {
@@ -62,10 +60,36 @@ describe("UNIT / Core / Utils", ()=> {
 
         });
 
-        // todo: prevent interchange between nonexistent persons (check involved persons)
-        // todo: prevent sending negative amounts
-        // todo: do not create transactions w/ total == 0
-        // todo:
+        it(`should not create transaction if one of members don't exist`, () => {
+
+            const tryToCall_from = createTransaction.bind(null, fakeState, '1', '3', 200);
+
+            expect(tryToCall_from).to.throw(/3 doesn't exist/);
+
+            /////////////////////////
+
+            const tryToCall_to = createTransaction.bind(null, fakeState, '0', '2', 200);
+
+            expect(tryToCall_to).to.throw(/0 doesn't exist/);
+
+        });
+
+        it(`should not create transact w/ negative total`, () => {
+
+            const tryToCall_negative = createTransaction.bind(null, fakeState, '1', '2', -1);
+
+            expect(tryToCall_negative).to.throw(/can't/i);
+            expect(tryToCall_negative).to.throw(/negative/);
+
+        });
+
+        it(`should not create transactions with total == 0`, () => {
+
+            const resultState = createTransaction(fakeState, '1', '2', 0);
+
+            expect(resultState).to.eql(fakeState);
+
+        });
 
     });
 
@@ -114,7 +138,12 @@ describe("UNIT / Core / Utils", ()=> {
 
         });
 
-        // todo: Return 0 if at least 1 member's funds == 0
+        it(`should return 0 if at least 1 member have 0 funds`, () => {
+
+            expect(tryTransaction(0, -100)).to.eql(0);
+            expect(tryTransaction(100, 0)).to.eql(0);
+
+        });
 
     });
 

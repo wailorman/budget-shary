@@ -45,6 +45,26 @@ export const createTransaction = function (state, from, to, total) {
 
     let newState = _.cloneDeep(state);
 
+    const cantFindErrorTpl = (nonexistentPersonId) =>
+        new Error(`Can't create transaction from ${from} to ${to}.
+        Person with id ${nonexistentPersonId} doesn't exist`);
+
+
+    if (!_.find(state.persons, {id: from})) {
+        throw (cantFindErrorTpl(from));
+    }
+
+    if (!_.find(state.persons, {id: to})) {
+        throw (cantFindErrorTpl(to));
+    }
+
+    if (total < 0)
+        throw new Error(`Can't create transaction with negative (${total}) total`);
+
+    if (total == 0)
+        return state;
+
+
     const newTransaction = { from, to, total };
 
     if (!newState.transactions) newState.transactions = [];
