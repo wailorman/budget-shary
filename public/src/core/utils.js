@@ -9,7 +9,7 @@ export const totalExpenses = function (state) {
         result += parseInt(product.price);
     });
 
-    return result;
+    return Math.abs(result);
 
 };
 
@@ -26,7 +26,7 @@ export const ownExpenses = function (state, personId) {
         })
         .value();
 
-    return result;
+    return Math.abs(result);
 
 };
 
@@ -103,7 +103,7 @@ export const getFunds = function (state, personId) {
 
     return (
             shareInMonetary(state, personId) -
-            Math.abs(ownExpenses(state, personId)) +
+            ownExpenses(state, personId) +
             transactionsTotal(state, INCOME, personId) -
             transactionsTotal(state, OUTCOME, personId)
         );
