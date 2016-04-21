@@ -1,3 +1,6 @@
+export const INCOME = 'INCOME';
+export const OUTCOME = 'OUTCOME';
+
 export const totalExpenses = function (state) {
 
     let result = 0;
@@ -73,5 +76,24 @@ export const tryTransaction = function (positiveFunds, negativeFunds) {
     }else{
         return absNegativeFunds;
     }
+
+};
+
+export const transactionsTotal = function (state, direction, personId) {
+
+    let directionFilterField;
+
+    if (direction == INCOME)
+        directionFilterField = 'to';
+    else if (direction == OUTCOME)
+        directionFilterField = 'from';
+    else
+        throw new Error(`Invalid direction: ${direction}`);
+
+    const filteredTransactions = state.transactions.filter((transaction)=> {
+        return transaction[directionFilterField] == personId;
+    });
+
+    return _.sum(filteredTransactions, 'total');
 
 };

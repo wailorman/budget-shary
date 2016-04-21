@@ -3,7 +3,8 @@ import {
     ownExpenses,
     shareInMonetary,
     createTransaction,
-    tryTransaction
+    tryTransaction,
+    transactionsTotal, INCOME, OUTCOME
 } from '../../../src/core/utils'
 import fakeState from '../../fixtures/fake-state'
 
@@ -101,6 +102,54 @@ describe("UNIT / Core / Utils", ()=> {
             expect(tryTransaction(0, 100)).to.eql(0);
             expect(console.error.called).to.eql(true);
             expect(console.error.lastCall.args[0].toString()).to.match(/can't be positive/);
+
+        });
+
+    });
+
+    describe("transactionsTotal", ()=> {
+
+        const state = {
+            transactions: [
+                {from: '2', to: '1', total: 50}, // 1
+                {from: '1', to: '2', total: 40}, // 2
+                {from: '2', to: '1', total: 100}, // 3
+                {from: '2', to: '1', total: 200}, // 4
+                {from: '1', to: '2', total: 10}, // 5
+                {from: '2', to: '1', total: 60}, // 6
+                {from: '2', to: '1', total: 50}, // 7
+                {from: '1', to: '2', total: 70}, // 8
+                {from: '1', to: '2', total: 80}  // 9
+            ]
+        };
+
+        it(`should calculate 1's income`, () => {
+
+            expect(transactionsTotal(state, INCOME, '1')).to.eql(460);
+
+        });
+
+        it(`should calculate 1's outcome`, () => {
+
+            expect(transactionsTotal(state, OUTCOME, '1')).to.eql(200);
+
+        });
+
+        it(`should calculate 2's income`, () => {
+
+            expect(transactionsTotal(state, INCOME, '2')).to.eql(200);
+
+        });
+
+        it(`should calculate 2's outcome`, () => {
+
+            expect(transactionsTotal(state, OUTCOME, '2')).to.eql(460);
+
+        });
+
+        it(`should throw error if direction is incorrect`, () => {
+
+            expect(transactionsTotal.bind(null, state, '_', '2')).to.throw(/direction/);
 
         });
 
