@@ -108,3 +108,22 @@ export const getFunds = function (state, personId) {
             transactionsTotal(state, OUTCOME, personId)
         );
 };
+
+export const splitToNegativeAndPositive = function (state) {
+
+    let room = {
+        positive: [],
+        negative: []
+    };
+
+    _.each(state.persons, ({id})=> {
+        const personFunds = getFunds(state, id);
+        if (personFunds >= 0)
+            room.positive.push(id);
+        else
+            room.negative.push(id);
+    });
+
+    return room;
+
+};

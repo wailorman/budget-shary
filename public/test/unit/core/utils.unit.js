@@ -5,7 +5,8 @@ import {
     createTransaction,
     tryTransaction,
     transactionsTotal, INCOME, OUTCOME,
-    getFunds
+    getFunds,
+    splitToNegativeAndPositive
 } from '../../../src/core/utils'
 
 import {
@@ -178,6 +179,8 @@ describe("UNIT / Core / Utils", ()=> {
 
     describe("getFunds", ()=> {
 
+        // todo: Better _UNIT_ tests
+
         describe("w/out transactions", ()=> {
 
             it(`should calculate Jack's funds`, () => {
@@ -225,6 +228,26 @@ describe("UNIT / Core / Utils", ()=> {
 
                 expect(roundedFunds).to.eql(0);
             });
+
+        });
+
+    });
+
+    describe("splitToNegativeAndPositive", ()=> {
+
+        it(`Jack should be in positive group`, () => {
+
+            const result = splitToNegativeAndPositive(fakeStateCase1);
+
+            expect(result.positive).to.eql(['1']);
+
+        });
+
+        it(`Alice and Mike should be in negative group`, () => {
+
+            const result = splitToNegativeAndPositive(fakeStateCase1);
+
+            expect(result.negative).to.eql(['2', '3']);
 
         });
 
