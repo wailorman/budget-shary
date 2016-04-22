@@ -1,0 +1,40 @@
+.Transaction {
+    width: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    align-items: center;
+    align-content: stretch;
+}
+
+    .Transaction__from {
+        font-size: 2rem;
+        text-align: center;
+        flex-grow: 2;
+    }
+
+    .Transaction__to {
+        font-size: 2rem;
+        text-align: center;
+        flex-grow: 2;
+    }
+
+
+
+    .Transaction__arrow {
+        font-size: 2.5rem;
+        line-height: 2rem;
+    }
+
+    .Transaction__total {
+        font-size: 1.3rem;
+        font-family: monospace;
+    }
+
+    .Transaction__arrow-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }

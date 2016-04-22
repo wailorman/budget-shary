@@ -2,6 +2,7 @@ import Product from '../components/Product'
 import Products from './Products'
 import { bindActionCreators } from 'redux'
 import PersonContainer from './PersonContainer'
+import TransactionsList from '../components/TransactionsList'
 
 import * as actionCreators from '../actions'
 import store from '../store'
@@ -18,14 +19,16 @@ const App = React.createClass({
 
     render: function () {
 
+        const actions = bindActionCreators(actionCreators, store.dispatch);
+
+        const transactions = this.state.transactions;
+
         const personContainersList = this.state.persons.map((person)=> {
 
             const ownProducts = _.filter(
                 this.state.products,
                 (product) => product.ownerId == person.id
             );
-
-            const actions = bindActionCreators(actionCreators, store.dispatch);
 
             const personContainerProps = {
                 key: person.id,
@@ -44,6 +47,9 @@ const App = React.createClass({
         return (
             <div>
                 {personContainersList}
+                <br />
+                <button onClick={actions.proceedInterchange}>Calculate</button>
+                <TransactionsList transactions={transactions} />
             </div>
         );
     }
