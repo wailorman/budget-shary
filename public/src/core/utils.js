@@ -161,6 +161,8 @@ export const proceedInterchange = function (state) {
 
     let newState = _.cloneDeep(state);
 
+    newState.transactions = [];
+
     // room with negativeFunds & positiveFunds persons
     let exchangeOffice;
 
@@ -183,8 +185,6 @@ export const proceedInterchange = function (state) {
 
         const positiveFunds = getFunds(newState, exchangeOffice.positive[0]);
 
-        //debugger;
-
         const potentialTransactionTotal = tryTransaction(positiveFunds, negativeFunds);
 
         newState = createTransaction(
@@ -195,6 +195,40 @@ export const proceedInterchange = function (state) {
         );
 
     }
+
+    return humanifyTransactions(newState);
+
+};
+
+export const humanifyTransactions = function (state) {
+
+    let newState = _.cloneDeep(state);
+
+    if (!newState.transactions) newState.transactions = [];
+
+    newState.transactions = newState.transactions.map(({from, to, total})=> {
+
+        let result = {};
+
+        try {
+            result.from = _.find(state.persons, {id: from}).name;
+        } catch (e) {
+            console.error(`Can't get name of #${from} person: ${e}`);
+            result.from = from;
+        }
+
+        try {
+            result.to = _.find(state.persons, {id: to}).name;
+        } catch (e) {
+            console.error(`Can't get name of #${to} person: ${e}`);
+            result.to = to;
+        }
+
+        result.total = total;
+
+        return result;
+
+    });
 
     return newState;
 

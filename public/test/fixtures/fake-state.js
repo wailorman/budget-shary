@@ -68,7 +68,7 @@ export const fakeStateCase1WithTransactions = { // case1
         {id: '18', name: '',    price: '50',    ownerId: '3'}
     ],
     transactions: [
-        {from: '1', to: '2', total: 611.4000000000005},
+        {from: '1', to: '2', total: 611.4},
         {from: '1', to: '3', total: 1144.4}
     ]
 };

@@ -7,7 +7,8 @@ import {
     transactionsTotal, INCOME, OUTCOME,
     getFunds,
     splitToNegativeAndPositive,
-    proceedInterchange
+    proceedInterchange,
+    humanifyTransactions
 } from '../../../src/core/utils'
 
 import {
@@ -334,15 +335,112 @@ describe("UNIT / Core / Utils", ()=> {
             const result = proceedInterchange(fakeStateCase1);
 
             expect(result.transactions[0]).to.eql({
-                from: '1', to: '2', total: 611.4
+                from: 'Jack', to: 'Alice', total: 611.4
             });
 
             expect(result.transactions[1]).to.eql({
-                from: '1', to: '3', total: 1144.4
+                from: 'Jack', to: 'Mike', total: 1144.4
             });
+
+        });
+
+        it(`should remove old transactions`, () => {
+
+            const result = proceedInterchange(proceedInterchange(fakeStateCase1));
+
+            expect(result.transactions.length).to.eql(2);
 
         });
 
     });
 
+    describe("humanifyTransactions", ()=> {
+
+        let sandbox;
+
+        beforeEach(()=> {
+
+            sandbox = sinon.sandbox.create();
+
+            sandbox.stub(console, 'log');
+            sandbox.stub(console, 'error');
+        });
+
+        afterEach(()=> {
+            sandbox.restore();
+        });
+
+        it(`should convert transaction members ids to names`, () => {
+
+            //fakeStateCase1WithTransactions
+
+            const expected = [
+                {from: 'Jack', to: 'Alice', total: 611.4},
+                {from: 'Jack', to: 'Mike', total: 1144.4}
+            ];
+
+            const actual = humanifyTransactions(fakeStateCase1WithTransactions).transactions;
+
+            expect(actual).to.eql(expected);
+
+        });
+
+        it(`should return the same state if no transactions`, () => {
+
+            const state = {
+                persons: [],
+                products: []
+            };
+
+            const expected = {
+                persons: [],
+                products: [],
+                transactions: []
+            };
+
+            const actual = humanifyTransactions(state);
+
+            expect(actual).to.eql(expected);
+
+        });
+
+        it(`should log error if one of persons not exist`, () => {
+
+            const state = {
+                persons: [],
+                products: [],
+                transactions: [
+                    {from: '1', to: '2', total: 100}
+                ]
+            };
+
+            humanifyTransactions(state);
+
+            expect(console.error.callCount).to.eql(2);
+            expect(console.error.getCall(0).args[0]).to.match(/can't get name of #1/i);
+            expect(console.error.getCall(1).args[0]).to.match(/can't get name of #2/i);
+
+        });
+
+        it(`should use id if person name is not available`, () => {
+
+            const state = {
+                persons: [
+                    {id: '1', name: 'Eric', share: '50'}
+                ],
+                products: [],
+                transactions: [
+                    {from: '1', to: '2', total: 100}
+                ]
+            };
+
+            const actual = humanifyTransactions(state);
+
+            expect(actual.transactions.length).to.eql(1);
+            expect(actual.transactions[0]).to.eql({from: 'Eric', to: '2', total: 100});
+
+        });
+
+    });
+    
 });
