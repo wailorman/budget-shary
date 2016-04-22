@@ -6,7 +6,8 @@ import {
     tryTransaction,
     transactionsTotal, INCOME, OUTCOME,
     getFunds,
-    splitToNegativeAndPositive
+    splitToNegativeAndPositive,
+    proceedInterchange
 } from '../../../src/core/utils'
 
 import {
@@ -321,6 +322,24 @@ describe("UNIT / Core / Utils", ()=> {
                 getFunds.callCount, 4, `getFunds stub didn't called correctly`);
 
             expect(splittingResult).to.eql(expected);
+
+        });
+
+    });
+
+    describe("proceedInterchange", ()=> {
+
+        it(`should return correct new state`, () => {
+
+            const result = proceedInterchange(fakeStateCase1);
+
+            expect(result.transactions[0]).to.eql({
+                from: '1', to: '2', total: 611.4
+            });
+
+            expect(result.transactions[1]).to.eql({
+                from: '1', to: '3', total: 1144.4
+            });
 
         });
 

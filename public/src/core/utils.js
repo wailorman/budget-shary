@@ -103,6 +103,8 @@ export const tryTransaction = function (positiveFunds, negativeFunds) {
 
 export const transactionsTotal = function (state, direction, personId) {
 
+    // todo: funds after transaction
+
     let directionFilterField;
 
     if (direction == INCOME)
@@ -124,12 +126,12 @@ export const transactionsTotal = function (state, direction, personId) {
 
 export const getFunds = function (state, personId) {
 
-    return (
+    return _.round(
             shareInMonetary(state, personId) -
             ownExpenses(state, personId) +
             transactionsTotal(state, INCOME, personId) -
             transactionsTotal(state, OUTCOME, personId)
-        );
+        , 4);
 };
 
 export const splitToNegativeAndPositive = function (state, deps = {}) {
@@ -152,5 +154,48 @@ export const splitToNegativeAndPositive = function (state, deps = {}) {
     });
 
     return room;
+
+};
+
+export const proceedInterchange = function (state) {
+
+    let newState = _.cloneDeep(state);
+
+    // room with negativeFunds & positiveFunds persons
+    let exchangeOffice;
+
+    const isExchangeOfficeNotEmpty = ()=> {
+
+        const ownExchangeOffice = splitToNegativeAndPositive(newState);
+        return ownExchangeOffice.positive.length>0 && ownExchangeOffice.negative.length>0;
+
+    };
+
+
+    // before
+    exchangeOffice = splitToNegativeAndPositive(newState);
+
+    while (isExchangeOfficeNotEmpty()) {
+
+        exchangeOffice = splitToNegativeAndPositive(newState);
+
+        const negativeFunds = getFunds(newState, exchangeOffice.negative[0]);
+
+        const positiveFunds = getFunds(newState, exchangeOffice.positive[0]);
+
+        //debugger;
+
+        const potentialTransactionTotal = tryTransaction(positiveFunds, negativeFunds);
+
+        newState = createTransaction(
+            newState,
+            exchangeOffice.positive[0],
+            exchangeOffice.negative[0],
+            potentialTransactionTotal
+        );
+
+    }
+
+    return newState;
 
 };
