@@ -212,8 +212,6 @@ describe("UNIT / Core / Utils", ()=> {
 
     describe("getFunds", ()=> {
 
-        // todo: Better _UNIT_ tests
-
         describe("w/out transactions", ()=> {
 
             it(`should calculate Jack's funds`, () => {
@@ -268,6 +266,17 @@ describe("UNIT / Core / Utils", ()=> {
 
     describe("splitToNegativeAndPositive", ()=> {
 
+        let sandbox;
+
+        beforeEach(()=> {
+
+            sandbox = sinon.sandbox.create();
+        });
+
+        afterEach(()=> {
+            sandbox.restore();
+        });
+
         it(`Jack should be in positive group`, () => {
 
             const result = splitToNegativeAndPositive(fakeStateCase1);
@@ -284,7 +293,36 @@ describe("UNIT / Core / Utils", ()=> {
 
         });
 
-        // todo: members w/ funds == 0
+        it(`should not involve members w/ funds == 0`, () => {
+
+            const state = {
+                persons: [
+                    {id: '1', name: '', share: '25'},
+                    {id: '2', name: '', share: '25'},
+                    {id: '3', name: '', share: '25'},
+                    {id: '4', name: '', share: '25'}
+                ]
+            };
+
+            let getFunds = sinon.stub();
+            getFunds.withArgs(state, '1').returns(0);
+            getFunds.withArgs(state, '2').returns(20);
+            getFunds.withArgs(state, '3').returns(-10);
+            getFunds.withArgs(state, '4').returns(-10);
+
+            const expected = {
+                positive: [ '2' ],
+                negative: [ '3', '4' ]
+            };
+
+            const splittingResult = splitToNegativeAndPositive(state, {getFunds});
+
+            assert.equal(
+                getFunds.callCount, 4, `getFunds stub didn't called correctly`);
+
+            expect(splittingResult).to.eql(expected);
+
+        });
 
     });
 

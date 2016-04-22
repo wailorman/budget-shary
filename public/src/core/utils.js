@@ -1,3 +1,6 @@
+"use strict";
+
+
 export const INCOME = 'INCOME';
 export const OUTCOME = 'OUTCOME';
 
@@ -129,7 +132,10 @@ export const getFunds = function (state, personId) {
         );
 };
 
-export const splitToNegativeAndPositive = function (state) {
+export const splitToNegativeAndPositive = function (state, deps = {}) {
+
+    // for mocking
+    _.defaults(deps, {getFunds});
 
     let room = {
         positive: [],
@@ -137,10 +143,11 @@ export const splitToNegativeAndPositive = function (state) {
     };
 
     _.each(state.persons, ({id})=> {
-        const personFunds = getFunds(state, id);
-        if (personFunds >= 0)
+        const personFunds = deps.getFunds(state, id);
+
+        if (personFunds > 0)
             room.positive.push(id);
-        else
+        else if (personFunds < 0)
             room.negative.push(id);
     });
 
