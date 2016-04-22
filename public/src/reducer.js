@@ -1,19 +1,42 @@
 import { combineReducers } from 'redux'
 import {
     REMOVE_PRODUCT, NEW_PRODUCT, CHANGE_PRODUCT,
-    REMOVE_PERSON, NEW_PERSON, CHANGE_PERSON
+    REMOVE_PERSON, NEW_PERSON, CHANGE_PERSON,
+    PROCEED_INTERCHANGE
 } from './actions'
+
+import { humanifyTransactions, proceedInterchange } from './core/utils'
 
 export const defaultState = {
 
     persons: [
-        {id: '201', name: 'Mike', share: '120'},
-        {id: '202', name: 'Jack', share: '50'}
+        {id: '1', name: 'Jack', share: '30'},
+        {id: '2', name: 'Alice', share: '60'},
+        {id: '3', name: 'Mike', share: '10'}
     ],
     products: [
-        {id: '101', name: 'Water', price: '120', ownerId: '201'},
-        {id: '102', name: 'Potatoes', price: '50', ownerId: '201'}
-    ]
+        {id: '1', name: '',     price: '45',    ownerId: '1'},
+        {id: '2', name: '',     price: '234',   ownerId: '1'},
+        {id: '3', name: '',     price: '12',    ownerId: '1'},
+        {id: '4', name: '',     price: '89',    ownerId: '1'},
+        {id: '5', name: '',     price: '65',    ownerId: '1'},
+        {id: '6', name: '',     price: '234',   ownerId: '1'},
+
+        {id: '7', name: '',     price:  '345',  ownerId: '2'},
+        {id: '8', name: '',     price:  '234',  ownerId: '2'},
+        {id: '9', name: '',     price:  '890',  ownerId: '2'},
+        {id: '10', name: '',    price: '1234',  ownerId: '2'},
+        {id: '11', name: '',    price: '671',   ownerId: '2'},
+        {id: '12', name: '',    price: '55',    ownerId: '2'},
+        {id: '13', name: '',    price: '176',   ownerId: '2'},
+        {id: '14', name: '',    price: '1876',  ownerId: '2'},
+
+        {id: '15', name: '',    price: '504',   ownerId: '3'},
+        {id: '16', name: '',    price: '646',   ownerId: '3'},
+        {id: '17', name: '',    price: '756',   ownerId: '3'},
+        {id: '18', name: '',    price: '50',    ownerId: '3'}
+    ],
+    transactions: []
 
 };
 
@@ -77,9 +100,32 @@ export function personsReducer(personsState = defaultState.persons, action) {
 
 }
 
-export const reducers = combineReducers({
+export function transactionsReducer(state = defaultState, action) {
+
+    switch (action.type){
+        case PROCEED_INTERCHANGE:
+            return proceedInterchange(state);
+        default:
+            return state;
+    }
+
+}
+
+export const reducers = function (state, action) {
+
+    switch (action.type) {
+        case PROCEED_INTERCHANGE:
+            return transactionsReducer(state, action);
+        default:
+            return combinedReducers(state, action);
+    }
+
+};
+
+export const combinedReducers = combineReducers({
     products: productsReducer,
-    persons: personsReducer
+    persons: personsReducer,
+    transactions: transactionsReducer
 });
 
 export default reducers;
