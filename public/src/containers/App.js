@@ -48,7 +48,7 @@ const App = React.createClass({
             <div>
                 {personContainersList}
                 <br />
-                <button onClick={actions.proceedInterchange}>Calculate</button>
+                <button onClick={actions.realizeInterchange}>Calculate</button>
                 <TransactionsList transactions={transactions} />
             </div>
         );
