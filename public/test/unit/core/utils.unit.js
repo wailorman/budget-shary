@@ -18,6 +18,7 @@ import {
 } from '../../fixtures/fake-state'
 
 import { given } from 'mocha-testdata';
+import deepFreeze from 'deep-freeze'
 
 describe("UNIT / Core / Utils", ()=> {
 
@@ -331,6 +332,8 @@ describe("UNIT / Core / Utils", ()=> {
     describe("proceedInterchange", ()=> {
 
         it(`should return correct new state`, () => {
+
+            deepFreeze(fakeStateCase1);
 
             const result = proceedInterchange(fakeStateCase1);
 

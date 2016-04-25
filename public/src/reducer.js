@@ -2,10 +2,10 @@ import { combineReducers } from 'redux'
 import {
     REMOVE_PRODUCT, NEW_PRODUCT, CHANGE_PRODUCT,
     REMOVE_PERSON, NEW_PERSON, CHANGE_PERSON,
-    PROCEED_INTERCHANGE
+    PROCEED_INTERCHANGE, PUT_INTERCHANGE_RESULTS
 } from './actions'
 
-import { humanifyTransactions, proceedInterchange } from './core/utils'
+import { proceedInterchange } from './core/utils'
 
 export const defaultState = {
 
@@ -103,6 +103,8 @@ export function personsReducer(personsState = defaultState.persons, action) {
 export function transactionsReducer(state = defaultState, action) {
 
     switch (action.type){
+        case PUT_INTERCHANGE_RESULTS:
+            return action.transactions;
         case PROCEED_INTERCHANGE:
             return proceedInterchange(state);
         default:
