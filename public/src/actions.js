@@ -56,12 +56,6 @@ export function changePerson(id, values) {
     }
 }
 
-export function proceedInterchange() {
-    return {
-        type: PROCEED_INTERCHANGE
-    }
-}
-
 // todo: Rewrite to saga. Because I can't test it
 
 export function realizeInterchange() {

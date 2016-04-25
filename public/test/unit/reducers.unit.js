@@ -28,20 +28,6 @@ describe("UNIT / Reducers", ()=> {
             expect(actual).to.eql(expected);
 
         });
-        
-        it(`should return humanified transactions`, () => {
-
-            const action = {
-                type: PROCEED_INTERCHANGE
-            };
-
-            const expected = humanifyTransactions(fakeStateCase1WithTransactions);
-
-            const actual = transactionsReducer(fakeStateCase1, action);
-
-            expect(actual).to.eql(expected);
-
-        });
 
         it(`should put interchange results`, () => {
 

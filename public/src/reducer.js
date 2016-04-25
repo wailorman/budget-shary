@@ -105,8 +105,6 @@ export function transactionsReducer(state = defaultState, action) {
     switch (action.type){
         case PUT_INTERCHANGE_RESULTS:
             return action.transactions;
-        case PROCEED_INTERCHANGE:
-            return proceedInterchange(state);
         default:
             return state;
     }
@@ -116,8 +114,6 @@ export function transactionsReducer(state = defaultState, action) {
 export const reducers = function (state, action) {
 
     switch (action.type) {
-        case PROCEED_INTERCHANGE:
-            return transactionsReducer(state, action);
         default:
             return combinedReducers(state, action);
     }
