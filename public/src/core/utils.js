@@ -4,11 +4,11 @@
 export const INCOME = 'INCOME';
 export const OUTCOME = 'OUTCOME';
 
-export const totalExpenses = function (state) {
+export const totalExpenses = function ({products}) {
 
     let result = 0;
 
-    _.each(state.products, (product)=> {
+    _.each(products, (product)=> {
         result += parseInt(product.price);
     });
 

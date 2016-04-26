@@ -26,7 +26,9 @@ describe("UNIT / Core / Utils", ()=> {
 
         it(`should calculate expenses of all persons`, () => {
 
-            expect(totalExpenses(fakeState)).to.eql(100);
+            const products = fakeState.products;
+
+            expect(totalExpenses({products})).to.eql(100);
 
         });
 
