@@ -38,7 +38,10 @@ describe("UNIT / Core / Utils", ()=> {
 
         it(`should calculate expenses for specific person`, () => {
 
-            expect(ownExpenses(fakeState, '1')).to.eql(40);
+            const products = fakeState.products;
+
+            expect(ownExpenses({products}, '1')).to.eql(40);
+            expect(ownExpenses({products}, 1)).to.eql(40);
 
         });
 

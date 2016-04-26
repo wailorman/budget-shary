@@ -16,11 +16,11 @@ export const totalExpenses = function ({products}) {
 
 };
 
-export const ownExpenses = function (state, personId) {
+export const ownExpenses = function ({products}, personId) {
 
     let result = 0;
 
-    _.chain(state.products)
+    _.chain(products)
         .filter((product) => {
             return product.ownerId == personId;
         })
