@@ -96,6 +96,7 @@
     "gulp-rimraf": "^0.2.0",
     "gulp-util": "^3.0.7",
     "gulp-watch": "^4.3.5",
+    "imports-loader": "^0.6.5",
     "jsdom": "^7.2.1",
     "json-loader": "^0.5.4",
     "karma": "^0.13.15",
@@ -120,15 +121,15 @@
     "raw-loader": "^0.5.1",
     "react-addons-test-utils": "^0.14.3",
     "react-tools": "^0.13.3",
-    "sinon": "^2.0.0-pre",
+    "sinon": "^1.17.3",
     "style-loader": "^0.13.0",
     "url-loader": "^0.5.7",
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.6.0",
     "webpack": "^1.12.9",
+    "webpack-build-notifier": "^0.1.8",
     "webpack-dev-server": "^1.14.0",
     "webpack-node-externals": "^1.0.0",
-    "webpack-notifier": "^1.3.0",
     "write-file-webpack-plugin": "^3.1.8"
   }
 }

@@ -2,7 +2,7 @@ const originalConfig = require('./webpack.config');
 const webpack = require('webpack');
 const _ = require('lodash');
 const WriteFilePlugin = require('write-file-webpack-plugin');
-var WebpackNotifierPlugin = require('webpack-notifier');
+var WebpackBuildNotifierPlugin = require('webpack-build-notifier');
 const nodeExternals = require('webpack-node-externals');
 
 var webpackConfig = {
@@ -50,10 +50,10 @@ var webpackConfig = {
             'TestUtils': 'react-addons-test-utils',
 
             'expect': __dirname + '/test/requirements/chai-expect.js',
-            'sinon': 'sinon'
+            'sinon': 'imports?define=>false,require=>false!sinon/pkg/sinon'
         }),
         new WriteFilePlugin(),
-        new WebpackNotifierPlugin({alwaysNotify: true})
+        new WebpackBuildNotifierPlugin({successSound: false})
     ],
 
     devtool: 'eval',
