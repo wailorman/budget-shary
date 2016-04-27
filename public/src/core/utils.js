@@ -158,7 +158,7 @@ export const generateTransaction = function (from, to, total, persons) {
 
 };
 
-export const calculateFundsForAllPersons = function (state, deps = {}) {
+export const getFundsForAllPersons = function (state, deps = {}) {
 
     // for mocking
     _.defaults(deps, {getFunds});
@@ -191,16 +191,16 @@ export const generateTransactionWithFunds = function (state, from, to, total, de
     const {products, persons, transactions} = clonedState;
 
     // for mocking
-    _.defaults(deps, {generateTransaction, getFunds, calculateFundsForAllPersons});
+    _.defaults(deps, {generateTransaction, getFunds, getFundsForAllPersons});
 
-    const fundsBefore = calculateFundsForAllPersons(clonedState);
+    const fundsBefore = getFundsForAllPersons(clonedState);
 
     const generatedTransaction = generateTransaction(from, to, total, persons);
 
     const concatenatedTransactions = transactions.concat(generatedTransaction);
     const updatedState = {products, persons, transactions: concatenatedTransactions};
 
-    const fundsAfter = calculateFundsForAllPersons(updatedState);
+    const fundsAfter = getFundsForAllPersons(updatedState);
 
     return {
         fundsBefore,

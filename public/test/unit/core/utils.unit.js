@@ -8,7 +8,7 @@ import {
     generateTransaction,
     generateTransactionWithFunds,
 
-    calculateFundsForAllPersons,
+    getFundsForAllPersons,
 
     tryTransaction,
     transactionsTotal, INCOME, OUTCOME,
@@ -280,7 +280,7 @@ describe("UNIT / Core / Utils", ()=> {
 
     });
 
-    describe("calculateFundsForAllPersons", ()=> {
+    describe("getFundsForAllPersons", ()=> {
 
         it(`should calculate funds before interchange`, () => {
 
@@ -290,7 +290,7 @@ describe("UNIT / Core / Utils", ()=> {
                 {3: -1144.4}
             ];
 
-            expect(calculateFundsForAllPersons(fakeStateCase1)).to.eql(expected);
+            expect(getFundsForAllPersons(fakeStateCase1)).to.eql(expected);
 
         });
 
@@ -302,7 +302,7 @@ describe("UNIT / Core / Utils", ()=> {
                 {3: 0}
             ];
 
-            expect(calculateFundsForAllPersons(fakeStateCase1WithTransactions)).to.eql(expected);
+            expect(getFundsForAllPersons(fakeStateCase1WithTransactions)).to.eql(expected);
 
         });
 
@@ -326,7 +326,7 @@ describe("UNIT / Core / Utils", ()=> {
                 {3: -1144.4}
             ];
 
-            const result = calculateFundsForAllPersons(fakeStateCase1, {getFunds: getFundsStub});
+            const result = getFundsForAllPersons(fakeStateCase1, {getFunds: getFundsStub});
 
             expect(result).to.eql(expected);
 
