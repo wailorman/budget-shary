@@ -180,7 +180,15 @@ export const tryTransaction = function (positiveFunds, negativeFunds) {
 
 };
 
-export const transactionsTotal = function (state, direction, personId) {
+/**
+ * Sum all transactions per person filtered by direction
+ *
+ * @param transactions
+ * @param direction {string}  INCOME or OUTCOME
+ * @param personId
+ * @returns {number}
+ */
+export const transactionsTotal = function ({transactions}, direction, personId) {
 
     // todo: funds after transaction
 
@@ -193,9 +201,9 @@ export const transactionsTotal = function (state, direction, personId) {
     else
         throw new Error(`Invalid direction: ${direction}`);
 
-    if (!state.transactions) return 0;
+    if (!transactions) return 0;
 
-    const filteredTransactions = state.transactions.filter((transaction)=> {
+    const filteredTransactions = transactions.filter((transaction)=> {
         return transaction[directionFilterField] == personId;
     });
 
