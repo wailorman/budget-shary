@@ -16,6 +16,8 @@ var webpackConfig = {
                 exclude: /(node_modules)/,
                 loader: 'babel',
                 query: {
+                    retainLines: true,
+                    cacheDirectory: true,
                     presets: ['es2015', 'react'],
                     plugins: ['transform-runtime', "transform-object-rest-spread"]
                 }
