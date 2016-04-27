@@ -193,7 +193,7 @@ export const generateTransactionWithFunds = function (state, from, to, total, de
     // for mocking
     _.defaults(deps, {generateTransaction, getFunds, calculateFundsForAllPersons});
 
-    const fundsBefore = calculateFundsForAllPersons(state);
+    const fundsBefore = calculateFundsForAllPersons(clonedState);
 
     const generatedTransaction = generateTransaction(from, to, total, persons);
 
