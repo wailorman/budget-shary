@@ -2,6 +2,7 @@ const originalConfig = require('./webpack.config');
 const webpack = require('webpack');
 const _ = require('lodash');
 const WriteFilePlugin = require('write-file-webpack-plugin');
+var WebpackNotifierPlugin = require('webpack-notifier');
 const nodeExternals = require('webpack-node-externals');
 
 var webpackConfig = {
@@ -51,7 +52,8 @@ var webpackConfig = {
             'expect': __dirname + '/test/requirements/chai-expect.js',
             'sinon': 'sinon'
         }),
-        new WriteFilePlugin()
+        new WriteFilePlugin(),
+        new WebpackNotifierPlugin({alwaysNotify: true})
     ],
 
     devtool: 'eval',
