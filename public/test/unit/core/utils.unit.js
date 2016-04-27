@@ -6,6 +6,7 @@ import {
     createTransaction,
     validateTransactionMembers,
     generateTransaction,
+    generateTransactionWithFunds,
 
     calculateFundsForAllPersons,
 
@@ -245,6 +246,35 @@ describe("UNIT / Core / Utils", ()=> {
             expect(resultState.from).to.eql('1');
             expect(resultState.to).to.eql('2');
             expect(resultState.total).to.eql(0);
+
+        });
+
+    });
+
+    describe("generateTransactionWithFunds", ()=> {
+
+        it(`should generate transaction with fundsBefore & fundsAfter`, () => {
+
+            const expectedFundsBefore = [
+                {1: 1755.8},
+                {2: -611.4},
+                {3: -1144.4}
+            ];
+
+            const expectedFundsAfter = [
+                {1: 1144.4},
+                {2: 0},
+                {3: -1144.4}
+            ];
+
+            const result = generateTransactionWithFunds(fakeStateCase1, '1', '2', 611.4);
+
+            expect(result.fundsBefore).to.eql(expectedFundsBefore);
+            expect(result.fundsAfter).to.eql(expectedFundsAfter);
+
+            expect(result.from).to.eql('1');
+            expect(result.to).to.eql('2');
+            expect(result.total).to.eql(611.4);
 
         });
 

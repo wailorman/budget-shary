@@ -108,6 +108,7 @@ export const createTransaction = function (state, from, to, total) {
 export const validateTransactionMembers = function (from, to, persons) {
 
     if (from == to) {
+        // todo: Missing transaction members
         throw new Error(`Transaction sender and receiver are the same`);
     }
 
@@ -177,14 +178,37 @@ export const calculateFundsForAllPersons = function ({products, persons, transac
 
 };
 
-//export const generateTransactionWithFunds = function (from, to, total, persons, deps = {}) {
-//
-//    // for mocking
-//    _.defaults(deps, {generateTransaction, getFunds});
-//
-//
-//
-//};
+export const generateTransactionWithFunds = function (state, from, to, total, deps = {}) {
+
+    const clonedState = _.cloneDeep(state);
+
+    _.defaults(clonedState, {
+        products: [],
+        persons: [],
+        transactions: []
+    });
+
+    const {products, persons, transactions} = clonedState;
+
+    // for mocking
+    _.defaults(deps, {generateTransaction, getFunds, calculateFundsForAllPersons});
+
+    const fundsBefore = calculateFundsForAllPersons(state);
+
+    const generatedTransaction = generateTransaction(from, to, total, persons);
+
+    const concatenatedTransactions = transactions.concat(generatedTransaction);
+    const updatedState = {products, persons, transactions: concatenatedTransactions};
+
+    const fundsAfter = calculateFundsForAllPersons(updatedState);
+
+    return {
+        fundsBefore,
+        ...generatedTransaction,
+        fundsAfter
+    };
+
+};
 
 export const tryTransaction = function (positiveFunds, negativeFunds) {
 
