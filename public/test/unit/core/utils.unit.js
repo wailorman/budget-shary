@@ -17,6 +17,8 @@ import {
     humanifyTransactions
 } from '../../../src/core/utils'
 
+import * as coreUtils from '../../../src/core/utils'
+
 import {
     fakeState,
     fakeStateCase1,
@@ -271,6 +273,35 @@ describe("UNIT / Core / Utils", ()=> {
             ];
 
             expect(calculateFundsForAllPersons(fakeStateCase1WithTransactions)).to.eql(expected);
+
+        });
+
+        it(`should fill with null & log error if getFunds throwed an error`, () => {
+
+            let getFundsStub = sandbox.stub();
+
+            getFundsStub
+                .withArgs(sinon.match.any, '1')
+                .throws('Some error!')
+
+                .withArgs(sinon.match.any, '2')
+                .returns(-611.4)
+
+                .withArgs(sinon.match.any, '3')
+                .returns(-1144.4);
+
+            const expected = [
+                {1: null},
+                {2: -611.4},
+                {3: -1144.4}
+            ];
+
+            const result = calculateFundsForAllPersons(fakeStateCase1, {getFunds: getFundsStub});
+
+            expect(result).to.eql(expected);
+
+            expect(console.error.callCount).to.eql(1);
+            expect(console.error.lastCall.args[0]).to.match(/some error/i);
 
         });
 

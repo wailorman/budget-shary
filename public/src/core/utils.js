@@ -164,7 +164,14 @@ export const calculateFundsForAllPersons = function ({products, persons, transac
 
     return persons.map(({id})=> {
         let result = {};
-        result[id] = deps.getFunds({products, persons, transactions}, id);
+
+        try {
+            result[id] = deps.getFunds({products, persons, transactions}, id);
+        } catch (e) {
+            result[id] = null;
+            console.error(e);
+        }
+
         return result;
     });
 
