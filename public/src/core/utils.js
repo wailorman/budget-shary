@@ -158,7 +158,7 @@ export const generateTransaction = function (from, to, total, persons) {
 
 };
 
-export const calculateFundsForAllPersons = function ({products, persons, transactions}, deps = {}) {
+export const calculateFundsForAllPersons = function (state, deps = {}) {
 
     // for mocking
     _.defaults(deps, {getFunds});
@@ -167,7 +167,7 @@ export const calculateFundsForAllPersons = function ({products, persons, transac
         let result = {};
 
         try {
-            result[id] = deps.getFunds({products, persons, transactions}, id);
+            result[id] = deps.getFunds(state, id);
         } catch (e) {
             result[id] = null;
             console.error(e);
@@ -264,7 +264,7 @@ export const transactionsTotal = function ({transactions}, direction, personId) 
 
 };
 
-export const getFunds = function ({ products, persons, transactions }, personId, deps = {}) {
+export const getFunds = function (state, personId, deps = {}) {
 
     // for mocking
     _.defaults(deps, {shareInMonetary, ownExpenses, transactionsTotal});
