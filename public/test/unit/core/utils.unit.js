@@ -2,7 +2,11 @@ import {
     totalExpenses,
     ownExpenses,
     shareInMonetary,
+
     createTransaction,
+    validateTransactionMembers,
+    generateTransaction,
+
     tryTransaction,
     transactionsTotal, INCOME, OUTCOME,
     getFunds,
@@ -21,6 +25,22 @@ import { given } from 'mocha-testdata';
 import deepFreeze from 'deep-freeze'
 
 describe("UNIT / Core / Utils", ()=> {
+
+    let sandbox;
+
+    beforeEach(()=> {
+
+        sandbox = sinon.sandbox.create();
+
+        sandbox.stub(console, 'log');
+        sandbox.stub(console, 'error');
+        sandbox.stub(console, 'info');
+        sandbox.stub(console, 'warn');
+    });
+
+    afterEach(()=> {
+        sandbox.restore();
+    });
 
     describe("totalExpenses", ()=> {
 
@@ -101,22 +121,132 @@ describe("UNIT / Core / Utils", ()=> {
 
     });
 
+    describe("validateTransactionMembers", ()=> {
+
+        const personsArray = [
+            {id: 1},
+            {id: 2}
+        ];
+
+        it(`should throw error if sender doesn't persist in persons array`, () => {
+
+            const callingResult = validateTransactionMembers.bind(null, 3, 2, personsArray);
+
+            expect(callingResult).to.throw(/doesn't exist/i);
+            expect(callingResult).to.throw(/id 3/i);
+
+        });
+
+        it(`should throw error if receiver doesn't persist in persons array`, () => {
+
+            const callingResult = validateTransactionMembers.bind(null, 2, 4, personsArray);
+
+            expect(callingResult).to.throw(/doesn't exist/i);
+            expect(callingResult).to.throw(/id 4/i);
+
+        });
+
+        it(`should throw error if neither sender or receiver don't persist in persons array`, () => {
+
+            const callingResult = validateTransactionMembers.bind(null, 3, 4, personsArray);
+
+            expect(callingResult).to.throw(/doesn't exist/i);
+            expect(callingResult).to.throw(/id 3 & 4/i);
+
+        });
+
+        it(`should throw error if sender == receiver`, () => {
+
+            const callingResult = validateTransactionMembers.bind(null, 1, 1);
+
+            expect(callingResult).to.throw(/are the same/i);
+
+        });
+
+        it(`should warn if we didn't passed persons array`, () => {
+
+            validateTransactionMembers(1, 2);
+
+            expect(console.warn.callCount).to.eql(1);
+            expect(console.warn.lastCall.args[0]).to.match(/persons array is empty/i);
+
+        });
+
+        given(
+            [1, 2],
+            [1, 3],
+            [4, 3]
+        ).
+        it(`should not throw anything if persons array == null`, (from, to) => {
+
+            const callingResult = validateTransactionMembers.bind(null, from, to);
+
+            expect(callingResult).to.not.throw();
+
+        });
+
+    });
+
+    describe("generateTransaction", ()=> {
+
+        const {persons} = fakeState;
+
+        it(`should create simple transaction`, () => {
+
+            const result = generateTransaction('1', '2', 200, persons);
+
+            expect(result.from).to.eql('1');
+            expect(result.to).to.eql('2');
+            expect(result.total).to.eql(200);
+
+        });
+
+        it(`should not create transaction if one of members don't exist`, () => {
+
+            const tryToCall_from = generateTransaction.bind(null, '1', '3', 200, persons);
+
+            expect(tryToCall_from).to.throw(/3 doesn't exist/);
+
+            /////////////////////////
+
+            const tryToCall_to = generateTransaction.bind(null, '0', '2', 200, persons);
+
+            expect(tryToCall_to).to.throw(/0 doesn't exist/);
+
+        });
+
+        it(`should create transaction if we didn't pass persons array`, () => {
+
+            const result = generateTransaction('1', '2', 200);
+
+            expect(result.from).to.eql('1');
+            expect(result.to).to.eql('2');
+            expect(result.total).to.eql(200);
+
+        });
+
+        it(`should not create transact w/ negative total`, () => {
+
+            const tryToCall_negative = generateTransaction.bind(null, '1', '2', -1, persons);
+
+            expect(tryToCall_negative).to.throw(/can't/i);
+            expect(tryToCall_negative).to.throw(/negative/);
+
+        });
+
+        it(`should create transactions with total == 0`, () => {
+
+            const resultState = generateTransaction('1', '2', 0, persons);
+
+            expect(resultState.from).to.eql('1');
+            expect(resultState.to).to.eql('2');
+            expect(resultState.total).to.eql(0);
+
+        });
+
+    });
+
     describe("tryTransaction", ()=> {
-
-        let sandbox;
-
-        beforeEach(()=> {
-
-            sandbox = sinon.sandbox.create();
-
-            sandbox.stub(console, 'log');
-            sandbox.stub(console, 'error');
-        });
-
-        afterEach(()=> {
-            sandbox.restore();
-        });
-
 
         given(
             [100, 100, 0],
@@ -274,17 +404,6 @@ describe("UNIT / Core / Utils", ()=> {
 
     describe("splitToNegativeAndPositive", ()=> {
 
-        let sandbox;
-
-        beforeEach(()=> {
-
-            sandbox = sinon.sandbox.create();
-        });
-
-        afterEach(()=> {
-            sandbox.restore();
-        });
-
         it(`Jack should be in positive group`, () => {
 
             const result = splitToNegativeAndPositive(fakeStateCase1);
@@ -364,20 +483,6 @@ describe("UNIT / Core / Utils", ()=> {
 
     describe("humanifyTransactions", ()=> {
 
-        let sandbox;
-
-        beforeEach(()=> {
-
-            sandbox = sinon.sandbox.create();
-
-            sandbox.stub(console, 'log');
-            sandbox.stub(console, 'error');
-        });
-
-        afterEach(()=> {
-            sandbox.restore();
-        });
-
         it(`should convert transaction members ids to names`, () => {
 
             //fakeStateCase1WithTransactions
@@ -450,5 +555,5 @@ describe("UNIT / Core / Utils", ()=> {
         });
 
     });
-    
+
 });

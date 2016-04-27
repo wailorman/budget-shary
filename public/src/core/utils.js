@@ -44,6 +44,22 @@ export const shareInMonetary = function (state, personId) {
 
 };
 
+
+/**
+ * Pushes new transaction object to state.transactions array
+ * (see generateTransaction)
+ *
+ * @deprecated
+ *
+ * @param state
+ * @param from
+ * @param to
+ * @param total
+ *
+ * @throws Can't create transaction from __ to __. Person with id __ doesn't exist
+ *
+ * @returns New state with new transaction
+ */
 export const createTransaction = function (state, from, to, total) {
 
     let newState = _.cloneDeep(state);
@@ -75,6 +91,69 @@ export const createTransaction = function (state, from, to, total) {
     newState.transactions.push(newTransaction);
 
     return newState;
+
+};
+
+/**
+ *
+ * @param from      Sender person ID
+ * @param to        Receiver person ID
+ * @param [persons] Array of all persons in [{id: '102'}] format at least
+ *
+ * @throws Transaction sender and receiver are the same
+ * @throws Can't create transaction from __ to __. Person with id __ doesn't exist
+ *
+ * @return undefined  if validation accomplished
+ */
+export const validateTransactionMembers = function (from, to, persons) {
+
+    if (from == to) {
+        throw new Error(`Transaction sender and receiver are the same`);
+    }
+
+    if (persons) {
+
+        const cantFindErrorTpl = (nonexistentPersonId) =>
+            new Error(`Can't create transaction from ${from} to ${to}.
+        Person with id ${nonexistentPersonId} doesn't exist`);
+
+        if (!_.find(persons, {id: from}) && !_.find(persons, {id: to})) {
+            throw (cantFindErrorTpl(`${from} & ${to}`));
+        }
+
+        if (!_.find(persons, {id: from})) {
+            throw (cantFindErrorTpl(from));
+        }
+
+        if (!_.find(persons, {id: to})) {
+            throw (cantFindErrorTpl(to));
+        }
+
+    } else {
+
+        console.warn('Persons array is empty. Unable to validate');
+
+    }
+
+};
+
+/**
+ * Generates basic transaction object
+ *
+ * @param from      Sender person ID
+ * @param to        Receiver person ID
+ * @param total     Money to send
+ * @param [persons] Array of all persons in [{id: '102'}] format at least
+ * @returns {{from: *, to: *, total: *}}
+ */
+export const generateTransaction = function (from, to, total, persons) {
+
+    validateTransactionMembers(from, to, persons);
+
+    if (total < 0)
+        throw new Error(`Can't create transaction with negative (${total}) total`);
+
+    return {from, to, total};
 
 };
 
