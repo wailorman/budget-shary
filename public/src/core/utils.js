@@ -160,6 +160,8 @@ export const generateTransaction = function (from, to, total, persons) {
 
 export const getFundsForAllPersons = function (state, deps = {}) {
 
+    const {products, persons, transactions} = state;
+
     // for mocking
     _.defaults(deps, {getFunds});
 
@@ -265,6 +267,8 @@ export const transactionsTotal = function ({transactions}, direction, personId) 
 };
 
 export const getFunds = function (state, personId, deps = {}) {
+
+    const {products, persons, transactions} = state;
 
     // for mocking
     _.defaults(deps, {shareInMonetary, ownExpenses, transactionsTotal});
