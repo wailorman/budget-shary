@@ -216,12 +216,20 @@ export const getFunds = function ({ products, persons, transactions }, personId,
     // for mocking
     _.defaults(deps, {shareInMonetary, ownExpenses, transactionsTotal});
 
-    return _.round(
-            deps.shareInMonetary({products, persons}, personId) -
-            deps.ownExpenses({products}, personId) +
-            deps.transactionsTotal({transactions}, INCOME, personId) -
-            deps.transactionsTotal({transactions}, OUTCOME, personId)
-        , 4);
+    // clc = calculated
+    const clc = {
+        shareInMonetary: deps.shareInMonetary({products, persons}, personId),
+
+        ownExpenses: deps.ownExpenses({products}, personId),
+
+        incomeTransactionsTotal: deps.transactionsTotal({transactions}, INCOME, personId),
+
+        outcomeTransactionsTotal: deps.transactionsTotal({transactions}, OUTCOME, personId)
+    };
+
+    const result = clc.shareInMonetary - clc.ownExpenses + clc.incomeTransactionsTotal - clc.outcomeTransactionsTotal;
+
+    return _.round(result, 4);
 };
 
 export const splitToNegativeAndPositive = function (state, deps = {}) {
