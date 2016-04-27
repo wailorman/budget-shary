@@ -33,12 +33,12 @@ export const ownExpenses = function ({products}, personId) {
 
 };
 
-export const shareInMonetary = function (state, personId) {
+export const shareInMonetary = function ({products, persons}, personId) {
 
-    const person = _.find(state.persons, {id: personId});
+    const person = _.find(persons, {id: personId});
     const shareInPercentage = parseInt(person.share) * 0.01;
 
-    const totalExp = totalExpenses(state);
+    const totalExp = totalExpenses({products});
 
     return totalExp * shareInPercentage;
 
