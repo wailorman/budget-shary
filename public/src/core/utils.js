@@ -211,13 +211,16 @@ export const transactionsTotal = function ({transactions}, direction, personId) 
 
 };
 
-export const getFunds = function (state, personId) {
+export const getFunds = function ({ products, persons, transactions }, personId, deps = {}) {
+
+    // for mocking
+    _.defaults(deps, {shareInMonetary, ownExpenses, transactionsTotal});
 
     return _.round(
-            shareInMonetary(state, personId) -
-            ownExpenses(state, personId) +
-            transactionsTotal(state, INCOME, personId) -
-            transactionsTotal(state, OUTCOME, personId)
+            deps.shareInMonetary({products, persons}, personId) -
+            deps.ownExpenses({products}, personId) +
+            deps.transactionsTotal({transactions}, INCOME, personId) -
+            deps.transactionsTotal({transactions}, OUTCOME, personId)
         , 4);
 };
 
