@@ -7,6 +7,8 @@ import {
     validateTransactionMembers,
     generateTransaction,
 
+    calculateFundsForAllPersons,
+
     tryTransaction,
     transactionsTotal, INCOME, OUTCOME,
     getFunds,
@@ -241,6 +243,34 @@ describe("UNIT / Core / Utils", ()=> {
             expect(resultState.from).to.eql('1');
             expect(resultState.to).to.eql('2');
             expect(resultState.total).to.eql(0);
+
+        });
+
+    });
+
+    describe("calculateFundsForAllPersons", ()=> {
+
+        it(`should calculate funds before interchange`, () => {
+
+            const expected = [
+                {1: 1755.8},
+                {2: -611.4},
+                {3: -1144.4}
+            ];
+
+            expect(calculateFundsForAllPersons(fakeStateCase1)).to.eql(expected);
+
+        });
+
+        it(`should calculate funds after interchange`, () => {
+
+            const expected = [
+                {1: 0},
+                {2: 0},
+                {3: 0}
+            ];
+
+            expect(calculateFundsForAllPersons(fakeStateCase1WithTransactions)).to.eql(expected);
 
         });
 

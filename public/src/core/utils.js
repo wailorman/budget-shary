@@ -157,6 +157,28 @@ export const generateTransaction = function (from, to, total, persons) {
 
 };
 
+export const calculateFundsForAllPersons = function ({products, persons, transactions}, deps = {}) {
+
+    // for mocking
+    _.defaults(deps, {getFunds});
+
+    return persons.map(({id})=> {
+        let result = {};
+        result[id] = deps.getFunds({products, persons, transactions}, id);
+        return result;
+    });
+
+};
+
+//export const generateTransactionWithFunds = function (from, to, total, persons, deps = {}) {
+//
+//    // for mocking
+//    _.defaults(deps, {generateTransaction, getFunds});
+//
+//
+//
+//};
+
 export const tryTransaction = function (positiveFunds, negativeFunds) {
 
     if (positiveFunds < 0){
@@ -229,7 +251,14 @@ export const getFunds = function ({ products, persons, transactions }, personId,
 
     const result = clc.shareInMonetary - clc.ownExpenses + clc.incomeTransactionsTotal - clc.outcomeTransactionsTotal;
 
-    return _.round(result, 4);
+    let roundedResult = _.round(result, 4);
+
+    // sometimes getFunds() returns -0 after interchange
+    // this hack is fixing problem
+    if (roundedResult == 0)
+        roundedResult = 0;
+
+    return roundedResult;
 };
 
 export const splitToNegativeAndPositive = function (state, deps = {}) {
