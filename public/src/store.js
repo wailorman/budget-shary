@@ -12,8 +12,8 @@ export const store = createStore(
     reducers,
     defaultState,
     compose(
-        applyMiddleware(thunk),
-        window.devToolsExtension ? window.devToolsExtension() : undefined
+        applyMiddleware(thunk)
+        //window && window.devToolsExtension ? window.devToolsExtension() : function () {}
     )
 );
 
