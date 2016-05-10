@@ -2,6 +2,48 @@ const validate = function () {
 
 };
 
+const validateOnePerson = function (person) {
+
+    if (_.isEmpty(person)) {
+        return undefined;
+    }
+
+    let errors = [];
+
+    if (person.id) {
+
+        if (typeof person.id != 'string') {
+            errors.push(`ID should be a string. Got ${typeof person.id} instead`);
+        }
+
+    } else {
+        errors.push(`ID missing`);
+    }
+
+    if (person.name || person.name === '') {
+
+        if (typeof person.name != 'string') {
+            errors.push(`Name should be a string. Got ${typeof person.id} instead`);
+        }
+
+    } else {
+        errors.push(`Name missing`);
+    }
+
+    if (person.share) {
+
+        if (!person.share.match(/^[1-9]\d*(\.\d+)?$/)) {
+            errors.push(`Share allows only digits & dots`);
+        }
+
+    } else {
+        errors.push(`Share missing`);
+    }
+
+    return errors;
+
+};
+
 const validatePersons = function (persons = []) {
 
     if (_.isEmpty(persons)) {
@@ -65,5 +107,5 @@ const validateProducts = function (products) {
 
 };
 
-export { validatePersons, validateProducts };
+export { validatePersons, validateProducts, validateOnePerson };
 export default validate;
