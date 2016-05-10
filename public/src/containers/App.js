@@ -39,7 +39,7 @@ const App = React.createClass({
             };
 
             return (
-                <PersonContainer {... personContainerProps} />
+                <PersonContainer key={person.id} {... personContainerProps} />
             );
 
         });
@@ -47,6 +47,7 @@ const App = React.createClass({
         return (
             <div>
                 {personContainersList}
+                <button onClick={actions.newPerson}>New person</button>
                 <br />
                 <button onClick={actions.realizeInterchange}>Calculate</button>
                 <TransactionsList transactions={transactions} />
