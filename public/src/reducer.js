@@ -2,7 +2,8 @@ import { combineReducers } from 'redux'
 import {
     REMOVE_PRODUCT, NEW_PRODUCT, CHANGE_PRODUCT,
     REMOVE_PERSON, NEW_PERSON, CHANGE_PERSON,
-    PROCEED_INTERCHANGE, PUT_INTERCHANGE_RESULTS
+    PROCEED_INTERCHANGE, PUT_INTERCHANGE_RESULTS,
+    DISPLAY_INTERCHANGE_ERROR, REMOVE_INTERCHANGE_ERRORS
 } from './actions'
 
 import { proceedInterchange } from './core/utils'
@@ -36,7 +37,8 @@ export const defaultState = {
         {id: '17', name: '',    price: '756',   ownerId: '_3'},
         {id: '18', name: '',    price: '50',    ownerId: '_3'}
     ],
-    transactions: []
+    transactions: [],
+    errors: []
 
 };
 
@@ -100,11 +102,26 @@ export function personsReducer(personsState = defaultState.persons, action) {
 
 }
 
+// todo: Substitute default state to []
 export function transactionsReducer(state = defaultState, action) {
 
     switch (action.type){
         case PUT_INTERCHANGE_RESULTS:
             return action.transactions;
+        default:
+            return state;
+    }
+
+}
+
+export function errorsReducer(state = {}, action) {
+    let newState = _.cloneDeep(state);
+
+    switch (action.type) {
+        case DISPLAY_INTERCHANGE_ERROR:
+            return _.merge(newState, {interchange: [action.error]});
+        case REMOVE_INTERCHANGE_ERRORS:
+            return _.merge(newState, {interchange: []});
         default:
             return state;
     }
@@ -123,7 +140,8 @@ export const reducers = function (state, action) {
 export const combinedReducers = combineReducers({
     products: productsReducer,
     persons: personsReducer,
-    transactions: transactionsReducer
+    transactions: transactionsReducer,
+    errors: errorsReducer
 });
 
 export default reducers;

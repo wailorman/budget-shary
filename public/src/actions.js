@@ -11,6 +11,7 @@ export const CHANGE_PERSON = 'CHANGE_PERSON';
 export const PROCEED_INTERCHANGE = 'PROCEED_INTERCHANGE';
 export const PUT_INTERCHANGE_RESULTS = 'PUT_INTERCHANGE_RESULTS';
 export const DISPLAY_INTERCHANGE_ERROR = 'DISPLAY_INTERCHANGE_ERROR';
+export const REMOVE_INTERCHANGE_ERRORS = 'REMOVE_INTERCHANGE_ERRORS';
 
 export function removeProduct(id) {
     return {
@@ -60,6 +61,9 @@ export function changePerson(id, values) {
 
 export function realizeInterchange() {
     return (dispatch, getState) => {
+
+        // todo: >> dispatch(removeInterchangeErrors());
+
         return interchange(getState())
             .then((res)=> {
                 return dispatch(putInterchangeResults(res));
@@ -82,5 +86,11 @@ export function displayInterchangeError(error) {
     return {
         type: DISPLAY_INTERCHANGE_ERROR,
         error
+    };
+}
+
+export function removeInterchangeErrors() {
+    return {
+        type: REMOVE_INTERCHANGE_ERRORS
     };
 }
