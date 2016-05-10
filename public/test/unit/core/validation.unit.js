@@ -1,7 +1,32 @@
-import { validatePersons, validateOnePerson, validateProducts } from '../../../src/core/validation'
+import {
+    validatePersons,
+    validateOnePerson,
+    validateProducts,
+
+    trimObjectFromEmptyArrays
+} from '../../../src/core/validation'
 import { given } from 'mocha-testdata'
 
 describe("UNIT / Core / Validation", ()=> {
+
+    describe("#trimObjectsFromEmptyArrays", ()=> {
+
+        it(`should remove property if it === []`, () => {
+
+            const object = {
+                filled: [1],
+                empty: []
+            };
+
+            const actual = trimObjectFromEmptyArrays(object);
+
+            const expected = { filled: [1] };
+
+            expect(actual).to.eql(expected);
+
+        });
+
+    });
 
     describe("#validateOnePerson()", ()=> {
 
@@ -20,13 +45,10 @@ describe("UNIT / Core / Validation", ()=> {
         });
 
         given(
-            [undefined,         {id: '1',  name: 'One',    share: '100'}],
-
-            ['Share missing',   {id: '1',  name: 'One'}                 ],
-
-            ['Name missing',    {id: '1',                  share: '100'}],
-
-            ['ID missing',      {          name: 'One',    share: '100'}]
+            [undefined,                     {id: '1',  name: 'One',    share: '100'}],
+            [{share: ['Share missing']},    {id: '1',  name: 'One'}                 ],
+            [{name: ['Name missing']},      {id: '1',                  share: '100'}],
+            [{id: ['ID missing']},          {          name: 'One',    share: '100'}]
 
         ).it(`should return error if some of persons doesn't have some props`, (expectedError, person) => {
 
@@ -34,7 +56,10 @@ describe("UNIT / Core / Validation", ()=> {
 
             if (expectedError) {
 
-                expect(errorsArray).to.include(expectedError);
+                const errorKey = _.keys(expectedError)[0];
+                const errorValue = _.values(expectedError)[0];
+
+                expect(errorsArray[errorKey]).to.eql(errorValue);
 
             }
 
@@ -42,15 +67,21 @@ describe("UNIT / Core / Validation", ()=> {
 
         it(`should return two errors`, () => {
 
-            const expectedErrors = ['ID missing', 'Name missing'];
+            const expectedErrors = [
+                {id: ['ID missing']},
+                {name: ['Name missing']}
+            ];
 
             const person = {share: '100'};
 
             const actual = validateOnePerson(person);
 
-            expectedErrors.forEach((err) => {
+            _.forEach(expectedErrors, (expectedError) => {
 
-                expect(actual).to.include(err);
+                const errorKey = _.keys(expectedError)[0];
+                const errorValue = _.values(expectedError)[0];
+
+                expect(actual[errorKey]).to.eql(errorValue);
 
             });
 
@@ -68,9 +99,9 @@ describe("UNIT / Core / Validation", ()=> {
 
                 const actual = validateOnePerson(persons);
 
-                const expected = `ID should be a string. Got ${typeof id} instead`;
+                const expected = [`ID should be a string. Got ${typeof id} instead`];
 
-                expect(actual).to.include(expected);
+                expect(actual.id).to.eql(expected);
 
             });
 
@@ -84,7 +115,7 @@ describe("UNIT / Core / Validation", ()=> {
 
                 const actual = validateOnePerson(persons);
 
-                expect(actual).to.not.include('Name missing');
+                expect(actual.name).to.not.include('Name is missing');
 
             });
 
@@ -98,7 +129,7 @@ describe("UNIT / Core / Validation", ()=> {
 
                 const actual = validateOnePerson(persons);
 
-                expect(actual).to.not.include('Share allows only digits & dots');
+                expect(actual.share).to.not.include('Share allows only digits & dots');
 
             });
 
@@ -114,7 +145,7 @@ describe("UNIT / Core / Validation", ()=> {
 
                 const actual = validateOnePerson(persons);
 
-                expect(actual).to.include('Share allows only digits & dots');
+                expect(actual.share).to.include('Share allows only digits & dots');
 
             });
 
