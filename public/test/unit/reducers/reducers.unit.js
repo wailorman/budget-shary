@@ -1,4 +1,4 @@
-import { transactionsReducer, combinedReducers } from '../../src/reducer'
+import { transactionsReducer, combinedReducers } from '../../../src/reducer'
 
 import {
 
@@ -7,10 +7,10 @@ import {
 
     realizeInterchange
 
-} from '../../src/actions'
+} from '../../../src/actions'
 
-import { fakeStateCase1, fakeStateCase1WithTransactions } from '../fixtures/fake-state'
-import { humanifyTransactions } from '../../src/core/utils'
+import { fakeStateCase1, fakeStateCase1WithTransactions } from '../../fixtures/fake-state'
+import { humanifyTransactions } from '../../../src/core/utils'
 
 describe("UNIT / Reducers", ()=> {
 

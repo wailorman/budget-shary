@@ -1,11 +1,11 @@
 "use strict";
 
-import { productsReducer } from '../../src/reducer'
+import { productsReducer } from '../../../src/reducer'
 import {
     REMOVE_PRODUCT, NEW_PRODUCT, CHANGE_PRODUCT,
     REMOVE_PERSON
-} from '../../src/actions'
-import { fakeState } from '../fixtures/fake-state'
+} from '../../../src/actions'
+import { fakeState } from '../../fixtures/fake-state'
 
 const initialState = fakeState;
 

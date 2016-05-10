@@ -1,10 +1,10 @@
 "use strict";
 
-import { personsReducer } from '../../src/reducer'
+import { personsReducer } from '../../../src/reducer'
 import {
     REMOVE_PERSON, NEW_PERSON, CHANGE_PERSON
-} from '../../src/actions'
-import { fakeState } from '../fixtures/fake-state'
+} from '../../../src/actions'
+import { fakeState } from '../../fixtures/fake-state'
 
 const initialState = fakeState;
 
