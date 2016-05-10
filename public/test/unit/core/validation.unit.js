@@ -1,4 +1,5 @@
 import {
+    validate,
     validatePersons,
     validateOnePerson,
     validateProducts,
@@ -213,6 +214,48 @@ describe("UNIT / Core / Validation", ()=> {
             const expectedErrMsg = 'ID missing';
 
             expect(actual.persons[0].id).to.contain(expectedErrMsg);
+
+        });
+
+    });
+
+    describe("#validate()", ()=> {
+
+        describe(".persons", ()=> {
+
+            it(`should notice about invalid share setting`, () => {
+
+                const state = {
+                    persons: [
+                        {id: '1', name: 'One', share: '50'},
+                        {id: '2', name: 'Two', share: '40'}
+                    ]
+                };
+
+                const actual = validate(state).common;
+
+                const expected = 'Sum of shares should be equal to 100. Got 90 instead';
+
+                expect(actual).to.include(expected);
+
+            });
+
+            it(`should notice about ID missing`, () => {
+
+                const state = {
+                    persons: [
+                        {id: '1', name: 'One', share: '50'},
+                        {         name: 'Two', share: '50'}
+                    ]
+                };
+
+                const actual = validate(state).persons[1].id;
+
+                const expected = 'ID missing';
+
+                expect(actual).to.include(expected);
+
+            });
 
         });
 

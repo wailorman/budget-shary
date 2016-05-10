@@ -1,4 +1,10 @@
-const validate = function () {
+const validate = function (state) {
+
+    let result = {};
+
+    const personsValidationResult = validatePersons(state.persons);
+
+    return _.merge(result, personsValidationResult);
 
 };
 
@@ -102,6 +108,7 @@ const validateProducts = function (products) {
 };
 
 export {
+    validate,
     validatePersons,
     validateProducts,
     validateOnePerson,
