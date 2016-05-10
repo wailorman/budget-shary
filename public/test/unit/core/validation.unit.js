@@ -184,9 +184,24 @@ describe("UNIT / Core / Validation", ()=> {
 
             const expected = 'Sum of shares should be equal to 100. Got 90 instead';
 
-            const actual = validatePersons(persons);
+            const actual = validatePersons(persons).common;
 
             expect(actual).to.include(expected);
+
+        });
+        
+        it(`should notice about ID missing`, () => {
+
+            const persons = [
+                {         name: 'One', share: '50'},
+                {id: '2', name: 'One', share: '50'}
+            ];
+
+            const actual = validatePersons(persons);
+
+            const expectedErrMsg = 'ID missing';
+
+            expect(actual.persons[0].id).to.contain(expectedErrMsg);
 
         });
 
