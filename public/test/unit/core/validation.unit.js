@@ -34,11 +34,16 @@ describe("UNIT / Core / Validation", ()=> {
             {},
             null,
             undefined
-        ).it(`should return undefined if person obj didn't passed`, (person) => {
+        ).it(`should return empty errors object if person obj didn't passed`, (person) => {
 
             const actual = validateOnePerson(person);
 
-            const expected = undefined;
+            const expected = {
+                id: [],
+                name: [],
+                share: [],
+                common: []
+            };
 
             expect(actual).to.eql(expected);
 
@@ -157,7 +162,10 @@ describe("UNIT / Core / Validation", ()=> {
 
         it(`should return undefined if undefined (no persons) passed`, () => {
 
-            const expected = undefined;
+            const expected = {
+                persons: [],
+                common: []
+            };
 
             const actual = validatePersons();
 
@@ -167,7 +175,10 @@ describe("UNIT / Core / Validation", ()=> {
 
         it(`should return undefined if [] (no persons) passed`, () => {
 
-            const expected = undefined;
+            const expected = {
+                persons: [],
+                common: []
+            };
 
             const actual = validatePersons([]);
 

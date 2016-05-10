@@ -18,16 +18,16 @@ const trimObjectFromEmptyArrays = function (object) {
 
 const validateOnePerson = function (person) {
 
-    if (_.isEmpty(person)) {
-        return undefined;
-    }
-
     let errors = {
         id: [],
         name: [],
         share: [],
         common: []
     };
+
+    if (_.isEmpty(person)) {
+        return errors;
+    }
 
     if (person.id) {
 
@@ -65,15 +65,15 @@ const validateOnePerson = function (person) {
 
 const validatePersons = function (persons = []) {
 
-    if (_.isEmpty(persons)) {
-        return undefined;
-    }
-
     let sumOfShares = 0;
     let errors = {
         persons: [],
         common: []
     };
+
+    if (_.isEmpty(persons)) {
+        return errors;
+    }
 
     // properties validating
     errors.persons = persons.map((prsn)=> {
