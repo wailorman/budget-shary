@@ -1,7 +1,11 @@
 "use strict";
 
 import { errorsReducer } from '../../../src/reducer'
-import { DISPLAY_INTERCHANGE_ERROR, REMOVE_INTERCHANGE_ERRORS } from '../../../src/actions'
+import {
+    DISPLAY_INTERCHANGE_ERROR,
+    REMOVE_INTERCHANGE_ERRORS,
+    PUT_PERSONS_ERRORS
+} from '../../../src/actions'
 
 import { fakeState } from '../../fixtures/fake-state'
 const initialErrorsState = fakeState.errors;
@@ -18,53 +22,54 @@ describe("UNIT / Reducers / errorsReducer", ()=> {
 
     });
 
-    describe("DISPLAY_INTERCHANGE_ERROR", ()=> {
+    describe("PUT_PERSONS_ERRORS", ()=> {
 
-        it(`should return state like {interchange: [...]}`, () => {
+        const personsErrors = {
+            id: ['ID missing'],
+            name: ['Name is invalid'],
+            share: [
+                'Share should be between 0..100',
+                'Share should contain only digits and dots'
+            ]
+        };
+
+        it(`should set persons errors`, () => {
 
             const action = {
-                type: DISPLAY_INTERCHANGE_ERROR,
-                error: new Error('Some interchange error')
+                type: PUT_PERSONS_ERRORS,
+                errors: personsErrors
             };
-
-            const expected = {interchange: [new Error('Some interchange error')]};
 
             const actual = errorsReducer(initialErrorsState, action);
 
-            expect(actual).to.eql(expected);
+            expect(actual.persons).to.eql(personsErrors);
 
         });
 
-        it(`should remove old error and place a new one`, () => {
+        it(`should substitute old persons errors with new one`, () => {
 
-            const action = {
-                type: DISPLAY_INTERCHANGE_ERROR,
-                error: new Error('Another interchange error')
+            const personsErrors = {
+                id: ['ID missing'],
+                name: ['Name is invalid'],
+                share: [
+                    'Share should be between 0..100',
+                    'Share should contain only digits and dots'
+                ]
             };
 
-            const expected = {interchange: [new Error('Another interchange error')]};
-
-            const actual = errorsReducer(initialErrorsState, action);
-
-            expect(actual).to.eql(expected);
-
-        });
-
-    });
-
-    describe("REMOVE_INTERCHANGE_ERRORS", ()=> {
-
-        it(`should remove all interchange errors`, () => {
-
-            const action = {
-                type: REMOVE_INTERCHANGE_ERRORS
+            const stateWithPersonsErrorsAlready = {
+                id: ['ID missing'],
+                name: ['Name is invalid', 'Some...']
             };
 
-            const expected = {interchange: []};
+            const action = {
+                type: PUT_PERSONS_ERRORS,
+                errors: personsErrors
+            };
 
-            const actual = errorsReducer(initialErrorsState, action);
+            const actual = errorsReducer(stateWithPersonsErrorsAlready, action);
 
-            expect(actual).to.eql(expected);
+            expect(actual.persons).to.eql(personsErrors);
 
         });
 

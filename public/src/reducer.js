@@ -3,7 +3,8 @@ import {
     REMOVE_PRODUCT, NEW_PRODUCT, CHANGE_PRODUCT,
     REMOVE_PERSON, NEW_PERSON, CHANGE_PERSON,
     PROCEED_INTERCHANGE, PUT_INTERCHANGE_RESULTS,
-    DISPLAY_INTERCHANGE_ERROR, REMOVE_INTERCHANGE_ERRORS
+    DISPLAY_INTERCHANGE_ERROR, REMOVE_INTERCHANGE_ERRORS,
+    PUT_PERSONS_ERRORS
 } from './actions'
 
 import { proceedInterchange } from './core/utils'
@@ -38,7 +39,7 @@ export const defaultState = {
         {id: '18', name: '',    price: '50',    ownerId: '_3'}
     ],
     transactions: [],
-    errors: []
+    errors: {}
 
 };
 
@@ -115,13 +116,12 @@ export function transactionsReducer(state = defaultState, action) {
 }
 
 export function errorsReducer(state = {}, action) {
-    let newState = _.cloneDeep(state);
+    let newErrorsState = _.cloneDeep(state);
 
     switch (action.type) {
-        case DISPLAY_INTERCHANGE_ERROR:
-            return _.merge(newState, {interchange: [action.error]});
-        case REMOVE_INTERCHANGE_ERRORS:
-            return _.merge(newState, {interchange: []});
+        case PUT_PERSONS_ERRORS:
+            newErrorsState.persons = action.errors;
+            return newErrorsState;
         default:
             return state;
     }

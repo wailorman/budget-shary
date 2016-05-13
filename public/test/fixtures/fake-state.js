@@ -6,7 +6,8 @@ export const fakeState = {
     products: [
         {id: '1', name: 'Water', price: '40', ownerId: '1'},
         {id: '2', name: 'Milk', price: '60', ownerId: '2'}
-    ]
+    ],
+    errors: {}
 };
 
 export const fakeStateCase1 = { // case1

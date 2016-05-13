@@ -12,6 +12,7 @@ export const PROCEED_INTERCHANGE = 'PROCEED_INTERCHANGE';
 export const PUT_INTERCHANGE_RESULTS = 'PUT_INTERCHANGE_RESULTS';
 export const DISPLAY_INTERCHANGE_ERROR = 'DISPLAY_INTERCHANGE_ERROR';
 export const REMOVE_INTERCHANGE_ERRORS = 'REMOVE_INTERCHANGE_ERRORS';
+export const PUT_PERSONS_ERRORS = 'PUT_PERSONS_ERRORS';
 
 export function removeProduct(id) {
     return {
@@ -55,6 +56,13 @@ export function changePerson(id, values) {
         id,
         values
     }
+}
+
+export function putPersonsErrors(errors) {
+    return {
+        type: PUT_PERSONS_ERRORS,
+        errors
+    };
 }
 
 // todo: Rewrite to saga. Because I can't test it
