@@ -160,7 +160,7 @@ export const generateTransaction = function (from, to, total, persons) {
 
 export const getFundsForAllPersons = function (state, deps = {}) {
 
-    const {products, persons, transactions} = state;
+    const {persons} = state;
 
     // for mocking
     _.defaults(deps, {getFunds});
@@ -262,7 +262,7 @@ export const transactionsTotal = function ({transactions}, direction, personId) 
         return transaction[directionFilterField] == personId;
     });
 
-    return _.sum(filteredTransactions, 'total');
+    return _.sumBy(filteredTransactions, 'total');
 
 };
 
