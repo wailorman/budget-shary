@@ -1,3 +1,5 @@
+import '../styles/Person.css'
+
 const Person = React.createClass({
     propTypes: {
         name: React.PropTypes.string,
