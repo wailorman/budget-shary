@@ -3,7 +3,8 @@ const Person = React.createClass({
         name: React.PropTypes.string,
         share: React.PropTypes.string,
         changePerson: React.PropTypes.func,
-        removePerson: React.PropTypes.func
+        removePerson: React.PropTypes.func,
+        validationErrors: React.PropTypes.object
     },
 
     onChange(event){
@@ -25,8 +26,22 @@ const Person = React.createClass({
     },
 
     render: function () {
+
+        const validationErrorsMessages = getFlatValidationErrors(this.props.validationErrors)
+            .map((errorMessage, index)=> {
+                return (
+                    <div key={index} className="Person__validationErrorMessage">
+                        {errorMessage}
+                    </div>
+                );
+            });
+
         return (
             <div className="Person">
+                <div className="Person__validationErrors">
+                    {validationErrorsMessages}
+                </div>
+
                 <input
                     className="Person__name-input"
                     type="text"
@@ -52,5 +67,12 @@ const Person = React.createClass({
         );
     }
 });
+
+export const getFlatValidationErrors = function (validationErrorsObject = {}) {
+
+    const allMessagesArray = _.values(validationErrorsObject);
+    return _.flatten(allMessagesArray);
+
+};
 
 export default Person;

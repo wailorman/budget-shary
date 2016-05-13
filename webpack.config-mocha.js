@@ -1,14 +1,17 @@
 const originalConfig = require('./webpack.config');
 const webpack = require('webpack');
-const _ = require('lodash');
 const WriteFilePlugin = require('write-file-webpack-plugin');
 var WebpackBuildNotifierPlugin = require('webpack-build-notifier');
-const nodeExternals = require('webpack-node-externals');
 
 var webpackConfig = {
 
     //target: 'node',
     //externals: [nodeExternals()],
+    externals: {
+        'react/lib/ReactContext': true,
+        'react/lib/ExecutionEnvironment': true,
+        'react/addons': true
+    },
     context: originalConfig.context,
     node: originalConfig.node,
     entry: {

@@ -69,6 +69,7 @@
     "yamljs": "^0.2.4"
   },
   "devDependencies": {
+    "@kadira/storybook": "^1.26.0",
     "babel-core": "^6.3.13",
     "babel-loader": "^6.2.0",
     "babel-plugin-transform-object-rest-spread": "^6.6.5",
@@ -84,6 +85,7 @@
     "chai-as-promised": "^5.1.0",
     "css-loader": "^0.23.0",
     "deep-freeze": "0.0.1",
+    "enzyme": "^2.3.0",
     "fake-indexeddb": "^1.0.3",
     "file-loader": "^0.8.5",
     "formatio": "^1.2.0",
