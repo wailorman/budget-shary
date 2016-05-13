@@ -61,8 +61,8 @@ describe("UNIT / Components / <Person />", ()=> {
 
         const validationErrorsBlock = wrapper.find('.Person__validationErrors');
 
-        expect(validationErrorsBlock).to.have.length(1);
-        expect(validationErrorsBlock.children()).to.have.length(4);
+        expect(validationErrorsBlock.length).to.eql(1);
+        expect(validationErrorsBlock.children().length).to.eql(4);
 
     });
 
