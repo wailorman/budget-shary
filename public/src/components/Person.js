@@ -9,6 +9,20 @@ const Person = React.createClass({
         validationErrors: React.PropTypes.object
     },
 
+    getDefaultProps(){
+        return {
+            name: '',
+            share: '',
+            changePerson: ()=>{
+                console.error(`Person: changePerson() callback didn't passed`);
+            },
+            removePerson: ()=>{
+                console.error(`Person: removePerson() callback didn't passed`);
+            },
+            validationErrors: {}
+        };
+    },
+
     onChange(event){
 
         const targetClassName = event.target.className;
@@ -23,7 +37,7 @@ const Person = React.createClass({
 
     },
 
-    onRemoveClick(){
+    onRemove(){
         this.props.removePerson();
     },
 
@@ -62,7 +76,7 @@ const Person = React.createClass({
                     onChange={this.onChange}
                 />
 
-                <button className="Person__remove-button" onClick={this.onRemoveClick}>
+                <button className="Person__remove-button" onClick={this.onRemove}>
                     x
                 </button>
             </div>

@@ -5,7 +5,7 @@ storiesOf('Person', module)
     .add('with name & share', () => (
         <Person name="Mike" share="55"/>
     ))
-    .add('with validation errors', ()=> {
+    .add('with validation errors (direct)', ()=> {
         const props = {
             name: 'Mike',
             share: '55',
