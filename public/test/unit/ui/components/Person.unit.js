@@ -3,7 +3,7 @@ import { shallow } from 'enzyme';
 import Person from '../../../../src/components/Person'
 import { getFlatValidationErrors } from '../../../../src/components/Person'
 
-describe("<Person />", ()=> {
+describe("UNIT / Components / <Person />", ()=> {
 
     const defaultProps = {
         name: 'Mike',
