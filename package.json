@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "storybook": "node_modules/.bin/start-storybook.cmd -p 9001",
     "test": "npm run test:api:unit && npm run test:api:integration && npm run test:client:unit && npm run test:client:integration",
     "test:client:integration": "node --harmony node_modules/karma/bin/karma start --single-run",
     "test:client:integration:dev": "node --harmony node_modules/karma/bin/karma start",
