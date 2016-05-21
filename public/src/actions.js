@@ -1,5 +1,7 @@
 import interchange from './core/interface'
 
+import * as validation from '../src/core/validation';
+
 export const REMOVE_PRODUCT = 'REMOVE_PRODUCT';
 export const NEW_PRODUCT = 'NEW_PRODUCT';
 export const CHANGE_PRODUCT = 'CHANGE_PRODUCT';
@@ -51,10 +53,24 @@ export function newPerson() {
 }
 
 export function changePerson(id, values) {
+
+    // todo
+    // return (dispatch, getState)=> {
+    //
+    //     dispatch({
+    //         type: CHANGE_PERSON,
+    //         id,
+    //         values
+    //     });
+    //
+    //     const validationResult = validation.validatePersons(getState().persons);
+    //
+    // };
+
     return {
-        type: CHANGE_PERSON,
-        id,
-        values
+       type: CHANGE_PERSON,
+       id,
+       values
     }
 }
 
