@@ -4,6 +4,7 @@ import {
     validateOnePerson,
     validateProducts,
     validateOneProduct,
+    validateProductName,
     validateProductPrice,
     trimObjectFromEmptyArrays
 } from '../../../src/core/validation'
@@ -267,6 +268,46 @@ describe("UNIT / Core / Validation", ()=> {
 
 
 
+    });
+
+    describe("validateProductName()", ()=> {
+
+        it(`should return [] if all is correct`, () => {
+
+            const actual = validateProductName('Some name');
+
+            const expected = [];
+
+            expect(actual).to.eql(expected);
+
+        });
+
+        it(`should allow empty name`, () => {
+
+            const actual = validateProductName('');
+
+            const expected = [];
+
+            expect(actual).to.eql(expected);
+
+        });
+
+        given(
+            null,
+            undefined,
+            {},
+            false,
+            true
+        ).it(`should allow only string`, (example) => {
+
+            const actual = validateProductName(example);
+
+            const expected = [`Product name can be only a string. Got ${typeof example} instead`];
+
+            expect(actual).to.eql(expected);
+
+        });
+        
     });
 
     describe("#validateProductPrice()", ()=> {

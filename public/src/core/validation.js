@@ -113,6 +113,18 @@ const validateOneProduct = function (product) {
     
 };
 
+const validateProductName = function (name) {
+
+    let result = [];
+
+    if (typeof name != 'string') {
+        result.push(`Product name can be only a string. Got ${typeof name} instead`);
+    }
+
+    return result;
+    
+};
+
 /**
  *
  * @param {string || number} price
@@ -147,6 +159,7 @@ export {
     validateOnePerson,
     trimObjectFromEmptyArrays,
     validateOneProduct,
-    validateProductPrice
+    validateProductPrice,
+    validateProductName
 };
 export default validate;
