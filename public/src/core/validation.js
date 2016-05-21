@@ -107,11 +107,46 @@ const validateProducts = function (products) {
 
 };
 
+const validateOneProduct = function (product) {
+
+    
+    
+};
+
+/**
+ *
+ * @param {string || number} price
+ * @returns {Array}
+ */
+const validateProductPrice = function (price) {
+
+    let result = [];
+
+    let priceInt = parseInt(price);
+
+    if (typeof price != 'string' && typeof price != 'number'){
+        result.push(`Price can be only String or Number. Got ${typeof price} instead`);
+    }
+
+    if (typeof price == 'string' && !price.match(/^[1-9]\d*(\.\d+)?$/)) {
+        result.push(`Price allows only digits & dots`);
+    }
+
+    if (priceInt < 0){
+        result.push(`Price allows only positive numbers and zero`);
+    }
+
+    return result;
+
+};
+
 export {
     validate,
     validatePersons,
     validateProducts,
     validateOnePerson,
-    trimObjectFromEmptyArrays
+    trimObjectFromEmptyArrays,
+    validateOneProduct,
+    validateProductPrice
 };
 export default validate;

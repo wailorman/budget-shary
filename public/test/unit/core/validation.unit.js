@@ -3,7 +3,8 @@ import {
     validatePersons,
     validateOnePerson,
     validateProducts,
-
+    validateOneProduct,
+    validateProductPrice,
     trimObjectFromEmptyArrays
 } from '../../../src/core/validation'
 import { given } from 'mocha-testdata'
@@ -161,7 +162,7 @@ describe("UNIT / Core / Validation", ()=> {
 
     describe("#validatePersons()", ()=> {
 
-        it(`should return undefined if undefined (no persons) passed`, () => {
+        it(`should return undefined if empty error object (no persons) passed`, () => {
 
             const expected = {
                 persons: [],
@@ -174,7 +175,7 @@ describe("UNIT / Core / Validation", ()=> {
 
         });
 
-        it(`should return undefined if [] (no persons) passed`, () => {
+        it(`should return error object if [] (no persons) passed`, () => {
 
             const expected = {
                 persons: [],
@@ -256,6 +257,87 @@ describe("UNIT / Core / Validation", ()=> {
                 expect(actual).to.include(expected);
 
             });
+
+        });
+
+    });
+
+
+    describe("#validateOneProduct()", ()=> {
+
+
+
+    });
+
+    describe("#validateProductPrice()", ()=> {
+
+        it(`should return [] if no errors`, () => {
+
+            expect(validateProductPrice(100)).to.eql([]);
+
+        });
+
+        given(
+            [ '100',     true  ],
+            [ 100,          true  ],
+            [ false,        false ],
+            [ true,         false ],
+            [ {},           false ]
+        ).it(`should allow only strings & numbers`, (price, doesExpectedToBeValid) => {
+
+            const actual = validateProductPrice(price);
+
+            if (doesExpectedToBeValid){
+                assert(actual.length === 0, `Got '${actual}' instead`);
+            }else{
+                expect(actual.length).to.eql(1);
+                
+                expect(actual[0]).to.match(new RegExp(`can be only String or Number`));
+                expect(actual[0]).to.match(new RegExp(`Got ${typeof price} instead`));
+            }
+
+        });
+
+        given(
+            [ '100', true ],
+            [ '100.1', true ],
+            [ '100.100', true ],
+            [ '0100', false ],
+            [ '0100.10', false ],
+            [ '100.', false ],
+            [ '.', false ],
+            [ '.10', false ]
+        ).it(`should allow only string w/ decimal numbers`, (price, doesExpectedToBeValid) => {
+
+            const actual = validateProductPrice(price);
+
+            if (doesExpectedToBeValid){
+                expect(actual.length).to.eql(0);
+            }else{
+                expect(actual.length).to.eql(1);
+
+                expect(actual[0]).to.match(new RegExp(`allows only digits & dots`));
+            }
+            
+        });
+
+        given(
+            [ -1, false ],
+            [ -10, false ],
+            [ 0, true ],
+            [ 1, true ],
+            [ 10, true ]
+        ).it(`should allow only 0 <= x numbers`, (price, doesExpectedToBeValid) => {
+
+            const actual = validateProductPrice(price);
+
+            if (doesExpectedToBeValid){
+                expect(actual.length).to.eql(0);
+            }else{
+                expect(actual.length).to.eql(1);
+
+                expect(actual[0]).to.match(new RegExp(`allows only positive numbers and zero`));
+            }
 
         });
 
