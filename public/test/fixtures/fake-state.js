@@ -74,4 +74,24 @@ export const fakeStateCase1WithTransactions = { // case1
     ]
 };
 
+export const fakeStateForValidation1 = {
+    persons: [
+        { id: '0',  name: 'Chris',  share: '25' },      // normal
+        { id: 1,    name: 'Shary',  share: '25' },      // should accept number id
+        {           name: 'Mike',   share: '25' },      // missing id
+        { id: '3',  name: '',       share: '25' },      // empty name
+        { id: '3',  name: '',       share: '25' },      // share can be 0
+        { id: '4',  name: 'Mike',   share: '-10' },     // share can't be negative
+        { id: '5',  name: 'Jack' }                      // share missing
+    ],
+    products: [
+        { id: '0',  name: 'Potato',  price: '25' },     // normal
+        { id: 1,    name: 'Chips',  price: '25' },      // should accept number id
+        {           name: 'Juice',   price: '25' },     // missing id
+        { id: '3',  name: '',       price: '25' },      // empty name
+        { id: '4',  name: 'Cigar',   price: '-10' },    // price can't be negative
+        { id: '5',  name: 'Milk' }                      // price missing
+    ]
+};
+
 export default fakeState;
