@@ -103,9 +103,19 @@ const validatePersons = function (persons = []) {
 
 };
 
-const validateProducts = function (products) {
+const validateProducts = function (products, deps = {}) {
+
+    // for mocking
+    _.defaults(deps, {validateProductName, validateProductPrice});
+
+    return {
+        products: _.chain(products).map((product) => deps.validateOneProduct(product)).flatten().value(),
+        common: []
+    };
 
 };
+
+// todo: product ID validation
 
 const validateOneProduct = function (product, deps = {}) {
 

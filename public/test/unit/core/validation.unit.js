@@ -267,8 +267,63 @@ describe("UNIT / Core / Validation", ()=> {
 
 
     describe("#validateProducts()", ()=> {
+
+        let sandbox, deps;
+
+        beforeEach(()=> {
+
+            sandbox = sinon.sandbox.create();
+
+            deps = {
+                validateOneProduct: sandbox.stub()
+            };
+
+        });
+
+        afterEach(()=> {
+            sandbox.restore();
+        });
         
+        it(`should return { products: [], common: [] } if all is correct`, () => {
+
+            let products = [];
+
+            const actual = validateProducts(products, deps);
+
+            const expected = { products: [], common: [] };
+
+            expect(actual).to.eql(expected);
+
+        });
         
+        it(`should call validateOneProduct for each product`, () => {
+
+            let products = [
+
+                {id: '0',        name: 'Potato',         price: '10'},
+                {id: '1',        name: 'Potato',         price: '11'},
+                {id: '2',        name: 'Potato',         price: '12'},
+                {id: '3',        name: 'Potato',         price: '13'},
+                {id: '4',        name: 'Potato',         price: '14'}
+
+            ];
+
+            deps.validateOneProduct
+                .withArgs({id: sinon.match.any, name: 'Potato', price: sinon.match.any})
+                .returns([]);
+
+            const actual = validateProducts(products, deps);
+
+            expect(deps.validateOneProduct.callCount).to.eql(5);
+            expect(deps.validateOneProduct.getCall(0).args[0].id).to.eql('0');
+            expect(deps.validateOneProduct.getCall(0).args[0].price).to.eql('10');
+
+            expect(deps.validateOneProduct.getCall(4).args[0].id).to.eql('4');
+            expect(deps.validateOneProduct.getCall(4).args[0].price).to.eql('14');
+
+            expect(actual).to.eql({ products: [], common: [] });
+
+        });
         
     });
     
