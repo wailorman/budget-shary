@@ -260,37 +260,48 @@ describe("UNIT / Core / Validation", ()=> {
             });
 
         });
+        
+        // todo .products
 
     });
 
 
+    describe("#validateProducts()", ()=> {
+        
+        
+        
+    });
+    
     describe("#validateOneProduct()", ()=> {
 
-        it(`should return {name: [], price: []} if all fields are correct`, () => {
+        let sandbox, deps;
 
-            const actual = validateOneProduct({name: 'Potato', price: '100'});
+        beforeEach(()=> {
 
-            const expected = {name: [], price: []};
+            sandbox = sinon.sandbox.create();
 
-            expect(actual).to.eql(expected);
-
-        });
-
-        it(`should let know about name errors`, () => {
-
-            const actual = validateOneProduct({price: '100'});
-
-            const expected = {name: [`Product name can be only a string. Got undefined instead`], price: []};
-
-            expect(actual).to.eql(expected);
+            deps = {
+                validateProductName: sandbox.stub(),
+                validateProductPrice: sandbox.stub()
+            };
 
         });
 
-        it(`should let know about price errors`, () => {
+        afterEach(()=> {
+            sandbox.restore();
+        });
 
-            const actual = validateOneProduct({name: 'Potato', price: -100});
+        it(`should call validateProductName & validateProductPrice and return their's result`, () => {
 
-            const expected = {name: [], price: [`Price allows only positive numbers and zero`]};
+            deps.validateProductName.withArgs('Onion').returns(['Some name err']);
+            deps.validateProductPrice.withArgs('50').returns(['Some price err']);
+
+            const actual = validateOneProduct({name: 'Onion', price: '50'}, deps);
+
+            const expected = {
+                name: ['Some name err'],
+                price: ['Some price err']
+            };
 
             expect(actual).to.eql(expected);
 

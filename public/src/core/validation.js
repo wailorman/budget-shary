@@ -107,11 +107,14 @@ const validateProducts = function (products) {
 
 };
 
-const validateOneProduct = function (product) {
+const validateOneProduct = function (product, deps = {}) {
 
+    // for mocking
+    _.defaults(deps, {validateProductName, validateProductPrice});
+    
     return {
-        name: validateProductName(product.name),
-        price: validateProductPrice(product.price)
+        name: deps.validateProductName(product.name),
+        price: deps.validateProductPrice(product.price)
     };
     
 };
