@@ -266,7 +266,35 @@ describe("UNIT / Core / Validation", ()=> {
 
     describe("#validateOneProduct()", ()=> {
 
+        it(`should return {name: [], price: []} if all fields are correct`, () => {
 
+            const actual = validateOneProduct({name: 'Potato', price: '100'});
+
+            const expected = {name: [], price: []};
+
+            expect(actual).to.eql(expected);
+
+        });
+
+        it(`should let know about name errors`, () => {
+
+            const actual = validateOneProduct({price: '100'});
+
+            const expected = {name: [`Product name can be only a string. Got undefined instead`], price: []};
+
+            expect(actual).to.eql(expected);
+
+        });
+
+        it(`should let know about price errors`, () => {
+
+            const actual = validateOneProduct({name: 'Potato', price: -100});
+
+            const expected = {name: [], price: [`Price allows only positive numbers and zero`]};
+
+            expect(actual).to.eql(expected);
+
+        });
 
     });
 

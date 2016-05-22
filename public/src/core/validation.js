@@ -109,7 +109,10 @@ const validateProducts = function (products) {
 
 const validateOneProduct = function (product) {
 
-    
+    return {
+        name: validateProductName(product.name),
+        price: validateProductPrice(product.price)
+    };
     
 };
 
