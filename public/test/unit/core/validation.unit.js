@@ -163,6 +163,8 @@ describe("UNIT / Core / Validation", ()=> {
 
     describe("#validatePersons()", ()=> {
 
+        // todo: Should return smth like null if person has no errors
+
         it(`should return undefined if empty error object (no persons) passed`, () => {
 
             const expected = {
@@ -223,6 +225,25 @@ describe("UNIT / Core / Validation", ()=> {
 
     describe("#validate()", ()=> {
 
+        let sandbox, deps;
+
+        beforeEach(()=> {
+
+            sandbox = sinon.sandbox.create();
+
+            deps = {
+                validatePersons: sandbox.stub(),
+                validateProducts: sandbox.stub()
+            };
+
+        });
+
+        afterEach(()=> {
+            sandbox.restore();
+        });
+
+
+
         describe(".persons", ()=> {
 
             it(`should notice about invalid share setting`, () => {
@@ -260,8 +281,72 @@ describe("UNIT / Core / Validation", ()=> {
             });
 
         });
-        
-        // todo .products
+
+        describe(".products", ()=> {
+
+            it(`should return validateProducts() result`, () => {
+
+                const products = [
+                    {id: '1', name: 'Water', price: '50'}
+                ];
+
+                deps.validateProducts.withArgs(products).returns({
+                    products: [],
+                    common: []
+                });
+
+                const actual = validate({products}, deps);
+
+                const expected = {
+                    products: [],
+                    common: []
+                };
+
+                expect(actual).to.eql(expected);
+
+            });
+
+        });
+
+        it(`should merge .products & .persons results correctly`, () => {
+
+            const state = {
+                products: [
+                    {id: '1', name: 'Water', price: '50'}
+                ],
+                persons: [
+                    {id: '1', name: 'Mike', share: '100'}
+                ]
+            };
+
+            deps.validateProducts.withArgs(state.products).returns({
+                products: [ { name: 'Some product name error' } ],
+                common: [ 'Smth goes wrong in whole products' ]
+            });
+
+            deps.validatePersons.withArgs(state.persons).returns({
+                persons: [ { share: 'Share is wrong!' } ],
+                common: [ 'sum(Share) != 100' ]
+            });
+
+            const actual = validate(state, deps);
+
+            const expected = {
+                products: [
+                    { name: 'Some product name error' }
+                ],
+                persons: [
+                    { share: 'Share is wrong!' }
+                ],
+                common: [
+                    'sum(Share) != 100',
+                    'Smth goes wrong in whole products'
+                ]
+            };
+
+            expect(actual).to.eql(expected);
+
+        });
 
     });
 
@@ -283,7 +368,9 @@ describe("UNIT / Core / Validation", ()=> {
         afterEach(()=> {
             sandbox.restore();
         });
-        
+
+        // todo: Should return smth like null if product has no errors
+
         it(`should return { products: [], common: [] } if all is correct`, () => {
 
             let products = [];

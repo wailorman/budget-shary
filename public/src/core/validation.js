@@ -1,10 +1,21 @@
-const validate = function (state) {
+const validate = function (state, deps = {}) {
 
+    // for mocking
+    _.defaults(deps, {validatePersons, validateProducts});
+    
     let result = {};
 
-    const personsValidationResult = validatePersons(state.persons);
+    const personsValidationResult = deps.validatePersons(state.persons);
+    const productsValidationResult = deps.validateProducts(state.products);
 
-    return _.merge(result, personsValidationResult);
+    return _.mergeWith(result, personsValidationResult, productsValidationResult, (objVal, srcVal)=> {
+
+        // _.merge() can't correctly merge object with array values (to merge their arrays)
+        if (_.isArray(objVal)) {
+            return objVal.concat(srcVal);
+        }
+
+    });
 
 };
 
