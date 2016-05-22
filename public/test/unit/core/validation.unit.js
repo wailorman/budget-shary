@@ -157,6 +157,16 @@ describe("UNIT / Core / Validation", ()=> {
 
             });
 
+            it(`should accept 0 share`, () => {
+
+                const persons = {id: '1', name: 'One', share: '0'};
+
+                const actual = validateOnePerson(persons);
+
+                assert(actual.share.length == 0, `Actual errors array: ${actual.share}`);
+
+            });
+
         });
 
     });
