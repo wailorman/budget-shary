@@ -1,9 +1,15 @@
 import { storiesOf, action } from '@kadira/storybook';
 import Person from '../../src/components/Person'
+import { changePerson, removePerson } from '../../src/actions'
+
+const callbacks = {
+    changePerson: action(changePerson('1')),
+    removePerson: action(removePerson('1'))
+};
 
 storiesOf('Person', module)
     .add('with name & share', () => (
-        <Person name="Mike" share="55"/>
+        <Person name="Mike" share="55" {...callbacks}/>
     ))
     .add('with validation errors (direct)', ()=> {
         const props = {
@@ -18,5 +24,5 @@ storiesOf('Person', module)
                 ]
             }
         };
-        return (<Person {...props}/>);
+        return (<Person {...props} {...callbacks}/>);
     });
