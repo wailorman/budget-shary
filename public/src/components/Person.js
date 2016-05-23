@@ -55,13 +55,15 @@ const Person = React.createClass({
 
                 <input
                     className="Person__share-input"
+                    size="3"
                     type="text"
                     ref="share"
                     placeholder="Share"
                     value={this.props.share}
                     onChange={this.onChange}
-                />
+                />%
 
+                &nbsp;
                 <button className="Person__remove-button" onClick={this.onRemove}>
                     x
                 </button>
