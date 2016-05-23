@@ -17,26 +17,26 @@ export const defaultState = {
         {id: '_3', name: 'Mike', share: '10'}
     ],
     products: [
-        {id: '1', name: '',     price: '45',    ownerId: '_1'},
-        {id: '2', name: '',     price: '234',   ownerId: '_1'},
-        {id: '3', name: '',     price: '12',    ownerId: '_1'},
-        {id: '4', name: '',     price: '89',    ownerId: '_1'},
-        {id: '5', name: '',     price: '65',    ownerId: '_1'},
-        {id: '6', name: '',     price: '234',   ownerId: '_1'},
+        {id: '_1', name: '',     price: '45',    ownerId: '_1'},
+        {id: '_2', name: '',     price: '234',   ownerId: '_1'},
+        {id: '_3', name: '',     price: '12',    ownerId: '_1'},
+        {id: '_4', name: '',     price: '89',    ownerId: '_1'},
+        {id: '_5', name: '',     price: '65',    ownerId: '_1'},
+        {id: '_6', name: '',     price: '234',   ownerId: '_1'},
 
-        {id: '7', name: '',     price:  '345',  ownerId: '_2'},
-        {id: '8', name: '',     price:  '234',  ownerId: '_2'},
-        {id: '9', name: '',     price:  '890',  ownerId: '_2'},
-        {id: '10', name: '',    price: '1234',  ownerId: '_2'},
-        {id: '11', name: '',    price: '671',   ownerId: '_2'},
-        {id: '12', name: '',    price: '55',    ownerId: '_2'},
-        {id: '13', name: '',    price: '176',   ownerId: '_2'},
-        {id: '14', name: '',    price: '1876',  ownerId: '_2'},
+        {id: '_7', name: '',     price:  '345',  ownerId: '_2'},
+        {id: '_8', name: '',     price:  '234',  ownerId: '_2'},
+        {id: '_9', name: '',     price:  '890',  ownerId: '_2'},
+        {id: '_10', name: '',    price: '1234',  ownerId: '_2'},
+        {id: '_11', name: '',    price: '671',   ownerId: '_2'},
+        {id: '_12', name: '',    price: '55',    ownerId: '_2'},
+        {id: '_13', name: '',    price: '176',   ownerId: '_2'},
+        {id: '_14', name: '',    price: '1876',  ownerId: '_2'},
 
-        {id: '15', name: '',    price: '504',   ownerId: '_3'},
-        {id: '16', name: '',    price: '646',   ownerId: '_3'},
-        {id: '17', name: '',    price: '756',   ownerId: '_3'},
-        {id: '18', name: '',    price: '50',    ownerId: '_3'}
+        {id: '_15', name: '',    price: '504',   ownerId: '_3'},
+        {id: '_16', name: '',    price: '646',   ownerId: '_3'},
+        {id: '_17', name: '',    price: '756',   ownerId: '_3'},
+        {id: '_18', name: '',    price: '50',    ownerId: '_3'}
     ],
     transactions: [],
     errors: {}
@@ -101,6 +101,15 @@ export function personsReducer(personsState = defaultState.persons, action) {
             return personsState;
     }
 
+}
+
+export function commonReducer(commonState = {}, action = {}) {
+    
+    switch (action.type) {
+        default:
+            return commonState;
+    }
+    
 }
 
 // todo: Substitute default state to []
