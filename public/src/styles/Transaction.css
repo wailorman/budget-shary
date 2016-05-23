@@ -12,12 +12,14 @@
         font-size: 2rem;
         text-align: center;
         flex-grow: 2;
+        width: 30px;
     }
 
     .Transaction__to {
         font-size: 2rem;
         text-align: center;
         flex-grow: 2;
+        width: 30px;
     }
 
 
