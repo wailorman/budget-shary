@@ -1,3 +1,5 @@
+import ValidationErrorsList from './ValidationErrorsList'
+
 const Product = React.createClass({
     propTypes: {
         name: React.PropTypes.string,
@@ -27,8 +29,12 @@ const Product = React.createClass({
     render: function () {
         return (
             <div className="Product">
+
+                <ValidationErrorsList errors={this.props.validationErrors} />
+
                 <input
                     className="Product__name-input"
+                    size="17"
                     type="text"
                     ref="name"
                     value={this.props.name}
@@ -37,6 +43,7 @@ const Product = React.createClass({
 
                 <input
                     className="Product__price-input"
+                    size="5"
                     type="text"
                     ref="price"
                     value={this.props.price}
