@@ -47,7 +47,7 @@ describe("UNIT / Core / Utils", ()=> {
         sandbox.restore();
     });
 
-    describe("totalExpenses", ()=> {
+    describe("#totalExpenses()", ()=> {
 
         it(`should calculate expenses of all persons`, () => {
 
@@ -59,7 +59,7 @@ describe("UNIT / Core / Utils", ()=> {
 
     });
 
-    describe("ownExpenses", ()=> {
+    describe("#ownExpenses()", ()=> {
 
         it(`should calculate expenses for specific person`, () => {
 
@@ -72,7 +72,7 @@ describe("UNIT / Core / Utils", ()=> {
 
     });
 
-    describe("shareInMonetary", ()=> {
+    describe("#shareInMonetary()", ()=> {
 
         it(`should return share in monetary equivalent`, () => {
 
@@ -82,7 +82,7 @@ describe("UNIT / Core / Utils", ()=> {
 
     });
 
-    describe("createTransaction", ()=> {
+    describe("#createTransaction()", ()=> {
 
         it(`should create simple transaction`, () => {
 
@@ -126,7 +126,7 @@ describe("UNIT / Core / Utils", ()=> {
 
     });
 
-    describe("validateTransactionMembers", ()=> {
+    describe("#validateTransactionMembers()", ()=> {
 
         const personsArray = [
             {id: 1},
@@ -192,7 +192,7 @@ describe("UNIT / Core / Utils", ()=> {
 
     });
 
-    describe("generateTransaction", ()=> {
+    describe("#generateTransaction()", ()=> {
 
         const {persons} = fakeState;
 
@@ -251,7 +251,7 @@ describe("UNIT / Core / Utils", ()=> {
 
     });
 
-    describe("generateTransactionWithFunds", ()=> {
+    describe("#generateTransactionWithFunds()", ()=> {
 
         it(`should generate transaction with fundsBefore & fundsAfter`, () => {
 
@@ -280,7 +280,7 @@ describe("UNIT / Core / Utils", ()=> {
 
     });
 
-    describe("getFundsForAllPersons", ()=> {
+    describe("#getFundsForAllPersons()", ()=> {
 
         it(`should calculate funds before interchange`, () => {
 
@@ -337,7 +337,7 @@ describe("UNIT / Core / Utils", ()=> {
 
     });
 
-    describe("tryTransaction", ()=> {
+    describe("#tryTransaction()", ()=> {
 
         given(
             [100, 100, 0],
@@ -376,7 +376,7 @@ describe("UNIT / Core / Utils", ()=> {
 
     });
 
-    describe("transactionsTotal", ()=> {
+    describe("#transactionsTotal()", ()=> {
 
         const state = {
             transactions: [
@@ -439,7 +439,7 @@ describe("UNIT / Core / Utils", ()=> {
 
     });
 
-    describe("getFunds", ()=> {
+    describe("#getFunds()", ()=> {
 
         describe("w/out transactions", ()=> {
 
@@ -493,7 +493,7 @@ describe("UNIT / Core / Utils", ()=> {
 
     });
 
-    describe("splitToNegativeAndPositive", ()=> {
+    describe("#splitToNegativeAndPositive()", ()=> {
 
         it(`Jack should be in positive group`, () => {
 
@@ -544,7 +544,7 @@ describe("UNIT / Core / Utils", ()=> {
 
     });
 
-    describe("proceedInterchange", ()=> {
+    describe("#proceedInterchange()", ()=> {
 
         it(`should return correct new state`, () => {
 
@@ -572,7 +572,7 @@ describe("UNIT / Core / Utils", ()=> {
 
     });
 
-    describe("humanifyTransactions", ()=> {
+    describe("#humanifyTransactions()", ()=> {
 
         it(`should convert transaction members ids to names`, () => {
 
