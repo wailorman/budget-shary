@@ -395,3 +395,10 @@ export const humanifyTransactions = function (state) {
     return newState;
 
 };
+
+export const getFlatValidationErrors = function (validationErrorsObject = {}) {
+
+    const allMessagesArray = _(validationErrorsObject).values().compact().value();
+    return _.flatten(allMessagesArray);
+
+};
