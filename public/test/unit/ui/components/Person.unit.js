@@ -1,7 +1,6 @@
 import React from 'react'
 import { shallow } from 'enzyme';
 import Person from '../../../../src/components/Person'
-import { getFlatValidationErrors } from '../../../../src/components/Person'
 
 describe("UNIT / Components / <Person />", ()=> {
 
@@ -59,85 +58,10 @@ describe("UNIT / Components / <Person />", ()=> {
 
         const { wrapper } = setup(props);
 
-        const validationErrorsBlock = wrapper.find('.Person__validationErrors');
+        const ValidationErrorsListBlock = wrapper.find('ValidationErrorsList');
 
-        expect(validationErrorsBlock.length).to.eql(1);
-        expect(validationErrorsBlock.children().length).to.eql(4);
-
-    });
-
-    describe("#getFlatValidationErrors()", ()=> {
-
-        it(`should return flat array of error messages`, () => {
-
-            const errorsObject = {
-                id: [
-                    'ID missing',
-                    'Another ID'
-                ],
-                name: [
-                    'Name is invalid',
-                    'Strange Name'
-                ],
-                share: [
-                    'Share should be between 0..100',
-                    'Share should contain only digits and dots'
-                ]
-            };
-
-            const expected = [
-                'ID missing',
-                'Another ID',
-                'Name is invalid',
-                'Strange Name',
-                'Share should be between 0..100',
-                'Share should contain only digits and dots'
-            ];
-
-            const actual = getFlatValidationErrors(errorsObject);
-
-            expect(actual).to.eql(expected);
-
-        });
-
-        it(`should works properly if some of `, () => {
-
-            const errorsObject = {
-                id: [
-                    'ID missing',
-                    'Another ID'
-                ],
-                name: [
-                    'Name is invalid',
-                    'Strange Name'
-                ],
-                share: undefined
-            };
-
-            const expected = [
-                'ID missing',
-                'Another ID',
-                'Name is invalid',
-                'Strange Name'
-            ];
-
-            const actual = getFlatValidationErrors(errorsObject);
-
-            expect(actual).to.eql(expected);
-
-        });
-        
-        it(`should return empty array if errors === undefined`, () => {
-
-            const errorsObject = undefined;
-
-            const expected = [];
-
-            const actual = getFlatValidationErrors(errorsObject);
-
-            expect(actual).to.eql(expected);
-
-        });
+        expect(ValidationErrorsListBlock.length).to.eql(1);
+        expect(ValidationErrorsListBlock.props().errors).to.eql(props.validationErrors);
 
     });
 

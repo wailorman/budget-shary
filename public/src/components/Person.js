@@ -1,3 +1,5 @@
+import ValidationErrorsList from './ValidationErrorsList'
+
 import '../styles/Person.css'
 
 const Person = React.createClass({
@@ -29,20 +31,10 @@ const Person = React.createClass({
 
     render: function () {
 
-        const validationErrorsMessages = getFlatValidationErrors(this.props.validationErrors)
-            .map((errorMessage, index)=> {
-                return (
-                    <div key={index} className="Person__validationErrorMessage">
-                        {errorMessage}
-                    </div>
-                );
-            });
-
         return (
             <div className="Person">
-                <div className="Person__validationErrors">
-                    {validationErrorsMessages}
-                </div>
+                
+                <ValidationErrorsList errors={this.props.validationErrors} />
 
                 <input
                     className="Person__name-input"
@@ -71,12 +63,5 @@ const Person = React.createClass({
         );
     }
 });
-
-export const getFlatValidationErrors = function (validationErrorsObject = {}) {
-
-    const allMessagesArray = _(validationErrorsObject).values().compact().value();
-    return _.flatten(allMessagesArray);
-
-};
 
 export default Person;
