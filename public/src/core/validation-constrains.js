@@ -17,6 +17,21 @@ const product = {
     }
 };
 
+const person = {
+    name: {
+        presence: true
+    },
+    share: {
+        presence: true,
+        numericality: {
+            greaterThanOrEqualTo: 0,
+            lessThanOrEqualTo: 100,
+            message: 'must satisfy expression 0 <= x <= 100'
+        }
+    }
+};
+
 export {
-    product
+    product,
+    person
 };
