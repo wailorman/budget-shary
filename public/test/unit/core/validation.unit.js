@@ -10,7 +10,7 @@ import {
 } from '../../../src/core/validation'
 import { given } from 'mocha-testdata'
 
-describe("UNIT / Core / Validation", ()=> {
+xdescribe("UNIT / Core / Validation", ()=> {
 
     describe("#trimObjectsFromEmptyArrays", ()=> {
 
