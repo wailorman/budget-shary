@@ -283,5 +283,58 @@ describe("UNIT / Core / Validation Constrains", ()=> {
         });
         
     });
+
+    describe("common", ()=> {
+
+        describe(".shareSum", ()=> {
+
+            const shareSumConstrains = constrains.common.shareSum;
+
+            it(`should accept empty shareSum`, () => {
+
+                const shareSum = '';
+
+                const actual = validate({ shareSum }, {shareSum: shareSumConstrains});
+
+                const expected = undefined;
+
+                expect(actual).to.eql(expected);
+
+            });
+
+            it(`should accept 100 share sum`, () => {
+
+                const shareSum = 100;
+
+                const actual = validate({ shareSum }, {shareSum: shareSumConstrains});
+
+                const expected = undefined;
+
+                expect(actual).to.eql(expected);
+                
+            });
+
+            given(
+                50,
+                99.9,
+                100.1,
+                150
+            ).it(`should not accept`, (shareSum) => {
+
+                const actual = validate({ shareSum }, {shareSum: shareSumConstrains});
+
+                const expected = {
+                    shareSum: [
+                        `Share sum should be equal to 100, not ${shareSum}`
+                    ]
+                };
+
+                expect(actual).to.eql(expected);
+
+            });
+            
+        });
+        
+    });
     
 });

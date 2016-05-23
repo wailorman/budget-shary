@@ -31,7 +31,26 @@ const person = {
     }
 };
 
+const common = {
+    shareSum: {
+        numericality: {
+            equalTo: 100,
+            message: '^Share sum should be equal to 100, not %{value}'
+        }
+    }
+};
+
+const allConstrains = {
+    persons: person,
+    products: product,
+    common
+};
+
 export {
     product,
-    person
+    person,
+    common,
+    allConstrains
 };
+
+export default allConstrains;
