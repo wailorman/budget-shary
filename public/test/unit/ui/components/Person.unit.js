@@ -100,6 +100,45 @@ describe("UNIT / Components / <Person />", ()=> {
 
         });
 
+        it(`should works properly if some of `, () => {
+
+            const errorsObject = {
+                id: [
+                    'ID missing',
+                    'Another ID'
+                ],
+                name: [
+                    'Name is invalid',
+                    'Strange Name'
+                ],
+                share: undefined
+            };
+
+            const expected = [
+                'ID missing',
+                'Another ID',
+                'Name is invalid',
+                'Strange Name'
+            ];
+
+            const actual = getFlatValidationErrors(errorsObject);
+
+            expect(actual).to.eql(expected);
+
+        });
+        
+        it(`should return empty array if errors === undefined`, () => {
+
+            const errorsObject = undefined;
+
+            const expected = [];
+
+            const actual = getFlatValidationErrors(errorsObject);
+
+            expect(actual).to.eql(expected);
+
+        });
+
     });
 
 });

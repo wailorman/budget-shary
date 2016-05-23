@@ -86,7 +86,7 @@ const Person = React.createClass({
 
 export const getFlatValidationErrors = function (validationErrorsObject = {}) {
 
-    const allMessagesArray = _.values(validationErrorsObject);
+    const allMessagesArray = _(validationErrorsObject).values().compact().value();
     return _.flatten(allMessagesArray);
 
 };
