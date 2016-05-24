@@ -402,3 +402,15 @@ export const getFlatValidationErrors = function (validationErrorsObject = {}) {
     return _.flatten(allMessagesArray);
 
 };
+
+export const sumAllShares = function (persons) {
+
+    return _.chain(persons)
+        .cloneDeep()
+        .map((person)=> {
+            return parseInt(person.share) || 0;
+        })
+        .sum()
+        .value();
+
+};

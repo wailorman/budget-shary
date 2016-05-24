@@ -18,7 +18,8 @@ import {
     humanifyTransactions,
 
 
-    getFlatValidationErrors
+    getFlatValidationErrors,
+    sumAllShares
 } from '../../../src/core/utils'
 
 import * as coreUtils from '../../../src/core/utils'
@@ -718,6 +719,63 @@ describe("UNIT / Core / Utils", ()=> {
             const expected = [];
 
             const actual = getFlatValidationErrors(errorsObject);
+
+            expect(actual).to.eql(expected);
+
+        });
+
+    });
+
+    describe("#sumAllShares", ()=> {
+
+        it(`should sum shares`, () => {
+
+            const persons = [
+                {
+                    share: '50'
+                },
+                {
+                    share: '50'
+                }
+            ];
+
+            const actual = sumAllShares(persons);
+
+            const expected = 100;
+
+            expect(actual).to.eql(expected);
+
+        });
+
+        it(`should ignore persons who don't have shares`, () => {
+
+            const persons = [
+                {
+                    share: '50'
+                },
+                {
+                    share: '50'
+                },
+                {
+                    name: 'Hey-yo'
+                }
+            ];
+
+            const actual = sumAllShares(persons);
+
+            const expected = 100;
+
+            expect(actual).to.eql(expected);
+
+        });
+
+        it(`should return 0 if no persons`, () => {
+
+            const persons = [];
+
+            const actual = sumAllShares(persons);
+
+            const expected = 0;
 
             expect(actual).to.eql(expected);
 
