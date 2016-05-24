@@ -2,6 +2,8 @@ import { bindActionCreators } from 'redux'
 import PersonContainer from './PersonContainer'
 import TransactionsList from '../components/TransactionsList'
 
+import {getProductsByPersonId} from '../core/components-utils'
+
 import * as actionCreators from '../actions'
 import store from '../store'
 
@@ -23,10 +25,7 @@ const App = React.createClass({
 
         const personContainersList = this.state.persons.map((person)=> {
 
-            const ownProducts = _.filter(
-                this.state.products,
-                (product) => product.ownerId == person.id
-            );
+            const ownProducts = getProductsByPersonId(person.id);
 
             const personContainerProps = {
                 key: person.id,
