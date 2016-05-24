@@ -1,13 +1,19 @@
 import Person from '../components/Person'
 import Product from '../components/Product'
 
+import '../styles/PersonContainer.css'
+
 export const PersonContainer = React.createClass({
+
     propTypes: {
         id: React.PropTypes.string.isRequired,
         name: React.PropTypes.string.isRequired,
         share: React.PropTypes.string.isRequired,
 
         ownProducts: React.PropTypes.arrayOf(React.PropTypes.object),
+
+        personErrors: React.PropTypes.object,
+        productsErrors: React.PropTypes.array,
 
         changePerson: React.PropTypes.func.isRequired,
         removePerson: React.PropTypes.func.isRequired,
@@ -17,6 +23,32 @@ export const PersonContainer = React.createClass({
         newProduct: React.PropTypes.func.isRequired
     },
 
+    getDefaultProps(){
+        return {
+            id: '',
+            name: '',
+            share: '',
+            
+            ownProducts: [],
+            
+            personErrors: {},
+            productsErrors: [],
+            
+            changePerson(){},
+            removePerson(){},
+            
+            changeProduct(){},
+            removeProduct(){},
+            newProduct(){}
+        };
+    },
+    
+    onNewProductClick(){
+
+        const personId = this.props.id;
+
+        this.props.newProduct(personId);
+    },
 
     render() {
 
@@ -43,22 +75,25 @@ export const PersonContainer = React.createClass({
 
         });
 
-        const newProductButton = (
-            <button
-                className="Products__new-product"
-                onClick={this.props.newProduct.bind(null, this.props.id)}
-            >
-                New product
-            </button>
-        );
-
         return (
             <div className="PersonContainer">
+
                 <Person {... personProps} />
                 <div className="Products">
+
                     { productsList }
-                    { newProductButton }
+
+                    <button
+                        className="Products__new-product"
+                        onClick={this.onNewProductClick}
+                    >
+                        New product
+                    </button>
+
+
                 </div>
+
+
             </div>
         );
     }
