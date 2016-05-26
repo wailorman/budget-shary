@@ -19,6 +19,10 @@ const ValidationErrorsList = ({errors})=> {
     );
 };
 
+ValidationErrorsList.propTypes = {
+    errors: React.PropTypes.object
+};
+
 export {
     ValidationErrorsList
 };
