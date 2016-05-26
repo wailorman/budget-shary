@@ -10,7 +10,7 @@ export const validateCollection = function (collection, constrains) {
     
 };
 
-export const validate = function (state, deps) {
+export const validate = function (state, deps = {}) {
 
     // for mocking
     _.defaults(deps, {validateCollection, validateJs});
