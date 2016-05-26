@@ -36,11 +36,25 @@ export function newProduct(ownerId) {
 }
 
 export function changeProduct(id, values) {
-    return {
-        type: CHANGE_PRODUCT,
-        id,
-        values
-    }
+
+    return (dispatch, getState)=> {
+
+        const changeProductAction = {
+            type: CHANGE_PRODUCT,
+            id,
+            values
+        };
+
+        dispatch(changeProductAction);
+
+        const validationResult = validate( getState() );
+
+        dispatch(
+            putValidationErrors( validationResult )
+        );
+
+    };
+
 }
 
 
