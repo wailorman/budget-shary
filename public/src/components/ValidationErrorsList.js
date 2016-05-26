@@ -1,4 +1,4 @@
-import {getFlatValidationErrors} from '../core/utils'
+import {getFlatValidationErrors} from '../core/components-utils'
 
 import '../styles/ValidationErrorsList.css'
 

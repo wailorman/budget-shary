@@ -396,13 +396,6 @@ export const humanifyTransactions = function (state) {
 
 };
 
-export const getFlatValidationErrors = function (validationErrorsObject = {}) {
-
-    const allMessagesArray = _(validationErrorsObject).values().compact().value();
-    return _.flatten(allMessagesArray);
-
-};
-
 export const sumAllShares = function (persons) {
 
     return _.chain(persons)

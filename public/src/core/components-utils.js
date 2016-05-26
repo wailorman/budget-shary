@@ -6,3 +6,10 @@ export const getProductsByPersonId = function (personId, products) {
     );
 
 };
+
+export const getFlatValidationErrors = function (validationErrorsObject = {}) {
+
+    const allMessagesArray = _(validationErrorsObject).values().compact().value();
+    return _.flatten(allMessagesArray);
+
+};
