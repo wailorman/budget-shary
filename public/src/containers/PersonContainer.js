@@ -52,25 +52,21 @@ export const PersonContainer = React.createClass({
 
     render() {
 
-        const personProps = {
-            name: this.props.name,
-            share: this.props.share,
-            changePerson: this.props.changePerson.bind(null, this.props.id),
-            removePerson: this.props.removePerson.bind(null, this.props.id)
-        };
+        const productsList = this.props.ownProducts.map((product, index)=> {
 
-        const productsList = this.props.ownProducts.map((product)=> {
-
-            const productProps = {
-                key: product.id,
-
-                ...product,
-                changeProduct: this.props.changeProduct.bind(null, product.id),
-                removeProduct: this.props.removeProduct.bind(null, product.id)
-            };
+            const validationErrors = this.props.productsErrors[index];
 
             return (
-                <Product {... productProps} />
+                <Product
+                    key={product.id}
+
+                    {... product}
+
+                    validationErrors={validationErrors}
+
+                    changeProduct={this.props.changeProduct.bind(null, product.id)}
+                    removeProduct={this.props.removeProduct.bind(null, product.id)}
+                />
             );
 
         });
@@ -78,7 +74,17 @@ export const PersonContainer = React.createClass({
         return (
             <div className="PersonContainer">
 
-                <Person {... personProps} />
+                <Person
+                    name={this.props.name}
+                    share={this.props.share}
+
+                    validationErrors={this.props.personErrors}
+
+                    changePerson={this.props.changePerson.bind(null, this.props.id)}
+                    removePerson={this.props.removePerson.bind(null, this.props.id)}
+                />
+
+
                 <div className="Products">
 
                     { productsList }
