@@ -5,7 +5,8 @@ const Product = React.createClass({
         name: React.PropTypes.string,
         price: React.PropTypes.string,
         changeProduct: React.PropTypes.func,
-        removeProduct: React.PropTypes.func
+        removeProduct: React.PropTypes.func,
+        validationErrors: React.PropTypes.object
     },
 
     onChange(event){
