@@ -4,10 +4,13 @@ import {
     REMOVE_PERSON, NEW_PERSON, CHANGE_PERSON,
     PROCEED_INTERCHANGE, PUT_INTERCHANGE_RESULTS,
     DISPLAY_INTERCHANGE_ERROR, REMOVE_INTERCHANGE_ERRORS,
-    PUT_PERSONS_ERRORS
+    PUT_PERSONS_ERRORS,
+    UPDATE_SHARE_SUM
 } from './actions'
 
 import { proceedInterchange } from './core/utils'
+
+// todo: >> action = {} ... and test it!
 
 export const defaultState = {
 
@@ -104,8 +107,12 @@ export function personsReducer(personsState = defaultState.persons, action) {
 }
 
 export function commonReducer(commonState = {}, action = {}) {
-    
+    let newCommonState = _.cloneDeep(commonState);
+
     switch (action.type) {
+        case UPDATE_SHARE_SUM:
+            newCommonState.shareSum = action.value || commonState.shareSum;
+            return newCommonState;
         default:
             return commonState;
     }
