@@ -13,7 +13,7 @@ export const store = createStore(
     defaultState,
     compose(
         applyMiddleware(thunk)
-        //window && window.devToolsExtension ? window.devToolsExtension() : function () {}
+        // , window && window.devToolsExtension ? window.devToolsExtension() : function () {}
     )
 );
 
