@@ -42,7 +42,11 @@ export const defaultState = {
         {id: '_18', name: '',    price: '50',    ownerId: '_3'}
     ],
     transactions: [],
-    errors: {}
+    errors: {
+        products: [],
+        persons: [],
+        common: {}
+    }
 
 };
 
