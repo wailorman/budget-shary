@@ -4,7 +4,7 @@ import {
     REMOVE_PERSON, NEW_PERSON, CHANGE_PERSON,
     PROCEED_INTERCHANGE, PUT_INTERCHANGE_RESULTS,
     DISPLAY_INTERCHANGE_ERROR, REMOVE_INTERCHANGE_ERRORS,
-    PUT_PERSONS_ERRORS,
+    PUT_PERSONS_ERRORS, PUT_VALIDATION_ERRORS,
     UPDATE_SHARE_SUM
 } from './actions'
 
@@ -131,10 +131,12 @@ export function transactionsReducer(state = defaultState, action) {
 
 }
 
-export function errorsReducer(state = {}, action) {
+export function errorsReducer(state = {}, action = {}) {
     let newErrorsState = _.cloneDeep(state);
 
     switch (action.type) {
+        case PUT_VALIDATION_ERRORS:
+            return action.errors; // new errors state
         case PUT_PERSONS_ERRORS:
             newErrorsState.persons = action.errors;
             return newErrorsState;

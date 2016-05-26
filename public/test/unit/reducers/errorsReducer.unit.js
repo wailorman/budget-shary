@@ -4,7 +4,8 @@ import { errorsReducer } from '../../../src/reducer'
 import {
     DISPLAY_INTERCHANGE_ERROR,
     REMOVE_INTERCHANGE_ERRORS,
-    PUT_PERSONS_ERRORS
+    PUT_PERSONS_ERRORS,
+    PUT_VALIDATION_ERRORS
 } from '../../../src/actions'
 
 import { fakeState } from '../../fixtures/fake-state'
@@ -70,6 +71,81 @@ describe("UNIT / Reducers / errorsReducer", ()=> {
             const actual = errorsReducer(stateWithPersonsErrorsAlready, action);
 
             expect(actual.persons).to.eql(personsErrors);
+
+        });
+
+    });
+
+    describe("PUT_VALIDATION_ERRORS", ()=> {
+
+        it(`should put first validation error`, () => {
+
+            const validationErrors = {
+                persons: [
+                    undefined,
+                    {
+                        name: ['Some err']
+                    }
+                ]
+            };
+
+            const action = {
+                type: PUT_VALIDATION_ERRORS,
+                errors: validationErrors
+            };
+
+            const actual = errorsReducer({}, action);
+
+            const expected = {
+                persons: [
+                    undefined,
+                    {
+                        name: ['Some err']
+                    }
+                ]
+            };
+
+            expect(actual).to.eql(expected);
+
+        });
+
+        it(`should remove old validation errors`, () => {
+
+            const previousState = {
+                products: [
+                    undefined,
+                    {
+                        price: ['Should be greater than -1']
+                    }
+                ]
+            };
+
+            const validationErrors = {
+                persons: [
+                    undefined,
+                    {
+                        name: ['Some err']
+                    }
+                ]
+            };
+
+            const action = {
+                type: PUT_VALIDATION_ERRORS,
+                errors: validationErrors
+            };
+
+            const actual = errorsReducer(previousState, action);
+
+            const expected = {
+                persons: [
+                    undefined,
+                    {
+                        name: ['Some err']
+                    }
+                ]
+            };
+
+            expect(actual).to.eql(expected);
 
         });
 
