@@ -1,6 +1,8 @@
 import { bindActionCreators } from 'redux'
 import PersonContainer from './PersonContainer'
 import TransactionsList from '../components/TransactionsList'
+import {ValidationErrorsList} from '../components/ValidationErrorsList'
+
 
 import {getProductsByPersonId} from '../core/components-utils'
 
@@ -23,6 +25,8 @@ const App = React.createClass({
 
         const transactions = this.state.transactions;
 
+        const commonErrors = _.get(this.state, 'errors.common', {});
+
         const personContainersList = this.state.persons.map((person)=> {
 
             const ownProducts = getProductsByPersonId(person.id, this.state.products);
@@ -43,7 +47,12 @@ const App = React.createClass({
             <div>
                 {personContainersList}
                 <button onClick={actions.newPerson}>New person</button>
+
+                <ValidationErrorsList errors={commonErrors}/>
+                
                 <br />
+                <br />
+                
                 <button onClick={actions.realizeInterchange}>Calculate</button>
                 <TransactionsList transactions={transactions} />
             </div>
