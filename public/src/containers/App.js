@@ -25,7 +25,7 @@ const App = React.createClass({
 
         const personContainersList = this.state.persons.map((person)=> {
 
-            const ownProducts = getProductsByPersonId(person.id);
+            const ownProducts = getProductsByPersonId(person.id, this.state.products);
 
             const personContainerProps = {
                 key: person.id,
