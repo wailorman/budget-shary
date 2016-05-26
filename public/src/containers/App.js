@@ -27,16 +27,14 @@ const App = React.createClass({
 
             const ownProducts = getProductsByPersonId(person.id, this.state.products);
 
-            const personContainerProps = {
-                key: person.id,
-
-                ...person,
-                ownProducts,
-                ...actions
-            };
-
             return (
-                <PersonContainer key={person.id} {... personContainerProps} />
+                <PersonContainer
+                    key={person.id}
+                    ownProducts={ownProducts}
+
+                    {... person}
+                    {... actions}
+                />
             );
 
         });
