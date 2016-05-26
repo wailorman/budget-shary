@@ -1,6 +1,8 @@
 import interchange from './core/interface'
 
-import * as validation from '../src/core/validation';
+import {sumAllShares} from './core/utils'
+
+import {validate} from '../src/core/validation';
 
 export const REMOVE_PRODUCT = 'REMOVE_PRODUCT';
 export const NEW_PRODUCT = 'NEW_PRODUCT';
@@ -15,6 +17,9 @@ export const PUT_INTERCHANGE_RESULTS = 'PUT_INTERCHANGE_RESULTS';
 export const DISPLAY_INTERCHANGE_ERROR = 'DISPLAY_INTERCHANGE_ERROR';
 export const REMOVE_INTERCHANGE_ERRORS = 'REMOVE_INTERCHANGE_ERRORS';
 export const PUT_PERSONS_ERRORS = 'PUT_PERSONS_ERRORS';
+export const PUT_VALIDATION_ERRORS = 'PUT_VALIDATION_ERRORS';
+
+export const UPDATE_SHARE_SUM = 'UPDATE_SHARE_SUM';
 
 export function removeProduct(id) {
     return {
@@ -54,24 +59,42 @@ export function newPerson() {
 
 export function changePerson(id, values) {
 
-    // todo
-    // return (dispatch, getState)=> {
-    //
-    //     dispatch({
-    //         type: CHANGE_PERSON,
-    //         id,
-    //         values
-    //     });
-    //
-    //     const validationResult = validation.validatePersons(getState().persons);
-    //
-    // };
+    return (dispatch, getState)=> {
+
+        const allPersons = getState().persons;
+        const newShareSum = sumAllShares(allPersons);
+
+        const changePersonAction = {
+            type: CHANGE_PERSON,
+            id,
+            values
+        };
+
+        dispatch(changePersonAction);
+
+        dispatch(updateShareSum(newShareSum));
+
+        // todo: Optimize validation
+        dispatch(putValidationErrors(validate(getState())))
+
+    };
+
+}
+
+export function updateShareSum(newShareSum) {
 
     return {
-       type: CHANGE_PERSON,
-       id,
-       values
-    }
+        type: UPDATE_SHARE_SUM,
+        value: newShareSum
+    };
+    
+}
+
+export function putValidationErrors(errors) {
+    return {
+        type: PUT_VALIDATION_ERRORS,
+        errors
+    };
 }
 
 export function putPersonsErrors(errors) {
