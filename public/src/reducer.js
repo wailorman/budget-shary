@@ -159,7 +159,8 @@ export const combinedReducers = combineReducers({
     products: productsReducer,
     persons: personsReducer,
     transactions: transactionsReducer,
-    errors: errorsReducer
+    errors: errorsReducer,
+    common: commonReducer
 });
 
 export default reducers;
