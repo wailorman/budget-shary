@@ -61,9 +61,6 @@ export function changePerson(id, values) {
 
     return (dispatch, getState)=> {
 
-        const allPersons = getState().persons;
-        const newShareSum = sumAllShares(allPersons);
-
         const changePersonAction = {
             type: CHANGE_PERSON,
             id,
@@ -72,7 +69,14 @@ export function changePerson(id, values) {
 
         dispatch(changePersonAction);
 
+
+
+        const allPersons = getState().persons;
+        const newShareSum = sumAllShares(allPersons);
+
         dispatch(updateShareSum(newShareSum));
+
+
 
         // todo: Optimize validation
         dispatch(putValidationErrors(validate(getState())))
