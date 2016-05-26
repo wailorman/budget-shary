@@ -74,12 +74,17 @@ export function changePerson(id, values) {
         const allPersons = getState().persons;
         const newShareSum = sumAllShares(allPersons);
 
-        dispatch(updateShareSum(newShareSum));
+        dispatch(
+            updateShareSum( newShareSum )
+        );
 
 
+        const validationResult = validate( getState() );
 
         // todo: Optimize validation
-        dispatch(putValidationErrors(validate(getState())))
+        dispatch(
+            putValidationErrors( validationResult )
+        );
 
     };
 
