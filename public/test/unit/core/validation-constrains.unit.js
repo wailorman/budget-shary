@@ -8,21 +8,9 @@ const validate = require('validate.js');
 
 describe("UNIT / Core / Validation Constrains", ()=> {
 
+    // todo: id constrains tests
+
     describe("product", ()=> {
-
-        const generateProduct = (props = {})=> {
-
-            let clonedProps = _.cloneDeep(props);
-
-            _.defaultsDeep(clonedProps, {
-                id: '1',
-                name: 'Jackie',
-                price: '500'
-            });
-
-            return clonedProps;
-
-        };
 
         describe(".name", ()=> {
 
@@ -32,10 +20,7 @@ describe("UNIT / Core / Validation Constrains", ()=> {
 
                 const name = 'Jackie Chan';
 
-                const actual = validate(
-                    generateProduct({name}),
-                    {name: nameConstrains}
-                );
+                const actual = validate({name}, {name: nameConstrains});
                 
                 const expected = undefined;
                 
@@ -47,10 +32,7 @@ describe("UNIT / Core / Validation Constrains", ()=> {
 
                 const name = '';
 
-                const actual = validate(
-                    generateProduct({name}),
-                    {name: nameConstrains}
-                );
+                const actual = validate({name}, {name: nameConstrains});
 
                 const expected = undefined;
 
@@ -62,10 +44,7 @@ describe("UNIT / Core / Validation Constrains", ()=> {
 
                 const name = true;
 
-                const actual = validate(
-                    generateProduct({name}),
-                    {name: nameConstrains}
-                );
+                const actual = validate({name}, {name: nameConstrains});
 
                 const expected = {
                     name: [
@@ -87,10 +66,7 @@ describe("UNIT / Core / Validation Constrains", ()=> {
 
                 const price = 100;
 
-                const actual = validate(
-                    generateProduct({price}),
-                    {price: priceConstrains}
-                );
+                const actual = validate({price}, {price: priceConstrains});
 
                 const expected = undefined;
 
@@ -102,10 +78,7 @@ describe("UNIT / Core / Validation Constrains", ()=> {
 
                 const price = 11.2;
 
-                const actual = validate(
-                    generateProduct({price}),
-                    {price: priceConstrains}
-                );
+                const actual = validate({price}, {price: priceConstrains});
 
                 const expected = undefined;
 
@@ -117,10 +90,7 @@ describe("UNIT / Core / Validation Constrains", ()=> {
 
                 const price = '11.2';
 
-                const actual = validate(
-                    generateProduct({price}),
-                    {price: priceConstrains}
-                );
+                const actual = validate({price}, {price: priceConstrains});
 
                 const expected = undefined;
 
@@ -132,10 +102,7 @@ describe("UNIT / Core / Validation Constrains", ()=> {
 
                 const price = 0;
 
-                const actual = validate(
-                    generateProduct({price}),
-                    {price: priceConstrains}
-                );
+                const actual = validate({price}, {price: priceConstrains});
 
                 const expected = undefined;
 
@@ -147,10 +114,7 @@ describe("UNIT / Core / Validation Constrains", ()=> {
 
                 const price = -1;
 
-                const actual = validate(
-                    generateProduct({price}),
-                    {price: priceConstrains}
-                );
+                const actual = validate({price}, {price: priceConstrains});
 
                 const expected = {
                     price: [
@@ -168,20 +132,6 @@ describe("UNIT / Core / Validation Constrains", ()=> {
 
     describe("person", ()=> {
 
-        const generatePerson = (props = {})=> {
-
-            let clonedProps = _.cloneDeep(props);
-
-            _.defaultsDeep(clonedProps, {
-                id: '1',
-                name: 'Jackie',
-                share: '50'
-            });
-
-            return clonedProps;
-
-        };
-
         describe("name", ()=> {
 
             const nameConstrains = constrains.person.name;
@@ -190,10 +140,7 @@ describe("UNIT / Core / Validation Constrains", ()=> {
 
                 const name = 'Jackie Chan';
 
-                const actual = validate(
-                    generatePerson({name}),
-                    {name: nameConstrains}
-                );
+                const actual = validate({name}, {name: nameConstrains});
 
                 const expected = undefined;
 
@@ -205,10 +152,7 @@ describe("UNIT / Core / Validation Constrains", ()=> {
 
                 const name = 123;
 
-                const actual = validate(
-                    generatePerson({name}),
-                    {name: nameConstrains}
-                );
+                const actual = validate({name}, {name: nameConstrains});
 
                 const expected = undefined;
 
@@ -224,10 +168,7 @@ describe("UNIT / Core / Validation Constrains", ()=> {
 
                 const name = '';
 
-                const actual = validate(
-                    generatePerson({name}),
-                    {name: nameConstrains}
-                );
+                const actual = validate({name}, {name: nameConstrains});
 
                 const expected = {
                     name: [
@@ -249,10 +190,7 @@ describe("UNIT / Core / Validation Constrains", ()=> {
 
                 const share = 10;
 
-                const actual = validate(
-                    generatePerson({ share }),
-                    {share: shareConstrains}
-                );
+                const actual = validate({share}, {share: shareConstrains});
 
                 const expected = undefined;
 
@@ -264,10 +202,7 @@ describe("UNIT / Core / Validation Constrains", ()=> {
 
                 const share = '10';
 
-                const actual = validate(
-                    generatePerson({ share }),
-                    {share: shareConstrains}
-                );
+                const actual = validate({share}, {share: shareConstrains});
 
                 const expected = undefined;
 
@@ -279,10 +214,7 @@ describe("UNIT / Core / Validation Constrains", ()=> {
 
                 const share = 10.5;
 
-                const actual = validate(
-                    generatePerson({ share }),
-                    {share: shareConstrains}
-                );
+                const actual = validate({share}, {share: shareConstrains});
 
                 const expected = undefined;
 
@@ -294,10 +226,7 @@ describe("UNIT / Core / Validation Constrains", ()=> {
 
                 const share = 0;
 
-                const actual = validate(
-                    generatePerson({ share }),
-                    {share: shareConstrains}
-                );
+                const actual = validate({share}, {share: shareConstrains});
 
                 const expected = undefined;
 
@@ -309,10 +238,7 @@ describe("UNIT / Core / Validation Constrains", ()=> {
 
                 const share = -1;
 
-                const actual = validate(
-                    generatePerson({ share }),
-                    {share: shareConstrains}
-                );
+                const actual = validate({share}, {share: shareConstrains});
 
                 const expected = {
                     share: [
@@ -328,10 +254,7 @@ describe("UNIT / Core / Validation Constrains", ()=> {
 
                 const share = 101;
 
-                const actual = validate(
-                    generatePerson({ share }),
-                    {share: shareConstrains}
-                );
+                const actual = validate({share}, {share: shareConstrains});
 
                 const expected = {
                     share: [
@@ -347,10 +270,7 @@ describe("UNIT / Core / Validation Constrains", ()=> {
 
                 const share = '';
 
-                const actual = validate(
-                    generatePerson({ share }),
-                    {share: shareConstrains}
-                );
+                const actual = validate({share}, {share: shareConstrains});
 
                 const expected = {
                     share: [
