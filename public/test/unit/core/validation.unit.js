@@ -41,15 +41,15 @@ describe("UNIT / Core / Validation", ()=> {
 
             const actual = validateCollection(collection, constrains);
 
-            const expected = [
-                undefined,
-                undefined,
-                undefined,
-                undefined,
-                undefined,
-                undefined,
-                undefined
-            ];
+            const expected = {
+                1: undefined,
+                2: undefined,
+                3: undefined,
+                4: undefined,
+                5: undefined,
+                6: undefined,
+                7: undefined
+            };
 
             expect(actual).to.eql(expected);
 
@@ -63,29 +63,27 @@ describe("UNIT / Core / Validation", ()=> {
 
             const actual = validateCollection(collection, constrains);
 
-            const expected = [
-                {
-                    share: ['Share must satisfy expression 0 <= x <= 100']
-                },
-                undefined,
-                undefined,
-                undefined,
-                undefined,
-                undefined,
-                undefined
-            ];
+            const expected = {
+                1: { share: ['Share must satisfy expression 0 <= x <= 100'] },
+                2: undefined,
+                3: undefined,
+                4: undefined,
+                5: undefined,
+                6: undefined,
+                7: undefined
+            };
 
             expect(actual).to.eql(expected);
 
         });
 
-        it(`should return [] if [] passed as a collection`, () => {
+        it(`should return {} if [] passed as a collection`, () => {
 
             const {constrains} = setup();
 
             const actual = validateCollection([], constrains);
 
-            const expected = [];
+            const expected = {};
 
             expect(actual).to.eql(expected);
 
@@ -97,7 +95,7 @@ describe("UNIT / Core / Validation", ()=> {
 
             const actual = validateCollection(undefined, constrains);
 
-            const expected = [];
+            const expected = {};
 
             expect(actual).to.eql(expected);
 

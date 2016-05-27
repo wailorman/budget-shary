@@ -4,9 +4,14 @@ const validateJs = require('validate.js');
 
 export const validateCollection = function (collection, constrains) {
 
-    return _(collection).map((object)=> {
-        return validateJs(object, constrains);
-    }).value();
+    const result = {};
+
+    _(collection).each((object)=> {
+        // todo: throw error if ID isn't defined
+        result[object.id] = validateJs(object, constrains);
+    });
+
+    return result;
     
 };
 
