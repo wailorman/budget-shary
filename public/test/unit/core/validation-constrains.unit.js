@@ -8,7 +8,60 @@ const validate = require('validate.js');
 
 describe("UNIT / Core / Validation Constrains", ()=> {
 
-    // todo: id constrains tests
+    describe("id", ()=> {
+
+        const idConstrains = constrains.id;
+
+        it(`should accept object with id`, () => {
+
+            const id = '123';
+
+            const actual = validate(
+                {id},
+                {id: idConstrains}
+            );
+
+            const expected = undefined;
+
+            expect(actual).to.eql(expected);
+
+        });
+
+        it(`should notify if object doesn't have id`, () => {
+
+            // const id = '123';
+
+            const actual = validate(
+                {},
+                {id: idConstrains}
+            );
+
+            const expected = {
+                id: [`Id can't be blank`]
+            };
+
+            expect(actual).to.eql(expected);
+
+        });
+
+        it(`should not accept id as object`, () => {
+
+            const id = {hey: 'ho'};
+
+            const actual = validate(
+                {id},
+                {id: idConstrains}
+            );
+
+            const expected = {
+                id: ["Id has an incorrect length"]
+            };
+
+            expect(actual).to.eql(expected);
+
+        });
+
+    });
 
     describe("product", ()=> {
 

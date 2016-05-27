@@ -1,9 +1,15 @@
 const validate = require('validate.js');
 
+const id = {
+    presence: true,
+    length: {
+        minimum: 1
+    }
+};
+    
+
 const product = {
-    id: {
-        presence: true
-    },
+    id,
     name: {
         length: {
             minimum: 0,
@@ -21,9 +27,7 @@ const product = {
 };
 
 const person = {
-    id: {
-        presence: true
-    },
+    id,
     name: {
         presence: true
     },
@@ -53,6 +57,7 @@ const allConstrains = {
 };
 
 export {
+    id,
     product,
     person,
     common,
