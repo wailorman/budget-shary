@@ -1,6 +1,9 @@
 const validate = require('validate.js');
 
 const product = {
+    id: {
+        presence: true
+    },
     name: {
         length: {
             minimum: 0,
@@ -18,6 +21,9 @@ const product = {
 };
 
 const person = {
+    id: {
+        presence: true
+    },
     name: {
         presence: true
     },
