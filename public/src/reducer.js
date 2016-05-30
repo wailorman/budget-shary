@@ -50,7 +50,9 @@ export const defaultState = {
 
 };
 
-export function productsReducer(productsState = defaultState.products, action) {
+const initialState = defaultState;
+
+export function productsReducer(productsState = initialState.products, action) {
 
     switch (action.type) {
 
@@ -85,7 +87,7 @@ export function productsReducer(productsState = defaultState.products, action) {
 
 }
 
-export function personsReducer(personsState = defaultState.persons, action) {
+export function personsReducer(personsState = initialState.persons, action) {
 
     switch (action.type) {
 
@@ -123,8 +125,7 @@ export function commonReducer(commonState = {}, action = {}) {
     
 }
 
-// todo: Substitute default state to []
-export function transactionsReducer(state = defaultState, action) {
+export function transactionsReducer(state = initialState.transactions, action = {}) {
 
     switch (action.type){
         case PUT_INTERCHANGE_RESULTS:

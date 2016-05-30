@@ -15,14 +15,13 @@ import { humanifyTransactions } from '../../../src/core/utils'
 describe("UNIT / Reducers / transactionsReducer", ()=> {
 
 
-    it(`should return original state if no actions`, () => {
+    it(`should return [] (empty) state if no actions and no state passed`, () => {
 
-        const action = {
-            type: 'SOME_ACTION'
-        };
+        const action = undefined;
+        const initialState = undefined;
 
-        const expected = fakeStateCase1;
-        const actual = transactionsReducer(fakeStateCase1, action);
+        const expected = [];
+        const actual = transactionsReducer(initialState, action);
 
         expect(actual).to.eql(expected);
 
