@@ -30,11 +30,22 @@ const App = React.createClass({
         const personContainersList = this.state.persons.map((person)=> {
 
             const ownProducts = getProductsByPersonId(person.id, this.state.products);
+            const ownProductsIds = _.map(ownProducts, 'id');
+
+            const personErrors = _.get(this.state.errors, `persons[${person.id}]`, {});
+
+            const productsErrors = _.chain(this.state.errors)
+                .get(`products`, {})
+                .pick(ownProductsIds)
+                .value();
 
             return (
                 <PersonContainer
                     key={person.id}
                     ownProducts={ownProducts}
+
+                    personErrors={personErrors}
+                    productsErrors={productsErrors}
 
                     {... person}
                     {... actions}

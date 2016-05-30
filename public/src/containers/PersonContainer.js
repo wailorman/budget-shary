@@ -52,9 +52,9 @@ export const PersonContainer = React.createClass({
 
     render() {
 
-        const productsList = this.props.ownProducts.map((product, index)=> {
+        const productsList = this.props.ownProducts.map((product)=> {
 
-            const validationErrors = this.props.productsErrors[index];
+            const validationErrors = this.props.productsErrors[product.id];
 
             return (
                 <Product

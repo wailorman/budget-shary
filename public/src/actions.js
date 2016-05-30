@@ -39,19 +39,23 @@ export function changeProduct(id, values) {
 
     return (dispatch, getState)=> {
 
-        const changeProductAction = {
+        const _validateAndPutErrors = function () {
+
+            const validationResult = validate( getState() );
+
+            dispatch(
+                putValidationErrors( validationResult )
+            );
+
+        };
+
+        dispatch({
             type: CHANGE_PRODUCT,
             id,
             values
-        };
+        });
 
-        dispatch(changeProductAction);
-
-        const validationResult = validate( getState() );
-
-        dispatch(
-            putValidationErrors( validationResult )
-        );
+        _validateAndPutErrors();
 
     };
 
@@ -75,30 +79,37 @@ export function changePerson(id, values) {
 
     return (dispatch, getState)=> {
 
-        const changePersonAction = {
+        const _updateShareSum = function () {
+
+            const allPersons = getState().persons;
+            const newShareSum = sumAllShares(allPersons);
+
+            dispatch(
+                updateShareSum( newShareSum )
+            );
+
+        };
+
+        const _validateAndPutErrors = function () {
+
+            const validationResult = validate( getState() );
+
+            dispatch(
+                putValidationErrors( validationResult )
+            );
+
+        };
+
+
+        dispatch({
             type: CHANGE_PERSON,
             id,
             values
-        };
+        });
 
-        dispatch(changePersonAction);
+        _updateShareSum();
 
-
-
-        const allPersons = getState().persons;
-        const newShareSum = sumAllShares(allPersons);
-
-        dispatch(
-            updateShareSum( newShareSum )
-        );
-
-
-        const validationResult = validate( getState() );
-
-        // todo: Optimize validation
-        dispatch(
-            putValidationErrors( validationResult )
-        );
+        _validateAndPutErrors();
 
     };
 
