@@ -2,17 +2,16 @@ import { combineReducers } from 'redux'
 import {
     REMOVE_PRODUCT, NEW_PRODUCT, CHANGE_PRODUCT,
     REMOVE_PERSON, NEW_PERSON, CHANGE_PERSON,
-    PROCEED_INTERCHANGE, PUT_INTERCHANGE_RESULTS,
-    DISPLAY_INTERCHANGE_ERROR, REMOVE_INTERCHANGE_ERRORS,
+    PUT_INTERCHANGE_RESULTS,
     PUT_PERSONS_ERRORS, PUT_VALIDATION_ERRORS,
     UPDATE_SHARE_SUM
 } from './actions'
 
-import { proceedInterchange } from './core/utils'
+import {fetchState} from './core/state-sync'
 
 // todo: >> action = {} ... and test it!
 
-export const defaultState = {
+export const defaultState = fetchState() || {
 
     persons: [
         {id: '_1', name: 'Jack', share: '30'},
