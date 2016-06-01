@@ -53,7 +53,10 @@ var webpackConfig = {
             'TestUtils': 'react-addons-test-utils',
 
             'expect': __dirname + '/test/requirements/chai-expect.js',
-            'sinon': 'imports?define=>false,require=>false!sinon/pkg/sinon'
+            'sinon': 'imports?define=>false,require=>false!sinon/pkg/sinon',
+            'sinonSandbox': __dirname + '/test/helpers/sinon-sandbox.js',
+            'given': __dirname + '/test/requirements/given-mocha-testdata.js',
+            'localStorage': __dirname + '/test/requirements/local-storage.js'
         }),
         new WriteFilePlugin(),
         new WebpackBuildNotifierPlugin({successSound: false})
