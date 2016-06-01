@@ -55,8 +55,7 @@ var webpackConfig = {
             'expect': __dirname + '/test/requirements/chai-expect.js',
             'sinon': 'imports?define=>false,require=>false!sinon/pkg/sinon',
             'sinonSandbox': __dirname + '/test/helpers/sinon-sandbox.js',
-            'given': __dirname + '/test/requirements/given-mocha-testdata.js',
-            'localStorage': __dirname + '/test/requirements/local-storage.js'
+            'given': __dirname + '/test/requirements/given-mocha-testdata.js'
         }),
         new WriteFilePlugin(),
         new WebpackBuildNotifierPlugin({successSound: false})
