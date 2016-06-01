@@ -1,0 +1,33 @@
+export const STATE_KEY = 'budget1';
+
+const localStorageStub = typeof window == 'undefined' ? undefined : window.localStorage;
+
+export const fetchState = function (deps = {}) {
+
+    _.defaultsDeep(deps, {localStorage: localStorageStub});
+
+    const localStorageResponse = deps.localStorage.getItem(STATE_KEY);
+
+    let jsonParsingResult;
+    try {
+        jsonParsingResult = JSON.parse(localStorageResponse);
+    } catch (e) {
+        console.error(`fetchState: JSON parsing error: '${e}'`);
+        jsonParsingResult = null;
+    }
+
+    return jsonParsingResult;
+
+};
+
+export const pushState = function (state, deps = {}) {
+
+    _.defaultsDeep(deps, {localStorage: localStorageStub});
+
+    const stringifyState = JSON.stringify(state);
+
+    deps.localStorage.setItem(STATE_KEY, stringifyState);
+
+    return JSON.parse(deps.localStorage.getItem(STATE_KEY));
+
+};
