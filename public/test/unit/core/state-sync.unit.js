@@ -1,7 +1,7 @@
 import {fetchState, pushState, STATE_KEY} from '../../../src/core/state-sync'
 import {fakeState} from '../../fixtures/fake-state'
 
-const localStorage = require('localStorage');
+const localStorage = typeof window == 'undefined' ? require('localStorage') : window.localStorage;;
 
 describe("UNIT / Core / Storage Sync", ()=> {
 

@@ -1,6 +1,6 @@
 export const STATE_KEY = 'budget1';
 
-const localStorageStub = typeof window == 'undefined' ? undefined : window.localStorage;
+const localStorageStub = typeof window == 'undefined' ? require('localStorage') : window.localStorage;
 
 export const fetchState = function (deps = {}) {
 
