@@ -1,0 +1,1 @@
+export const normalizedArrayLength = (object)=> _.keys(object).length;

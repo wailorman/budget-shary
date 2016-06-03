@@ -1,13 +1,13 @@
 import { removeProduct } from '../../src/actions'
 import { store, generateStore } from '../../src/store'
-import { fakeState } from '../fixtures/fake-state'
+import { normalizedFakeState } from '../fixtures/fake-state'
 
 describe("UNIT / Store", ()=> {
 
     let fakeStore;
 
     beforeEach(()=> {
-        fakeStore = generateStore(fakeState);
+        fakeStore = generateStore(normalizedFakeState);
     });
 
     describe("products actions", ()=> {
@@ -20,8 +20,8 @@ describe("UNIT / Store", ()=> {
 
                 const resultState = fakeStore.getState();
 
-                expect(resultState.products[0]).to.exist;
-                expect(resultState.products[1]).to.not.exist;
+                expect(resultState.products['1']).to.exist;
+                expect(resultState.products['2']).to.not.exist;
 
             });
 
