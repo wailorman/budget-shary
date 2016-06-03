@@ -4,9 +4,9 @@ import { personsReducer } from '../../../src/reducer'
 import {
     REMOVE_PERSON, NEW_PERSON, CHANGE_PERSON
 } from '../../../src/actions'
-import { fakeState } from '../../fixtures/fake-state'
+import { normalizedFakeState } from '../../fixtures/fake-state'
 
-const initialState = fakeState;
+const initialState = normalizedFakeState;
 
 
 describe("UNIT / Reducers / personsReducer", ()=> {
@@ -24,9 +24,9 @@ describe("UNIT / Reducers / personsReducer", ()=> {
 
             const actual = personsReducer(initialStatePersons, action);
 
-            const expected = [
-                {id: '2', name: 'Jack', share: '60'}
-            ];
+            const expected = {
+                2: {id: '2', name: 'Jack', share: '60'}
+            };
 
             expect(actual).to.eql(expected);
 
@@ -69,9 +69,10 @@ describe("UNIT / Reducers / personsReducer", ()=> {
             };
 
             const actual = personsReducer(initialStatePersons, action);
-            const newPerson = _.last(actual);
+            const newPersonId = _.last(_.keys(actual));
+            const newPerson = actual[newPersonId];
 
-            expect(actual.length).to.eql(initialStatePersons.length + 1);
+            expect(_.keys(actual).length).to.eql(_.keys(initialStatePersons).length + 1);
             expect(newPerson.id).to.match(/\d/);
             expect(newPerson.name).to.eql('');
             expect(newPerson.share).to.eql('');
@@ -87,7 +88,7 @@ describe("UNIT / Reducers / personsReducer", ()=> {
             const firstCall = personsReducer(initialStatePersons, action);
             const actual = personsReducer(firstCall, action);
 
-            expect(actual.length).to.eql(initialStatePersons.length + 2);
+            expect(_.keys(actual).length).to.eql(_.keys(initialStatePersons).length + 2);
 
         });
 
@@ -108,7 +109,7 @@ describe("UNIT / Reducers / personsReducer", ()=> {
 
             const result = personsReducer(initialStatePersons, action);
 
-            const changedPerson = _.find(result, {id: '1'});
+            const changedPerson = result['1'];
 
             expect(changedPerson.name).to.eql('Clean water');
             expect(changedPerson.share).to.eql('50');
@@ -145,7 +146,7 @@ describe("UNIT / Reducers / personsReducer", ()=> {
 
             const result = personsReducer(initialStatePersons, action);
 
-            const changedPerson = _.find(result, {id: '1'});
+            const changedPerson = result['1'];
 
             expect(changedPerson.name).to.eql('Mike');
             expect(changedPerson.share).to.eql('40');
@@ -164,7 +165,7 @@ describe("UNIT / Reducers / personsReducer", ()=> {
 
             const result = personsReducer(initialStatePersons, action);
 
-            const changedPerson = _.find(result, {id: '1'});
+            const changedPerson = result['1'];
 
             expect(changedPerson.name).to.eql('Clean water');
             expect(changedPerson.share).to.eql('40');

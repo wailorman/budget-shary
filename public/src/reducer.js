@@ -13,11 +13,11 @@ import {fetchState} from './core/state-sync'
 
 export const defaultState = fetchState() || {
 
-    persons: [
-        {id: '_1', name: 'Jack', share: '30'},
-        {id: '_2', name: 'Alice', share: '60'},
-        {id: '_3', name: 'Mike', share: '10'}
-    ],
+    persons: {
+        _1: {id: '_1', name: 'Jack', share: '30'},
+        _2: {id: '_2', name: 'Alice', share: '60'},
+        _3: {id: '_3', name: 'Mike', share: '10'}
+    },
     products: [
         {id: '_1', name: '',     price: '45',    ownerId: '_1'},
         {id: '_2', name: '',     price: '234',   ownerId: '_1'},
@@ -47,7 +47,7 @@ export const defaultState = fetchState() || {
         common: {}
     }
 
-};
+    };
 
 const initialState = defaultState;
 
@@ -87,23 +87,30 @@ export function productsReducer(productsState = initialState.products, action) {
 }
 
 export function personsReducer(personsState = initialState.persons, action) {
+    let newState = _.cloneDeep(personsState);
 
     switch (action.type) {
 
         case REMOVE_PERSON:
-            return personsState.filter((value)=> {
-                return value.id != action.id;
-            });
+            delete newState[action.id];
+
+            return newState;
 
         case NEW_PERSON:
-            return personsState.concat([{id: _.uniqueId(), name: '', share: ''}]);
+            const newPersonId = _.uniqueId('__');
+
+            newState[newPersonId] = {id: newPersonId, name: '', share: ''};
+
+            return newState;
 
         case CHANGE_PERSON:
-            return personsState.map((person)=> {
-                if (person.id != action.id) return person;
+            if (!newState[action.id]) return newState;
 
-                return _.assign(person, action.values);
-            });
+            const consideringPerson = _.cloneDeep(newState[action.id]);
+
+            newState[action.id] = _.assign(consideringPerson, action.values);
+
+            return newState;
 
         default:
             return personsState;
