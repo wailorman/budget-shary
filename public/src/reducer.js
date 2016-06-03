@@ -13,70 +13,73 @@ import {fetchState} from './core/state-sync'
 
 export const defaultState = fetchState() || {
 
-    persons: [
-        {id: '_1', name: 'Jack', share: '30'},
-        {id: '_2', name: 'Alice', share: '60'},
-        {id: '_3', name: 'Mike', share: '10'}
-    ],
-    products: [
-        {id: '_1', name: '',     price: '45',    ownerId: '_1'},
-        {id: '_2', name: '',     price: '234',   ownerId: '_1'},
-        {id: '_3', name: '',     price: '12',    ownerId: '_1'},
-        {id: '_4', name: '',     price: '89',    ownerId: '_1'},
-        {id: '_5', name: '',     price: '65',    ownerId: '_1'},
-        {id: '_6', name: '',     price: '234',   ownerId: '_1'},
+        persons: {
+            _1: {id: '_1', name: 'Jack', share: '30'},
+            _2: {id: '_2', name: 'Alice', share: '60'},
+            _3: {id: '_3', name: 'Mike', share: '10'}
+        },
+        products: {
+            _1: {id: '_1', name: '', price: '45', ownerId: '_1'},
+            _2: {id: '_2', name: '', price: '234', ownerId: '_1'},
+            _3: {id: '_3', name: '', price: '12', ownerId: '_1'},
+            _4: {id: '_4', name: '', price: '89', ownerId: '_1'},
+            _5: {id: '_5', name: '', price: '65', ownerId: '_1'},
+            _6: {id: '_6', name: '', price: '234', ownerId: '_1'},
 
-        {id: '_7', name: '',     price:  '345',  ownerId: '_2'},
-        {id: '_8', name: '',     price:  '234',  ownerId: '_2'},
-        {id: '_9', name: '',     price:  '890',  ownerId: '_2'},
-        {id: '_10', name: '',    price: '1234',  ownerId: '_2'},
-        {id: '_11', name: '',    price: '671',   ownerId: '_2'},
-        {id: '_12', name: '',    price: '55',    ownerId: '_2'},
-        {id: '_13', name: '',    price: '176',   ownerId: '_2'},
-        {id: '_14', name: '',    price: '1876',  ownerId: '_2'},
+            _7: {id: '_7', name: '', price: '345', ownerId: '_2'},
+            _8: {id: '_8', name: '', price: '234', ownerId: '_2'},
+            _9: {id: '_9', name: '', price: '890', ownerId: '_2'},
+            _10: {id: '_10', name: '', price: '1234', ownerId: '_2'},
+            _11: {id: '_11', name: '', price: '671', ownerId: '_2'},
+            _12: {id: '_12', name: '', price: '55', ownerId: '_2'},
+            _13: {id: '_13', name: '', price: '176', ownerId: '_2'},
+            _14: {id: '_14', name: '', price: '1876', ownerId: '_2'},
 
-        {id: '_15', name: '',    price: '504',   ownerId: '_3'},
-        {id: '_16', name: '',    price: '646',   ownerId: '_3'},
-        {id: '_17', name: '',    price: '756',   ownerId: '_3'},
-        {id: '_18', name: '',    price: '50',    ownerId: '_3'}
-    ],
-    transactions: [],
-    errors: {
-        products: [],
-        persons: [],
-        common: {}
-    }
+            _15: {id: '_15', name: '', price: '504', ownerId: '_3'},
+            _16: {id: '_16', name: '', price: '646', ownerId: '_3'},
+            _17: {id: '_17', name: '', price: '756', ownerId: '_3'},
+            _18: {id: '_18', name: '', price: '50', ownerId: '_3'}
+        },
+        transactions: [],
+        errors: {
+            products: {},
+            persons: {},
+            common: {}
+        }
 
-};
+    };
 
 const initialState = defaultState;
 
 export function productsReducer(productsState = initialState.products, action) {
+    let newState = _.cloneDeep(productsState);
 
     switch (action.type) {
 
         case REMOVE_PRODUCT:
-            return productsState.filter((value)=> {
-                return value.id != action.id;
-            });
+            delete newState[action.id];
+
+            return newState;
 
         case NEW_PRODUCT:
-            return productsState.concat([{
-                id: _.uniqueId(),
-                name: '',
-                price: '',
-                ownerId: action.ownerId
-            }]);
+
+            const newProductId = _.uniqueId('__');
+
+            newState[newProductId] = {id: newProductId, name: '', price: '', ownerId: action.ownerId};
+
+            return newState;
 
         case CHANGE_PRODUCT:
-            return productsState.map((product)=> {
-                if (product.id != action.id) return product;
+            if (!newState[action.id]) return newState;
 
-                return _.assign(product, action.values);
-            });
+            const consideringProduct = _.cloneDeep(newState[action.id]);
+
+            newState[action.id] = _.assign(consideringProduct, action.values);
+
+            return newState;
 
         case REMOVE_PERSON:
-            return productsState.filter((product)=> {
+            return _.filter(productsState, (product)=> {
                 return product.ownerId != action.id;
             });
 
@@ -87,23 +90,30 @@ export function productsReducer(productsState = initialState.products, action) {
 }
 
 export function personsReducer(personsState = initialState.persons, action) {
+    let newState = _.cloneDeep(personsState);
 
     switch (action.type) {
 
         case REMOVE_PERSON:
-            return personsState.filter((value)=> {
-                return value.id != action.id;
-            });
+            delete newState[action.id];
+
+            return newState;
 
         case NEW_PERSON:
-            return personsState.concat([{id: _.uniqueId(), name: '', share: ''}]);
+            const newPersonId = _.uniqueId('__');
+
+            newState[newPersonId] = {id: newPersonId, name: '', share: ''};
+
+            return newState;
 
         case CHANGE_PERSON:
-            return personsState.map((person)=> {
-                if (person.id != action.id) return person;
+            if (!newState[action.id]) return newState;
 
-                return _.assign(person, action.values);
-            });
+            const consideringPerson = _.cloneDeep(newState[action.id]);
+
+            newState[action.id] = _.assign(consideringPerson, action.values);
+
+            return newState;
 
         default:
             return personsState;
@@ -121,7 +131,7 @@ export function commonReducer(commonState = {}, action = {}) {
         default:
             return commonState;
     }
-    
+
 }
 
 export function transactionsReducer(state = initialState.transactions, action = {}) {

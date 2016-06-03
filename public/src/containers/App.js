@@ -27,7 +27,7 @@ const App = React.createClass({
 
         const commonErrors = _.get(this.state, 'errors.common', {});
 
-        const personContainersList = this.state.persons.map((person)=> {
+        const personContainersList = _.map(this.state.persons, (person)=> {
 
             const ownProducts = getProductsByPersonId(person.id, this.state.products);
             const ownProductsIds = _.map(ownProducts, 'id');
