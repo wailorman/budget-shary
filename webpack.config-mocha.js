@@ -54,6 +54,7 @@ var webpackConfig = {
 
             'expect': __dirname + '/test/requirements/providing/chai-expect.js',
             'assert': __dirname + '/test/requirements/providing/chai-assert.js',
+            'enzyme': 'enzyme',
             'sinon': 'imports?define=>false,require=>false!sinon/pkg/sinon',
             'sinonSandbox': __dirname + '/test/helpers/sinon-sandbox.js',
             'given': __dirname + '/test/requirements/providing/given-mocha-testdata.js'
