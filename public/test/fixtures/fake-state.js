@@ -106,4 +106,15 @@ export const normalizedFakeState = {
     errors: {}
 };
 
+export const normalizedBigFakeState = {
+    persons: {
+        1: {id: '1', name: 'Mike', share: '40'},
+        2: {id: '2', name: 'Jack', share: '60'}
+    },
+    products: {
+        1: {id: '1', name: 'Mocha', price: '40', ownerId: '1'},
+        2: {id: '2', name: 'Wood', price: '60', ownerId: '1'}
+    }
+};
+
 export default fakeState;
