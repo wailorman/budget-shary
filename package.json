@@ -86,6 +86,7 @@
     "browserify": "^13.0.1",
     "chai": "^3.4.1",
     "chai-as-promised": "^5.1.0",
+    "chai-enzyme": "^0.4.2",
     "css-loader": "^0.23.0",
     "deep-freeze": "0.0.1",
     "enzyme": "^2.3.0",

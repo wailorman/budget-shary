@@ -52,10 +52,11 @@ var webpackConfig = {
             'ReactDOM': 'react-dom',
             'TestUtils': 'react-addons-test-utils',
 
-            'expect': __dirname + '/test/requirements/chai-expect.js',
+            'expect': __dirname + '/test/requirements/providing/chai-expect.js',
+            'assert': __dirname + '/test/requirements/providing/chai-assert.js',
             'sinon': 'imports?define=>false,require=>false!sinon/pkg/sinon',
             'sinonSandbox': __dirname + '/test/helpers/sinon-sandbox.js',
-            'given': __dirname + '/test/requirements/given-mocha-testdata.js'
+            'given': __dirname + '/test/requirements/providing/given-mocha-testdata.js'
         }),
         new WriteFilePlugin(),
         new WebpackBuildNotifierPlugin({successSound: false})
