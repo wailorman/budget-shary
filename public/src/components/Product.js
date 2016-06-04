@@ -1,38 +1,55 @@
 import ValidationErrorsList from './ValidationErrorsList'
-import {connect} from 'react-redux'
-import {changeProduct, removeProduct} from '../actions'
 
-export const Product = (props)=> (
-    <div className="Product">
+export const Product = (props)=> {
 
-        <ValidationErrorsList errors={props.validationErrors}/>
+    const onChange = (event) => {
 
-        <input
-            className="Product__name-input"
-            size="17"
-            type="text"
-            ref="name"
-            value={props.name}
-            onChange={props.onChange}
-        />
+        const initiatorClassName = event.target.className;
 
-        <input
-            className="Product__price-input"
-            size="5"
-            type="text"
-            ref="price"
-            value={props.price}
-            onChange={props.onChange}
-        />
+        const name = initiatorClassName == 'Product__name-input' ?
+            event.target.value : props.name;
 
-        <button className="Product__remove-button" onClick={props.onRemove}>
-            x
-        </button>
-    </div>
-);
+        const price = initiatorClassName == 'Product__price-input' ?
+            event.target.value : props.price;
+
+        props.onChange({name, price});
+
+    };
+
+    const onRemove = ()=> {
+        props.onRemove();
+    };
+
+    return (
+        <div className="Product">
+
+            <ValidationErrorsList errors={props.validationErrors}/>
+
+            <input
+                className="Product__name-input"
+                size="17"
+                type="text"
+                value={props.name}
+                onChange={onChange}
+            />
+
+            <input
+                className="Product__price-input"
+                size="5"
+                type="text"
+                value={props.price}
+                onChange={onChange}
+            />
+
+            <button className="Product__remove-button" onClick={onRemove}>
+                x
+            </button>
+        </div>
+    );
+};
 
 Product.propTypes = {
-    id: React.PropTypes.oneOfType(React.PropTypes.string, React.PropTypes.number).isRequired,
+    id: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number]).isRequired,
     name: React.PropTypes.string,
     price: React.PropTypes.string,
     onChange: React.PropTypes.func.isRequired,
@@ -40,38 +57,4 @@ Product.propTypes = {
     validationErrors: React.PropTypes.object
 };
 
-export const ProductContainer = connect({
-    mapStateToProps: (state, ownProps) => {
-        return {
-            name: state.products[ownProps.id].name,
-            price: state.products[ownProps.id].price
-        }
-    },
-    mapDispatchToProps: (dispatch, ownProps) => {
-        return {
-            onChange: (event) => {
-
-                const initiatorClassName = event.target.className;
-
-                const name = initiatorClassName == 'Product__name-input' ?
-                    event.target.value : ownProps.name;
-
-                const price = initiatorClassName == 'Product__price-input' ?
-                    event.target.value : ownProps.price;
-
-                dispatch(
-                    changeProduct(ownProps.id, {name, price})
-                );
-
-            },
-            onRemove: ()=> {
-
-                dispatch(
-                    removeProduct(ownProps.id)
-                );
-
-            }
-        }
-    }
-
-})(Product);
+export default Product;
