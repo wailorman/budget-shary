@@ -1,5 +1,9 @@
 import {storiesOf, action} from '@kadira/storybook';
-import Product from '../../src/components/Product'
+import {Product} from '../../src/components/Product'
+import {ProductsList} from '../../src/containers/ProductsList'
+import {generateStore} from '../../src/store'
+import {normalizedFakeState} from '../fixtures/fake-state'
+import {Provider} from 'react-redux'
 
 const callbacks = {
     onChange: action('onChange'),
@@ -7,6 +11,9 @@ const callbacks = {
 };
 
 const getProduct = (props)=> {
+
+    _.defaults(props, {callbacks});
+
     return (
         <Product {...props}/>
     );
@@ -16,8 +23,7 @@ storiesOf('Product')
     .add('name & price', () => {
         const props = {
             name: 'Milk',
-            price: '20',
-            ...callbacks
+            price: '20'
         };
 
         return getProduct(props);
@@ -30,8 +36,7 @@ storiesOf('Product')
                 price: [
                     'Price must be greater than or equal to 0'
                 ]
-            },
-            ...callbacks
+            }
         };
         return getProduct(props);
     });
