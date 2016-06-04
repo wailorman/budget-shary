@@ -1,23 +1,28 @@
-import { storiesOf, action } from '@kadira/storybook';
+import {storiesOf, action} from '@kadira/storybook';
 import Product from '../../src/components/Product'
-import { changeProduct, removeProduct } from '../../src/actions'
 
 const callbacks = {
-    changeProduct: action(changeProduct('1')),
-    removeProduct: action(removeProduct('1'))
+    onChange: action('onChange'),
+    onRemove: action('onRemove')
 };
 
-storiesOf('Product', module)
-    .add('with name & price', () => {
+const getProduct = (props)=> {
+    return (
+        <Product {...props}/>
+    );
+};
+
+storiesOf('Product')
+    .add('name & price', () => {
         const props = {
             name: 'Milk',
             price: '20',
             ...callbacks
         };
 
-        return (<Product {...props}/>);
+        return getProduct(props);
     })
-    .add('with validation errors (direct)', ()=> {
+    .add('name, price & validation errors', ()=> {
         const props = {
             name: 'Milk',
             price: '-55',
@@ -28,5 +33,5 @@ storiesOf('Product', module)
             },
             ...callbacks
         };
-        return (<Product {...props}/>);
+        return getProduct(props);
     });
