@@ -160,15 +160,6 @@ export function errorsReducer(state = {}, action = {}) {
 
 }
 
-export const reducers = function (state, action) {
-
-    switch (action.type) {
-        default:
-            return combinedReducers(state, action);
-    }
-
-};
-
 export const combinedReducers = combineReducers({
     products: productsReducer,
     persons: personsReducer,
@@ -177,4 +168,13 @@ export const combinedReducers = combineReducers({
     common: commonReducer
 });
 
-export default reducers;
+export const reducer = function (state, action) {
+
+    switch (action.type) {
+        default:
+            return combinedReducers(state, action);
+    }
+
+};
+
+export default reducer;

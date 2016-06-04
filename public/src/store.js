@@ -1,11 +1,11 @@
 import {createStore, applyMiddleware, compose} from 'redux';
 import thunk from 'redux-thunk';
-import {reducers, defaultState} from './reducer'
+import {reducer, defaultState} from './reducer'
 import {stateSyncMiddleware} from './core/state-sync-middleware'
 
 export const generateStore = (args = {}) => {
 
-    _.defaults(args, {reducer: reducers, initialState: defaultState});
+    _.defaults(args, {reducer: reducer, initialState: defaultState});
 
     return createStore(
         args.reducer,
@@ -13,7 +13,7 @@ export const generateStore = (args = {}) => {
         compose(
             applyMiddleware(
                 thunk,
-                stateSyncMiddleware(reducers)
+                stateSyncMiddleware(reducer)
             )
             , typeof window === 'object' && typeof window.devToolsExtension !== 'undefined' ? window.devToolsExtension() : f => f
         )
