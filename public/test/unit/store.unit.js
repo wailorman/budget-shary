@@ -7,7 +7,7 @@ describe("UNIT / Store", ()=> {
     let fakeStore;
 
     beforeEach(()=> {
-        fakeStore = generateStore(normalizedFakeState);
+        fakeStore = generateStore({initialState: normalizedFakeState});
     });
 
     describe("products actions", ()=> {
