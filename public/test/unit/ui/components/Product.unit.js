@@ -1,4 +1,3 @@
-import { shallow } from 'enzyme';
 import Product from '../../../../src/components/Product'
 
 describe("UNIT / Components / <Product />", ()=> {
@@ -15,7 +14,7 @@ describe("UNIT / Components / <Product />", ()=> {
 
         _.defaultsDeep(props, defaultProps);
 
-        let wrapper = shallow(<Product {...props} />);
+        let wrapper = enzyme.shallow(<Product {...props} />);
 
         return {
             props,
