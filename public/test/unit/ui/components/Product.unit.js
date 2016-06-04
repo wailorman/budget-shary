@@ -7,8 +7,8 @@ describe("UNIT / Components / <Product />", ()=> {
         name: 'Mike',
         price: '55',
 
-        changeProduct: sinon.spy(),
-        removeProduct: sinon.spy()
+        onChange: sinon.spy(),
+        onRemove: sinon.spy()
     };
 
     const setup = function (props = {}) {
@@ -32,13 +32,13 @@ describe("UNIT / Components / <Product />", ()=> {
 
     });
 
-    it(`should call removeProduct when X button pressed`, () => {
+    it(`should call onRemove when X button pressed`, () => {
 
         const { wrapper, props } = setup();
 
         wrapper.find('.Product__remove-button').simulate('click');
 
-        expect(props.removeProduct.callCount).to.eql(1);
+        expect(props.onRemove.callCount).to.eql(1);
 
     });
 
