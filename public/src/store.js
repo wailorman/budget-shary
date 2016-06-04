@@ -3,6 +3,14 @@ import thunk from 'redux-thunk';
 import {reducer, defaultState} from './reducer'
 import {stateSyncMiddleware} from './core/state-sync-middleware'
 
+/**
+ * Redux store factory
+ *
+ * @param [args] {object}
+ * @param [args.reducer]
+ * @param [args.initialState]
+ * @returns Redux store
+ */
 export const generateStore = (args = {}) => {
 
     _.defaults(args, {reducer: reducer, initialState: defaultState});
