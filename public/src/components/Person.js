@@ -1,83 +1,71 @@
 import ValidationErrorsList from './ValidationErrorsList'
-import {changePerson, removePerson} from '../actions'
-import {connect} from 'react-redux'
 
 import '../styles/Person.css'
 
-export const Person = (props)=> (
+export const Person = (props)=> {
 
-    <div className="Person">
+    const onChange = (event) => {
 
-        <ValidationErrorsList errors={props.validationErrors} />
+        const initiatorClassName = event.target.className;
+        const newValue = event.target.value;
 
-        <input
-            className="Person__name-input"
-            type="text"
-            ref="name"
-            placeholder="Name"
-            value={props.name}
-            onChange={props.onChange}
-        />
+        const isChangedName = initiatorClassName == 'Person__name-input';
+        const isChangedShare = initiatorClassName == 'Person__share-input';
 
-        <input
-            className="Person__share-input"
-            size="3"
-            type="text"
-            ref="share"
-            placeholder="Share"
-            value={props.share}
-            onChange={props.onChange}
-        />%
+        const name = isChangedName ? newValue : props.name;
+        const share = isChangedShare ? newValue : props.share;
 
-        &nbsp;
-        <button className="Person__remove-button" onClick={props.onRemove}>
-            x
-        </button>
-    </div>
+        props.onChange({name, share});
+
+    };
+
+    const onRemove = ()=> {
+        props.onRemove();
+    };
     
-);
+    return (
+        <div className="Person">
 
-Person.propTypes = {
-    id: React.PropTypes.oneOfType(React.PropTypes.string, React.PropTypes.number).isRequired,
-    name: React.PropTypes.string,
-    share: React.PropTypes.string,
-    onChange: React.PropTypes.func.isRequired,
-    onRemove: React.PropTypes.func.isRequired,
-    validationErrors: React.PropTypes.object
+            <ValidationErrorsList errors={props.validationErrors}/>
+
+            <input
+                className="Person__name-input"
+                type="text"
+                placeholder="Name"
+                value={props.name}
+                onChange={onChange}
+            />
+
+            <input
+                className="Person__share-input"
+                size="3"
+                type="text"
+                placeholder="Share"
+                value={props.share}
+                onChange={onChange}
+            />%
+
+            &nbsp;
+            <button className="Person__remove-button" onClick={onRemove}>
+                x
+            </button>
+
+            <br/>
+
+            {props.children}
+
+        </div>
+
+    );
 };
 
-export default connect({
-    mapStateToProps: (state, ownProps) => {
-        return {
-            name: state.persons[ownProps.id].name,
-            share: state.persons[ownProps.id].share
-        }
-    },
-    mapDispatchToProps: (dispatch, ownProps) => {
-        return {
-            onChange: (event) => {
+Person.propTypes = {
+    name: React.PropTypes.string,
+    share: React.PropTypes.string,
+    validationErrors: React.PropTypes.object,
 
-                const initiatorClassName = event.target.className;
+    onChange: React.PropTypes.func.isRequired,
+    onRemove: React.PropTypes.func.isRequired
+};
 
-                const name = initiatorClassName == 'Person__name-input' ?
-                    event.target.value : ownProps.name;
-
-                const share = initiatorClassName == 'Person__share-input' ?
-                    event.target.value : ownProps.share;
-
-                dispatch(
-                    changePerson(ownProps.id, {name, share})
-                );
-
-            },
-            onRemove: ()=> {
-
-                dispatch(
-                    removePerson(ownProps.id)
-                );
-
-            }
-        }
-    }
-
-})(Person);
+export default Person;
