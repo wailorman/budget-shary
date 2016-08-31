@@ -1,16 +1,19 @@
-import ValidationErrorsList from './ValidationErrorsList'
+import ValidationErrorsList from "./ValidationErrorsList";
+import "../styles/Product.css";
 
 export const Product = (props)=> {
 
     const onChange = (event) => {
 
         const initiatorClassName = event.target.className;
+        const newValue = event.target.value;
 
-        const name = initiatorClassName == 'Product__name-input' ?
-            event.target.value : props.name;
+        const isChangedName = initiatorClassName == 'Product__name-input';
+        const isChangedPrice = initiatorClassName == 'Product__price-input';
 
-        const price = initiatorClassName == 'Product__price-input' ?
-            event.target.value : props.price;
+
+        const name = isChangedName ? newValue : props.name;
+        const price = isChangedPrice ? newValue : props.price;
 
         props.onChange({name, price});
 
@@ -49,12 +52,12 @@ export const Product = (props)=> {
 };
 
 Product.propTypes = {
-    id: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number]).isRequired,
     name: React.PropTypes.string,
     price: React.PropTypes.string,
+    validationErrors: React.PropTypes.object,
+
     onChange: React.PropTypes.func.isRequired,
-    onRemove: React.PropTypes.func.isRequired,
-    validationErrors: React.PropTypes.object
+    onRemove: React.PropTypes.func.isRequired
 };
 
 export default Product;
