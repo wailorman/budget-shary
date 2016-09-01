@@ -1,7 +1,7 @@
 import {createStore, applyMiddleware, compose} from 'redux';
 import thunk from 'redux-thunk';
 import {reducer, defaultState} from './reducer'
-import {stateSyncMiddleware} from './core/state-sync-middleware'
+import {stateSyncMiddleware} from './middlewares/state-sync-middleware'
 
 /**
  * Redux store factory

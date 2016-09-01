@@ -20,7 +20,7 @@ import {
 
     getFlatValidationErrors,
     sumAllShares
-} from '../../../src/core/utils'
+} from '../../../src/core/interchange-utils'
 
 import {
     fakeState,

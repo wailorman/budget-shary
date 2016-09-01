@@ -1,4 +1,4 @@
-import {pushState} from './state-sync'
+import {pushState} from '../core/state-sync'
 
 export const stateSyncMiddleware = (reducer) =>
     (store) => (next) => (action) => {

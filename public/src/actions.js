@@ -1,6 +1,6 @@
-import interchange from './core/interface'
+import interchange from './core/interchange-facade'
 
-import {sumAllShares} from './core/utils'
+import {sumAllShares} from './core/interchange-utils'
 
 import {validate} from '../src/core/validation';
 

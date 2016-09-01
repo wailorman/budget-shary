@@ -1,4 +1,4 @@
-import { proceedInterchange } from './utils'
+import { proceedInterchange } from './interchange-utils'
 
 export default function interchange(state) {
     const deferred = Q.defer();

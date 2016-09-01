@@ -10,7 +10,7 @@ import {
 } from '../../../src/actions'
 
 import { fakeStateCase1, fakeStateCase1WithTransactions } from '../../fixtures/fake-state'
-import { humanifyTransactions } from '../../../src/core/utils'
+import { humanifyTransactions } from '../../../src/core/interchange-utils'
 
 describe("UNIT / Reducers / transactionsReducer", ()=> {
 
