@@ -9,6 +9,8 @@ import {
 
 import {fetchState} from './core/state-sync'
 
+import {getProductsByPersonId} from './core/components-utils'
+
 // todo: >> action = {} ... and test it!
 
 export const defaultState = fetchState() || {
@@ -79,9 +81,17 @@ export function productsReducer(productsState = initialState.products, action) {
             return newState;
 
         case REMOVE_PERSON:
-            return _.filter(productsState, (product)=> {
-                return product.ownerId != action.id;
+            
+            const personId = action.id;
+
+            const personOwnProducts = getProductsByPersonId(personId, newState);
+            const personOwnProductsIds = _.keys(personOwnProducts);
+
+            personOwnProductsIds.forEach((productId)=> {
+                delete newState[productId];
             });
+            
+            return newState;
 
         default:
             return productsState;

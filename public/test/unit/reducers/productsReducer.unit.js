@@ -235,6 +235,20 @@ describe("UNIT / Reducers / productsReducer", ()=> {
 
         });
 
+        it(`should return object as new state, not array`, () => {
+
+            const personId = '1';
+
+            const {state} = doRemovePerson({id: personId});
+
+            expect(state).to.eql(
+                {
+                    2: {id: '2', name: 'Milk', price: '60', ownerId: '2'}
+                }
+            );
+
+        });
+
     });
 
 });
