@@ -1,16 +1,25 @@
 import { storiesOf, action } from '@kadira/storybook';
 import Person from '../../src/components/Person'
 import { changePerson, removePerson } from '../../src/actions'
+import {storyGenerator} from '../helpers/storybook-helper'
 
 const callbacks = {
-    changePerson: action(changePerson('1')),
-    removePerson: action(removePerson('1'))
+    onChange: action('onChange'),
+    onRemove: action('onRemove')
 };
 
+const story = storyGenerator(Person, callbacks);
+
 storiesOf('Person', module)
-    .add('with name & share', () => (
-        <Person name="Mike" share="55" {...callbacks}/>
-    ))
+    .add('with name & share', () => {
+
+        const props = {
+            name: 'Mike',
+            share: '55'
+        };
+
+        return story(props, "Should display normal person Mike 55");
+    })
     .add('with validation errors (direct)', ()=> {
         const props = {
             name: 'Mike',
@@ -24,5 +33,6 @@ storiesOf('Person', module)
                 ]
             }
         };
-        return (<Person {...props} {...callbacks}/>);
+
+        return story(props, "Should display 4 errors");
     });

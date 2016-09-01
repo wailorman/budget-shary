@@ -1,23 +1,13 @@
 import {storiesOf, action} from '@kadira/storybook';
 import {Product} from '../../src/components/Product'
-import {ProductsList} from '../../src/containers/ProductsList'
-import {generateStore} from '../../src/store'
-import {normalizedFakeState} from '../fixtures/fake-state'
-import {Provider} from 'react-redux'
+import {storyGenerator} from '../helpers/storybook-helper'
 
 const callbacks = {
     onChange: action('onChange'),
     onRemove: action('onRemove')
 };
 
-const getProduct = (props)=> {
-
-    _.defaults(props, {callbacks});
-
-    return (
-        <Product {...props}/>
-    );
-};
+const story = storyGenerator(Product, callbacks);
 
 storiesOf('Product')
     .add('name & price', () => {
@@ -26,7 +16,7 @@ storiesOf('Product')
             price: '20'
         };
 
-        return getProduct(props);
+        return story(props, "Should display normal product Milk 20");
     })
     .add('name, price & validation errors', ()=> {
         const props = {
@@ -38,5 +28,6 @@ storiesOf('Product')
                 ]
             }
         };
-        return getProduct(props);
+
+        return story(props, `Should display error "Price must be greater than or equal to 0"`);
     });
