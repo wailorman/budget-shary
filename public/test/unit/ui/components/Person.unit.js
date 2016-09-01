@@ -8,8 +8,8 @@ describe("UNIT / Components / <Person />", ()=> {
         name: 'Mike',
         share: '55',
 
-        changePerson: sinon.spy(),
-        removePerson: sinon.spy()
+        onChange: sinon.spy(),
+        onRemove: sinon.spy()
     };
 
     const setup = function (props = {}) {
@@ -26,24 +26,24 @@ describe("UNIT / Components / <Person />", ()=> {
 
     it(`should display name & share passed to props`, () => {
 
-        const { wrapper } = setup();
+        const { wrapper } = setup({ name: 'Mike', share: '55' });
 
         expect(wrapper.find('.Person__name-input').props().value).to.eql('Mike');
         expect(wrapper.find('.Person__share-input').props().value).to.eql('55');
 
     });
 
-    it(`should call removePerson when X button pressed`, () => {
+    it(`should call onRemove when X button pressed`, () => {
 
         const { wrapper, props } = setup();
 
         wrapper.find('.Person__remove-button').simulate('click');
 
-        expect(props.removePerson.callCount).to.eql(1);
+        expect(props.onRemove.callCount).to.eql(1);
 
     });
 
-    it(`should display validation errors passed to the props`, () => {
+    it(`should pass validation errors to ValidationErrorsList component`, () => {
 
         const props = {
             validationErrors: {

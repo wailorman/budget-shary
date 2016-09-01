@@ -1,74 +1,85 @@
-import { bindActionCreators } from 'redux'
-import PersonContainer from './PersonContainer'
-import TransactionsList from '../components/TransactionsList'
-import {ValidationErrorsList} from '../components/ValidationErrorsList'
+import {connect} from 'react-redux'
+import {bindActionCreators} from 'redux'
 
+import Product from '../components/Product'
+import Person from '../components/Person'
+import ValidationErrorsList from '../components/ValidationErrorsList'
+import TransactionsList from '../components/TransactionsList'
 
 import {getProductsByPersonId} from '../core/components-utils'
 
 import * as actionCreators from '../actions'
-import store from '../store'
 
-const App = React.createClass({
 
-    componentWillMount() {
-        this.setState(store.getState());
+export const App = ({state, dispatch}) => {
 
-        store.subscribe(()=> {
-            this.setState(store.getState());
-        });
+    const actions = bindActionCreators(actionCreators, dispatch);
+
+    return (
+        <div>
+
+            {_.map(state.persons, (person)=> {
+
+
+                const ownProducts = getProductsByPersonId(person.id, state.products);
+                const ownProductsIds = _.map(ownProducts, 'id');
+
+
+                const ownErrors = state.errors.persons[person.id];
+                const ownProductsErrors = _.chain(state.errors.products).pick(ownProductsIds).value();
+
+
+                return (
+
+                    <Person
+                        key={person.id}
+                        name={person.name}
+                        share={person.share}
+                        validationErrors={ownErrors}
+
+                        onChange={actions.changePerson.bind(null, person.id)}
+                        onRemove={actions.removePerson.bind(null, person.id)}
+                    >
+
+                        {_.map(ownProductsIds, (id)=>(
+
+                            <Product
+                                key={id}
+                                name={state.products[id].name}
+                                price={state.products[id].price}
+                                validationErrors={ownProductsErrors[id]}
+
+                                onChange={actions.changeProduct.bind(null, id)}
+                                onRemove={actions.removeProduct.bind(null, id)}
+                            />
+
+                        ))}
+
+                    </Person>
+
+                );
+
+            })}
+
+            <button onClick={actions.newPerson}>New person</button>
+
+            <ValidationErrorsList errors={state.errors.common}/>
+
+            <br /><br />
+
+            <button onClick={actions.realizeInterchange}>Calculate</button>
+
+            <TransactionsList transactions={state.transactions}/>
+
+        </div>
+    );
+};
+
+export default connect(
+    (state)=> {
+        return {state};
     },
-
-    render: function () {
-
-        const actions = bindActionCreators(actionCreators, store.dispatch);
-
-        const transactions = this.state.transactions;
-
-        const commonErrors = _.get(this.state, 'errors.common', {});
-
-        const personContainersList = _.map(this.state.persons, (person)=> {
-
-            const ownProducts = getProductsByPersonId(person.id, this.state.products);
-            const ownProductsIds = _.map(ownProducts, 'id');
-
-            const personErrors = _.get(this.state.errors, `persons[${person.id}]`, {});
-
-            const productsErrors = _.chain(this.state.errors)
-                .get(`products`, {})
-                .pick(ownProductsIds)
-                .value();
-
-            return (
-                <PersonContainer
-                    key={person.id}
-                    ownProducts={ownProducts}
-
-                    personErrors={personErrors}
-                    productsErrors={productsErrors}
-
-                    {... person}
-                    {... actions}
-                />
-            );
-
-        });
-
-        return (
-            <div>
-                {personContainersList}
-                <button onClick={actions.newPerson}>New person</button>
-
-                <ValidationErrorsList errors={commonErrors}/>
-                
-                <br />
-                <br />
-                
-                <button onClick={actions.realizeInterchange}>Calculate</button>
-                <TransactionsList transactions={transactions} />
-            </div>
-        );
+    (dispatch)=> {
+        return {dispatch};
     }
-});
-
-export default App;
+)(App);
