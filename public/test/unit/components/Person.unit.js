@@ -1,10 +1,12 @@
-import Product from '../../../../src/components/Product'
+import React from 'react'
+import { shallow } from 'enzyme';
+import Person from '../../../src/components/Person'
 
-describe("UNIT / Components / <Product />", ()=> {
+describe("UNIT / Components / <Person />", ()=> {
 
     const defaultProps = {
         name: 'Mike',
-        price: '55',
+        share: '55',
 
         onChange: sinon.spy(),
         onRemove: sinon.spy()
@@ -14,7 +16,7 @@ describe("UNIT / Components / <Product />", ()=> {
 
         _.defaultsDeep(props, defaultProps);
 
-        let wrapper = enzyme.shallow(<Product {...props} />);
+        let wrapper = shallow(<Person {...props} />);
 
         return {
             props,
@@ -22,12 +24,12 @@ describe("UNIT / Components / <Product />", ()=> {
         };
     };
 
-    it(`should display name & price passed to props`, () => {
+    it(`should display name & share passed to props`, () => {
 
-        const { wrapper } = setup();
+        const { wrapper } = setup({ name: 'Mike', share: '55' });
 
-        expect(wrapper.find('.Product__name-input').props().value).to.eql('Mike');
-        expect(wrapper.find('.Product__price-input').props().value).to.eql('55');
+        expect(wrapper.find('.Person__name-input').props().value).to.eql('Mike');
+        expect(wrapper.find('.Person__share-input').props().value).to.eql('55');
 
     });
 
@@ -35,21 +37,21 @@ describe("UNIT / Components / <Product />", ()=> {
 
         const { wrapper, props } = setup();
 
-        wrapper.find('.Product__remove-button').simulate('click');
+        wrapper.find('.Person__remove-button').simulate('click');
 
         expect(props.onRemove.callCount).to.eql(1);
 
     });
 
-    it(`should display validation errors passed to the props`, () => {
+    it(`should pass validation errors to ValidationErrorsList component`, () => {
 
         const props = {
             validationErrors: {
                 id: ['ID missing'],
                 name: ['Name is invalid'],
-                price: [
-                    'Price should be >= 0',
-                    'Price should contain only digits and dots'
+                share: [
+                    'Share should be between 0..100',
+                    'Share should contain only digits and dots'
                 ]
             }
         };
