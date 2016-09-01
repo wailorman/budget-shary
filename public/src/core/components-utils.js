@@ -1,9 +1,14 @@
 export const getProductsByPersonId = function (personId, products) {
 
-    return _.filter(
-        products,
-        (product) => product.ownerId == personId
-    );
+    let ownProductsIds = [];
+
+    _.forEach(products, (product, id)=> {
+        if (product.ownerId == personId) {
+            ownProductsIds.push(id);
+        }
+    });
+
+    return _.pick(products, ownProductsIds);
 
 };
 
