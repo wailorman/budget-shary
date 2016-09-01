@@ -6,8 +6,11 @@ export const stateSyncMiddleware = (reducer) =>
 
         const nextState = reducer(previousState, action);
 
-        // todo: check success pushing
-        pushState(nextState);
+        try {
+            pushState(nextState);
+        } catch (e) {
+            console.error(`Error while pushing the state: ${e}`)
+        }
 
         return next(action);
 
