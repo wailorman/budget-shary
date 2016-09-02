@@ -20,6 +20,8 @@ describe("UNIT / Reducers / transactionsReducer", ()=> {
         const action = undefined;
         const initialState = undefined;
 
+        // debugger;
+
         const expected = [];
         const actual = transactionsReducer(initialState, action);
 

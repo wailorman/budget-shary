@@ -150,7 +150,7 @@ export function transactionsReducer(state = initialState.transactions, action = 
         case PUT_INTERCHANGE_RESULTS:
             return action.transactions;
         default:
-            return state;
+            return state || [];
     }
 
 }
