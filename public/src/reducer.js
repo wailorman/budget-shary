@@ -13,6 +13,8 @@ import {getProductsByPersonId} from './core/components-utils'
 
 // todo: >> action = {} ... and test it!
 
+// todo: Split all reducers to their own files
+
 export const defaultState = fetchState() || {
 
         persons: {
@@ -164,6 +166,23 @@ export function errorsReducer(state = {}, action = {}) {
         case PUT_PERSONS_ERRORS:
             newErrorsState.persons = action.errors;
             return newErrorsState;
+
+        case CHANGE_PERSON:
+            if (action.meta && action.meta.errors) {
+                return _.merge(newErrorsState, action.meta.errors);
+            } else {
+                _.unset(newErrorsState, `persons[${action.id}]`);
+                return newErrorsState;
+            }
+
+        case CHANGE_PRODUCT:
+            if (action.meta && action.meta.errors) {
+                return _.merge(newErrorsState, action.meta.errors);
+            } else {
+                _.unset(newErrorsState, `products[${action.id}]`);
+                return newErrorsState;
+            }
+            
         default:
             return state;
     }

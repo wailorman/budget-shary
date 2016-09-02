@@ -37,27 +37,11 @@ export function newProduct(ownerId) {
 
 export function changeProduct(id, values) {
 
-    return (dispatch, getState)=> {
-
-        const _validateAndPutErrors = function () {
-
-            const validationResult = validate( getState() );
-
-            dispatch(
-                putValidationErrors( validationResult )
-            );
-
-        };
-
-        dispatch({
-            type: CHANGE_PRODUCT,
-            id,
-            values
-        });
-
-        _validateAndPutErrors();
-
-    };
+    return {
+        type: CHANGE_PRODUCT,
+        id,
+        values
+    }
 
 }
 
@@ -77,41 +61,11 @@ export function newPerson() {
 
 export function changePerson(id, values) {
 
-    return (dispatch, getState)=> {
-
-        const _updateShareSum = function () {
-
-            const allPersons = getState().persons;
-            const newShareSum = sumAllShares(allPersons);
-
-            dispatch(
-                updateShareSum( newShareSum )
-            );
-
-        };
-
-        const _validateAndPutErrors = function () {
-
-            const validationResult = validate( getState() );
-
-            dispatch(
-                putValidationErrors( validationResult )
-            );
-
-        };
-
-
-        dispatch({
-            type: CHANGE_PERSON,
-            id,
-            values
-        });
-
-        _updateShareSum();
-
-        _validateAndPutErrors();
-
-    };
+    return {
+        type: CHANGE_PERSON,
+        id,
+        values
+    }
 
 }
 

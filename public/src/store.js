@@ -2,6 +2,7 @@ import {createStore, applyMiddleware, compose} from 'redux';
 import thunk from 'redux-thunk';
 import {reducer, defaultState} from './reducer'
 import {stateSyncMiddleware} from './middlewares/state-sync-middleware'
+import {validationMiddleware} from './middlewares/validation-middleware'
 
 /**
  * Redux store factory
@@ -21,7 +22,8 @@ export const generateStore = (args = {}) => {
         compose(
             applyMiddleware(
                 thunk,
-                stateSyncMiddleware(reducer)
+                stateSyncMiddleware(reducer),
+                validationMiddleware
             )
             , typeof window === 'object' && typeof window.devToolsExtension !== 'undefined' ? window.devToolsExtension() : f => f
         )
