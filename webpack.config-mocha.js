@@ -16,7 +16,7 @@ var webpackConfig = {
     node: originalConfig.node,
     entry: {
 
-        "unit-client": `${__dirname}/public/test/unit/index`,
+        "unit-client": `mocha!${__dirname}/public/test/unit/index`,
 
         "integration-client-dev": `mocha!${__dirname}/public/test/integration/index`
 

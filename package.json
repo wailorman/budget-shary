@@ -111,6 +111,7 @@
     "karma-webpack": "^1.7.0",
     "less-loader": "^2.2.2",
     "mocha": "^2.4.5",
+    "mocha-loader": "^0.7.1",
     "mocha-testdata": "^1.2.0",
     "mocha-webpack": "^0.6.0",
     "null-loader": "^0.1.1",
