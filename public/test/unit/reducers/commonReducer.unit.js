@@ -1,5 +1,5 @@
 import { commonReducer } from '../../../src/reducer'
-import {UPDATE_SHARE_SUM} from '../../../src/actions'
+import {UPDATE_SHARE_SUM, CHANGE_PERSON} from '../../../src/actions'
 
 describe("UNIT / Reducers / commonReducer", ()=> {
     
@@ -96,6 +96,53 @@ describe("UNIT / Reducers / commonReducer", ()=> {
             const expected = {
                 shareSum: 95
             };
+
+            expect(actual).to.eql(expected);
+
+        });
+
+    });
+
+    describe("CHANGE_PERSON", ()=> {
+
+        it(`should update shareSum if it was passed in the action`, () => {
+
+            const action = {
+                type: CHANGE_PERSON,
+                id: '1',
+                values: {
+                    name: 'Mike',
+                    share: '50'
+                },
+                meta: {
+                    newShareSum: '110'
+                }
+            };
+
+            const expected = {
+                shareSum: '110'
+            };
+
+            const actual = commonReducer({}, action);
+
+            expect(actual).to.eql(expected);
+
+        });
+
+        it(`should remove shareSum from state if not`, () => {
+
+            const action = {
+                type: CHANGE_PERSON,
+                id: '1',
+                values: {
+                    name: 'Mike',
+                    share: '50'
+                }
+            };
+
+            const expected = {};
+
+            const actual = commonReducer({shareSum: '100'}, action);
 
             expect(actual).to.eql(expected);
 

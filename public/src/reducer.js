@@ -137,6 +137,14 @@ export function commonReducer(commonState = {}, action = {}) {
     let newCommonState = _.cloneDeep(commonState);
 
     switch (action.type) {
+        case CHANGE_PERSON:
+            if (action.meta && action.meta.newShareSum){
+                newCommonState.shareSum = action.meta.newShareSum;
+                return newCommonState;
+            }else{
+                _.unset(newCommonState, 'shareSum');
+                return newCommonState;
+            }
         case UPDATE_SHARE_SUM:
             newCommonState.shareSum = action.value || commonState.shareSum;
             return newCommonState;
