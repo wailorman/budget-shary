@@ -2,8 +2,6 @@
 
 import { errorsReducer } from '../../../src/reducer'
 import {
-    DISPLAY_INTERCHANGE_ERROR,
-    REMOVE_INTERCHANGE_ERRORS,
     PUT_PERSONS_ERRORS,
     PUT_VALIDATION_ERRORS,
 
@@ -275,7 +273,23 @@ describe("UNIT / Reducers / errorsReducer", ()=> {
                 }
             };
 
-            // debugger;
+            expect(actual).to.eql(expected);
+
+        });
+
+        it(`should remove shareSum errors if it was corrected`, () => {
+
+            const existingErrors = {
+                common: {
+                    shareSum: ['Share sum should be equal to 100, not 91']
+                }
+            };
+
+            const actual = errorsReducer(existingErrors, cleanAction);
+
+            const expected = {
+                common: {}
+            };
 
             expect(actual).to.eql(expected);
 

@@ -124,6 +124,87 @@ describe("UNIT / Middlewares / validation middleware", ()=> {
 
         });
 
+        it(`should attach shareSum errors if it was passed`, () => {
+
+            const action = {
+                type: CHANGE_PERSON,
+                id: '_1',
+                values: {
+                    name: 'Mike',
+                    share: '150'
+                },
+                meta: {
+                    newShareSum: '110'
+                }
+            };
+
+            const actual = callMiddleware(action);
+
+            const expected = {
+                type: CHANGE_PERSON,
+                id: '_1',
+                values: {
+                    name: 'Mike',
+                    share: '150'
+                },
+                meta: {
+                    newShareSum: '110',
+                    errors: {
+                        persons: {
+                            _1: {
+                                share: ['Share must satisfy expression 0 <= x <= 100']
+                            }
+                        },
+                        common: {
+                            shareSum: ['Share sum should be equal to 100, not 110']
+                        }
+                    }
+                }
+            };
+
+            expect(actual).to.eql(expected);
+
+        });
+
+        it(`should not attach shareSum errors if it correct`, () => {
+
+            const action = {
+                type: CHANGE_PERSON,
+                id: '_1',
+                values: {
+                    name: 'Mike',
+                    share: '150'
+                },
+                meta: {
+                    newShareSum: '100'
+                }
+            };
+
+            const actual = callMiddleware(action);
+
+            const expected = {
+                type: CHANGE_PERSON,
+                id: '_1',
+                values: {
+                    name: 'Mike',
+                    share: '150'
+                },
+                meta: {
+                    newShareSum: '100',
+                    errors: {
+                        persons: {
+                            _1: {
+                                share: ['Share must satisfy expression 0 <= x <= 100']
+                            }
+                        }
+                    }
+                }
+            };
+
+            expect(actual).to.eql(expected);
+
+        });
+
     });
     
 });

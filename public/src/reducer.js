@@ -179,6 +179,7 @@ export function errorsReducer(state = {}, action = {}) {
             if (action.meta && action.meta.errors) {
                 return _.merge(newErrorsState, action.meta.errors);
             } else {
+                _.unset(newErrorsState, `common.shareSum`);
                 _.unset(newErrorsState, `persons[${action.id}]`);
                 return newErrorsState;
             }
