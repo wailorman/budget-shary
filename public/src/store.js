@@ -23,9 +23,9 @@ export const generateStore = (args = {}) => {
         compose(
             applyMiddleware(
                 thunk,
-                stateSyncMiddleware(reducer),
                 shareSumMiddleware(reducer),
-                validationMiddleware
+                validationMiddleware,
+                stateSyncMiddleware(reducer)
             )
             , typeof window === 'object' && typeof window.devToolsExtension !== 'undefined' ? window.devToolsExtension() : f => f
         )
