@@ -5,10 +5,12 @@ import {
     PUT_PERSONS_ERRORS,
     PUT_VALIDATION_ERRORS,
 
-    CHANGE_PERSON, CHANGE_PRODUCT
+    CHANGE_PERSON, CHANGE_PRODUCT,
+
+    FETCH_BUDGET
 } from '../../../src/actions'
 
-import { fakeState } from '../../fixtures/fake-state'
+import { fakeState, normalizedBigFakeState } from '../../fixtures/fake-state'
 const initialErrorsState = fakeState.errors;
 
 describe("UNIT / Reducers / errorsReducer", ()=> {
@@ -20,6 +22,56 @@ describe("UNIT / Reducers / errorsReducer", ()=> {
         const actual = errorsReducer(undefined, {});
 
         expect(actual).to.eql(expected);
+
+    });
+
+    describe("FETCH_BUDGET", ()=> {
+
+        it(`should return clean state if .result wasn't attached to action`, () => {
+
+            const action = {
+                type: FETCH_BUDGET,
+                id: 'budget1'
+            };
+
+            const expected = {};
+
+            const actual = errorsReducer({}, action);
+
+            expect(actual).to.eql(expected);
+
+        });
+
+        it(`should return errors if .result is attached`, () => {
+
+            const action = {
+                type: FETCH_BUDGET,
+                id: 'budget1',
+                result: normalizedBigFakeState
+            };
+
+            const expected = normalizedBigFakeState.errors;
+
+            const actual = errorsReducer({}, action);
+
+            expect(actual).to.eql(expected);
+
+        });
+
+        it(`should clean previous state if .result wasn't attached`, () => {
+
+            const action = {
+                type: FETCH_BUDGET,
+                id: 'budget1'
+            };
+
+            const expected = {};
+
+            const actual = errorsReducer(normalizedBigFakeState.errors, action);
+
+            expect(actual).to.eql(expected);
+
+        });
 
     });
 

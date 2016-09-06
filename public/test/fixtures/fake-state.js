@@ -134,6 +134,9 @@ export const normalizedBigFakeState = {
         common: {
             shareSum: ['Share sum should be equal to 100, not 50']
         }
+    },
+    common: {
+        shareSum: '50'
     }
 };
 

@@ -3,9 +3,9 @@
 import {productsReducer} from '../../../src/reducer'
 import {
     REMOVE_PRODUCT, NEW_PRODUCT, CHANGE_PRODUCT,
-    REMOVE_PERSON
+    REMOVE_PERSON, FETCH_BUDGET
 } from '../../../src/actions'
-import {normalizedFakeState} from '../../fixtures/fake-state'
+import {normalizedFakeState, normalizedBigFakeState} from '../../fixtures/fake-state'
 
 import {getProductsByPersonId} from '../../../src/core/components-utils'
 import { normalizedArrayLength } from '../../helpers/utils'
@@ -15,6 +15,56 @@ const initialState = normalizedFakeState;
 describe("UNIT / Reducers / productsReducer", ()=> {
 
     const initialStateProducts = initialState.products;
+
+    describe("FETCH_BUDGET", ()=> {
+
+        it(`should return clean state if .result wasn't attached to action`, () => {
+
+            const action = {
+                type: FETCH_BUDGET,
+                id: 'budget1'
+            };
+
+            const expected = {};
+
+            const actual = productsReducer({}, action);
+
+            expect(actual).to.eql(expected);
+
+        });
+
+        it(`should return products if .result is attached`, () => {
+
+            const action = {
+                type: FETCH_BUDGET,
+                id: 'budget1',
+                result: normalizedBigFakeState
+            };
+
+            const expected = normalizedBigFakeState.products;
+
+            const actual = productsReducer({}, action);
+
+            expect(actual).to.eql(expected);
+
+        });
+
+        it(`should clean previous state if .result wasn't attached`, () => {
+
+            const action = {
+                type: FETCH_BUDGET,
+                id: 'budget1'
+            };
+
+            const expected = {};
+
+            const actual = productsReducer(normalizedBigFakeState.products, action);
+
+            expect(actual).to.eql(expected);
+
+        });
+
+    });
 
     describe("REMOVE_PRODUCT", ()=> {
 

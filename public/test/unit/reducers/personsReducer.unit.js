@@ -2,9 +2,10 @@
 
 import { personsReducer } from '../../../src/reducer'
 import {
-    REMOVE_PERSON, NEW_PERSON, CHANGE_PERSON
+    REMOVE_PERSON, NEW_PERSON, CHANGE_PERSON,
+    FETCH_BUDGET
 } from '../../../src/actions'
-import { normalizedFakeState } from '../../fixtures/fake-state'
+import { normalizedFakeState, normalizedBigFakeState } from '../../fixtures/fake-state'
 
 const initialState = normalizedFakeState;
 
@@ -12,6 +13,56 @@ const initialState = normalizedFakeState;
 describe("UNIT / Reducers / personsReducer", ()=> {
 
     const initialStatePersons = initialState.persons;
+
+    describe("FETCH_BUDGET", ()=> {
+
+        it(`should return clean state if .result wasn't attached to action`, () => {
+
+            const action = {
+                type: FETCH_BUDGET,
+                id: 'budget1'
+            };
+
+            const expected = {};
+
+            const actual = personsReducer({}, action);
+
+            expect(actual).to.eql(expected);
+
+        });
+
+        it(`should return persons if .result is attached`, () => {
+
+            const action = {
+                type: FETCH_BUDGET,
+                id: 'budget1',
+                result: normalizedBigFakeState
+            };
+
+            const expected = normalizedBigFakeState.persons;
+
+            const actual = personsReducer({}, action);
+
+            expect(actual).to.eql(expected);
+
+        });
+
+        it(`should clean previous state if .result wasn't attached`, () => {
+
+            const action = {
+                type: FETCH_BUDGET,
+                id: 'budget1'
+            };
+
+            const expected = {};
+
+            const actual = personsReducer(normalizedBigFakeState.persons, action);
+
+            expect(actual).to.eql(expected);
+
+        });
+
+    });
 
     describe("REMOVE_PERSON", ()=> {
 

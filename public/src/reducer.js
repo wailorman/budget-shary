@@ -4,7 +4,8 @@ import {
     REMOVE_PERSON, NEW_PERSON, CHANGE_PERSON,
     PUT_INTERCHANGE_RESULTS,
     PUT_PERSONS_ERRORS, PUT_VALIDATION_ERRORS,
-    UPDATE_SHARE_SUM
+    UPDATE_SHARE_SUM,
+    FETCH_BUDGET
 } from './actions'
 
 import {fetchState} from './core/state-sync'
@@ -60,6 +61,15 @@ export function productsReducer(productsState = initialState.products, action) {
 
     switch (action.type) {
 
+        case FETCH_BUDGET:
+
+            if (action.result && action.result.products){
+                newState = action.result.products;
+                return newState;
+            }else{
+                return {}; // todo: Substitute initial state!
+            }
+
         case REMOVE_PRODUCT:
             delete newState[action.id];
 
@@ -106,6 +116,15 @@ export function personsReducer(personsState = initialState.persons, action) {
 
     switch (action.type) {
 
+        case FETCH_BUDGET:
+
+            if (action.result && action.result.persons){
+                newState = action.result.persons;
+                return newState;
+            }else{
+                return {}; // todo: Substitute initial state!
+            }
+
         case REMOVE_PERSON:
             delete newState[action.id];
 
@@ -137,6 +156,15 @@ export function commonReducer(commonState = {}, action = {}) {
     let newCommonState = _.cloneDeep(commonState);
 
     switch (action.type) {
+        case FETCH_BUDGET:
+
+            if (action.result && action.result.common){
+                newCommonState = action.result.common;
+                return newCommonState;
+            }else{
+                return {}; // todo: Substitute initial state!
+            }
+
         case CHANGE_PERSON:
             if (action.meta && action.meta.newShareSum){
                 newCommonState.shareSum = action.meta.newShareSum;
@@ -155,8 +183,18 @@ export function commonReducer(commonState = {}, action = {}) {
 }
 
 export function transactionsReducer(state = initialState.transactions, action = {}) {
+    let newState = _.cloneDeep(state);
 
     switch (action.type){
+        case FETCH_BUDGET:
+
+            if (action.result && action.result.transactions){
+                newState = action.result.transactions;
+                return newState;
+            }else{
+                return []; // todo: Substitute initial state!
+            }
+
         case PUT_INTERCHANGE_RESULTS:
             return action.transactions;
         default:
@@ -169,6 +207,15 @@ export function errorsReducer(state = {}, action = {}) {
     let newErrorsState = _.cloneDeep(state);
 
     switch (action.type) {
+        case FETCH_BUDGET:
+
+            if (action.result && action.result.errors){
+                newErrorsState = action.result.errors;
+                return newErrorsState;
+            }else{
+                return {}; // todo: Substitute initial state!
+            }
+
         case PUT_VALIDATION_ERRORS:
             return action.errors; // new errors state
         case PUT_PERSONS_ERRORS:

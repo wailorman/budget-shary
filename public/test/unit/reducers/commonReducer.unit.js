@@ -1,5 +1,6 @@
 import { commonReducer } from '../../../src/reducer'
-import {UPDATE_SHARE_SUM, CHANGE_PERSON} from '../../../src/actions'
+import {UPDATE_SHARE_SUM, CHANGE_PERSON, FETCH_BUDGET} from '../../../src/actions'
+import {normalizedBigFakeState} from '../../fixtures/fake-state'
 
 describe("UNIT / Reducers / commonReducer", ()=> {
     
@@ -20,6 +21,56 @@ describe("UNIT / Reducers / commonReducer", ()=> {
         const expected = {hey: 'yo'};
 
         expect(actual).to.eql(expected);
+
+    });
+
+    describe("FETCH_BUDGET", ()=> {
+
+        it(`should return clean state if .result wasn't attached to action`, () => {
+
+            const action = {
+                type: FETCH_BUDGET,
+                id: 'budget1'
+            };
+
+            const expected = {};
+
+            const actual = commonReducer({}, action);
+
+            expect(actual).to.eql(expected);
+
+        });
+
+        it(`should return commons if .result is attached`, () => {
+
+            const action = {
+                type: FETCH_BUDGET,
+                id: 'budget1',
+                result: normalizedBigFakeState
+            };
+
+            const expected = normalizedBigFakeState.common;
+
+            const actual = commonReducer({}, action);
+
+            expect(actual).to.eql(expected);
+
+        });
+
+        it(`should clean previous state if .result wasn't attached`, () => {
+
+            const action = {
+                type: FETCH_BUDGET,
+                id: 'budget1'
+            };
+
+            const expected = {};
+
+            const actual = commonReducer(normalizedBigFakeState.common, action);
+
+            expect(actual).to.eql(expected);
+
+        });
 
     });
 
