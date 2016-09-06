@@ -114,6 +114,26 @@ export const normalizedBigFakeState = {
     products: {
         1: {id: '1', name: 'Mocha', price: '40', ownerId: '1'},
         2: {id: '2', name: 'Wood', price: '60', ownerId: '1'}
+    },
+    transactions: [
+        {
+            from: '1', to: '2', total: '100'
+        }
+    ],
+    errors: {
+        products: {
+            1: {
+                name: ['Name should be a string']
+            }
+        },
+        persons: {
+            2: {
+                share: ['Share must satisfy expression 0 <= x <= 100']
+            }
+        },
+        common: {
+            shareSum: ['Share sum should be equal to 100, not 50']
+        }
     }
 };
 
