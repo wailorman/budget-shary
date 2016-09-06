@@ -31,6 +31,10 @@ describe("UNIT / Middlewares / state sync middleware", ()=> {
             localStorage.clear();
         });
 
+        afterEach(()=> {
+            localStorage.clear();
+        });
+
         it(`should not mutate action if it's not FETCH_BUDGET`, () => {
 
             const action = {
