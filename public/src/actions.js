@@ -1,9 +1,5 @@
 import interchange from './core/interchange-facade'
 
-import {sumAllShares} from './core/interchange-utils'
-
-import {validate} from '../src/core/validation';
-
 export const REMOVE_PRODUCT = 'REMOVE_PRODUCT';
 export const NEW_PRODUCT = 'NEW_PRODUCT';
 export const CHANGE_PRODUCT = 'CHANGE_PRODUCT';
@@ -20,6 +16,17 @@ export const PUT_PERSONS_ERRORS = 'PUT_PERSONS_ERRORS';
 export const PUT_VALIDATION_ERRORS = 'PUT_VALIDATION_ERRORS';
 
 export const UPDATE_SHARE_SUM = 'UPDATE_SHARE_SUM';
+
+export const FETCH_BUDGET = 'FETCH_BUDGET';
+
+export function fetchBudget(id) {
+
+    return {
+        type: FETCH_BUDGET,
+        id
+    };
+    
+}
 
 export function removeProduct(id) {
     return {
