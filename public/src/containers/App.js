@@ -1,3 +1,5 @@
+import React, {Component} from 'react'
+
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 
@@ -11,7 +13,7 @@ import {getProductsByPersonId} from '../core/components-utils'
 import * as actionCreators from '../actions'
 
 
-export const App = ({state, dispatch}) => {
+export const BudgetComponent = ({state, dispatch}) => {
 
     const actions = bindActionCreators(actionCreators, dispatch);
 
@@ -75,6 +77,13 @@ export const App = ({state, dispatch}) => {
     );
 };
 
+class Budget extends React.Component {
+
+    render() {
+        return (<BudgetComponent {...this.props} />);
+    }
+}
+
 export default connect(
     (state)=> {
         return {state};
@@ -82,4 +91,4 @@ export default connect(
     (dispatch)=> {
         return {dispatch};
     }
-)(App);
+)(Budget);
