@@ -1,2 +1,1 @@
-// todo: Do not require this polyfill for integration tests
-module.exports = require('localStorage');
+module.exports = typeof window == 'undefined' ? require('localStorage') : window.localStorage;
