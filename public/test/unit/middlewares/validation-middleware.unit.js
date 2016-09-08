@@ -1,5 +1,7 @@
 import {validationMiddleware} from '../../../src/middlewares/validation-middleware'
 import {CHANGE_PERSON, CHANGE_PRODUCT} from '../../../src/actions'
+import {normalizedBigFakeState} from '../../fixtures/fake-state'
+import {reducer} from '../../../src/reducer'
 
 describe("UNIT / Middlewares / validation middleware", ()=> {
 
@@ -10,7 +12,13 @@ describe("UNIT / Middlewares / validation middleware", ()=> {
             return action;
         };
 
-        return validationMiddleware()(next)(action);
+        const store = {
+            getState(){
+                return normalizedBigFakeState;
+            }
+        };
+
+        return validationMiddleware(reducer)(store)(next)(action);
 
     };
 
@@ -20,7 +28,7 @@ describe("UNIT / Middlewares / validation middleware", ()=> {
 
             const action = {
                 type: CHANGE_PRODUCT,
-                id: '_1',
+                id: '1',
                 values: {
                     name: 'Milk',
                     price: '50'
@@ -37,7 +45,7 @@ describe("UNIT / Middlewares / validation middleware", ()=> {
 
             const action = {
                 type: CHANGE_PRODUCT,
-                id: '_1',
+                id: '1',
                 values: {
                     name: 'Milk',
                     price: '50b'
@@ -48,7 +56,7 @@ describe("UNIT / Middlewares / validation middleware", ()=> {
 
             const expected = {
                 type: CHANGE_PRODUCT,
-                id: '_1',
+                id: '1',
                 values: {
                     name: 'Milk',
                     price: '50b'
@@ -56,7 +64,7 @@ describe("UNIT / Middlewares / validation middleware", ()=> {
                 meta: {
                     errors: {
                         products: {
-                            _1: {
+                            1: {
                                 price: ['Price is not a number']
                             }
                         }
@@ -76,7 +84,7 @@ describe("UNIT / Middlewares / validation middleware", ()=> {
 
             const action = {
                 type: CHANGE_PERSON,
-                id: '_1',
+                id: '1',
                 values: {
                     name: 'Mike',
                     share: '50'
@@ -93,7 +101,7 @@ describe("UNIT / Middlewares / validation middleware", ()=> {
 
             const action = {
                 type: CHANGE_PERSON,
-                id: '_1',
+                id: '1',
                 values: {
                     name: 'Mike',
                     share: '150'
@@ -104,7 +112,7 @@ describe("UNIT / Middlewares / validation middleware", ()=> {
 
             const expected = {
                 type: CHANGE_PERSON,
-                id: '_1',
+                id: '1',
                 values: {
                     name: 'Mike',
                     share: '150'
@@ -112,7 +120,7 @@ describe("UNIT / Middlewares / validation middleware", ()=> {
                 meta: {
                     errors: {
                         persons: {
-                            _1: {
+                            1: {
                                 share: ['Share must satisfy expression 0 <= x <= 100']
                             }
                         }
@@ -128,7 +136,7 @@ describe("UNIT / Middlewares / validation middleware", ()=> {
 
             const action = {
                 type: CHANGE_PERSON,
-                id: '_1',
+                id: '1',
                 values: {
                     name: 'Mike',
                     share: '150'
@@ -142,7 +150,7 @@ describe("UNIT / Middlewares / validation middleware", ()=> {
 
             const expected = {
                 type: CHANGE_PERSON,
-                id: '_1',
+                id: '1',
                 values: {
                     name: 'Mike',
                     share: '150'
@@ -151,7 +159,7 @@ describe("UNIT / Middlewares / validation middleware", ()=> {
                     newShareSum: '110',
                     errors: {
                         persons: {
-                            _1: {
+                            1: {
                                 share: ['Share must satisfy expression 0 <= x <= 100']
                             }
                         },
@@ -170,7 +178,7 @@ describe("UNIT / Middlewares / validation middleware", ()=> {
 
             const action = {
                 type: CHANGE_PERSON,
-                id: '_1',
+                id: '1',
                 values: {
                     name: 'Mike',
                     share: '150'
@@ -184,7 +192,7 @@ describe("UNIT / Middlewares / validation middleware", ()=> {
 
             const expected = {
                 type: CHANGE_PERSON,
-                id: '_1',
+                id: '1',
                 values: {
                     name: 'Mike',
                     share: '150'
@@ -193,7 +201,7 @@ describe("UNIT / Middlewares / validation middleware", ()=> {
                     newShareSum: '100',
                     errors: {
                         persons: {
-                            _1: {
+                            1: {
                                 share: ['Share must satisfy expression 0 <= x <= 100']
                             }
                         }

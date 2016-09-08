@@ -1,62 +1,29 @@
 import {CHANGE_PERSON, CHANGE_PRODUCT} from '../actions'
-import * as constrains from '../core/validation-constrains'
 
-const validateJs = require('validate.js');
+import {validate} from '../core/validation';
 
 
-export const validationMiddleware = (store) => (next) => (action) => {
+export const validationMiddleware = (reducer) => (store) => (next) => (action) => {
 
-    // todo: It will be better if whole state will be validated, not by parts
+    if (action.type == CHANGE_PRODUCT || action.type == CHANGE_PERSON) {
 
-    let newAction = _.cloneDeep(action);
+        let newAction = _.cloneDeep(action);
 
-    if (action.type == CHANGE_PRODUCT) {
+        const previousState = store.getState();
 
-        const product = {
-            id: action.id,
-            ...action.values
-        };
+        const nextState = reducer(previousState, action);
 
-        const validationResult = validateJs(product, constrains.product);
+        const validationResult = validate( nextState );
 
-        // is invalid
-        if (validationResult){
-            _.set(newAction, `meta.errors.products.${action.id}`, validationResult);
+        if (_.isEmpty(validationResult) == false) {
+            _.set(newAction, `meta.errors`, validationResult);
         }
 
+        return next(newAction);
+
+    }else{
+        return next(action);
     }
-
-    if (action.type == CHANGE_PERSON) {
-
-        const person = {
-            id: action.id,
-            ...action.values
-        };
-
-        const personsValidationResult = validateJs(person, constrains.person);
-
-        // is invalid
-        if (personsValidationResult){
-            _.set(newAction, `meta.errors.persons.${action.id}`, personsValidationResult);
-        }
-
-        if (action.meta && action.meta.newShareSum){
-
-            const shareSum = {shareSum: action.meta.newShareSum};
-            const validationConstrains = {shareSum: constrains.common.shareSum};
-            
-            const shareSumValidationResult = validateJs(shareSum, validationConstrains);
-
-            // is invalid
-            if (shareSumValidationResult) {
-                _.set(newAction, `meta.errors.common.shareSum`, shareSumValidationResult.shareSum);
-            }
-            
-        }
-
-    }
-
-    return next(newAction);
 };
 
 export default validationMiddleware;

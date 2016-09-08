@@ -24,7 +24,7 @@ export const generateStore = (args = {}) => {
             applyMiddleware(
                 thunk,
                 shareSumMiddleware(reducer),
-                validationMiddleware,
+                validationMiddleware(reducer),
                 stateSyncMiddleware(reducer)
             )
             , typeof window === 'object' && typeof window.devToolsExtension !== 'undefined' ? window.devToolsExtension() : f => f
