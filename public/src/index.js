@@ -1,12 +1,11 @@
 "use strict";
-
-import App from './containers/App'
+import Budget from './containers/Budget'
 import store from './store'
 import {Provider} from 'react-redux'
 
 ReactDOM.render(
     <Provider store={store}>
-        <App/>
+        <Budget/>
     </Provider>,
     document.getElementById('app')
 );
