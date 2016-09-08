@@ -8,10 +8,15 @@ export const validateCollection = function (collection, constrains) {
 
     _(collection).each((object)=> {
         // todo: throw error if ID isn't defined
-        result[object.id] = validateJs(object, constrains);
+        const validationResult = validateJs(object, constrains);
+
+        // is not valid
+        if (validationResult) {
+            result[object.id] = validationResult;
+        }
     });
 
-    return result;
+    return _.isEmpty(result) ? undefined : result;
     
 };
 
@@ -23,11 +28,14 @@ export const validate = function (state, deps = {}) {
     const persons = deps.validateCollection(state.persons, constrains.person); 
     const products = deps.validateCollection(state.products, constrains.product);
     const common = deps.validateJs(state.common, constrains.common);
-    
-    return {
-        persons,
-        products,
-        common
-    };
+
+    const result = {};
+
+    // if .persons have validation errors
+    if (persons) result.persons = persons; // attach errors to the result
+    if (products) result.products = products;
+    if (common) result.common = common;
+
+    return result;
     
 };

@@ -41,15 +41,7 @@ describe("UNIT / Core / Validation", ()=> {
 
             const actual = validateCollection(collection, constrains);
 
-            const expected = {
-                1: undefined,
-                2: undefined,
-                3: undefined,
-                4: undefined,
-                5: undefined,
-                6: undefined,
-                7: undefined
-            };
+            const expected = undefined;
 
             expect(actual).to.eql(expected);
 
@@ -64,13 +56,7 @@ describe("UNIT / Core / Validation", ()=> {
             const actual = validateCollection(collection, constrains);
 
             const expected = {
-                1: { share: ['Share must satisfy expression 0 <= x <= 100'] },
-                2: undefined,
-                3: undefined,
-                4: undefined,
-                5: undefined,
-                6: undefined,
-                7: undefined
+                1: { share: ['Share must satisfy expression 0 <= x <= 100'] }
             };
 
             expect(actual).to.eql(expected);
@@ -83,7 +69,7 @@ describe("UNIT / Core / Validation", ()=> {
 
             const actual = validateCollection([], constrains);
 
-            const expected = {};
+            const expected = undefined;
 
             expect(actual).to.eql(expected);
 
@@ -95,7 +81,7 @@ describe("UNIT / Core / Validation", ()=> {
 
             const actual = validateCollection(undefined, constrains);
 
-            const expected = {};
+            const expected = undefined;
 
             expect(actual).to.eql(expected);
 
