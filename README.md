@@ -22,6 +22,5 @@
 
 # TODO
 ## Budget container
-* Change initial state to normal
 * Call FETCH_STATE action on Budget container did mount
 * Add version number to the interface
