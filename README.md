@@ -22,5 +22,5 @@
 
 # TODO
 ## Budget container
-* Call FETCH_STATE action on Budget container did mount
 * Add version number to the interface
+* Validate full state, not only actions in validation middleware

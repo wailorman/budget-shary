@@ -79,6 +79,10 @@ export const BudgetComponent = ({state, dispatch}) => {
 
 class Budget extends React.Component {
 
+    componentDidMount(){
+        this.props.dispatch(actionCreators.fetchBudget());
+    }
+
     render() {
         return (<BudgetComponent {...this.props} />);
     }

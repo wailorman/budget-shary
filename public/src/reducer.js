@@ -8,17 +8,24 @@ import {
     FETCH_BUDGET
 } from './actions'
 
-import {fetchState} from './core/state-sync'
-
 import {getProductsByPersonId} from './core/components-utils'
 
-// todo: >> action = {} ... and test it!
+// todo: >> action = {} ... and test it! --> Means that default action argument should == {}
 
 // todo: Split all reducers to their own files
 
-export const defaultState = fetchState({returnStubIfEmpty: true});
+const initialState = {
 
-const initialState = defaultState;
+    persons: {},
+    products: {},
+    transactions: [],
+    errors: {
+        products: {},
+        persons: {},
+        common: {}
+    }
+
+};
 
 export function productsReducer(productsState = initialState.products, action) {
     let newState = _.cloneDeep(productsState);

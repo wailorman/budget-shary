@@ -9,9 +9,9 @@ export const stateSyncMiddleware = (reducer) =>
         switch (action.type){
             case FETCH_BUDGET:
                 
-                newAction.result = fetchState();
+                newAction.result = fetchState({returnStubIfEmpty: true});
                 
-                return newAction;
+                return next(newAction);
             default:
 
                 // sync state with localStorage
