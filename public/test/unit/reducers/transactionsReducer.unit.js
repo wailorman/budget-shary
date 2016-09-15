@@ -1,18 +1,14 @@
-import { transactionsReducer, combinedReducers } from '../../../src/reducer'
+import { transactionsReducer } from '../../../src/reducer'
 
 import {
 
     PROCEED_INTERCHANGE,
-    PUT_INTERCHANGE_RESULTS, DISPLAY_INTERCHANGE_ERROR,
-
-    realizeInterchange,
 
     FETCH_BUDGET
 
 } from '../../../src/actions'
 
 import { fakeStateCase1, fakeStateCase1WithTransactions, normalizedBigFakeState } from '../../fixtures/fake-state'
-import { humanifyTransactions } from '../../../src/core/interchange-utils'
 
 describe("UNIT / Reducers / transactionsReducer", ()=> {
 
@@ -73,8 +69,6 @@ describe("UNIT / Reducers / transactionsReducer", ()=> {
         const action = undefined;
         const initialState = undefined;
 
-        // debugger;
-
         const expected = [];
         const actual = transactionsReducer(initialState, action);
 
@@ -87,8 +81,10 @@ describe("UNIT / Reducers / transactionsReducer", ()=> {
         const transactions = fakeStateCase1WithTransactions.transactions;
 
         const action = {
-            type: PUT_INTERCHANGE_RESULTS,
-            transactions
+            type: PROCEED_INTERCHANGE,
+            meta: {
+                transactions
+            }
         };
 
         const expected = transactions;
@@ -96,22 +92,6 @@ describe("UNIT / Reducers / transactionsReducer", ()=> {
         const actual = transactionsReducer(fakeStateCase1, action);
 
         expect(actual).to.eql(expected);
-
-    });
-
-    it(`should integrate into combinedReducers`, () => {
-
-        const transactions = fakeStateCase1WithTransactions.transactions;
-
-        const action = {
-            type: PUT_INTERCHANGE_RESULTS,
-            transactions
-        };
-
-        const transactionsReducerResponse = transactionsReducer(fakeStateCase1, action);
-        const combinedReducersResponse = combinedReducers(fakeStateCase1, action).transactions;
-
-        expect(transactionsReducerResponse).to.eql(combinedReducersResponse);
 
     });
 
