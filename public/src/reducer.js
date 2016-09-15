@@ -5,7 +5,7 @@ import {
     PUT_INTERCHANGE_RESULTS,
     PUT_PERSONS_ERRORS, PUT_VALIDATION_ERRORS,
     UPDATE_SHARE_SUM,
-    FETCH_BUDGET
+    FETCH_BUDGET, CHANGE_BUDGET_PROPS
 } from './actions'
 
 import {getProductsByPersonId} from './core/components-utils'
@@ -15,7 +15,7 @@ import {getProductsByPersonId} from './core/components-utils'
 // todo: Split all reducers to their own files
 
 const initialState = {
-
+    budget: {},
     persons: {},
     products: {},
     transactions: [],
@@ -216,7 +216,24 @@ export function errorsReducer(state = {}, action = {}) {
 
 }
 
+export function budgetReducer(state = {}, action = {}) {
+
+    let newState = _.cloneDeep(state);
+    
+    switch (action.type){
+        case FETCH_BUDGET:
+            return action.result.budget;
+        case CHANGE_BUDGET_PROPS:
+            newState.name = action.values.name;
+            return newState;
+        default:
+            return newState;
+    }
+    
+}
+
 export const combinedReducers = combineReducers({
+    budget: budgetReducer,
     products: productsReducer,
     persons: personsReducer,
     transactions: transactionsReducer,

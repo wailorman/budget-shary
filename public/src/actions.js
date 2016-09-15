@@ -18,6 +18,16 @@ export const PUT_VALIDATION_ERRORS = 'PUT_VALIDATION_ERRORS';
 export const UPDATE_SHARE_SUM = 'UPDATE_SHARE_SUM';
 
 export const FETCH_BUDGET = 'FETCH_BUDGET';
+export const CHANGE_BUDGET_PROPS = 'CHANGE_BUDGET_PROPS';
+
+export function changeBudgetProps(values) {
+
+    return {
+        type: CHANGE_BUDGET_PROPS,
+        values
+    }
+    
+}
 
 export function fetchBudget(id) {
 

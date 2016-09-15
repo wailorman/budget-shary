@@ -7,6 +7,7 @@ import Product from '../components/Product'
 import Person from '../components/Person'
 import ValidationErrorsList from '../components/ValidationErrorsList'
 import TransactionsList from '../components/TransactionsList'
+import BudgetName from '../components/BudgetName'
 
 import {getProductsByPersonId} from '../core/components-utils'
 
@@ -19,6 +20,9 @@ export const BudgetComponent = ({state, dispatch}) => {
 
     return (
         <div>
+
+            <BudgetName onChange={actions.changeBudgetProps.bind(null)}
+                        name={state.budget.name}/>
 
             {_.map(state.persons, (person)=> {
 

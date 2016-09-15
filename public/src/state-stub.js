@@ -1,5 +1,8 @@
 export const stateStub = {
 
+    budget: {
+        name: 'Pretty budget'
+    },
     persons: {
         _1: {id: '_1', name: 'Jack', share: '30'},
         _2: {id: '_2', name: 'Alice', share: '60'},
