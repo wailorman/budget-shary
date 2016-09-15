@@ -1,5 +1,3 @@
-import interchange from './core/interchange-facade'
-
 export const REMOVE_PRODUCT = 'REMOVE_PRODUCT';
 export const NEW_PRODUCT = 'NEW_PRODUCT';
 export const CHANGE_PRODUCT = 'CHANGE_PRODUCT';
@@ -109,22 +107,12 @@ export function putPersonsErrors(errors) {
     };
 }
 
-// todo: Rewrite to saga. Because I can't test it
-
 export function realizeInterchange() {
-    return (dispatch, getState) => {
 
-        // todo: >> dispatch(removeInterchangeErrors());
-
-        return interchange(getState())
-            .then((res)=> {
-                return dispatch(putInterchangeResults(res));
-            })
-            .catch((err)=> {
-                console.error(`realizeInterchange() error: ${err}`);
-                return dispatch(displayInterchangeError(err));
-            });
+    return {
+        type: PROCEED_INTERCHANGE
     };
+
 }
 
 export function putInterchangeResults(transactions) {

@@ -10,5 +10,4 @@
 
 ## 3
 * Sync only CHANGE/REMOVE/NEW_* actions (write to budget-own localStorage variable)
-* Interchange middleware
 * Add version number to the interface

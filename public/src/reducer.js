@@ -2,7 +2,7 @@ import { combineReducers } from 'redux'
 import {
     REMOVE_PRODUCT, NEW_PRODUCT, CHANGE_PRODUCT,
     REMOVE_PERSON, NEW_PERSON, CHANGE_PERSON,
-    PUT_INTERCHANGE_RESULTS,
+    PROCEED_INTERCHANGE,
     PUT_PERSONS_ERRORS, PUT_VALIDATION_ERRORS,
     UPDATE_SHARE_SUM,
     FETCH_BUDGET, CHANGE_BUDGET_PROPS
@@ -166,8 +166,8 @@ export function transactionsReducer(state = initialState.transactions, action = 
                 return []; // todo: Substitute initial state!
             }
 
-        case PUT_INTERCHANGE_RESULTS:
-            return action.transactions;
+        case PROCEED_INTERCHANGE:
+            return action.meta.transactions;
         default:
             return state || [];
     }
