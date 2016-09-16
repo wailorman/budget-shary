@@ -21,7 +21,8 @@ import {
     getFlatValidationErrors,
     sumAllShares,
     calculateMonetarySharesForProduct,
-    getAmountOfProductParticipants
+    getAmountOfProductParticipants,
+    calculateMonetarySharesForProductsCollection
 
 } from '../../../src/core/interchange-utils'
 
@@ -841,6 +842,66 @@ describe("UNIT / Core / Utils", ()=> {
             const actual = getAmountOfProductParticipants(participatingElement);
 
             expect(actual).to.eql(expected);
+
+        });
+
+    });
+
+    describe("#calculateMonetarySharesForProductsCollection", ()=> {
+
+        it(`should calculate share for all product participant elements`, () => {
+
+            const actual = calculateMonetarySharesForProductsCollection(
+                fakeParticipatingState.productParticipating,
+                fakeParticipatingState.products
+            );
+
+            const expectedFirstResult = {
+                "1": 22.5,
+                "3": 22.5
+            };
+
+            const expectedLastResult = {};
+
+            expect(actual[1]).to.eql(expectedFirstResult);
+            expect(actual[14]).to.eql(expectedLastResult);
+            expect(_.keys(actual)).to.eql(_.keys(fakeParticipatingState.productParticipating));
+
+        });
+
+        it(`should log error participating elem if nonexistent product was participated`, () => {
+
+            const fakeProductParticipating = _.chain(fakeParticipatingState.productParticipating)
+                .cloneDeep()
+                .merge({
+                    100: {
+                        2: true
+                    }
+                })
+                .value();
+
+
+
+            // Result of calculating monetary shares for each product participants
+            // with nonexistent product
+            const actualWithInvalidState = calculateMonetarySharesForProductsCollection(
+                fakeProductParticipating,
+                fakeParticipatingState.products
+            );
+
+            // and normal result, when products are exist
+            const actualWithNormalState = calculateMonetarySharesForProductsCollection(
+                fakeParticipatingState.productParticipating,
+                fakeParticipatingState.products
+            );
+
+            expect(actualWithInvalidState).to.eql(actualWithNormalState);
+
+
+            const matchRegex = /Error in calculating participating monetary share/i;
+            const consoleExpectation = console.error.calledWithMatch(matchRegex);
+
+            expect(consoleExpectation).to.eql(true);
 
         });
 

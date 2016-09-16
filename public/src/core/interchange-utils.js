@@ -441,3 +441,22 @@ export const calculateMonetarySharesForProduct = function (productParticipatingE
     return result;
     
 };
+
+export const calculateMonetarySharesForProductsCollection = function (productParticipatingCollection, products) {
+
+    let result = {};
+
+    _.forIn(productParticipatingCollection, (productParticipatingElem, productId)=> {
+
+        try {
+            result[productId] = calculateMonetarySharesForProduct(productParticipatingElem, products[productId].price);
+        } catch(e) {
+            // todo: Make error message more clear
+            console.error(`Error in calculating participating monetary share: ${e}`);
+        }
+        
+    });
+
+    return result;
+
+};
