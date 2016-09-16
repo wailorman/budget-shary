@@ -8,6 +8,22 @@ const validate = require('validate.js');
 
 describe("UNIT / Core / Validation Constrains", ()=> {
 
+    let sandbox;
+
+    beforeEach(()=> {
+
+        sandbox = sinon.sandbox.create();
+
+        sandbox.stub(console, 'log');
+        sandbox.stub(console, 'error');
+        sandbox.stub(console, 'info');
+        sandbox.stub(console, 'warn');
+    });
+
+    afterEach(()=> {
+        sandbox.restore();
+    });
+
     describe("id", ()=> {
 
         const idConstrains = constrains.id;
