@@ -407,3 +407,37 @@ export const sumAllShares = function (persons) {
         .value();
 
 };
+
+export const getAmountOfProductParticipants = function (productParticipatingElem) {
+
+    let amountOfParticipants = 0;
+
+    _.forIn(productParticipatingElem, (participantState)=> {
+        if (participantState == true){
+            amountOfParticipants++;
+        }
+    });
+
+    return amountOfParticipants;
+    
+};
+
+export const calculateMonetarySharesForProduct = function (productParticipatingElem, productPrice) {
+
+    const amountOfParticipants = getAmountOfProductParticipants(productParticipatingElem);
+
+    const equalShareForAllParticipants = productPrice / amountOfParticipants;
+
+    let result = {};
+
+    _.forIn(productParticipatingElem, (participantState, productId)=> {
+
+        if (participantState == true) {
+            result[productId] = equalShareForAllParticipants;
+        }
+
+    });
+
+    return result;
+    
+};

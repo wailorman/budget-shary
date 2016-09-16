@@ -19,13 +19,17 @@ import {
 
 
     getFlatValidationErrors,
-    sumAllShares
+    sumAllShares,
+    calculateMonetarySharesForProduct,
+    getAmountOfProductParticipants
+
 } from '../../../src/core/interchange-utils'
 
 import {
     fakeState,
     fakeStateCase1,
-    fakeStateCase1WithTransactions
+    fakeStateCase1WithTransactions,
+    fakeParticipatingState
 } from '../../fixtures/fake-state'
 
 import { given } from 'mocha-testdata';
@@ -699,6 +703,142 @@ describe("UNIT / Core / Utils", ()=> {
             const actual = sumAllShares(persons);
 
             const expected = 0;
+
+            expect(actual).to.eql(expected);
+
+        });
+
+    });
+
+    describe("#calculateMonetarySharesForProduct()", ()=> {
+
+        const products = fakeParticipatingState.products;
+        const participatingElements = fakeParticipatingState.productParticipating;
+
+        const setup = (productId)=> {
+
+            const participatingElem = participatingElements[productId];
+            const price = products[productId].price;
+
+            return { participatingElem, price };
+
+        };
+
+        it(`should calculate shares if we have 2 'true' participants`, () => {
+
+            const {participatingElem, price} = setup(1);
+
+            const expected = {
+                1: 22.5,
+                3: 22.5
+            };
+
+            const actual = calculateMonetarySharesForProduct(participatingElem, price);
+
+            expect(actual).to.eql(expected);
+
+        });
+
+        it(`should calculate shares if we have 2 'true' participants and 1 'false'`, () => {
+
+            const {participatingElem, price} = setup(8);
+
+            const expected = {
+                1: 117,
+                2: 117
+            };
+
+            const actual = calculateMonetarySharesForProduct(participatingElem, price);
+
+            expect(actual).to.eql(expected);
+
+        });
+
+        it(`should not calculate shares if we have 1 'false' participants`, () => {
+
+            const {participatingElem, price} = setup(13);
+
+            const expected = {};
+
+            const actual = calculateMonetarySharesForProduct(participatingElem, price);
+
+            expect(actual).to.eql(expected);
+
+        });
+
+        it(`should not calculate shares if we have 0 participants`, () => {
+
+            const {participatingElem, price} = setup(14);
+
+            const expected = {};
+
+            const actual = calculateMonetarySharesForProduct(participatingElem, price);
+
+            expect(actual).to.eql(expected);
+
+        });
+
+    });
+
+    describe("#getAmountOfProductParticipants", ()=> {
+
+        const participatingElements = fakeParticipatingState.productParticipating;
+
+        it(`should return 3 if three participants == true`, () => {
+
+            const participatingElement = participatingElements[11];
+
+            const expected = 3;
+
+            const actual = getAmountOfProductParticipants(participatingElement);
+
+            expect(actual).to.eql(expected);
+
+        });
+
+        it(`should return 2 if two participants == true`, () => {
+
+            const participatingElement = participatingElements[10];
+
+            const expected = 2;
+
+            const actual = getAmountOfProductParticipants(participatingElement);
+
+            expect(actual).to.eql(expected);
+
+        });
+
+        it(`should return 2 if two participants == true and one of them == false`, () => {
+
+            const participatingElement = participatingElements[8];
+
+            const expected = 2;
+
+            const actual = getAmountOfProductParticipants(participatingElement);
+
+            expect(actual).to.eql(expected);
+
+        });
+
+        it(`should return 0 if one participant and he is == false`, () => {
+
+            const participatingElement = participatingElements[13];
+
+            const expected = 0;
+
+            const actual = getAmountOfProductParticipants(participatingElement);
+
+            expect(actual).to.eql(expected);
+
+        });
+
+        it(`should return 0 if no participants`, () => {
+
+            const participatingElement = participatingElements[14];
+
+            const expected = 0;
+
+            const actual = getAmountOfProductParticipants(participatingElement);
 
             expect(actual).to.eql(expected);
 
