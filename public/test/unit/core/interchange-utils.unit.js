@@ -18,7 +18,6 @@ import {
     humanifyTransactions,
 
 
-    getFlatValidationErrors,
     sumAllShares,
     calculateMonetarySharesForProduct,
     getAmountOfProductParticipants,
@@ -857,10 +856,13 @@ describe("UNIT / Core / Utils", ()=> {
             );
 
             const expectedFirstResult = {
+                // Person#1 has $22.5 share in product#1 (first)
                 "1": 22.5,
+                // and person #3 has the same share in product#1
                 "3": 22.5
             };
 
+            // Product#14 (last) has no participants
             const expectedLastResult = {};
 
             expect(actual[1]).to.eql(expectedFirstResult);
