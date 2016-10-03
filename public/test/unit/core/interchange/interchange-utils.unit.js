@@ -23,14 +23,14 @@ import {
     getAmountOfProductParticipants,
     calculateMonetarySharesForProductsCollection
 
-} from '../../../src/core/interchange-utils'
+} from '../../../../src/core/interchange/interchange-utils'
 
 import {
     fakeState,
     fakeStateCase1,
     fakeStateCase1WithTransactions,
     fakeParticipatingState
-} from '../../fixtures/fake-state'
+} from '../../../fixtures/fake-state'
 
 import { given } from 'mocha-testdata';
 import deepFreeze from 'deep-freeze'
