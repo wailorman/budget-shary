@@ -1,4 +1,4 @@
-import * as constrains from './../../validation/validation-constrains'
+import * as constrains from './../validation-constrains'
 
 import { given } from 'mocha-testdata'
 

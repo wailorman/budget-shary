@@ -5,7 +5,7 @@ import {
     totalMonetarySharesByParticipating,
     monetarySharesToPartialShares
 
-} from './../../interchange/interchange-utils'
+} from './../interchange-utils'
 
 import {
     fakeParticipatingState,

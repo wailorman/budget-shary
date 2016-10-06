@@ -20,7 +20,7 @@ import {
 
     sumAllShares
 
-} from './../../interchange/interchange-utils'
+} from './../interchange-utils'
 
 import {
     fakeState,
