@@ -1,6 +1,6 @@
 import {CHANGE_PERSON, CHANGE_PRODUCT} from '../actions'
 
-import {validate} from '../core/validation';
+import {validate} from '../core/validation/validation';
 
 
 export const validationMiddleware = (reducer) => (store) => (next) => (action) => {

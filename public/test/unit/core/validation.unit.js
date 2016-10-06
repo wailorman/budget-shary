@@ -1,5 +1,5 @@
-import {validateCollection, validate} from '../../../src/core/validation'
-import * as constrains from '../../../src/core/validation-constrains'
+import {validateCollection, validate} from '../../../src/core/validation/validation'
+import * as constrains from '../../../src/core/validation/validation-constrains'
 
 describe("UNIT / Core / Validation", ()=> {
 
