@@ -14,7 +14,6 @@ import {
     transactionsTotal, INCOME, OUTCOME,
     getFunds,
     splitToNegativeAndPositive,
-    proceedInterchange,
     humanifyTransactions,
 
 
@@ -543,34 +542,6 @@ describe("UNIT / Core / Interchange utils", ()=> {
                 getFunds.callCount, 4, `getFunds stub didn't called correctly`);
 
             expect(splittingResult).to.eql(expected);
-
-        });
-
-    });
-
-    describe("#proceedInterchange()", ()=> {
-
-        it(`should return correct new state`, () => {
-
-            deepFreeze(fakeStateCase1);
-
-            const result = proceedInterchange(fakeStateCase1);
-
-            expect(result.transactions[0]).to.eql({
-                from: 'Jack', to: 'Alice', total: 611.4
-            });
-
-            expect(result.transactions[1]).to.eql({
-                from: 'Jack', to: 'Mike', total: 1144.4
-            });
-
-        });
-
-        it(`should remove old transactions`, () => {
-
-            const result = proceedInterchange(proceedInterchange(fakeStateCase1));
-
-            expect(result.transactions.length).to.eql(2);
 
         });
 

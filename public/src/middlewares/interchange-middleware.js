@@ -1,4 +1,4 @@
-import {proceedInterchange} from '../core/interchange/interchange-utils'
+import {proceedInterchange} from '../core/interchange/interchange'
 import {PROCEED_INTERCHANGE} from '../actions'
 
 export const interchangeMiddleware = (store)=> (next)=> (action)=> {
