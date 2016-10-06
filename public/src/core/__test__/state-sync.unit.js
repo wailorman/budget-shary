@@ -1,6 +1,6 @@
-import {fetchState, pushState, STATE_KEY} from '../../../src/core/state-sync'
-import {fakeState} from '../../fixtures/fake-state'
-import {stateStub} from '../../../src/state-stub'
+import {fetchState, pushState, STATE_KEY} from '../state-sync'
+import {fakeState} from '../../../test/fixtures/fake-state'
+import {stateStub} from '../../state-stub'
 
 const localStorage = typeof window == 'undefined' ? require('localStorage') : window.localStorage;
 
