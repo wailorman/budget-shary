@@ -1,7 +1,7 @@
-import {validationMiddleware} from '../../../src/middlewares/validation-middleware'
-import {CHANGE_PERSON, CHANGE_PRODUCT} from '../../../src/actions'
-import {normalizedBigFakeState} from '../../fixtures/fake-state'
-import {reducer} from '../../../src/reducer'
+import {validationMiddleware} from './validation-middleware'
+import {CHANGE_PERSON, CHANGE_PRODUCT} from '../actions'
+import {normalizedBigFakeState} from '../../test/fixtures/fake-state'
+import {reducer} from '../reducer'
 
 describe("UNIT / Middlewares / validation middleware", ()=> {
 

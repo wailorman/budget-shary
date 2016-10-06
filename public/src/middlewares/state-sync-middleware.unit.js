@@ -1,6 +1,6 @@
-import {stateSyncMiddleware} from '../../../src/middlewares/state-sync-middleware'
-import {FETCH_BUDGET} from '../../../src/actions'
-import localStorage from '../../../../test/requirements/local-storage'
+import {stateSyncMiddleware} from './state-sync-middleware'
+import {FETCH_BUDGET} from '../actions'
+import localStorage from '../../../test/requirements/local-storage'
 
 describe("UNIT / Middlewares / state sync middleware", ()=> {
 

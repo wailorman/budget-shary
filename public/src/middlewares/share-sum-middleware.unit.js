@@ -1,7 +1,7 @@
-import {shareSumMiddleware} from '../../../src/middlewares/share-sum-middleware'
-import {reducer} from '../../../src/reducer'
-import {CHANGE_PERSON, CHANGE_PRODUCT} from '../../../src/actions'
-import {normalizedFakeState} from '../../fixtures/fake-state'
+import {shareSumMiddleware} from './share-sum-middleware'
+import {reducer} from '../reducer'
+import {CHANGE_PERSON, CHANGE_PRODUCT} from '../actions'
+import {normalizedFakeState} from '../../test/fixtures/fake-state'
 
 describe("UNIT / Middlewares / share sum", ()=> {
 
