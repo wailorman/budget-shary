@@ -21,7 +21,8 @@ import {
     sumAllShares,
     calculateMonetarySharesForProduct,
     getAmountOfProductParticipants,
-    calculateMonetarySharesForProductsCollection
+    calculateMonetarySharesForProductsCollection,
+    totalMonetarySharesByParticipating
 
 } from '../../../../src/core/interchange/interchange-utils'
 
@@ -29,7 +30,8 @@ import {
     fakeState,
     fakeStateCase1,
     fakeStateCase1WithTransactions,
-    fakeParticipatingState
+    fakeParticipatingState,
+    participatingResult
 } from '../../../fixtures/fake-state'
 
 import { given } from 'mocha-testdata';
@@ -720,7 +722,7 @@ describe("UNIT / Core / Utils", ()=> {
             const participatingElem = participatingElements[productId];
             const price = products[productId].price;
 
-            return { participatingElem, price };
+            return {participatingElem, price};
 
         };
 
@@ -904,6 +906,25 @@ describe("UNIT / Core / Utils", ()=> {
             const consoleExpectation = console.error.calledWithMatch(matchRegex);
 
             expect(consoleExpectation).to.eql(true);
+
+        });
+
+    });
+
+    describe("#totalMonetarySharesByParticipating", ()=> {
+
+        it(`should calculate total monetary shares
+            for each person`, () => {
+
+            const actual = totalMonetarySharesByParticipating(participatingResult);
+
+            const expected = {
+                "1": 903.5,
+                "2": 1638,
+                "3": 1332.5
+            };
+
+            expect(actual).to.eql(expected);
 
         });
 

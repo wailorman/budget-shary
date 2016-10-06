@@ -460,3 +460,29 @@ export const calculateMonetarySharesForProductsCollection = function (productPar
     return result;
 
 };
+
+/**
+ * Calculates sum of monetary shares from each product
+ *
+ * @param monetaryParticipatingShares result of calculateMonetarySharesForProductsCollection() calculation
+ */
+export const totalMonetarySharesByParticipating = function (monetaryParticipatingShares) {
+
+    const totalMonetaryShares = {};
+
+    _.forIn(monetaryParticipatingShares, (participatingShare)=> {
+
+        _.forIn(participatingShare, (monetaryShare, personId)=> {
+
+            if ( ! totalMonetaryShares[personId] ) {
+                totalMonetaryShares[personId] = 0;
+            }
+            totalMonetaryShares[personId] += monetaryShare;
+
+        });
+
+    });
+
+    return totalMonetaryShares;
+
+};
