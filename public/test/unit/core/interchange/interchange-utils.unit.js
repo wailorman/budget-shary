@@ -22,7 +22,8 @@ import {
     calculateMonetarySharesForProduct,
     getAmountOfProductParticipants,
     calculateMonetarySharesForProductsCollection,
-    totalMonetarySharesByParticipating
+    totalMonetarySharesByParticipating,
+    monetarySharesToPartialShares
 
 } from '../../../../src/core/interchange/interchange-utils'
 
@@ -923,6 +924,33 @@ describe("UNIT / Core / Utils", ()=> {
                 "2": 1638,
                 "3": 1332.5
             };
+
+            expect(actual).to.eql(expected);
+
+        });
+
+    });
+
+    describe("#monetarySharesToPartialShares", ()=> {
+
+        it(`should calculate partial shares by participating montary shares`, () => {
+
+            const monetaryShares = {
+                1: 500,
+                2: 100,
+                3: 400
+            };
+
+            const totalExpenses = 1000;
+
+            const actual = monetarySharesToPartialShares(monetaryShares, totalExpenses);
+
+            const expected = {
+                1: 0.5,
+                2: 0.1,
+                3: 0.4
+            };
+
 
             expect(actual).to.eql(expected);
 

@@ -486,3 +486,19 @@ export const totalMonetarySharesByParticipating = function (monetaryParticipatin
     return totalMonetaryShares;
 
 };
+
+/**
+ * Calculates partial shares by participating monetary shares
+ *
+ * @param monetaryShares result of totalMonetarySharesByParticipating
+ * @param totalExpenses
+ */
+export const monetarySharesToPartialShares = function (monetaryShares, totalExpenses) {
+
+    return _.mapValues(monetaryShares, (monetaryShare)=> {
+
+        return monetaryShare / totalExpenses;
+
+    });
+
+};
