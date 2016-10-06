@@ -1,4 +1,4 @@
-import * as constrains from 'validation-constrains'
+import * as constrains from './validation-constrains'
 
 const validateJs = require('validate.js');
 
