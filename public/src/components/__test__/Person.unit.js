@@ -1,6 +1,6 @@
 import React from 'react'
 import { shallow } from 'enzyme';
-import Person from '../../../src/components/Person'
+import Person from './../Person'
 
 describe("UNIT / Components / <Person />", ()=> {
 

@@ -1,5 +1,5 @@
 import { shallow } from 'enzyme';
-import {ValidationErrorsList} from '../../../src/components/ValidationErrorsList'
+import {ValidationErrorsList} from './../ValidationErrorsList'
 
 describe("UNIT / Components / <ValidationErrorsList />", ()=> {
 
