@@ -1,6 +1,6 @@
 import {createStore, applyMiddleware, compose} from 'redux';
 import thunk from 'redux-thunk';
-import {reducer, defaultState} from './reducer'
+import {reducer, defaultState} from './reducers/reducer'
 
 import {stateSyncMiddleware} from './middlewares/state-sync-middleware'
 import {shareSumMiddleware} from './middlewares/share-sum-middleware'

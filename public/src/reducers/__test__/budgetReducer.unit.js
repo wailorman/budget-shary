@@ -1,5 +1,5 @@
-import {budgetReducer} from '../../../src/reducer'
-import {CHANGE_BUDGET_PROPS, FETCH_BUDGET} from '../../../src/actions'
+import {budgetReducer} from '../reducer'
+import {CHANGE_BUDGET_PROPS, FETCH_BUDGET} from '../../actions'
 
 describe("UNIT / Reducers / budgetReducer", ()=> {
 

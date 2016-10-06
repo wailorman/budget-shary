@@ -1,14 +1,14 @@
 "use strict";
 
-import {productsReducer} from '../../../src/reducer'
+import {productsReducer} from '../reducer'
 import {
     REMOVE_PRODUCT, NEW_PRODUCT, CHANGE_PRODUCT,
     REMOVE_PERSON, FETCH_BUDGET
-} from '../../../src/actions'
-import {normalizedFakeState, normalizedBigFakeState} from '../../fixtures/fake-state'
+} from '../../actions'
+import {normalizedFakeState, normalizedBigFakeState} from '../../../test/fixtures/fake-state'
 
-import {getProductsByPersonId} from '../../../src/core/components-utils'
-import { normalizedArrayLength } from '../../helpers/utils'
+import {getProductsByPersonId} from '../../core/components-utils'
+import { normalizedArrayLength } from '../../../test/helpers/utils'
 
 const initialState = normalizedFakeState;
 

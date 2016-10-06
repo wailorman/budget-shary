@@ -6,9 +6,9 @@ import {
     PUT_PERSONS_ERRORS, PUT_VALIDATION_ERRORS,
     UPDATE_SHARE_SUM,
     FETCH_BUDGET, CHANGE_BUDGET_PROPS
-} from './actions'
+} from './../actions'
 
-import {getProductsByPersonId} from './core/components-utils'
+import {getProductsByPersonId} from './../core/components-utils'
 
 // todo: >> action = {} ... and test it! --> Means that default action argument should == {}
 

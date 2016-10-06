@@ -1,5 +1,5 @@
 import {shareSumMiddleware} from './share-sum-middleware'
-import {reducer} from '../reducer'
+import {reducer} from '../reducers/reducer'
 import {CHANGE_PERSON, CHANGE_PRODUCT} from '../actions'
 import {normalizedFakeState} from '../../test/fixtures/fake-state'
 

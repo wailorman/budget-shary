@@ -1,6 +1,6 @@
 "use strict";
 
-import { errorsReducer } from '../../../src/reducer'
+import { errorsReducer } from '../reducer'
 import {
     PUT_PERSONS_ERRORS,
     PUT_VALIDATION_ERRORS,
@@ -8,9 +8,9 @@ import {
     CHANGE_PERSON, CHANGE_PRODUCT,
 
     FETCH_BUDGET
-} from '../../../src/actions'
+} from '../../actions'
 
-import { fakeState, normalizedBigFakeState } from '../../fixtures/fake-state'
+import { fakeState, normalizedBigFakeState } from '../../../test/fixtures/fake-state'
 const initialErrorsState = fakeState.errors;
 
 describe("UNIT / Reducers / errorsReducer", ()=> {
