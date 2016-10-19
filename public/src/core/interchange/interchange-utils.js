@@ -1,5 +1,12 @@
 "use strict";
 
+import {
+    calculateMonetarySharesForProduct,
+    calculateMonetarySharesForProductsCollection,
+    getAmountOfProductParticipants,
+    monetarySharesToPartialShares,
+    totalMonetarySharesByParticipating
+} from './participating-utils'
 
 export const INCOME = 'INCOME';
 export const OUTCOME = 'OUTCOME';
@@ -84,7 +91,7 @@ export const createTransaction = function (state, from, to, total) {
         return state;
 
 
-    const newTransaction = { from, to, total };
+    const newTransaction = {from, to, total};
 
     if (!newState.transactions) newState.transactions = [];
 
@@ -214,7 +221,7 @@ export const generateTransactionWithFunds = function (state, from, to, total, de
 
 export const tryTransaction = function (positiveFunds, negativeFunds) {
 
-    if (positiveFunds < 0){
+    if (positiveFunds < 0) {
         console.error(new Error(`positiveFunds can't be negative`));
         return 0;
     }
@@ -227,9 +234,9 @@ export const tryTransaction = function (positiveFunds, negativeFunds) {
     const absPositiveFunds = Math.abs(positiveFunds);
     const absNegativeFunds = Math.abs(negativeFunds);
 
-    if ( absPositiveFunds <= absNegativeFunds ){
+    if (absPositiveFunds <= absNegativeFunds) {
         return absPositiveFunds;
-    }else{
+    } else {
         return absNegativeFunds;
     }
 
@@ -319,48 +326,6 @@ export const splitToNegativeAndPositive = function (state, deps = {}) {
 
 };
 
-export const proceedInterchange = function (state) {
-
-    let newState = _.cloneDeep(state);
-
-    newState.transactions = [];
-
-    // room with negativeFunds & positiveFunds persons
-    let exchangeOffice;
-
-    const isExchangeOfficeNotEmpty = ()=> {
-
-        const ownExchangeOffice = splitToNegativeAndPositive(newState);
-        return ownExchangeOffice.positive.length>0 && ownExchangeOffice.negative.length>0;
-
-    };
-
-
-    // before
-    exchangeOffice = splitToNegativeAndPositive(newState);
-
-    while (isExchangeOfficeNotEmpty()) {
-
-        exchangeOffice = splitToNegativeAndPositive(newState);
-
-        const negativeFunds = getFunds(newState, exchangeOffice.negative[0]);
-
-        const positiveFunds = getFunds(newState, exchangeOffice.positive[0]);
-
-        const potentialTransactionTotal = tryTransaction(positiveFunds, negativeFunds);
-
-        newState = createTransaction(
-            newState,
-            exchangeOffice.positive[0],
-            exchangeOffice.negative[0],
-            potentialTransactionTotal
-        );
-
-    }
-
-    return humanifyTransactions(newState);
-
-};
 
 export const humanifyTransactions = function (state) {
 
@@ -408,97 +373,10 @@ export const sumAllShares = function (persons) {
 
 };
 
-export const getAmountOfProductParticipants = function (productParticipatingElem) {
-
-    let amountOfParticipants = 0;
-
-    _.forIn(productParticipatingElem, (participantState)=> {
-        if (participantState == true){
-            amountOfParticipants++;
-        }
-    });
-
-    return amountOfParticipants;
-    
-};
-
-export const calculateMonetarySharesForProduct = function (productParticipatingElem, productPrice) {
-
-    const amountOfParticipants = getAmountOfProductParticipants(productParticipatingElem);
-
-    const equalShareForAllParticipants = productPrice / amountOfParticipants;
-
-    let result = {};
-
-    _.forIn(productParticipatingElem, (participantState, productId)=> {
-
-        if (participantState == true) {
-            result[productId] = equalShareForAllParticipants;
-        }
-
-    });
-
-    return result;
-    
-};
-
-export const calculateMonetarySharesForProductsCollection = function (productParticipatingCollection, products) {
-
-    let result = {};
-
-    _.forIn(productParticipatingCollection, (productParticipatingElem, productId)=> {
-
-        try {
-            result[productId] = calculateMonetarySharesForProduct(productParticipatingElem, products[productId].price);
-        } catch(e) {
-            // todo: Make error message more clear
-            console.error(`Error in calculating participating monetary share: ${e}`);
-        }
-        
-    });
-
-    return result;
-
-};
-
-/**
- * Calculates sum of monetary shares from each product
- *
- * @param monetaryParticipatingShares result of calculateMonetarySharesForProductsCollection() calculation
- */
-export const totalMonetarySharesByParticipating = function (monetaryParticipatingShares) {
-
-    const totalMonetaryShares = {};
-
-    _.forIn(monetaryParticipatingShares, (participatingShare)=> {
-
-        _.forIn(participatingShare, (monetaryShare, personId)=> {
-
-            if ( ! totalMonetaryShares[personId] ) {
-                totalMonetaryShares[personId] = 0;
-            }
-            totalMonetaryShares[personId] += monetaryShare;
-
-        });
-
-    });
-
-    return totalMonetaryShares;
-
-};
-
-/**
- * Calculates partial shares by participating monetary shares
- *
- * @param monetaryShares result of totalMonetarySharesByParticipating
- * @param totalExpenses
- */
-export const monetarySharesToPartialShares = function (monetaryShares, totalExpenses) {
-
-    return _.mapValues(monetaryShares, (monetaryShare)=> {
-
-        return monetaryShare / totalExpenses;
-
-    });
-
+export {
+    calculateMonetarySharesForProduct,
+    calculateMonetarySharesForProductsCollection,
+    getAmountOfProductParticipants,
+    monetarySharesToPartialShares,
+    totalMonetarySharesByParticipating
 };
