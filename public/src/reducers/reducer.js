@@ -5,7 +5,8 @@ import {
     PROCEED_INTERCHANGE,
     PUT_PERSONS_ERRORS, PUT_VALIDATION_ERRORS,
     UPDATE_SHARE_SUM,
-    FETCH_BUDGET, CHANGE_BUDGET_PROPS
+    FETCH_BUDGET, CHANGE_BUDGET_PROPS,
+    TOGGLE_PARTICIPATION
 } from './../actions'
 
 import {getProductsByPersonId} from './../core/components-utils'
@@ -231,6 +232,28 @@ export function budgetReducer(state = {}, action = {}) {
     }
     
 }
+
+export function participatingReducer(state = {}, action = {}) {
+
+    let newState = _.cloneDeep(state);
+
+    switch (action.type){
+        case TOGGLE_PARTICIPATION:
+
+            const {productId, personId} = action;
+
+            if (!newState[action.productId])
+                newState[productId] = {};
+
+            newState[productId][personId] = !newState[productId][personId];
+
+            return newState;
+        default:
+            return newState;
+    }
+    
+}
+
 
 export const combinedReducers = combineReducers({
     budget: budgetReducer,

@@ -18,6 +18,8 @@ export const UPDATE_SHARE_SUM = 'UPDATE_SHARE_SUM';
 export const FETCH_BUDGET = 'FETCH_BUDGET';
 export const CHANGE_BUDGET_PROPS = 'CHANGE_BUDGET_PROPS';
 
+export const TOGGLE_PARTICIPATION = 'TOGGLE_PARTICIPATION';
+
 export function changeBudgetProps(values) {
 
     return {
@@ -133,4 +135,16 @@ export function removeInterchangeErrors() {
     return {
         type: REMOVE_INTERCHANGE_ERRORS
     };
+}
+
+
+
+export function toggleParticipation(productId, personId) {
+
+    return {
+        type: TOGGLE_PARTICIPATION,
+        productId, 
+        personId
+    };
+    
 }
