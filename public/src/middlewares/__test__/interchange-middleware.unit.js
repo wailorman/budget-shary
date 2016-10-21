@@ -1,6 +1,6 @@
-import {interchangeMiddleware} from './interchange-middleware'
-import {PROCEED_INTERCHANGE, CHANGE_PERSON} from '../actions'
-import {normalizedBigFakeState} from '../../test/fixtures/fake-state'
+import {interchangeMiddleware} from './../interchange-middleware'
+import {PROCEED_INTERCHANGE, CHANGE_PERSON} from '../../actions'
+import {normalizedBigFakeState} from '../../../test/fixtures/fake-state'
 
 describe("UNIT / Middlewares / Interchange middleware", ()=> {
 
