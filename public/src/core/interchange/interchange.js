@@ -3,8 +3,15 @@ import {
     getFunds,
     createTransaction,
     humanifyTransactions,
-    tryTransaction
+    tryTransaction,
+    totalExpenses
 } from './interchange-utils'
+
+import {
+    calculateMonetarySharesForProductsCollection,
+    totalMonetarySharesByParticipating,
+    monetarySharesToPartialShares
+} from './participating-utils'
 
 export default function interchange(state) {
     const deferred = Q.defer();
@@ -60,5 +67,20 @@ export const proceedInterchange = function (state) {
     }
 
     return humanifyTransactions(newState);
+
+};
+
+export const productParticipatingToPersonShares = function (productParticipating, persons, products) {
+
+    const monetaryShares = totalMonetarySharesByParticipating(
+        calculateMonetarySharesForProductsCollection(
+            productParticipating,
+            products
+        )
+    );
+
+    const totalExpns = totalExpenses({products});
+
+    return monetarySharesToPartialShares(monetaryShares, totalExpns);
 
 };
