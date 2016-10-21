@@ -21,7 +21,11 @@ describe("UNIT / Middlewares / Interchange middleware", ()=> {
             return action;
         };
 
-        return interchangeMiddleware(store)(next)(action);
+        const reducer = (state)=> {
+            return state;
+        };
+        
+        return interchangeMiddleware(reducer)(store)(next)(action);
 
     };
 

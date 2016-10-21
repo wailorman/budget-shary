@@ -27,7 +27,7 @@ export const generateStore = (args = {}) => {
                 thunk,
 
                 shareSumMiddleware(reducer),
-                interchangeMiddleware,
+                interchangeMiddleware(reducer),
 
                 validationMiddleware(reducer),
                 stateSyncMiddleware(reducer)

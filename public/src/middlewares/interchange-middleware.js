@@ -1,9 +1,35 @@
-import {proceedInterchange} from '../core/interchange/interchange'
-import {PROCEED_INTERCHANGE} from '../actions'
+import {proceedInterchange, productParticipatingToPersonShares} from '../core/interchange/interchange'
+import {
+    PROCEED_INTERCHANGE, TOGGLE_PARTICIPATION
+} from '../actions'
 
-export const interchangeMiddleware = (store)=> (next)=> (action)=> {
+export const interchangeMiddleware = (reducer)=> (store)=> (next)=> (action)=> {
 
-    if (action.type == PROCEED_INTERCHANGE) {
+    if (action.type == TOGGLE_PARTICIPATION) {
+
+        let newAction = _.clone(action);
+
+        const state = reducer(store.getState(), action);
+
+        try {
+
+            const result = productParticipatingToPersonShares(
+                state.productParticipating,
+                state.persons,
+                state.products
+            );
+
+            _.set(newAction, 'meta.newPersonShares', result);
+
+        } catch (e) {
+            console.error(`productParticipating converting error`);
+            console.error(e);
+        }
+
+        return next(newAction);
+
+
+    } else if (action.type == PROCEED_INTERCHANGE) {
 
         let newAction = _.clone(action);
 
