@@ -3,7 +3,8 @@
 import { personsReducer } from '../reducer'
 import {
     REMOVE_PERSON, NEW_PERSON, CHANGE_PERSON,
-    FETCH_BUDGET
+    FETCH_BUDGET,
+    TOGGLE_PARTICIPATION
 } from '../../actions'
 import { normalizedFakeState, normalizedBigFakeState } from '../../../test/fixtures/fake-state'
 
@@ -225,4 +226,65 @@ describe("UNIT / Reducers / personsReducer", ()=> {
 
     });
 
+    describe("TOGGLE_PARTICIPATION", ()=> {
+
+        it(`should change persons shares`, () => {
+
+            const initialState = {
+                1: {
+                    id: 1,
+                    name: 'Mike',
+                    share: 10
+                },
+                2: {
+                    id: 2,
+                    name: 'Alice',
+                    share: 20
+                },
+                3: {
+                    id: 3,
+                    name: 'Jimmy',
+                    share: 70
+                }
+            };
+
+            const action = {
+                type: TOGGLE_PARTICIPATION,
+                productId: '1',
+                personId: '1',
+                meta: {
+                    newPersonShares: {
+                        1: 20,
+                        2: 30,
+                        3: 50
+                    }
+                }
+            };
+
+            const expectedState = {
+                1: {
+                    id: 1,
+                    name: 'Mike',
+                    share: 20
+                },
+                2: {
+                    id: 2,
+                    name: 'Alice',
+                    share: 30
+                },
+                3: {
+                    id: 3,
+                    name: 'Jimmy',
+                    share: 50
+                }
+            };
+
+            const actualState = personsReducer(initialState, action);
+            
+            expect(actualState).to.eql(expectedState);
+
+        });
+
+    });
+    
 });

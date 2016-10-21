@@ -119,6 +119,18 @@ export function personsReducer(personsState = initialState.persons, action) {
 
             return newState;
 
+        case TOGGLE_PARTICIPATION:
+
+            if (action.meta && action.meta.newPersonShares) {
+
+                _.forOwn(newState, (person, personId)=> {
+                    person.share = action.meta.newPersonShares[personId] || 0;
+                });
+
+            }
+
+            return newState;
+
         default:
             return personsState;
     }
