@@ -32,7 +32,7 @@ export const BudgetComponent = ({state, dispatch}) => {
                 const ownProductsIds = _.map(ownProducts, 'id');
 
 
-                const ownErrors = state.errors.persons[person.id];
+                const ownErrors = _.get(state, 'errors.persons[person.id]', {});
                 const ownProductsErrors = _.chain(state.errors.products).pick(ownProductsIds).value();
 
 
