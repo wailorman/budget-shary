@@ -83,11 +83,11 @@ export const totalMonetarySharesByParticipating = function (monetaryParticipatin
  * @param monetaryShares result of totalMonetarySharesByParticipating
  * @param totalExpenses
  */
-export const monetarySharesToPartialShares = function (monetaryShares, totalExpenses) {
+export const monetarySharesToStateShares = function (monetaryShares, totalExpenses) {
 
     return _.mapValues(monetaryShares, (monetaryShare)=> {
 
-        return monetaryShare / totalExpenses;
+        return (monetaryShare / totalExpenses) * 100;
 
     });
 

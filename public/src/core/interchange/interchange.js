@@ -10,7 +10,7 @@ import {
 import {
     calculateMonetarySharesForProductsCollection,
     totalMonetarySharesByParticipating,
-    monetarySharesToPartialShares
+    monetarySharesToStateShares
 } from './participating-utils'
 
 export default function interchange(state) {
@@ -81,6 +81,6 @@ export const productParticipatingToPersonShares = function (productParticipating
 
     const totalExpns = totalExpenses({products});
 
-    return monetarySharesToPartialShares(monetaryShares, totalExpns);
+    return monetarySharesToStateShares(monetaryShares, totalExpns);
 
 };

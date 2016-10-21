@@ -4,7 +4,7 @@ import {
     calculateMonetarySharesForProduct,
     calculateMonetarySharesForProductsCollection,
     getAmountOfProductParticipants,
-    monetarySharesToPartialShares,
+    monetarySharesToStateShares,
     totalMonetarySharesByParticipating
 } from './participating-utils'
 
@@ -377,6 +377,6 @@ export {
     calculateMonetarySharesForProduct,
     calculateMonetarySharesForProductsCollection,
     getAmountOfProductParticipants,
-    monetarySharesToPartialShares,
+    monetarySharesToStateShares,
     totalMonetarySharesByParticipating
 };

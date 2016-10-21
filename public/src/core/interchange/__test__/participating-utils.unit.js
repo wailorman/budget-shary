@@ -3,7 +3,7 @@ import {
     getAmountOfProductParticipants,
     calculateMonetarySharesForProductsCollection,
     totalMonetarySharesByParticipating,
-    monetarySharesToPartialShares
+    monetarySharesToStateShares
 
 } from './../interchange-utils'
 
@@ -248,7 +248,7 @@ describe("UNIT / Core / Participating utils", ()=> {
 
     });
 
-    describe("#monetarySharesToPartialShares", ()=> {
+    describe("#monetarySharesToStateShares", ()=> {
 
         it(`should calculate partial shares by participating montary shares`, () => {
 
@@ -260,12 +260,12 @@ describe("UNIT / Core / Participating utils", ()=> {
 
             const totalExpenses = 1000;
 
-            const actual = monetarySharesToPartialShares(monetaryShares, totalExpenses);
+            const actual = monetarySharesToStateShares(monetaryShares, totalExpenses);
 
             const expected = {
-                1: 0.5,
-                2: 0.1,
-                3: 0.4
+                1: 50,
+                2: 10,
+                3: 40
             };
 
 
