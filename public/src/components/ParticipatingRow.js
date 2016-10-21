@@ -1,4 +1,5 @@
-import './ParticipatingSwitcher'
+import ParticipatingSwitcher from './ParticipatingSwitcher'
+import '../styles/ParticipatingRow.css'
 
 export const ParticipatingRow = (props)=> {
 
@@ -8,7 +9,8 @@ export const ParticipatingRow = (props)=> {
             {_.map(props.persons, (person)=> {
 
                 return (
-                    <ParticipatingSwitcher 
+                    <ParticipatingSwitcher
+                        key={person.id}
                         personName={person.name}
                         onClick={props.onClick.bind(null, person.id)}
                     />

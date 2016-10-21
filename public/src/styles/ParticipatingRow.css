@@ -1,0 +1,7 @@
+.ParticipatingRow {
+    display: inline-block;
+}
+
+.ParticipatingRow .ParticipatingSwitcher:first-child {
+    margin-left: 40px;
+}

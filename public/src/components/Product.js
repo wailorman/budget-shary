@@ -47,6 +47,8 @@ export const Product = (props)=> {
             <button className="Product__remove-button" onClick={onRemove}>
                 x
             </button>
+            
+            {props.children}
         </div>
     );
 };

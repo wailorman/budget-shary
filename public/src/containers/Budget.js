@@ -8,6 +8,7 @@ import Person from '../components/Person'
 import ValidationErrorsList from '../components/ValidationErrorsList'
 import TransactionsList from '../components/TransactionsList'
 import BudgetName from '../components/BudgetName'
+import ParticipatingRow from '../components/ParticipatingRow'
 
 import {getProductsByPersonId} from '../core/components-utils'
 
@@ -47,17 +48,24 @@ export const BudgetComponent = ({state, dispatch}) => {
                         onRemove={actions.removePerson.bind(null, person.id)}
                     >
 
-                        {_.map(ownProductsIds, (id)=>(
+                        {_.map(ownProductsIds, (productId)=>(
 
                             <Product
-                                key={id}
-                                name={state.products[id].name}
-                                price={state.products[id].price}
-                                validationErrors={ownProductsErrors[id]}
+                                key={productId}
+                                name={state.products[productId].name}
+                                price={state.products[productId].price}
+                                validationErrors={ownProductsErrors[productId]}
 
-                                onChange={actions.changeProduct.bind(null, id)}
-                                onRemove={actions.removeProduct.bind(null, id)}
-                            />
+                                onChange={actions.changeProduct.bind(null, productId)}
+                                onRemove={actions.removeProduct.bind(null, productId)}
+                            >
+                                
+                                <ParticipatingRow
+                                    onClick={actions.toggleParticipation.bind(null, productId)}
+                                    persons={state.persons}
+                                />
+                                
+                            </Product>
 
                         ))}
 
