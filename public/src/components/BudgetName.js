@@ -16,7 +16,7 @@ export const BudgetName = (props)=> {
             <input type="text"
                    className="BudgetName__input"
                    placeholder="Budget name"
-                   value={props.name}
+                   value={props.name || ''}
                    onChange={onChange}/>
             
         </div>
