@@ -3,7 +3,6 @@ import {
     REMOVE_PRODUCT, NEW_PRODUCT, CHANGE_PRODUCT,
     REMOVE_PERSON, NEW_PERSON, CHANGE_PERSON,
     PROCEED_INTERCHANGE,
-    PUT_PERSONS_ERRORS, PUT_VALIDATION_ERRORS,
     UPDATE_SHARE_SUM,
     FETCH_BUDGET, CHANGE_BUDGET_PROPS,
     TOGGLE_PARTICIPATION
@@ -189,43 +188,17 @@ export function transactionsReducer(state = initialState.transactions, action = 
 }
 
 export function errorsReducer(state = {}, action = {}) {
-    let newErrorsState = _.cloneDeep(state);
 
     switch (action.type) {
-        case FETCH_BUDGET:
-
-            if (action.result && action.result.errors){
-                newErrorsState = action.result.errors;
-                return newErrorsState;
-            }else{
-                return {}; // todo: Substitute initial state!
-            }
-
-        case PUT_VALIDATION_ERRORS:
-            return action.errors; // new errors state
-        case PUT_PERSONS_ERRORS:
-            newErrorsState.persons = action.errors;
-            return newErrorsState;
-
-        case CHANGE_PERSON:
-            if (action.meta && action.meta.errors) {
-                return _.merge(newErrorsState, action.meta.errors);
-            } else {
-                _.unset(newErrorsState, `common.shareSum`);
-                _.unset(newErrorsState, `persons[${action.id}]`);
-                return newErrorsState;
-            }
-
-        case CHANGE_PRODUCT:
-            if (action.meta && action.meta.errors) {
-                return _.merge(newErrorsState, action.meta.errors);
-            } else {
-                _.unset(newErrorsState, `products[${action.id}]`);
-                return newErrorsState;
-            }
-            
         default:
-            return state;
+
+            // todo: test this new implementation of errors reducer!
+
+            if (action.meta && action.meta.errors) {
+                return action.meta.errors;
+            } else {
+                return initialState.errors;
+            }
     }
 
 }
