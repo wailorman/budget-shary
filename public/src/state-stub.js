@@ -30,6 +30,7 @@ export const stateStub = {
         _17: {id: '_17', name: 'Cake', price: '756', ownerId: '_3'},
         _18: {id: '_18', name: 'Chips', price: '50', ownerId: '_3'}
     },
+    productParticipating: {},
     transactions: [],
     errors: {
         products: {},

@@ -19,6 +19,7 @@ const initialState = {
     budget: {},
     persons: {},
     products: {},
+    productParticipating: {},
     transactions: [],
     errors: {
         products: {},
@@ -238,6 +239,8 @@ export function participatingReducer(state = {}, action = {}) {
     let newState = _.cloneDeep(state);
 
     switch (action.type){
+        case FETCH_BUDGET:
+            return action.result.productParticipating || newState;
         case TOGGLE_PARTICIPATION:
 
             const {productId, personId} = action;
@@ -259,6 +262,7 @@ export const combinedReducers = combineReducers({
     budget: budgetReducer,
     products: productsReducer,
     persons: personsReducer,
+    productParticipating: participatingReducer,
     transactions: transactionsReducer,
     errors: errorsReducer,
     common: commonReducer
