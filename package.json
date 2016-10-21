@@ -8,7 +8,7 @@
     "test": "npm run test:api:unit && npm run test:api:integration && npm run test:client:unit && npm run test:client:integration",
     "test:client:integration": "node --harmony node_modules/karma/bin/karma start --single-run",
     "test:client:integration:dev": "node --harmony node_modules/karma/bin/karma start",
-    "test:client:unit": "node --harmony node_modules/mocha-webpack/bin/mocha-webpack --webpack-config webpack.config-mocha.js \"public/test/unit/**/*.unit.js\"",
+    "test:client:unit": "node --harmony node_modules/mocha-webpack/bin/mocha-webpack --webpack-config webpack.config-mocha.js \"public/**/*.unit.js\"",
     "test:api:unit": "node --harmony ./node_modules/mocha/bin/mocha --require ./test/requirements/mocha.js --colors ./test/integration/**/*.int.js",
     "test:api:integration": "node --harmony ./node_modules/mocha/bin/mocha --require ./test/requirements/mocha.js --colors ./test/unit/**/*.unit.js",
     "build:test:client": "node node_modules/webpack/bin/webpack.js --progress --config webpack.config-mocha.js",
