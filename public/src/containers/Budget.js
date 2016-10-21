@@ -61,7 +61,7 @@ export const BudgetComponent = ({state, dispatch}) => {
                             >
                                 
                                 <ParticipatingRow
-                                    productParticipatingElem={state.productParticipating[productId] || {}}
+                                    productParticipatingElem={state.productParticipating ? state.productParticipating[productId] || {} : {}}
                                     onClick={actions.toggleParticipation.bind(null, productId)}
                                     persons={state.persons}
                                 />
