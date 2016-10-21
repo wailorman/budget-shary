@@ -10,7 +10,7 @@ import {
 import {
     fakeParticipatingState,
     participatingResult
-} from '../../../../test/fixtures/fake-state'
+} from './fake-interchange-state'
 
 describe("UNIT / Core / Participating utils", ()=> {
 
