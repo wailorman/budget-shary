@@ -6,15 +6,21 @@ export const ParticipatingSwitcher = (props)=> {
         props.onClick();
     };
 
+    const buttonStyle = {
+        fontWeight: props.state ? 'bold' : 'normal',
+        backgroundColor: props.state ? 'gray' : ''
+    };
+
     return (
         <div className="ParticipatingSwitcher">
 
-            <button 
+            <button
+                style={buttonStyle}
                 title={props.personName}
                 onClick={onClick}>
-                
-                
-                { props.status ? 'v' : 'o' }
+
+
+                {props.personName}
             </button>
 
         </div>
@@ -24,7 +30,8 @@ export const ParticipatingSwitcher = (props)=> {
 
 ParticipatingSwitcher.PropTypes = {
     personName: React.PropTypes.string,
-    onClick: React.PropTypes.func
+    onClick: React.PropTypes.func.isRequired,
+    state: React.PropTypes.bool
 };
 
 export default ParticipatingSwitcher;
