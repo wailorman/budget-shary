@@ -61,7 +61,7 @@ export const Person = (props)=> {
 
 Person.propTypes = {
     name: React.PropTypes.string,
-    share: React.PropTypes.string,
+    share: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number]),
     validationErrors: React.PropTypes.object,
 
     onChange: React.PropTypes.func.isRequired,
