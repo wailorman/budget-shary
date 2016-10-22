@@ -1,9 +1,81 @@
 import {participatingReducer} from '../reducer'
-import {toggleParticipation} from '../../actions'
+import {
+    toggleParticipation,
+    REMOVE_PERSON, REMOVE_PRODUCT
+} from '../../actions'
 
 describe("UNIT / Reducers / participatingReducer", ()=> {
 
     // todo: REMOVE_PRODUCT & REMOVE_PERSON
+
+    describe("REMOVE_PRODUCT", ()=> {
+
+        it(`should remove product from participating if it was removed`, () => {
+
+            const action = {
+                type: REMOVE_PRODUCT,
+                id: 1
+            };
+
+            const previousState = {
+                1: {
+                    1: true,
+                    2: false
+                },
+                2: {
+                    3: true
+                }
+            };
+
+            const expectedState = {
+                2: {
+                    3: true
+                }
+            };
+
+            const actualState = participatingReducer(previousState, action);
+
+            expect(actualState).to.eql(expectedState);
+
+        });
+
+    });
+
+    describe("REMOVE_PERSON", ()=> {
+
+        it(`should remove person from participating if it was removed`, () => {
+
+            const action = {
+                type: REMOVE_PERSON,
+                id: 2
+            };
+
+            const previousState = {
+                1: {
+                    1: true,
+                    2: false
+                },
+                2: {
+                    3: true
+                }
+            };
+
+            const expectedState = {
+                1: {
+                    1: true
+                },
+                2: {
+                    3: true
+                }
+            };
+
+            const actualState = participatingReducer(previousState, action);
+
+            expect(actualState).to.eql(expectedState);
+
+        });
+
+    });
 
     describe("TOGGLE_PARTICIPATION", ()=> {
 

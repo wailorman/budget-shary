@@ -231,6 +231,18 @@ export function participatingReducer(state = {}, action = {}) {
             newState[productId][personId] = !newState[productId][personId];
 
             return newState;
+
+        case REMOVE_PRODUCT:
+            delete newState[action.id];
+            return newState;
+
+        case REMOVE_PERSON:
+            _.forIn(newState, (productParticipationElem)=> {
+                delete productParticipationElem[action.id];
+            });
+
+            return newState;
+        
         default:
             return newState;
     }
