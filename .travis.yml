@@ -1,21 +1,10 @@
 sudo: false
 language: node_js
 node_js:
-  - 4
+  - 6
 notifications:
   email:
     on_success: never
     on_failure: always
 script:
-  - "npm run test:api:unit"
-  - "npm run test:api:integration"
-  - "npm run test:client:unit"
-  - "npm run test:client:integration"
-after_success: 'npm run build:client'
-deploy:
-  provider: releases
-  api_key: $GITHUB_OAUTH_TOKEN
-  file: "dist/bundle.js"
-  skip_cleanup: true
-  on:
-    tags: true
+  - "npm run test"
