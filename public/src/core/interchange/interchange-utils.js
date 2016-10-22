@@ -366,9 +366,10 @@ export const sumAllShares = function (persons) {
     return _.chain(persons)
         .cloneDeep()
         .map((person)=> {
-            return parseInt(person.share) || 0;
+            return parseFloat(person.share) || 0;
         })
         .sum()
+        .round()
         .value();
 
 };
