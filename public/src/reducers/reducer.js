@@ -14,7 +14,7 @@ import {getProductsByPersonId} from './../core/components-utils'
 
 // todo: Split all reducers to their own files
 
-const initialState = {
+export const initialState = {
     budget: {},
     persons: {},
     products: {},
@@ -189,16 +189,12 @@ export function transactionsReducer(state = initialState.transactions, action = 
 
 export function errorsReducer(state = {}, action = {}) {
 
-    switch (action.type) {
-        default:
+    // todo: test this new implementation of errors reducer!
 
-            // todo: test this new implementation of errors reducer!
-
-            if (action.meta && action.meta.errors) {
-                return action.meta.errors;
-            } else {
-                return initialState.errors;
-            }
+    if (action.meta && action.meta.errors) {
+        return action.meta.errors;
+    } else {
+        return initialState.errors;
     }
 
 }
