@@ -189,8 +189,6 @@ export function transactionsReducer(state = initialState.transactions, action = 
 
 export function errorsReducer(state = {}, action = {}) {
 
-    // todo: test this new implementation of errors reducer!
-
     if (action.meta && action.meta.errors) {
         return action.meta.errors;
     } else {
