@@ -26,11 +26,11 @@ export const generateStore = (args = {}) => {
             applyMiddleware(
                 thunk,
 
-                shareSumMiddleware(reducer),
                 interchangeMiddleware(reducer),
+                shareSumMiddleware(reducer),
 
-                validationMiddleware(reducer),
-                stateSyncMiddleware(reducer)
+                stateSyncMiddleware(reducer),
+                validationMiddleware(reducer)
             )
             , typeof window === 'object' && typeof window.devToolsExtension !== 'undefined' ? window.devToolsExtension() : f => f
         )
