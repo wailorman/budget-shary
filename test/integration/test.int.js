@@ -1,4 +1,4 @@
-describe("Example api integration test", ()=> {
+describe("Example client integration test", ()=> {
 
     it(`should find chai`, () => {
 

@@ -25,13 +25,13 @@ module.exports = function (config) {
         files: [
             './node_modules/phantomjs-polyfill/bind-polyfill.js',
             './test/requirements/karma.js',
-            './public/test/integration/**/*.int.js'
+            './test/integration/**/*.int.js'
         ],
 
         exclude: [],
 
         preprocessors: {
-            '../**/*.int.js': ['webpack', 'sourcemap']
+            './**/*.int.js': ['webpack', 'sourcemap']
         },
 
         browsers: ['PhantomJS'],

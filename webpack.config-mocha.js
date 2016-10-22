@@ -16,9 +16,9 @@ var webpackConfig = {
     node: originalConfig.node,
     entry: {
 
-        "unit-client": `mocha!${__dirname}/public/test/unit/index`,
+        "unit-client": `mocha!${__dirname}/test/unit/index`,
 
-        "integration-client-dev": `mocha!${__dirname}/public/test/integration/index`
+        "integration-client-dev": `mocha!${__dirname}/test/integration/index`
 
     },
     output: {
@@ -46,7 +46,7 @@ var webpackConfig = {
             '$': 'jquery/dist/jquery.min',
             '_': 'lodash',
             'Q': 'q',
-            'logger': __dirname + '/public/lib/logger',
+            'logger': __dirname + '/lib/logger',
 
             'React': 'react',
             'ReactDOM': 'react-dom',

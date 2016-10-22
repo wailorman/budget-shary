@@ -1,4 +1,4 @@
-import Person from '../components/Person'
+import Person from '../../../src/components/Person'
 import { removePerson } from '../actions'
 import { store } from '../store'
 

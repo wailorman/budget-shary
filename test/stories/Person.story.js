@@ -1,7 +1,7 @@
 import { storiesOf, action } from '@kadira/storybook';
-import Person from '../../src/components/Person'
-import { changePerson, removePerson } from '../../src/actions'
-import {storyGenerator} from '../helpers/storybook-helper'
+import Person from '../../../src/components/Person'
+import { changePerson, removePerson } from '../../../src/actions'
+import {storyGenerator} from '../../../test/helpers/storybook-helper'
 
 const callbacks = {
     onChange: action('onChange'),

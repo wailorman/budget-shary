@@ -1,6 +1,6 @@
 import {storiesOf, action} from '@kadira/storybook';
-import {Product} from '../../src/components/Product'
-import {storyGenerator} from '../helpers/storybook-helper'
+import {Product} from '../../../src/components/Product'
+import {storyGenerator} from '../../../test/helpers/storybook-helper'
 
 const callbacks = {
     onChange: action('onChange'),

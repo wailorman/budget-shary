@@ -1,5 +1,5 @@
 import { storiesOf, action } from '@kadira/storybook';
-import ValidationErrorsList from '../../src/components/ValidationErrorsList'
+import ValidationErrorsList from '../../../src/components/ValidationErrorsList'
 
 storiesOf('ValidationErrorsList', module)
     .add('empty', () => {
