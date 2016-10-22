@@ -20,6 +20,7 @@ export const initialState = {
     products: {},
     productParticipating: {},
     transactions: [],
+    common: {},
     errors: {
         products: {},
         persons: {},
@@ -39,7 +40,7 @@ export function productsReducer(productsState = initialState.products, action) {
                 newState = action.result.products;
                 return newState;
             }else{
-                return {}; // todo: Substitute initial state!
+                return initialState.products;
             }
 
         case REMOVE_PRODUCT:
@@ -94,7 +95,7 @@ export function personsReducer(personsState = initialState.persons, action) {
                 newState = action.result.persons;
                 return newState;
             }else{
-                return {}; // todo: Substitute initial state!
+                return initialState.persons;
             }
 
         case REMOVE_PERSON:
@@ -146,7 +147,7 @@ export function commonReducer(commonState = {}, action = {}) {
                 newCommonState = action.result.common;
                 return newCommonState;
             }else{
-                return {}; // todo: Substitute initial state!
+                return initialState.common;
             }
 
         case CHANGE_PERSON:
@@ -176,7 +177,7 @@ export function transactionsReducer(state = initialState.transactions, action = 
                 newState = action.result.transactions;
                 return newState;
             }else{
-                return []; // todo: Substitute initial state!
+                return initialState.transactions;
             }
 
         case PROCEED_INTERCHANGE:
