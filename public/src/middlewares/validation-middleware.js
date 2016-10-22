@@ -1,29 +1,38 @@
-import {CHANGE_PERSON, CHANGE_PRODUCT} from '../actions'
+import {FETCH_BUDGET} from '../actions'
 
 import {validate} from '../core/validation/validation';
 
 
 export const validationMiddleware = (reducer) => (store) => (next) => (action) => {
 
-    if (action.type == CHANGE_PRODUCT || action.type == CHANGE_PERSON) {
+    const getActionWithValidationResult = (state, action)=> {
 
         let newAction = _.cloneDeep(action);
 
-        const previousState = store.getState();
-
-        const nextState = reducer(previousState, action);
-
-        const validationResult = validate( nextState );
+        const validationResult = validate(state);
 
         if (_.isEmpty(validationResult) == false) {
             _.set(newAction, `meta.errors`, validationResult);
         }
 
-        return next(newAction);
+        return newAction;
 
-    }else{
-        return next(action);
+    };
+
+    let nextState, previousState;
+
+    if (action.type == FETCH_BUDGET && action.result) {
+        previousState = action.result;
+    } else {
+        previousState = store.getState();
     }
+
+    nextState = reducer(previousState, action);
+
+    const newAction = getActionWithValidationResult(nextState, action);
+
+    return next(newAction);
+
 };
 
 export default validationMiddleware;
