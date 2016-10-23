@@ -180,24 +180,29 @@ describe("UNIT / Reducers / commonReducer", ()=> {
 
         });
 
-        it(`should remove shareSum from state if not`, () => {
+    });
 
-            const action = {
-                type: CHANGE_PERSON,
-                id: '1',
-                values: {
-                    name: 'Mike',
-                    share: '50'
-                }
-            };
+    it(`should update shareSum even if it's not CHANGE_PERSON action`, () => {
 
-            const expected = {};
+        const action = {
+            type: 'CHANGE_PRODUCT',
+            id: '1',
+            values: {
+                name: 'Milk',
+                price: '50'
+            },
+            meta: {
+                newShareSum: '110'
+            }
+        };
 
-            const actual = commonReducer({shareSum: '100'}, action);
+        const expected = {
+            shareSum: '110'
+        };
 
-            expect(actual).to.eql(expected);
+        const actual = commonReducer({}, action);
 
-        });
+        expect(actual).to.eql(expected);
 
     });
     
