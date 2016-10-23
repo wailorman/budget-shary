@@ -67,9 +67,7 @@ var webpackConfig = {
             },
             {
                 test: /\.css/,
-                loader: NODE_ENV == 'production' ?
-                    'style!css'
-                    : ExtractTextPlugin.extract("style-loader", "css-loader")
+                loader: ExtractTextPlugin.extract("style-loader", "css-loader")
             },
             {
                 test: /\.(ttf|woff|woff2|eot|svg|png|jpg)$/,
@@ -97,7 +95,8 @@ var webpackConfig = {
             'sinonSandbox': __dirname + '/test/helpers/sinon-sandbox.js',
             'given': __dirname + '/test/requirements/providing/given-mocha-testdata.js'
         }),
-        new WriteFilePlugin()
+        new WriteFilePlugin(),
+        webpackConfig.plugins.push(new ExtractTextPlugin("[name].css"))
     ],
 
     devServer: {
@@ -109,7 +108,6 @@ if (NODE_ENV == 'development' || NODE_ENV == 'test') {
 
     webpackConfig.devtool = 'eval';
     webpackConfig.plugins.push(new WebpackBuildNotifierPlugin({successSound: false}));
-    webpackConfig.plugins.push(new ExtractTextPlugin("[name].css"));
 
 }
 
