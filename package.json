@@ -1,6 +1,6 @@
 {
   "name": "budget-shary",
-  "version": "2.1.10-beta",
+  "version": "2.1.11-beta",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -12,7 +12,7 @@
     "test:unit": "node ./node_modules/mocha/bin/mocha ./dist/js/unit.build.js",
     "build": "node node_modules/webpack/bin/webpack.js --progress --config webpack.config.js",
     "start": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --config webpack.config.js --progress --content-base \"./\"",
-    "predeploy": "NODE_ENV=production rm -rf ./dist/js && npm run build && gulp zip"
+    "predeploy": "rm -rf ./dist/js && NODE_ENV=production npm run build && gulp zip"
   },
   "repository": {
     "type": "git",
