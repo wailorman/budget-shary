@@ -12,7 +12,8 @@
     "test:unit": "node ./node_modules/mocha/bin/mocha ./dist/js/unit.build.js",
     "build": "node node_modules/webpack/bin/webpack.js --progress --config webpack.config.js",
     "start": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --config webpack.config.js --progress --content-base \"./\"",
-    "predeploy": "rm -rf ./dist/js && NODE_ENV=production npm run build && gulp zip"
+    "predeploy": "rm -rf ./dist/js && NODE_ENV=production npm run build && gulp zip",
+    "predeploy:win32": "rm -rf ./dist/js && set NODE_ENV=production& npm run build && gulp zip"
   },
   "repository": {
     "type": "git",
