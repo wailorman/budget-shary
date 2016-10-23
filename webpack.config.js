@@ -67,7 +67,9 @@ var webpackConfig = {
             },
             {
                 test: /\.css/,
-                loader: ExtractTextPlugin.extract("style-loader", "css-loader")
+                loader: NODE_ENV == 'production' ?
+                    'style!css'
+                    : ExtractTextPlugin.extract("style-loader", "css-loader")
             },
             {
                 test: /\.(ttf|woff|woff2|eot|svg|png|jpg)$/,
@@ -95,9 +97,7 @@ var webpackConfig = {
             'sinonSandbox': __dirname + '/test/helpers/sinon-sandbox.js',
             'given': __dirname + '/test/requirements/providing/given-mocha-testdata.js'
         }),
-        new WriteFilePlugin(),
-        new WebpackBuildNotifierPlugin({successSound: false}),
-        new ExtractTextPlugin("[name].css")
+        new WriteFilePlugin()
     ],
 
     devServer: {
@@ -108,6 +108,8 @@ var webpackConfig = {
 if (NODE_ENV == 'development' || NODE_ENV == 'test') {
 
     webpackConfig.devtool = 'eval';
+    webpackConfig.plugins.push(new WebpackBuildNotifierPlugin({successSound: false}));
+    webpackConfig.plugins.push(new ExtractTextPlugin("[name].css"));
 
 }
 
@@ -116,7 +118,9 @@ if (NODE_ENV == 'production') {
         new webpack.optimize.UglifyJsPlugin()
     );
 
-    webpackConfig.devtool = null;
+    webpackConfig.plugins.push(new webpack.DefinePlugin({ 'process.env.NODE_ENV': JSON.stringify(NODE_ENV) }));
+
+    webpackConfig.devtool = 'source-map';
 }
 
 module.exports = webpackConfig;
