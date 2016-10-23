@@ -12,7 +12,7 @@ after_success: 'NODE_ENV=production npm run build && gulp zip'
 deploy:
   provider: releases
   api_key: $GITHUB_OAUTH_TOKEN
-  file: "dist/budget-shary-${git tag --points-at HEAD}.zip"
+  file: "dist/budget-shary-$(git tag --points-at HEAD).zip"
   skip_cleanup: true
   on:
     tags: true
