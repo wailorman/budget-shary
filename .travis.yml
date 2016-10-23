@@ -8,7 +8,7 @@ notifications:
     on_failure: always
 script:
   - "npm run test"
-after_success: 'NODE_ENV=production npm run build && gulp zip'
+after_success: 'npm run predeploy'
 deploy:
   provider: releases
   api_key: $GITHUB_OAUTH_TOKEN
