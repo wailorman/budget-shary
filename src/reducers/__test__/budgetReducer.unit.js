@@ -1,4 +1,4 @@
-import {budgetReducer} from '../reducer'
+import {budgetReducer, initialState} from '../reducer'
 import {CHANGE_BUDGET_PROPS, FETCH_BUDGET} from '../../actions'
 
 describe("UNIT / Reducers / budgetReducer", ()=> {
@@ -62,6 +62,27 @@ describe("UNIT / Reducers / budgetReducer", ()=> {
             const actual = budgetReducer(state, action);
 
             expect(actual).to.eql(expected);
+
+        });
+
+        it(`should return initialState if action doesn't have budget property`, () => {
+
+            const action = {
+                type: FETCH_BUDGET,
+                result: {
+                    persons: {
+                        1: {
+                            id: 1,
+                            name: 'Anton',
+                            share: '100'
+                        }
+                    }
+                }
+            };
+
+            const actual = budgetReducer({}, action);
+
+            expect(actual).to.eql(initialState.budget);
 
         });
 

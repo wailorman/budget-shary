@@ -204,7 +204,12 @@ export function budgetReducer(state = {}, action = {}) {
     
     switch (action.type){
         case FETCH_BUDGET:
-            return action.result.budget;
+            if (action.result && action.result.budget) {
+                return action.result.budget;
+            } else {
+                return initialState.budget;
+            }
+
         case CHANGE_BUDGET_PROPS:
             newState.name = action.values.name;
             return newState;
