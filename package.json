@@ -1,6 +1,6 @@
 {
   "name": "budget-shary",
-  "version": "2.1.1-beta",
+  "version": "2.1.2-beta",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -88,6 +88,7 @@
     "gulp-rimraf": "^0.2.0",
     "gulp-util": "^3.0.7",
     "gulp-watch": "^4.3.5",
+    "gulp-zip": "^3.2.0",
     "imports-loader": "^0.6.5",
     "json-loader": "^0.5.4",
     "karma": "^0.13.15",
