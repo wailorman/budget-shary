@@ -9,6 +9,7 @@ import ValidationErrorsList from '../components/ValidationErrorsList'
 import TransactionsList from '../components/TransactionsList'
 import BudgetName from '../components/BudgetName'
 import ParticipatingRow from '../components/ParticipatingRow'
+import NewProductButton from '../components/NewProductButton'
 
 import {getProductsByPersonId} from '../core/components-utils'
 
@@ -69,6 +70,8 @@ export const BudgetComponent = ({state, dispatch}) => {
                             </Product>
 
                         ))}
+
+                        <NewProductButton onClick={actions.newProduct.bind(null, person.id)} />
 
                     </Person>
 
