@@ -150,19 +150,18 @@ export function commonReducer(commonState = {}, action = {}) {
                 return initialState.common;
             }
 
-        case CHANGE_PERSON:
-            if (action.meta && action.meta.newShareSum){
-                newCommonState.shareSum = action.meta.newShareSum;
-                return newCommonState;
-            }else{
-                _.unset(newCommonState, 'shareSum');
-                return newCommonState;
-            }
         case UPDATE_SHARE_SUM:
             newCommonState.shareSum = action.value || commonState.shareSum;
             return newCommonState;
         default:
-            return commonState;
+
+            if (action.meta && action.meta.newShareSum) {
+                newCommonState.shareSum = action.meta.newShareSum;
+                return newCommonState;
+            } else {
+                return commonState;
+            }
+
     }
 
 }
