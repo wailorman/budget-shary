@@ -96,7 +96,7 @@ var webpackConfig = {
             'given': __dirname + '/test/requirements/providing/given-mocha-testdata.js'
         }),
         new WriteFilePlugin(),
-        webpackConfig.plugins.push(new ExtractTextPlugin("[name].css"))
+        new ExtractTextPlugin("[name].css")
     ],
 
     devServer: {
