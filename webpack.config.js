@@ -1,4 +1,6 @@
-const NODE_ENV = process.env.NODE_ENV == false ? 'production' : process.env.NODE_ENV;
+const NODE_ENV = !process.env.NODE_ENV ? 'development' : process.env.NODE_ENV;
+
+console.log(`------- NODE_ENV = '${NODE_ENV}'`);
 
 var webpack = require('webpack');
 var WriteFilePlugin = require('write-file-webpack-plugin');
