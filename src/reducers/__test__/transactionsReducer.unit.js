@@ -1,4 +1,4 @@
-import { transactionsReducer } from '../reducer'
+import { transactionsReducer } from '../transactionsReducer'
 
 import {
 

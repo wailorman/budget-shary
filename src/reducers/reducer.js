@@ -11,35 +11,17 @@ import {
 import {getProductsByPersonId} from './../core/components-utils'
 
 import {initialState} from './initial-state'
+
 import {productsReducer} from './productsReducer'
 import {personsReducer} from './personsReducer'
 import {commonReducer} from './commonReducer'
+import {transactionsReducer} from './transactionsReducer'
 
 // todo: >> action = {} ... and test it! --> Means that default action argument should == {}
 
 
 
 
-export function transactionsReducer(state = initialState.transactions, action = {}) {
-    let newState = _.cloneDeep(state);
-
-    switch (action.type){
-        case FETCH_BUDGET:
-
-            if (action.result && action.result.transactions){
-                newState = action.result.transactions;
-                return newState;
-            }else{
-                return initialState.transactions;
-            }
-
-        case PROCEED_INTERCHANGE:
-            return action.meta.transactions;
-        default:
-            return state || [];
-    }
-
-}
 
 export function errorsReducer(state = {}, action = {}) {
 
