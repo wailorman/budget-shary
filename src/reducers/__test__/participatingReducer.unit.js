@@ -1,4 +1,4 @@
-import {participatingReducer} from '../reducer'
+import {participatingReducer} from '../participatingReducer'
 import {
     toggleParticipation,
     REMOVE_PERSON, REMOVE_PRODUCT
