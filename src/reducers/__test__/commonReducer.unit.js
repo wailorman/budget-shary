@@ -1,4 +1,4 @@
-import { commonReducer } from '../reducer'
+import { commonReducer } from '../commonReducer'
 import {UPDATE_SHARE_SUM, CHANGE_PERSON, FETCH_BUDGET} from '../../actions'
 import {normalizedBigFakeState} from '../../../test/fixtures/fake-state'
 

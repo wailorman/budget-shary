@@ -13,39 +13,12 @@ import {getProductsByPersonId} from './../core/components-utils'
 import {initialState} from './initial-state'
 import {productsReducer} from './productsReducer'
 import {personsReducer} from './personsReducer'
+import {commonReducer} from './commonReducer'
 
 // todo: >> action = {} ... and test it! --> Means that default action argument should == {}
 
 
 
-export function commonReducer(commonState = {}, action = {}) {
-    let newCommonState = _.cloneDeep(commonState);
-
-    switch (action.type) {
-        case FETCH_BUDGET:
-
-            if (action.result && action.result.common){
-                newCommonState = action.result.common;
-                return newCommonState;
-            }else{
-                return initialState.common;
-            }
-
-        case UPDATE_SHARE_SUM:
-            newCommonState.shareSum = action.value || commonState.shareSum;
-            return newCommonState;
-        default:
-
-            if (action.meta && action.meta.newShareSum) {
-                newCommonState.shareSum = action.meta.newShareSum;
-                return newCommonState;
-            } else {
-                return commonState;
-            }
-
-    }
-
-}
 
 export function transactionsReducer(state = initialState.transactions, action = {}) {
     let newState = _.cloneDeep(state);
