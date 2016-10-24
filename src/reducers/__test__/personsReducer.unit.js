@@ -1,6 +1,6 @@
 "use strict";
 
-import { personsReducer } from '../reducer'
+import { personsReducer } from '../personsReducer'
 import {
     REMOVE_PERSON, NEW_PERSON, CHANGE_PERSON,
     FETCH_BUDGET,

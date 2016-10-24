@@ -12,62 +12,11 @@ import {getProductsByPersonId} from './../core/components-utils'
 
 import {initialState} from './initial-state'
 import {productsReducer} from './productsReducer'
+import {personsReducer} from './personsReducer'
 
 // todo: >> action = {} ... and test it! --> Means that default action argument should == {}
 
 
-export function personsReducer(personsState = initialState.persons, action) {
-    let newState = _.cloneDeep(personsState);
-
-    switch (action.type) {
-
-        case FETCH_BUDGET:
-
-            if (action.result && action.result.persons){
-                newState = action.result.persons;
-                return newState;
-            }else{
-                return initialState.persons;
-            }
-
-        case REMOVE_PERSON:
-            delete newState[action.id];
-
-            return newState;
-
-        case NEW_PERSON:
-            const newPersonId = _.uniqueId('__');
-
-            newState[newPersonId] = {id: newPersonId, name: '', share: ''};
-
-            return newState;
-
-        case CHANGE_PERSON:
-            if (!newState[action.id]) return newState;
-
-            const consideringPerson = _.cloneDeep(newState[action.id]);
-
-            newState[action.id] = _.assign(consideringPerson, action.values);
-
-            return newState;
-
-        case TOGGLE_PARTICIPATION:
-
-            if (action.meta && action.meta.newPersonShares) {
-
-                _.forOwn(newState, (person, personId)=> {
-                    person.share = action.meta.newPersonShares[personId] || 0;
-                });
-
-            }
-
-            return newState;
-
-        default:
-            return personsState;
-    }
-
-}
 
 export function commonReducer(commonState = {}, action = {}) {
     let newCommonState = _.cloneDeep(commonState);
