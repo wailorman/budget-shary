@@ -6,8 +6,6 @@ import {
 
 describe("UNIT / Reducers / participatingReducer", ()=> {
 
-    // todo: REMOVE_PRODUCT & REMOVE_PERSON
-
     describe("REMOVE_PRODUCT", ()=> {
 
         it(`should remove product from participating if it was removed`, () => {
