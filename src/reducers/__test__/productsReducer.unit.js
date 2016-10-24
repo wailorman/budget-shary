@@ -1,6 +1,6 @@
 "use strict";
 
-import {productsReducer} from '../reducer'
+import {productsReducer} from '../productsReducer'
 import {
     REMOVE_PRODUCT, NEW_PRODUCT, CHANGE_PRODUCT,
     REMOVE_PERSON, FETCH_BUDGET

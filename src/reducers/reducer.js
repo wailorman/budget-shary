@@ -7,83 +7,14 @@ import {
     FETCH_BUDGET, CHANGE_BUDGET_PROPS,
     TOGGLE_PARTICIPATION
 } from './../actions'
-import {initialState} from './initial-state'
 
 import {getProductsByPersonId} from './../core/components-utils'
 
+import {initialState} from './initial-state'
+import {productsReducer} from './productsReducer'
+
 // todo: >> action = {} ... and test it! --> Means that default action argument should == {}
 
-// todo: Split all reducers to their own files
-
-/*export const initialState = {
-    budget: {},
-    persons: {},
-    products: {},
-    productParticipating: {},
-    transactions: [],
-    common: {},
-    errors: {
-        products: {},
-        persons: {},
-        common: {}
-    }
-
-};*/
-
-export function productsReducer(productsState = initialState.products, action) {
-    let newState = _.cloneDeep(productsState);
-
-    switch (action.type) {
-
-        case FETCH_BUDGET:
-
-            if (action.result && action.result.products){
-                newState = action.result.products;
-                return newState;
-            }else{
-                return initialState.products;
-            }
-
-        case REMOVE_PRODUCT:
-            delete newState[action.id];
-
-            return newState;
-
-        case NEW_PRODUCT:
-
-            const newProductId = _.uniqueId('__');
-
-            newState[newProductId] = {id: newProductId, name: '', price: '', ownerId: action.ownerId};
-
-            return newState;
-
-        case CHANGE_PRODUCT:
-            if (!newState[action.id]) return newState;
-
-            const consideringProduct = _.cloneDeep(newState[action.id]);
-
-            newState[action.id] = _.assign(consideringProduct, action.values);
-
-            return newState;
-
-        case REMOVE_PERSON:
-            
-            const personId = action.id;
-
-            const personOwnProducts = getProductsByPersonId(personId, newState);
-            const personOwnProductsIds = _.keys(personOwnProducts);
-
-            personOwnProductsIds.forEach((productId)=> {
-                delete newState[productId];
-            });
-            
-            return newState;
-
-        default:
-            return productsState;
-    }
-
-}
 
 export function personsReducer(personsState = initialState.persons, action) {
     let newState = _.cloneDeep(personsState);
