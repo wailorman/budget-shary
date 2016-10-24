@@ -16,22 +16,13 @@ import {productsReducer} from './productsReducer'
 import {personsReducer} from './personsReducer'
 import {commonReducer} from './commonReducer'
 import {transactionsReducer} from './transactionsReducer'
+import {errorsReducer} from './errorsReducer'
 
 // todo: >> action = {} ... and test it! --> Means that default action argument should == {}
 
 
 
 
-
-export function errorsReducer(state = {}, action = {}) {
-
-    if (action.meta && action.meta.errors) {
-        return action.meta.errors;
-    } else {
-        return initialState.errors;
-    }
-
-}
 
 export function budgetReducer(state = {}, action = {}) {
 
