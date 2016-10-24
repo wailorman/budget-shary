@@ -7,6 +7,7 @@ import {
     FETCH_BUDGET, CHANGE_BUDGET_PROPS,
     TOGGLE_PARTICIPATION
 } from './../actions'
+import {initialState} from './initial-state'
 
 import {getProductsByPersonId} from './../core/components-utils'
 
@@ -14,7 +15,7 @@ import {getProductsByPersonId} from './../core/components-utils'
 
 // todo: Split all reducers to their own files
 
-export const initialState = {
+/*export const initialState = {
     budget: {},
     persons: {},
     products: {},
@@ -27,7 +28,7 @@ export const initialState = {
         common: {}
     }
 
-};
+};*/
 
 export function productsReducer(productsState = initialState.products, action) {
     let newState = _.cloneDeep(productsState);

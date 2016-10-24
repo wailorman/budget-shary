@@ -1,6 +1,7 @@
 "use strict";
 
-import { errorsReducer, initialState } from '../reducer'
+import { errorsReducer } from '../reducer'
+import {initialState} from '../initial-state'
 
 describe("UNIT / Reducers / errorsReducer", ()=> {
 

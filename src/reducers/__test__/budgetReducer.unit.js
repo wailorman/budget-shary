@@ -1,4 +1,5 @@
-import {budgetReducer, initialState} from '../reducer'
+import {budgetReducer} from '../reducer'
+import {initialState} from '../initial-state'
 import {CHANGE_BUDGET_PROPS, FETCH_BUDGET} from '../../actions'
 
 describe("UNIT / Reducers / budgetReducer", ()=> {
