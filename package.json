@@ -9,7 +9,7 @@
     "test:integration": "node --harmony node_modules/karma/bin/karma start --single-run",
     "test:integration:dev": "node --harmony node_modules/karma/bin/karma start",
     "test:unit:old": "node --harmony node_modules/mocha-webpack/bin/mocha-webpack --webpack-config webpack.config.js \"**/*.unit.js\"",
-    "test:unit": "node ./node_modules/mocha/bin/mocha ./dist/js/unit.build.js",
+    "test:unit": "node ./node_modules/mocha/bin/mocha --require source-map-support/register ./dist/js/unit.build.js",
     "build": "node node_modules/webpack/bin/webpack.js --progress --config webpack.config.js",
     "start": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --config webpack.config.js --progress --content-base \"./\"",
     "predeploy": "rm -rf ./dist/js && NODE_ENV=production npm run build && gulp zip",
