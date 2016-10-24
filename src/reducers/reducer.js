@@ -17,33 +17,11 @@ import {personsReducer} from './personsReducer'
 import {commonReducer} from './commonReducer'
 import {transactionsReducer} from './transactionsReducer'
 import {errorsReducer} from './errorsReducer'
+import {budgetReducer} from './budgetReducer'
 
 // todo: >> action = {} ... and test it! --> Means that default action argument should == {}
 
 
-
-
-
-export function budgetReducer(state = {}, action = {}) {
-
-    let newState = _.cloneDeep(state);
-    
-    switch (action.type){
-        case FETCH_BUDGET:
-            if (action.result && action.result.budget) {
-                return action.result.budget;
-            } else {
-                return initialState.budget;
-            }
-
-        case CHANGE_BUDGET_PROPS:
-            newState.name = action.values.name;
-            return newState;
-        default:
-            return newState;
-    }
-    
-}
 
 export function participatingReducer(state = {}, action = {}) {
 
