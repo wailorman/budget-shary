@@ -1,6 +1,8 @@
 import ParticipatingSwitcher from './ParticipatingSwitcher';
 import '../styles/ParticipatingRow.css';
 
+import * as definedPropTypes from '../reducers/prop-types';
+
 export const ParticipatingRow = (props)=> {
 
     return (
@@ -28,8 +30,8 @@ export const ParticipatingRow = (props)=> {
 
 ParticipatingRow.propTypes = {
     onClick: React.PropTypes.func.isRequired,
-    persons: React.PropTypes.object,                    // todo: Describe shape of persons state
-    productParticipatingElem: React.PropTypes.object
+    persons: definedPropTypes.persons,
+    productParticipatingElem: definedPropTypes.productParticipatingElem
 };
 
 export default ParticipatingRow;

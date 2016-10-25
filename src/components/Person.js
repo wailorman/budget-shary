@@ -1,4 +1,5 @@
 import ValidationErrorsList from './ValidationErrorsList';
+import * as definedPropTypes from '../reducers/prop-types';
 
 import '../styles/Person.css';
 
@@ -61,7 +62,7 @@ export const Person = (props)=> {
 
 Person.propTypes = {
     name: React.PropTypes.string,
-    share: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number]),
+    share: definedPropTypes.numberOrString,
     validationErrors: React.PropTypes.object,
 
     onChange: React.PropTypes.func.isRequired,

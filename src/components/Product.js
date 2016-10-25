@@ -1,4 +1,6 @@
 import ValidationErrorsList from "./ValidationErrorsList";
+import * as definedPropTypes from '../reducers/prop-types';
+
 import "../styles/Product.css";
 
 export const Product = (props)=> {
@@ -55,7 +57,7 @@ export const Product = (props)=> {
 
 Product.propTypes = {
     name: React.PropTypes.string,
-    price: React.PropTypes.string,
+    price: definedPropTypes.numberOrString,
     validationErrors: React.PropTypes.object,
 
     onChange: React.PropTypes.func.isRequired,
