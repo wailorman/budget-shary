@@ -1,8 +1,7 @@
 import {initialState} from './initial-state';
 
 import {
-    FETCH_BUDGET,
-    UPDATE_SHARE_SUM
+    FETCH_BUDGET
 } from '../actions';
 
 
@@ -18,12 +17,6 @@ export function commonReducer(commonState = {}, action = {}) {
             } else {
                 return initialState.common;
             }
-        }
-
-        case UPDATE_SHARE_SUM:
-        {
-            newCommonState.shareSum = action.value || commonState.shareSum;
-            return newCommonState;
         }
         default:
         {
