@@ -1,7 +1,7 @@
 import {validationMiddleware} from './../validation-middleware';
 import {CHANGE_PERSON, CHANGE_PRODUCT} from '../../actions';
 import {normalizedBigFakeState} from '../../../test/fixtures/fake-state';
-import {reducer} from '../../reducers/reducer';
+import {reducer} from '../../reducers/reducers';
 
 describe("UNIT / Middlewares / validation middleware", ()=> {
 
