@@ -13,7 +13,9 @@
     "build": "node node_modules/webpack/bin/webpack.js --progress --config webpack.config.js",
     "start": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --config webpack.config.js --progress --content-base \"./\"",
     "predeploy": "rm -rf ./dist/js && NODE_ENV=production npm run build && gulp zip",
-    "predeploy:win32": "rm -rf ./dist/js && set NODE_ENV=production& npm run build && gulp zip"
+    "predeploy:win32": "rm -rf ./dist/js && set NODE_ENV=production& npm run build && gulp zip",
+    "lint": "./node_modules/.bin/eslint ./src",
+    "lint:win32": "./node_modules/.bin/eslint.cmd ./src"
   },
   "repository": {
     "type": "git",

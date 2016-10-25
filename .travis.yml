@@ -8,6 +8,7 @@ notifications:
     on_failure: always
 script:
   - "npm run test"
+  - "npm run lint"
 after_success: 'npm run predeploy'
 deploy:
   provider: releases
