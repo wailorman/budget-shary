@@ -16,10 +16,7 @@
     "react"
   ],
   "rules": {
-    "linebreak-style": [
-      "error",
-      "windows"
-    ],
+    "linebreak-style": [ "off" ],
     "no-unused-vars": [
       "warn"
     ],
