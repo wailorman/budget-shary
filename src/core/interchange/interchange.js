@@ -23,7 +23,7 @@ export default function interchange(state) {
     }
 
     return deferred.promise;
-};
+}
 
 
 

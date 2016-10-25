@@ -23,7 +23,7 @@ export const Transaction = ({from, to, total}) => {
     );
 };
 
-Transaction.PropTypes = {
+Transaction.propTypes = {
     from: React.PropTypes.string,
     to: React.PropTypes.string,
     total: React.PropTypes.oneOfType([

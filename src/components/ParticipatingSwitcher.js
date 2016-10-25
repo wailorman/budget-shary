@@ -28,7 +28,7 @@ export const ParticipatingSwitcher = (props)=> {
     
 };
 
-ParticipatingSwitcher.PropTypes = {
+ParticipatingSwitcher.propTypes = {
     personName: React.PropTypes.string,
     onClick: React.PropTypes.func.isRequired,
     state: React.PropTypes.bool

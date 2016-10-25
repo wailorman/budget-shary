@@ -11,3 +11,4 @@
 ## 3
 * Sync only CHANGE/REMOVE/NEW_* actions (write to budget-own localStorage variable)
 * Add version number to the interface
+* Describe prop types globally

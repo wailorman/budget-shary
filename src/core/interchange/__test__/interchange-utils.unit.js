@@ -24,9 +24,7 @@ import {
 import {
     fakeState,
     fakeStateCase1,
-    fakeStateCase1WithTransactions,
-    fakeParticipatingState,
-    participatingResult
+    fakeStateCase1WithTransactions
 } from '../../../../test/fixtures/fake-state';
 
 import { given } from 'mocha-testdata';

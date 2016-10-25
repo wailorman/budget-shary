@@ -24,4 +24,9 @@ export const BudgetName = (props)=> {
     
 };
 
+BudgetName.propTypes = {
+    onChange: React.PropTypes.func.isRequired,
+    name: React.PropTypes.string
+};
+
 export default BudgetName;

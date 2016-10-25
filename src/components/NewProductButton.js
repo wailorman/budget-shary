@@ -16,4 +16,8 @@ export const NewProductButton = (props)=> {
 
 };
 
+NewProductButton.propTypes = {
+    onClick: React.PropTypes.func
+};
+
 export default NewProductButton;

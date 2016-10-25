@@ -1,5 +1,3 @@
-const validate = require('validate.js');
-
 const id = {
     presence: true,
     length: {

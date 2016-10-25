@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
@@ -16,15 +16,15 @@ import {getProductsByPersonId} from '../core/components-utils';
 import * as actionCreators from '../actions';
 
 
-export const BudgetComponent = ({state, dispatch}) => {
+export function BudgetComponent ({state, dispatch}) {
 
     const actions = bindActionCreators(actionCreators, dispatch);
 
     return (
         <div>
 
-            <BudgetName onChange={actions.changeBudgetProps.bind(null)}
-                        name={state.budget.name}/>
+            <BudgetName name={state.budget.name}
+                        onChange={actions.changeBudgetProps.bind(null)} />
 
             {_.map(state.persons, (person)=> {
 
@@ -79,7 +79,7 @@ export const BudgetComponent = ({state, dispatch}) => {
 
             })}
 
-            <button onClick={actions.newPerson}>New person</button>
+            <button onClick={actions.newPerson}>{"New person"}</button>
 
             <ValidationErrorsList errors={state.errors.common}/>
 
@@ -91,6 +91,11 @@ export const BudgetComponent = ({state, dispatch}) => {
 
         </div>
     );
+}
+
+BudgetComponent.propTypes = {
+    state: React.PropTypes.object.isRequired,
+    dispatch: React.PropTypes.func.isRequired
 };
 
 class Budget extends React.Component {
@@ -102,7 +107,12 @@ class Budget extends React.Component {
     render() {
         return (<BudgetComponent {...this.props} />);
     }
+
 }
+
+Budget.propTypes = {
+    dispatch: React.PropTypes.func
+};
 
 export default connect(
     (state)=> {

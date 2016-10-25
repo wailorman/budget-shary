@@ -65,7 +65,8 @@ Person.propTypes = {
     validationErrors: React.PropTypes.object,
 
     onChange: React.PropTypes.func.isRequired,
-    onRemove: React.PropTypes.func.isRequired
+    onRemove: React.PropTypes.func.isRequired,
+    children: React.PropTypes.any
 };
 
 export default Person;

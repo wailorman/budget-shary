@@ -25,7 +25,7 @@ export function changeBudgetProps(values) {
     return {
         type: CHANGE_BUDGET_PROPS,
         values
-    }
+    };
     
 }
 
@@ -42,14 +42,14 @@ export function removeProduct(id) {
     return {
         type: REMOVE_PRODUCT,
         id
-    }
+    };
 }
 
 export function newProduct(ownerId) {
     return {
         type: NEW_PRODUCT,
         ownerId
-    }
+    };
 }
 
 export function changeProduct(id, values) {
@@ -58,7 +58,7 @@ export function changeProduct(id, values) {
         type: CHANGE_PRODUCT,
         id,
         values
-    }
+    };
 
 }
 
@@ -67,13 +67,13 @@ export function removePerson(id) {
     return {
         type: REMOVE_PERSON,
         id
-    }
+    };
 }
 
 export function newPerson() {
     return {
         type: NEW_PERSON
-    }
+    };
 }
 
 export function changePerson(id, values) {
@@ -82,7 +82,7 @@ export function changePerson(id, values) {
         type: CHANGE_PERSON,
         id,
         values
-    }
+    };
 
 }
 

@@ -26,7 +26,7 @@ export const ParticipatingRow = (props)=> {
 
 };
 
-ParticipatingRow.PropTypes = {
+ParticipatingRow.propTypes = {
     onClick: React.PropTypes.func.isRequired,
     persons: React.PropTypes.object,                    // todo: Describe shape of persons state
     productParticipatingElem: React.PropTypes.object

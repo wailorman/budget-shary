@@ -4,7 +4,7 @@
     "commonjs": true,
     "es6": true
   },
-  "extends": ["eslint:recommended", "plugin:react/all"],
+  "extends": ["eslint:recommended", "plugin:react/recommended"],
   "parserOptions": {
     "ecmaFeatures": {
       "experimentalObjectRestSpread": true,
@@ -32,9 +32,6 @@
       {
         "allow": ["log", "error", "warn"]
       }
-    ],
-    "react/jsx-filename-extension": [
-      "off"
     ]
   },
   "globals": {
@@ -43,6 +40,8 @@
     "React": true,
     "ReactDOM": true,
     "expect": true,
+    "assert": true,
+    "enzyme": true,
     "it": true,
     "describe": true,
     "beforeEach": true,
