@@ -1,0 +1,53 @@
+{
+  "env": {
+    "browser": true,
+    "commonjs": true,
+    "es6": true
+  },
+  "extends": ["eslint:recommended", "plugin:react/all"],
+  "parserOptions": {
+    "ecmaFeatures": {
+      "experimentalObjectRestSpread": true,
+      "jsx": true
+    },
+    "sourceType": "module"
+  },
+  "plugins": [
+    "react"
+  ],
+  "rules": {
+    "linebreak-style": [
+      "error",
+      "windows"
+    ],
+    "no-unused-vars": [
+      "warn"
+    ],
+    "semi": [
+      "error",
+      "always"
+    ],
+    "no-console": [
+      "error",
+      {
+        "allow": ["log", "error", "warn"]
+      }
+    ],
+    "react/jsx-filename-extension": [
+      "off"
+    ]
+  },
+  "globals": {
+    "_": true,
+    "Q": true,
+    "React": true,
+    "ReactDOM": true,
+    "expect": true,
+    "it": true,
+    "describe": true,
+    "beforeEach": true,
+    "afterEach": true,
+    "console": true,
+    "sinon": true
+  }
+}
