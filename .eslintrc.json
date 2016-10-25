@@ -13,10 +13,12 @@
     "sourceType": "module"
   },
   "plugins": [
-    "react"
+    "react",
+    "mocha"
   ],
   "rules": {
     "linebreak-style": [ "off" ],
+    "mocha/no-exclusive-tests": "error",
     "no-unused-vars": [
       "warn"
     ],

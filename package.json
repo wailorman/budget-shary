@@ -78,6 +78,7 @@
     "deep-freeze": "0.0.1",
     "enzyme": "^2.5.1",
     "eslint": "^3.8.1",
+    "eslint-plugin-mocha": "^4.7.0",
     "eslint-plugin-react": "^6.4.1",
     "karma": "^0.13.15",
     "karma-chrome-launcher": "^1.0.1",
