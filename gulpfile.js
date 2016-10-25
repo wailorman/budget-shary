@@ -2,7 +2,7 @@ var gulp = require('gulp'),
     zip = require('gulp-zip'),
     packageInfo = require('./package.json');
 
-const zipName = `budget-shary-${packageInfo.version}.zip`;
+const zipName = `budget-shary-v${packageInfo.version}.zip`;
 
 gulp.task('zip', function () {
 
