@@ -5,12 +5,12 @@ import {
     totalMonetarySharesByParticipating,
     monetarySharesToStateShares
 
-} from './../interchange-utils'
+} from './../interchange-utils';
 
 import {
     fakeParticipatingState,
     participatingResult
-} from './fake-interchange-state'
+} from './fake-interchange-state';
 
 describe("UNIT / Core / Participating utils", ()=> {
 

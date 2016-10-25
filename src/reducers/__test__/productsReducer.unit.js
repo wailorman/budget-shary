@@ -1,14 +1,14 @@
 "use strict";
 
-import {productsReducer} from '../productsReducer'
+import {productsReducer} from '../productsReducer';
 import {
     REMOVE_PRODUCT, NEW_PRODUCT, CHANGE_PRODUCT,
     REMOVE_PERSON, FETCH_BUDGET
-} from '../../actions'
-import {normalizedFakeState, normalizedBigFakeState} from '../../../test/fixtures/fake-state'
+} from '../../actions';
+import {normalizedFakeState, normalizedBigFakeState} from '../../../test/fixtures/fake-state';
 
-import {getProductsByPersonId} from '../../core/components-utils'
-import { normalizedArrayLength } from '../../../test/helpers/utils'
+import {getProductsByPersonId} from '../../core/components-utils';
+import { normalizedArrayLength } from '../../../test/helpers/utils';
 
 const initialState = normalizedFakeState;
 
@@ -209,7 +209,7 @@ describe("UNIT / Reducers / productsReducer", ()=> {
 
             const result = productsReducer(initialStateProducts, action);
 
-            expect(result).to.eql(initialStateProducts)
+            expect(result).to.eql(initialStateProducts);
 
         });
 

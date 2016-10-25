@@ -1,4 +1,4 @@
-import {getProductsByPersonId, getFlatValidationErrors} from '../components-utils'
+import {getProductsByPersonId, getFlatValidationErrors} from '../components-utils';
 
 describe("UNIT / Core / Components Utils", ()=> {
 

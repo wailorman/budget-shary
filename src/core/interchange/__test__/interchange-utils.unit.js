@@ -19,7 +19,7 @@ import {
 
     sumAllShares
 
-} from './../interchange-utils'
+} from './../interchange-utils';
 
 import {
     fakeState,
@@ -27,10 +27,9 @@ import {
     fakeStateCase1WithTransactions,
     fakeParticipatingState,
     participatingResult
-} from '../../../../test/fixtures/fake-state'
+} from '../../../../test/fixtures/fake-state';
 
 import { given } from 'mocha-testdata';
-import deepFreeze from 'deep-freeze'
 
 describe("UNIT / Core / Interchange utils", ()=> {
 

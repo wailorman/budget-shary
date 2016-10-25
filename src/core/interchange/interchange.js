@@ -5,13 +5,13 @@ import {
     humanifyTransactions,
     tryTransaction,
     totalExpenses
-} from './interchange-utils'
+} from './interchange-utils';
 
 import {
     calculateMonetarySharesForProductsCollection,
     totalMonetarySharesByParticipating,
     monetarySharesToStateShares
-} from './participating-utils'
+} from './participating-utils';
 
 export default function interchange(state) {
     const deferred = Q.defer();

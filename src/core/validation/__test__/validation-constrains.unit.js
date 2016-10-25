@@ -1,6 +1,6 @@
-import * as constrains from './../validation-constrains'
+import * as constrains from './../validation-constrains';
 
-import { given } from 'mocha-testdata'
+import { given } from 'mocha-testdata';
 
 const validate = require('validate.js');
 

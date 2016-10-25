@@ -1,4 +1,4 @@
-import {FETCH_BUDGET} from '../actions'
+import {FETCH_BUDGET} from '../actions';
 
 import {validate} from '../core/validation/validation';
 

@@ -1,8 +1,8 @@
-import { proceedInterchange } from './../interchange'
+import { proceedInterchange } from './../interchange';
 
-import { fakeStateCase1 } from '../../../../test/fixtures/fake-state'
+import { fakeStateCase1 } from '../../../../test/fixtures/fake-state';
 
-import deepFreeze from 'deep-freeze'
+import deepFreeze from 'deep-freeze';
 
 describe("UNIT / Core / Interchange", ()=> {
 

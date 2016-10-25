@@ -1,19 +1,19 @@
-import React, {Component} from 'react'
+import React, {Component} from 'react';
 
-import {connect} from 'react-redux'
-import {bindActionCreators} from 'redux'
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 
-import Product from '../components/Product'
-import Person from '../components/Person'
-import ValidationErrorsList from '../components/ValidationErrorsList'
-import TransactionsList from '../components/TransactionsList'
-import BudgetName from '../components/BudgetName'
-import ParticipatingRow from '../components/ParticipatingRow'
-import NewProductButton from '../components/NewProductButton'
+import Product from '../components/Product';
+import Person from '../components/Person';
+import ValidationErrorsList from '../components/ValidationErrorsList';
+import TransactionsList from '../components/TransactionsList';
+import BudgetName from '../components/BudgetName';
+import ParticipatingRow from '../components/ParticipatingRow';
+import NewProductButton from '../components/NewProductButton';
 
-import {getProductsByPersonId} from '../core/components-utils'
+import {getProductsByPersonId} from '../core/components-utils';
 
-import * as actionCreators from '../actions'
+import * as actionCreators from '../actions';
 
 
 export const BudgetComponent = ({state, dispatch}) => {

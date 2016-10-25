@@ -1,4 +1,4 @@
-import '../styles/BudgetName.css'
+import '../styles/BudgetName.css';
 
 export const BudgetName = (props)=> {
 

@@ -1,5 +1,5 @@
-import {sumAllShares} from '../core/interchange/interchange-utils'
-import {CHANGE_PERSON, TOGGLE_PARTICIPATION} from '../actions'
+import {sumAllShares} from '../core/interchange/interchange-utils';
+import {CHANGE_PERSON, TOGGLE_PARTICIPATION} from '../actions';
 
 export const shareSumMiddleware = (reducer) => (store) => (next) => (action) => {
 

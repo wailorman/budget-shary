@@ -1,4 +1,4 @@
-import { transactionsReducer } from '../transactionsReducer'
+import { transactionsReducer } from '../transactionsReducer';
 
 import {
 
@@ -6,9 +6,9 @@ import {
 
     FETCH_BUDGET
 
-} from '../../actions'
+} from '../../actions';
 
-import { fakeStateCase1, fakeStateCase1WithTransactions, normalizedBigFakeState } from '../../../test/fixtures/fake-state'
+import { fakeStateCase1, fakeStateCase1WithTransactions, normalizedBigFakeState } from '../../../test/fixtures/fake-state';
 
 describe("UNIT / Reducers / transactionsReducer", ()=> {
 

@@ -1,4 +1,4 @@
-import '../styles/ParticipatingSwitcher.css'
+import '../styles/ParticipatingSwitcher.css';
 
 export const ParticipatingSwitcher = (props)=> {
 

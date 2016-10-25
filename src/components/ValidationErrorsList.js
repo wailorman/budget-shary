@@ -1,6 +1,6 @@
-import {getFlatValidationErrors} from '../core/components-utils'
+import {getFlatValidationErrors} from '../core/components-utils';
 
-import '../styles/ValidationErrorsList.css'
+import '../styles/ValidationErrorsList.css';
 
 const ValidationErrorsList = ({errors})=> {
     const errorMessages = getFlatValidationErrors(errors)

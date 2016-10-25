@@ -1,8 +1,8 @@
-import {participatingReducer} from '../participatingReducer'
+import {participatingReducer} from '../participatingReducer';
 import {
     toggleParticipation,
     REMOVE_PERSON, REMOVE_PRODUCT
-} from '../../actions'
+} from '../../actions';
 
 describe("UNIT / Reducers / participatingReducer", ()=> {
 

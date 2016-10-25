@@ -1,7 +1,11 @@
-import {proceedInterchange, productParticipatingToPersonShares} from '../core/interchange/interchange'
+import {
+    proceedInterchange, 
+    productParticipatingToPersonShares
+} from '../core/interchange/interchange';
+
 import {
     PROCEED_INTERCHANGE, TOGGLE_PARTICIPATION
-} from '../actions'
+} from '../actions';
 
 export const interchangeMiddleware = (reducer)=> (store)=> (next)=> (action)=> {
 

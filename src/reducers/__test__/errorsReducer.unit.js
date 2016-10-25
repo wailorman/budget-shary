@@ -1,7 +1,5 @@
-"use strict";
-
-import { errorsReducer } from '../errorsReducer'
-import {initialState} from '../initial-state'
+import { errorsReducer } from '../errorsReducer';
+import {initialState} from '../initial-state';
 
 describe("UNIT / Reducers / errorsReducer", ()=> {
 
@@ -17,7 +15,7 @@ describe("UNIT / Reducers / errorsReducer", ()=> {
 
         const actualState = errorsReducer({}, action);
 
-        expect(actualState).to.eql(initialState.errors)
+        expect(actualState).to.eql(initialState.errors);
 
     });
 

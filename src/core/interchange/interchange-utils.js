@@ -1,12 +1,10 @@
-"use strict";
-
 import {
     calculateMonetarySharesForProduct,
     calculateMonetarySharesForProductsCollection,
     getAmountOfProductParticipants,
     monetarySharesToStateShares,
     totalMonetarySharesByParticipating
-} from './participating-utils'
+} from './participating-utils';
 
 export const INCOME = 'INCOME';
 export const OUTCOME = 'OUTCOME';

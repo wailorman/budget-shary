@@ -1,6 +1,6 @@
-import Person from '../../../src/components/Person'
-import { removePerson } from '../actions'
-import { store } from '../store'
+import Person from '../../../src/components/Person';
+import { removePerson } from '../actions';
+import { store } from '../store';
 
 const Persons = React.createClass({
 

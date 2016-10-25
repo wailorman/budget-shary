@@ -1,5 +1,5 @@
-import ParticipatingSwitcher from './ParticipatingSwitcher'
-import '../styles/ParticipatingRow.css'
+import ParticipatingSwitcher from './ParticipatingSwitcher';
+import '../styles/ParticipatingRow.css';
 
 export const ParticipatingRow = (props)=> {
 

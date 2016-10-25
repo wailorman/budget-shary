@@ -1,4 +1,4 @@
-import {initialState} from './initial-state'
+import {initialState} from './initial-state';
 
 import {
     FETCH_BUDGET,
@@ -6,9 +6,9 @@ import {
     NEW_PRODUCT,
     CHANGE_PRODUCT,
     REMOVE_PERSON
-} from '../actions'
+} from '../actions';
 
-import {getProductsByPersonId} from './../core/components-utils'
+import {getProductsByPersonId} from './../core/components-utils';
 
 
 export function productsReducer(productsState = initialState.products, action) {
@@ -17,6 +17,7 @@ export function productsReducer(productsState = initialState.products, action) {
     switch (action.type) {
 
         case FETCH_BUDGET:
+        {
 
             if (action.result && action.result.products){
                 newState = action.result.products;
@@ -24,21 +25,26 @@ export function productsReducer(productsState = initialState.products, action) {
             }else{
                 return initialState.products;
             }
+        }
 
         case REMOVE_PRODUCT:
+        {
             delete newState[action.id];
 
             return newState;
+        }
 
         case NEW_PRODUCT:
-
+        {
             const newProductId = _.uniqueId('__');
 
             newState[newProductId] = {id: newProductId, name: '', price: '', ownerId: action.ownerId};
 
             return newState;
+        }
 
         case CHANGE_PRODUCT:
+        {
             if (!newState[action.id]) return newState;
 
             const consideringProduct = _.cloneDeep(newState[action.id]);
@@ -46,9 +52,10 @@ export function productsReducer(productsState = initialState.products, action) {
             newState[action.id] = _.assign(consideringProduct, action.values);
 
             return newState;
+        }
 
         case REMOVE_PERSON:
-
+        {
             const personId = action.id;
 
             const personOwnProducts = getProductsByPersonId(personId, newState);
@@ -59,9 +66,12 @@ export function productsReducer(productsState = initialState.products, action) {
             });
 
             return newState;
+        }
 
         default:
+        {
             return productsState;
+        }
     }
 
 }

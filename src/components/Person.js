@@ -1,6 +1,6 @@
-import ValidationErrorsList from './ValidationErrorsList'
+import ValidationErrorsList from './ValidationErrorsList';
 
-import '../styles/Person.css'
+import '../styles/Person.css';
 
 export const Person = (props)=> {
 

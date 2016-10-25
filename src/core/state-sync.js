@@ -1,4 +1,4 @@
-import {stateStub} from '../state-stub'
+import {stateStub} from '../state-stub';
 
 export const STATE_KEY = 'budget1';
 

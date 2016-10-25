@@ -1,12 +1,17 @@
 "use strict";
 
-import { personsReducer } from '../personsReducer'
+import { personsReducer } from '../personsReducer';
+
 import {
     REMOVE_PERSON, NEW_PERSON, CHANGE_PERSON,
     FETCH_BUDGET,
     TOGGLE_PARTICIPATION
-} from '../../actions'
-import { normalizedFakeState, normalizedBigFakeState } from '../../../test/fixtures/fake-state'
+} from '../../actions';
+
+import {
+    normalizedFakeState,
+    normalizedBigFakeState
+} from '../../../test/fixtures/fake-state';
 
 const initialState = normalizedFakeState;
 
@@ -181,7 +186,7 @@ describe("UNIT / Reducers / personsReducer", ()=> {
 
             const result = personsReducer(initialStatePersons, action);
 
-            expect(result).to.eql(initialStatePersons)
+            expect(result).to.eql(initialStatePersons);
 
         });
 

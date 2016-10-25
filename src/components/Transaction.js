@@ -1,4 +1,4 @@
-import '../styles/Transaction.css'
+import '../styles/Transaction.css';
 
 export const Transaction = ({from, to, total}) => {
     return (

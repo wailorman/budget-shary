@@ -1,20 +1,20 @@
-import {initialState} from './initial-state'
+import {initialState} from './initial-state';
 import {
     FETCH_BUDGET,
     PROCEED_INTERCHANGE
-} from '../actions'
+} from '../actions';
 
 
 export function transactionsReducer(state = initialState.transactions, action = {}) {
     let newState = _.cloneDeep(state);
 
-    switch (action.type){
+    switch (action.type) {
         case FETCH_BUDGET:
 
-            if (action.result && action.result.transactions){
+            if (action.result && action.result.transactions) {
                 newState = action.result.transactions;
                 return newState;
-            }else{
+            } else {
                 return initialState.transactions;
             }
 

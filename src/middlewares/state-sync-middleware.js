@@ -1,5 +1,5 @@
-import {pushState, fetchState} from '../core/state-sync'
-import {FETCH_BUDGET} from '../actions'
+import {pushState, fetchState} from '../core/state-sync';
+import {FETCH_BUDGET} from '../actions';
 
 export const stateSyncMiddleware = (reducer) =>
     (store) => (next) => (action) => {
@@ -8,12 +8,13 @@ export const stateSyncMiddleware = (reducer) =>
 
         switch (action.type){
             case FETCH_BUDGET:
-                
+            {
                 newAction.result = fetchState({returnStubIfEmpty: true});
-                
-                return next(newAction);
-            default:
 
+                return next(newAction);
+            }
+            default:
+            {
                 // sync state with localStorage
 
                 const previousState = store.getState();
@@ -23,10 +24,11 @@ export const stateSyncMiddleware = (reducer) =>
                 try {
                     pushState(nextState);
                 } catch (e) {
-                    console.error(`Error while pushing the state: ${e}`)
+                    console.error(`Error while pushing the state: ${e}`);
                 }
 
                 return next(action);
+            }
         }
 
     };
