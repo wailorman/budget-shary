@@ -12,11 +12,7 @@ export function budgetReducer(state = {}, action = {}) {
     switch (action.type){
         case FETCH_BUDGET:
         {
-            if (action.result && action.result.budget) {
-                return action.result.budget;
-            } else {
-                return initialState.budget;
-            }
+            return _.get(action, 'result.budget', initialState.budget);
         }
 
         case CHANGE_BUDGET_PROPS:

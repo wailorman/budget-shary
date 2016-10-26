@@ -11,12 +11,7 @@ export function transactionsReducer(state = initialState.transactions, action = 
     switch (action.type) {
         case FETCH_BUDGET:
 
-            if (action.result && action.result.transactions) {
-                newState = action.result.transactions;
-                return newState;
-            } else {
-                return initialState.transactions;
-            }
+            return _.get(action, 'result.transactions', initialState.transactions);
 
         case PROCEED_INTERCHANGE:
             return action.meta.transactions;

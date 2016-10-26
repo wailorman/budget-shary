@@ -18,13 +18,7 @@ export function productsReducer(productsState = initialState.products, action) {
 
         case FETCH_BUDGET:
         {
-
-            if (action.result && action.result.products){
-                newState = action.result.products;
-                return newState;
-            }else{
-                return initialState.products;
-            }
+            return _.get(action, 'result.products', initialState.products);
         }
 
         case REMOVE_PRODUCT:

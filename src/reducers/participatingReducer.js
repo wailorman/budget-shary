@@ -1,3 +1,4 @@
+import {initialState} from './initial-state';
 import {
     FETCH_BUDGET,
     TOGGLE_PARTICIPATION,
@@ -12,7 +13,7 @@ export function participatingReducer(state = {}, action = {}) {
     switch (action.type){
         case FETCH_BUDGET:
         {
-            return action.result.productParticipating || newState;
+            return _.get(action, 'result.productParticipating', initialState.productParticipating);
         }
 
         case TOGGLE_PARTICIPATION:

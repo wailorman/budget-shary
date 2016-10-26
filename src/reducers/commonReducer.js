@@ -11,12 +11,7 @@ export function commonReducer(commonState = {}, action = {}) {
     switch (action.type) {
         case FETCH_BUDGET:
         {
-            if (action.result && action.result.common) {
-                newCommonState = action.result.common;
-                return newCommonState;
-            } else {
-                return initialState.common;
-            }
+            return _.get(action, 'result.common', initialState.common);
         }
         default:
         {

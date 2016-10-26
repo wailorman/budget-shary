@@ -15,13 +15,7 @@ export function personsReducer(personsState = initialState.persons, action) {
 
         case FETCH_BUDGET:
         {
-
-            if (action.result && action.result.persons) {
-                newState = action.result.persons;
-                return newState;
-            } else {
-                return initialState.persons;
-            }
+            return _.get(action, 'result.persons', initialState.persons);
         }
 
         case REMOVE_PERSON:
