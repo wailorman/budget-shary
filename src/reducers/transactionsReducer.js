@@ -6,7 +6,6 @@ import {
 
 
 export function transactionsReducer(state = initialState.transactions, action = {}) {
-    let newState = _.cloneDeep(state);
 
     switch (action.type) {
         case FETCH_BUDGET:
