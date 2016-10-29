@@ -8,10 +8,13 @@ import {errorsReducer} from './errorsReducer';
 import {budgetReducer} from './budgetReducer';
 import {participatingReducer} from './participatingReducer';
 
+import { routerReducer } from 'react-router-redux';
+
 // todo: >> action = {} ... and test it! --> Means that default action argument should == {}
 
 
 export const combinedReducers = combineReducers({
+    routing: routerReducer,
     budget: budgetReducer,
     products: productsReducer,
     persons: personsReducer,

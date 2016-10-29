@@ -7,6 +7,9 @@ import {shareSumMiddleware} from './middlewares/share-sum-middleware';
 import {validationMiddleware} from './middlewares/validation-middleware';
 import {interchangeMiddleware} from './middlewares/interchange-middleware';
 
+import { syncHistoryWithStore } from 'react-router-redux';
+import { hashHistory } from 'react-router';
+
 /**
  * Redux store factory
  *
@@ -40,5 +43,7 @@ export const generateStore = (args = {}) => {
 
 
 export const store = generateStore();
+
+export const history = syncHistoryWithStore(hashHistory, store);
 
 export default store;

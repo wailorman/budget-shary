@@ -101,7 +101,10 @@ BudgetComponent.propTypes = {
 class Budget extends React.Component {
 
     componentDidMount(){
-        this.props.dispatch(actionCreators.fetchBudget());
+
+        const budgetToFetch = this.props.params.id || 1;
+
+        this.props.dispatch(actionCreators.fetchBudget(budgetToFetch));
     }
 
     render() {
@@ -111,7 +114,8 @@ class Budget extends React.Component {
 }
 
 Budget.propTypes = {
-    dispatch: React.PropTypes.func
+    dispatch: React.PropTypes.func.isRequired,
+    params: React.PropTypes.object
 };
 
 export default connect(
