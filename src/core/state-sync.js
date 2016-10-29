@@ -1,6 +1,6 @@
 import {stateStub} from '../state-stub';
 
-export const STATE_KEY = 'budget1';
+export const DEFAULT_BUDGET_ID = 'budget1';
 
 const localStorageStub = typeof window == 'undefined' ? require('localStorage') : window.localStorage;
 
@@ -11,13 +11,13 @@ const localStorageStub = typeof window == 'undefined' ? require('localStorage') 
  * @param deps
  * @returns {*}
  */
-export const fetchState = function (opts, deps = {}) {
+export const fetchBudget = function (opts, deps = {}) {
 
     const {returnStubIfEmpty} = opts || {};
     
     _.defaultsDeep(deps, {localStorage: localStorageStub});
 
-    const localStorageResponse = deps.localStorage.getItem(STATE_KEY);
+    const localStorageResponse = deps.localStorage.getItem(DEFAULT_BUDGET_ID);
 
     let jsonParsingResult;
 
@@ -44,14 +44,14 @@ export const fetchState = function (opts, deps = {}) {
 
 };
 
-export const pushState = function (state, deps = {}) {
+export const pushBudget = function (state, deps = {}) {
 
     _.defaultsDeep(deps, {localStorage: localStorageStub});
 
     const stringifyState = JSON.stringify(state);
 
-    deps.localStorage.setItem(STATE_KEY, stringifyState);
+    deps.localStorage.setItem(DEFAULT_BUDGET_ID, stringifyState);
 
-    return JSON.parse(deps.localStorage.getItem(STATE_KEY));
+    return JSON.parse(deps.localStorage.getItem(DEFAULT_BUDGET_ID));
 
 };

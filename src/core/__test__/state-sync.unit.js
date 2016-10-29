@@ -1,4 +1,4 @@
-import {fetchState, pushState, STATE_KEY} from '../state-sync';
+import {fetchBudget, pushBudget, DEFAULT_BUDGET_ID} from '../state-sync';
 import {fakeState} from '../../../test/fixtures/fake-state';
 import {stateStub} from '../../state-stub';
 
@@ -18,11 +18,11 @@ describe("UNIT / Core / Storage Sync", ()=> {
         localStorage.clear();
     });
 
-    describe("#fetchState()", ()=> {
+    describe("#fetchBudget()", ()=> {
 
         it(`should return null as last state if we are newbie`, () => {
 
-            const actual = fetchState({}, deps);
+            const actual = fetchBudget({}, deps);
 
             const expected = null;
 
@@ -32,9 +32,9 @@ describe("UNIT / Core / Storage Sync", ()=> {
 
         it(`should return some state if we already save some work`, () => {
 
-            localStorage.setItem(STATE_KEY, JSON.stringify(fakeState));
+            localStorage.setItem(DEFAULT_BUDGET_ID, JSON.stringify(fakeState));
 
-            const actual = fetchState({}, deps);
+            const actual = fetchBudget({}, deps);
 
             expect(actual).to.eql(fakeState);
 
@@ -42,9 +42,9 @@ describe("UNIT / Core / Storage Sync", ()=> {
 
         it(`should return null if json string in storage isn't valid`, () => {
 
-            localStorage.setItem(STATE_KEY, '{"foo:');
+            localStorage.setItem(DEFAULT_BUDGET_ID, '{"foo:');
 
-            const actual = fetchState({}, deps);
+            const actual = fetchBudget({}, deps);
 
             const expected = null;
 
@@ -56,7 +56,7 @@ describe("UNIT / Core / Storage Sync", ()=> {
 
             localStorage.clear();
 
-            const actual = fetchState({returnStubIfEmpty: true}, deps);
+            const actual = fetchBudget({returnStubIfEmpty: true}, deps);
 
             expect(actual).to.eql(stateStub);
             
@@ -64,9 +64,9 @@ describe("UNIT / Core / Storage Sync", ()=> {
 
         it(`should not return state stub if we have actual state`, () => {
 
-            localStorage.setItem(STATE_KEY, JSON.stringify(fakeState));
+            localStorage.setItem(DEFAULT_BUDGET_ID, JSON.stringify(fakeState));
 
-            const actual = fetchState({returnStubIfEmpty: true}, deps);
+            const actual = fetchBudget({returnStubIfEmpty: true}, deps);
 
             expect(actual).to.eql(fakeState);
 
@@ -74,11 +74,11 @@ describe("UNIT / Core / Storage Sync", ()=> {
 
     });
 
-    describe("#pushState()", ()=> {
+    describe("#pushBudget()", ()=> {
 
         it(`should return {} if we are pushing empty state`, () => {
 
-            const actual = pushState({}, deps);
+            const actual = pushBudget({}, deps);
 
             const expected = {};
 
@@ -88,7 +88,7 @@ describe("UNIT / Core / Storage Sync", ()=> {
 
         it(`should return the same state we passed`, () => {
 
-            const actual = pushState(fakeState, deps);
+            const actual = pushBudget(fakeState, deps);
 
             expect(actual).to.eql(fakeState);
 

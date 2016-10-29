@@ -1,4 +1,4 @@
-import {pushState, fetchState} from '../core/state-sync';
+import {pushBudget, fetchBudget} from '../core/state-sync';
 import {FETCH_BUDGET} from '../actions';
 
 export const stateSyncMiddleware = (reducer) =>
@@ -9,7 +9,7 @@ export const stateSyncMiddleware = (reducer) =>
         switch (action.type){
             case FETCH_BUDGET:
             {
-                newAction.result = fetchState({returnStubIfEmpty: true});
+                newAction.result = fetchBudget({returnStubIfEmpty: true});
 
                 return next(newAction);
             }
@@ -22,7 +22,7 @@ export const stateSyncMiddleware = (reducer) =>
                 const nextState = reducer(previousState, action);
 
                 try {
-                    pushState(nextState);
+                    pushBudget(nextState);
                 } catch (e) {
                     console.error(`Error while pushing the state: ${e}`);
                 }
