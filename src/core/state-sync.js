@@ -16,7 +16,7 @@ export const fetchBudget = function (
     deps = {}
 ) {
 
-
+    if (id != DEFAULT_BUDGET_ID) id = `budget${id}`;
     
     _.defaultsDeep(deps, {localStorage: localStorageStub});
 
@@ -52,6 +52,8 @@ export const pushBudget = function (
     {id = DEFAULT_BUDGET_ID},
     deps = {}
 ) {
+
+    if (id != DEFAULT_BUDGET_ID) id = `budget${id}`;
 
     _.defaultsDeep(deps, {localStorage: localStorageStub});
 

@@ -72,6 +72,16 @@ describe("UNIT / Core / Storage Sync", ()=> {
 
         });
 
+        it(`should return budget by id`, () => {
+
+            localStorage.setItem('budget2', JSON.stringify(fakeState));
+
+            const actual = fetchBudget({id: 2, returnStubIfEmpty: true}, deps);
+
+            expect(actual).to.eql(fakeState);
+
+        });
+
     });
 
     describe("#pushBudget()", ()=> {
@@ -91,6 +101,20 @@ describe("UNIT / Core / Storage Sync", ()=> {
             const actual = pushBudget(fakeState, {}, deps);
 
             expect(actual).to.eql(fakeState);
+
+        });
+
+        it(`should push budget by id`, () => {
+
+            expect(localStorage.length).to.eql(0);
+
+            pushBudget(fakeState, {id: 2}, deps);
+
+            expect(localStorage.length).to.eql(1);
+
+            const pushedBudget = JSON.parse( localStorage.getItem('budget2') );
+
+            expect(pushedBudget).to.eql(fakeState);
 
         });
 
