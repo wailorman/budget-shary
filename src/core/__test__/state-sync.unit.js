@@ -78,7 +78,7 @@ describe("UNIT / Core / Storage Sync", ()=> {
 
         it(`should return {} if we are pushing empty state`, () => {
 
-            const actual = pushBudget({}, deps);
+            const actual = pushBudget({}, {}, deps);
 
             const expected = {};
 
@@ -88,7 +88,7 @@ describe("UNIT / Core / Storage Sync", ()=> {
 
         it(`should return the same state we passed`, () => {
 
-            const actual = pushBudget(fakeState, deps);
+            const actual = pushBudget(fakeState, {}, deps);
 
             expect(actual).to.eql(fakeState);
 

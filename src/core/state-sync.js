@@ -11,13 +11,16 @@ const localStorageStub = typeof window == 'undefined' ? require('localStorage') 
  * @param deps
  * @returns {*}
  */
-export const fetchBudget = function (opts, deps = {}) {
+export const fetchBudget = function (
+    {returnStubIfEmpty = false, id = DEFAULT_BUDGET_ID},
+    deps = {}
+) {
 
-    const {returnStubIfEmpty} = opts || {};
+
     
     _.defaultsDeep(deps, {localStorage: localStorageStub});
 
-    const localStorageResponse = deps.localStorage.getItem(DEFAULT_BUDGET_ID);
+    const localStorageResponse = deps.localStorage.getItem(id);
 
     let jsonParsingResult;
 
@@ -44,14 +47,18 @@ export const fetchBudget = function (opts, deps = {}) {
 
 };
 
-export const pushBudget = function (state, deps = {}) {
+export const pushBudget = function (
+    state,
+    {id = DEFAULT_BUDGET_ID},
+    deps = {}
+) {
 
     _.defaultsDeep(deps, {localStorage: localStorageStub});
 
     const stringifyState = JSON.stringify(state);
 
-    deps.localStorage.setItem(DEFAULT_BUDGET_ID, stringifyState);
+    deps.localStorage.setItem(id, stringifyState);
 
-    return JSON.parse(deps.localStorage.getItem(DEFAULT_BUDGET_ID));
+    return JSON.parse(deps.localStorage.getItem(id));
 
 };
