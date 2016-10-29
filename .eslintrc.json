@@ -35,6 +35,7 @@
   },
   "globals": {
     "_": true,
+    "__dirname": true,
     "Q": true,
     "React": true,
     "ReactDOM": true,
