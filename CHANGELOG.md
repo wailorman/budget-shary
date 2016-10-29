@@ -8,3 +8,6 @@ share will be calculated automatically
 * Interchange proceeding moved to own middleware
 * Remove api code from repository. I'll create independent repository for api
 * Reorganize npm scripts (read the [new README.md](https://github.com/wailorman/budget-shary/blob/110682e45078b4af56d58e06b7d83fa7dc832cad/README.md))
+
+#2.2.0-beta (in progress)
+* Bottom margin after participating buttons on phones
