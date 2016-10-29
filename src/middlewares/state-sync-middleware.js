@@ -9,7 +9,7 @@ export const stateSyncMiddleware = (reducer) =>
         switch (action.type){
             case FETCH_BUDGET:
             {
-                newAction.result = fetchBudget({returnStubIfEmpty: true});
+                newAction.result = fetchBudget({id: action.id, returnStubIfEmpty: true});
 
                 return next(newAction);
             }
@@ -22,7 +22,7 @@ export const stateSyncMiddleware = (reducer) =>
                 const nextState = reducer(previousState, action);
 
                 try {
-                    pushBudget(nextState);
+                    pushBudget(nextState, {id: action.id});
                 } catch (e) {
                     console.error(`Error while pushing the state: ${e}`);
                 }

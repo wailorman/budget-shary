@@ -1,6 +1,7 @@
 export const stateStub = {
 
     budget: {
+        id: _.uniqueId('b_'),
         name: 'Pretty budget'
     },
     persons: {
