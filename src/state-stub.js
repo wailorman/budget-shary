@@ -1,7 +1,9 @@
+import shortid from 'shortid';
+
 export const stateStub = {
 
     budget: {
-        id: _.uniqueId('b_'),
+        id: `_b_${shortid.generate()}`,
         name: 'Pretty budget'
     },
     persons: {
