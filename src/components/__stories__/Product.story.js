@@ -1,5 +1,5 @@
 import {storiesOf, action} from '@kadira/storybook';
-import {Product} from '../../../src/components/Product'
+import {Product} from '../Product'
 import {storyGenerator} from '../../../test/helpers/storybook-helper'
 
 const callbacks = {

@@ -1,6 +1,6 @@
 import { storiesOf, action } from '@kadira/storybook';
-import Person from '../../../src/components/Person'
-import { changePerson, removePerson } from '../../../src/actions'
+import Person from '../Person'
+import { changePerson, removePerson } from '../../actions'
 import {storyGenerator} from '../../../test/helpers/storybook-helper'
 
 const callbacks = {
