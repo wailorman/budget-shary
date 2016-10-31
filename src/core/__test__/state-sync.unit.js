@@ -26,7 +26,7 @@ describe("UNIT / Core / Storage Sync", ()=> {
 
     describe("#fetchBudget()", ()=> {
 
-        it(`should return null id isn't specified`, () => {
+        it(`should return null if id isn't specified`, () => {
 
             // todo: Check the console
             const actual = fetchBudget({}, deps);
