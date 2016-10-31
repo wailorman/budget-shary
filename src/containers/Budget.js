@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {STUB_BUDGET_ID} from '../core/state-sync';
+import {STUB_BUDGET_ID} from '../state-stub';
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';

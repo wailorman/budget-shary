@@ -1,4 +1,5 @@
-import {fetchBudget, pushBudget, STUB_BUDGET_ID, BUDGET_NAME_PREFIX} from '../state-sync';
+import {fetchBudget, pushBudget, BUDGET_NAME_PREFIX} from '../state-sync';
+import {STUB_BUDGET_ID} from '../../state-stub';
 import {fakeState} from '../../../test/fixtures/fake-state';
 import {stateStub} from '../../state-stub';
 

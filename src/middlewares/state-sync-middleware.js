@@ -9,7 +9,7 @@ export const stateSyncMiddleware = (reducer) =>
         switch (action.type){
             case FETCH_BUDGET:
             {
-                newAction.result = fetchBudget({id: action.id, returnStubIfEmpty: true});
+                newAction.result = fetchBudget({id: action.id});
 
                 return next(newAction);
             }

@@ -1,5 +1,5 @@
 import shortid from 'shortid';
-import {STUB_BUDGET_ID} from './core/state-sync';
+export const STUB_BUDGET_ID = 'stub';
 
 export const stateStub = {
 
