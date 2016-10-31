@@ -1,4 +1,4 @@
-import {fetchBudget, pushBudget, DEFAULT_BUDGET_ID} from '../state-sync';
+import {fetchBudget, pushBudget, DEFAULT_TEST_BUDGET_ID} from '../state-sync';
 import {fakeState} from '../../../test/fixtures/fake-state';
 import {stateStub} from '../../state-stub';
 
@@ -32,7 +32,7 @@ describe("UNIT / Core / Storage Sync", ()=> {
 
         it(`should return some state if we already save some work`, () => {
 
-            localStorage.setItem(DEFAULT_BUDGET_ID, JSON.stringify(fakeState));
+            localStorage.setItem(DEFAULT_TEST_BUDGET_ID, JSON.stringify(fakeState));
 
             const actual = fetchBudget({}, deps);
 
@@ -42,7 +42,7 @@ describe("UNIT / Core / Storage Sync", ()=> {
 
         it(`should return null if json string in storage isn't valid`, () => {
 
-            localStorage.setItem(DEFAULT_BUDGET_ID, '{"foo:');
+            localStorage.setItem(DEFAULT_TEST_BUDGET_ID, '{"foo:');
 
             const actual = fetchBudget({}, deps);
 
@@ -64,7 +64,7 @@ describe("UNIT / Core / Storage Sync", ()=> {
 
         it(`should not return state stub if we have actual state`, () => {
 
-            localStorage.setItem(DEFAULT_BUDGET_ID, JSON.stringify(fakeState));
+            localStorage.setItem(DEFAULT_TEST_BUDGET_ID, JSON.stringify(fakeState));
 
             const actual = fetchBudget({returnStubIfEmpty: true}, deps);
 

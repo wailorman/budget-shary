@@ -1,6 +1,9 @@
 import {stateStub} from '../state-stub';
 
-export const DEFAULT_BUDGET_ID = 'budget1';
+// for localStorage testers
+export const DEFAULT_TEST_BUDGET_ID = 'budget1';
+export const BUDGET_NAME_PREFIX = 'budget';
+export const DEFAULT_BUDGET_ID = 1;
 
 const localStorageStub = typeof window == 'undefined' ? require('localStorage') : window.localStorage;
 
@@ -16,15 +19,15 @@ export const fetchBudget = function (
     deps = {}
 ) {
 
-    if (id != DEFAULT_BUDGET_ID) id = `budget${id}`;
-    
+    const localStorageBudgetId = BUDGET_NAME_PREFIX + id;
+
     _.defaultsDeep(deps, {localStorage: localStorageStub});
 
-    const localStorageResponse = deps.localStorage.getItem(id);
+    const response = deps.localStorage.getItem(localStorageBudgetId);
 
     let jsonParsingResult;
 
-    if (!localStorageResponse && returnStubIfEmpty){
+    if (!response && returnStubIfEmpty){
 
         if (returnStubIfEmpty) {
 
@@ -35,9 +38,9 @@ export const fetchBudget = function (
     }else{
 
         try {
-            jsonParsingResult = JSON.parse(localStorageResponse);
+            jsonParsingResult = JSON.parse(response);
         } catch (e) {
-            console.error(`fetchState: JSON parsing error: '${e}'`);
+            console.error(`fetchState: JSON parsing error: `, e);
             jsonParsingResult = null;
         }
 
@@ -55,15 +58,14 @@ export const pushBudget = function (state, deps = {}) {
     if (!state.budget.id)
         throw new Error(`Budget doesn't have an id`);
 
-    const budgetId = 'budget' + state.budget.id;
-
+    const localStorageBudgetId = BUDGET_NAME_PREFIX + state.budget.id;
 
     _.defaultsDeep(deps, {localStorage: localStorageStub});
 
     const stringifyState = JSON.stringify(state);
 
-    deps.localStorage.setItem(budgetId, stringifyState);
+    deps.localStorage.setItem(localStorageBudgetId, stringifyState);
 
-    return JSON.parse(deps.localStorage.getItem(budgetId));
+    return JSON.parse(deps.localStorage.getItem(localStorageBudgetId));
 
 };
