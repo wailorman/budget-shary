@@ -22,7 +22,7 @@ export const stateSyncMiddleware = (reducer) =>
                 const nextState = reducer(previousState, action);
 
                 try {
-                    pushBudget(nextState, {id: action.id});
+                    pushBudget(nextState);
                 } catch (e) {
                     console.error(`Error while pushing the state: ${e}`);
                 }
