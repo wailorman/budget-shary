@@ -3,7 +3,7 @@ import shortid from 'shortid';
 export const stateStub = {
 
     budget: {
-        id: `_b_${shortid.generate()}`,
+        id: 1,
         name: 'Pretty budget'
     },
     persons: {
@@ -41,4 +41,20 @@ export const stateStub = {
         common: {}
     }
 
+};
+
+export const initialBudgetState = {
+    budget: {
+        id: `_b_${shortid.generate()}`,
+        name: ''
+    },
+    persons: {},
+    products: {},
+    productParticipating: {},
+    transactions: [],
+    errors: {
+        products: {},
+        persons: {},
+        common: {}
+    }
 };
