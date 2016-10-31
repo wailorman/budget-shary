@@ -1,5 +1,7 @@
 import React from 'react';
 
+import {STUB_BUDGET_ID} from '../core/state-sync';
+
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
@@ -102,7 +104,7 @@ class Budget extends React.Component {
 
     componentDidMount(){
 
-        const budgetIdToFetch = this.props.params.id || 1;
+        const budgetIdToFetch = this.props.params.id || STUB_BUDGET_ID;
 
         this.props.dispatch(actionCreators.fetchBudget(budgetIdToFetch));
     }

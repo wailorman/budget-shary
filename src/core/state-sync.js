@@ -4,6 +4,7 @@ import {stateStub} from '../state-stub';
 export const DEFAULT_TEST_BUDGET_ID = 'budget1';
 export const BUDGET_NAME_PREFIX = 'budget';
 export const DEFAULT_BUDGET_ID = 1;
+export const STUB_BUDGET_ID = 'stub';
 
 const localStorageStub = typeof window == 'undefined' ? require('localStorage') : window.localStorage;
 
@@ -15,10 +16,16 @@ const localStorageStub = typeof window == 'undefined' ? require('localStorage') 
  * @returns {*}
  */
 export const fetchBudget = function (
-    {returnStubIfEmpty = false, id = DEFAULT_BUDGET_ID},
+    {id},
     deps = {}
 ) {
 
+    if (!id){
+        console.error(`fetchBudget: id argument wasn't passed`);
+        return null;
+    }
+
+    const returnStubIfEmpty = id == STUB_BUDGET_ID ? true : false;
     const localStorageBudgetId = BUDGET_NAME_PREFIX + id;
 
     _.defaultsDeep(deps, {localStorage: localStorageStub});

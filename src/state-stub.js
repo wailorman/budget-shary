@@ -1,9 +1,10 @@
 import shortid from 'shortid';
+import {STUB_BUDGET_ID} from './core/state-sync';
 
 export const stateStub = {
 
     budget: {
-        id: 1,
+        id: STUB_BUDGET_ID,
         name: 'Pretty budget'
     },
     persons: {

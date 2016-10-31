@@ -1,4 +1,4 @@
-import {fetchBudget, pushBudget, DEFAULT_TEST_BUDGET_ID} from '../state-sync';
+import {fetchBudget, pushBudget, STUB_BUDGET_ID, BUDGET_NAME_PREFIX} from '../state-sync';
 import {fakeState} from '../../../test/fixtures/fake-state';
 import {stateStub} from '../../state-stub';
 
@@ -18,10 +18,17 @@ describe("UNIT / Core / Storage Sync", ()=> {
         localStorage.clear();
     });
 
+    const writeBudgetToLocalStorage = (id, state) => {
+        const stringState = typeof state == 'object' ? JSON.stringify(state) : state;
+
+        localStorage.setItem(BUDGET_NAME_PREFIX + id, stringState);
+    };
+
     describe("#fetchBudget()", ()=> {
 
-        it(`should return null as last state if we are newbie`, () => {
+        it(`should return null id isn't specified`, () => {
 
+            // todo: Check the console
             const actual = fetchBudget({}, deps);
 
             const expected = null;
@@ -30,11 +37,11 @@ describe("UNIT / Core / Storage Sync", ()=> {
 
         });
 
-        it(`should return some state if we already save some work`, () => {
+        it(`should return budget by id`, () => {
 
-            localStorage.setItem(DEFAULT_TEST_BUDGET_ID, JSON.stringify(fakeState));
+            writeBudgetToLocalStorage(1, fakeState);
 
-            const actual = fetchBudget({}, deps);
+            const actual = fetchBudget({id: 1}, deps);
 
             expect(actual).to.eql(fakeState);
 
@@ -42,43 +49,35 @@ describe("UNIT / Core / Storage Sync", ()=> {
 
         it(`should return null if json string in storage isn't valid`, () => {
 
-            localStorage.setItem(DEFAULT_TEST_BUDGET_ID, '{"foo:');
+            writeBudgetToLocalStorage(1, '{"foo:');
 
-            const actual = fetchBudget({}, deps);
+            // todo: Check the console
+            const actual = fetchBudget({id: 1}, deps);
 
             const expected = null;
 
             expect(actual).to.eql(expected);
 
         });
-        
-        it(`should return state stub if localStorage is empty`, () => {
+
+        it(`should return null if requested budget doesn't exist`, () => {
 
             localStorage.clear();
 
-            const actual = fetchBudget({returnStubIfEmpty: true}, deps);
+            // todo: Check the console
+            const actual = fetchBudget({id: 101}, deps);
 
-            expect(actual).to.eql(stateStub);
-            
-        });
-
-        it(`should not return state stub if we have actual state`, () => {
-
-            localStorage.setItem(DEFAULT_TEST_BUDGET_ID, JSON.stringify(fakeState));
-
-            const actual = fetchBudget({returnStubIfEmpty: true}, deps);
-
-            expect(actual).to.eql(fakeState);
+            expect(actual).to.eql(null);
 
         });
 
-        it(`should return budget by id`, () => {
+        it(`should return budget stub if requested budgetId is 'stub'`, () => {
 
-            localStorage.setItem('budget2', JSON.stringify(fakeState));
+            const actual = fetchBudget({id: STUB_BUDGET_ID}, deps);
 
-            const actual = fetchBudget({id: 2, returnStubIfEmpty: true}, deps);
+            const expected = stateStub;
 
-            expect(actual).to.eql(fakeState);
+            expect(actual).to.eql(expected);
 
         });
 
