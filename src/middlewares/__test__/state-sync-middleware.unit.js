@@ -1,4 +1,5 @@
 import {stateSyncMiddleware} from '../state-sync-middleware';
+import {BUDGET_NAME_PREFIX} from '../../core/state-sync';
 import {FETCH_BUDGET} from '../../actions';
 import localStorage from '../../../test/requirements/local-storage';
 
@@ -51,15 +52,15 @@ describe("UNIT / Middlewares / state sync middleware", ()=> {
         it(`should attach budget to action when FETCH_BUDGET`, () => {
 
             const budget = {
-                id: 'budget1',
+                id: 2,
                 products: [1]
             };
 
-            localStorage.setItem(budget.id, JSON.stringify(budget));
+            localStorage.setItem(BUDGET_NAME_PREFIX + budget.id, JSON.stringify(budget));
 
             const action = {
                 type: FETCH_BUDGET,
-                id: 'budget1'
+                id: 2
             };
 
             const actual = callMiddleware(action);
