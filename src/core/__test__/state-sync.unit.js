@@ -72,7 +72,7 @@ describe("UNIT / Core / Storage Sync", ()=> {
 
         });
 
-        it(`should return budget stub if requested budgetId is 'stub'`, () => {
+        it(`should return budget stub if requested budgetId is '${STUB_BUDGET_ID}'`, () => {
 
             const actual = fetchBudget({id: STUB_BUDGET_ID}, deps);
 
