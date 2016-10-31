@@ -42,11 +42,7 @@ var webpackConfig = {
 
     output: {
         path: __dirname + '/dist/js',
-        filename: '[name].build.js',
-
-        // for webstorm
-        devtoolModuleFilenameTemplate: '[absolute-resource-path]',
-        devtoolFallbackModuleFilenameTemplate: '[absolute-resource-path]?[hash]'
+        filename: '[name].build.js'
     },
 
     module: {
@@ -59,8 +55,17 @@ var webpackConfig = {
                 query: {
                     retainLines: true,
                     cacheDirectory: true,
-                    presets: ['es2015', 'react'],
-                    plugins: ['transform-runtime', "transform-object-rest-spread"]
+                    presets: [
+                        'es2015',
+                        'react'
+                    ],
+                    plugins: [
+                        'transform-runtime',
+                        "transform-object-rest-spread",
+                        ["transform-es2015-modules-commonjs-simple", {
+                            "noMangle": true
+                        }]
+                    ]
                 }
             },
             {
@@ -98,7 +103,13 @@ var webpackConfig = {
             'given': __dirname + '/test/requirements/providing/given-mocha-testdata.js'
         }),
         new WriteFilePlugin(),
-        new ExtractTextPlugin("[name].css")
+        new ExtractTextPlugin("[name].css"),
+
+        // for webstorm
+        new webpack.SourceMapDevToolPlugin(
+            '[file].map', null,
+            "[absolute-resource-path]", "[absolute-resource-path]"
+        )
     ],
 
     devServer: {
