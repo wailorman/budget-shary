@@ -86,35 +86,39 @@ describe("UNIT / Core / Storage Sync", ()=> {
 
     describe("#pushBudget()", ()=> {
 
-        it(`should return {} if we are pushing empty state`, () => {
+        it(`should throw exception if we are pushing empty={} budget`, () => {
 
-            const actual = pushBudget({}, {}, deps);
-
-            const expected = {};
-
-            expect(actual).to.eql(expected);
+            expect(
+                pushBudget.bind(null, {}, deps)
+            ).to.throw(/doesn't have a \.budget property/);
 
         });
 
-        it(`should return the same state we passed`, () => {
+        it(`should return the same budget we passed`, () => {
 
-            const actual = pushBudget(fakeState, {}, deps);
+            let fakeState2 = _.cloneDeep(fakeState);
+            fakeState2.budget = {id: 1, name: 'budget'};
 
-            expect(actual).to.eql(fakeState);
+            const actual = pushBudget(fakeState2, deps);
+
+            expect(actual).to.eql(fakeState2);
 
         });
 
         it(`should push budget by id`, () => {
 
+            let fakeState2 = _.cloneDeep(fakeState);
+            fakeState2.budget = {id: 2, name: 'budget'};
+
             expect(localStorage.length).to.eql(0);
 
-            pushBudget(fakeState, {id: 2}, deps);
+            pushBudget(fakeState2, deps);
 
             expect(localStorage.length).to.eql(1);
 
             const pushedBudget = JSON.parse( localStorage.getItem('budget2') );
 
-            expect(pushedBudget).to.eql(fakeState);
+            expect(pushedBudget).to.eql(fakeState2);
 
         });
 

@@ -47,20 +47,23 @@ export const fetchBudget = function (
 
 };
 
-export const pushBudget = function (
-    state,
-    {id = DEFAULT_BUDGET_ID},
-    deps = {}
-) {
+export const pushBudget = function (state, deps = {}) {
 
-    if (id != DEFAULT_BUDGET_ID) id = `budget${id}`;
+    // todo: Specify budget in error message
+    if (!state.budget)
+        throw new Error(`Budget's state doesn't have a .budget property`);
+    if (!state.budget.id)
+        throw new Error(`Budget doesn't have an id`);
+
+    const budgetId = 'budget' + state.budget.id;
+
 
     _.defaultsDeep(deps, {localStorage: localStorageStub});
 
     const stringifyState = JSON.stringify(state);
 
-    deps.localStorage.setItem(id, stringifyState);
+    deps.localStorage.setItem(budgetId, stringifyState);
 
-    return JSON.parse(deps.localStorage.getItem(id));
+    return JSON.parse(deps.localStorage.getItem(budgetId));
 
 };
