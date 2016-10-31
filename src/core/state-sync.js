@@ -29,11 +29,7 @@ export const fetchBudget = function (
 
     if (!response && returnStubIfEmpty){
 
-        if (returnStubIfEmpty) {
-
-            jsonParsingResult = stateStub;
-
-        }
+        jsonParsingResult = stateStub;
 
     }else{
 
