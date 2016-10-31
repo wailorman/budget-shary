@@ -3,6 +3,8 @@ import {BUDGET_NAME_PREFIX} from '../../core/state-sync';
 import {FETCH_BUDGET} from '../../actions';
 import localStorage from '../../../test/requirements/local-storage';
 
+// todo: It's an integration test!
+
 describe("UNIT / Middlewares / state sync middleware", ()=> {
 
     // Returns mutated action
