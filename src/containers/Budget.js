@@ -102,9 +102,9 @@ class Budget extends React.Component {
 
     componentDidMount(){
 
-        const budgetToFetch = this.props.params.id || 1;
+        const budgetIdToFetch = this.props.params.id || 1;
 
-        this.props.dispatch(actionCreators.fetchBudget({id: budgetToFetch}));
+        this.props.dispatch(actionCreators.fetchBudget(budgetIdToFetch));
     }
 
     render() {
