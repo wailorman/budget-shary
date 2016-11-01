@@ -1,5 +1,29 @@
 import {pushBudget, fetchBudget} from '../core/state-sync';
-import {FETCH_BUDGET} from '../actions';
+import {
+    FETCH_BUDGET,
+
+    REMOVE_PRODUCT,
+    NEW_PRODUCT,
+    CHANGE_PRODUCT,
+    REMOVE_PERSON,
+    NEW_PERSON,
+    CHANGE_PERSON,
+    PROCEED_INTERCHANGE,
+    CHANGE_BUDGET_PROPS,
+    TOGGLE_PARTICIPATION
+} from '../actions';
+
+const actionsToBeSynced = [
+    REMOVE_PRODUCT,
+    NEW_PRODUCT,
+    CHANGE_PRODUCT,
+    REMOVE_PERSON,
+    NEW_PERSON,
+    CHANGE_PERSON,
+    PROCEED_INTERCHANGE,
+    CHANGE_BUDGET_PROPS,
+    TOGGLE_PARTICIPATION
+];
 
 export const stateSyncMiddleware = (reducer) =>
     (store) => (next) => (action) => {
@@ -17,17 +41,23 @@ export const stateSyncMiddleware = (reducer) =>
             {
                 // sync state with localStorage
 
-                const previousState = store.getState();
+                // todo: test it!
+                if (action.type in actionsToBeSynced) {
 
-                const nextState = reducer(previousState, action);
+                    const previousState = store.getState();
 
-                try {
-                    pushBudget(nextState);
-                } catch (e) {
-                    console.error(`Error while pushing the state: ${e}`);
+                    const nextState = reducer(previousState, action);
+
+                    try {
+                        pushBudget(nextState);
+                    } catch (e) {
+                        console.error(`Error while pushing the state: ${e}`);
+                    }
+
                 }
 
                 return next(action);
+
             }
         }
 

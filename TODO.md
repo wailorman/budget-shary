@@ -9,7 +9,6 @@
 
 ## 3
 * Sync state even if FETCH_BUDGET action dispatched
-* Sync only CHANGE/REMOVE/NEW_* actions (write to budget-own localStorage variable)
 * Participating: Make mandatory to participate in product at least 1 person
 
 ## Done
