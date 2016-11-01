@@ -30,7 +30,7 @@ export function productsReducer(productsState = initialState.products, action) {
 
         case NEW_PRODUCT:
         {
-            const newProductId = _.uniqueId('__');
+            const newProductId = _.uniqueId('_product_');
 
             newState[newProductId] = {id: newProductId, name: '', price: '', ownerId: action.ownerId};
 
