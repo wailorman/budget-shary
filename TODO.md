@@ -12,3 +12,6 @@
 * Sync only CHANGE/REMOVE/NEW_* actions (write to budget-own localStorage variable)
 * Add version number to the interface
 * Describe prop types globally
+
+## Bugs
+* Participating: Make mandatory to participate in product at least 1 person
