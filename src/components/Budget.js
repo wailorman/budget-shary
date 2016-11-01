@@ -1,12 +1,12 @@
 import {bindActionCreators} from 'redux';
 
-import Product from '../components/Product';
-import Person from '../components/Person';
-import ValidationErrorsList from '../components/ValidationErrorsList';
-import TransactionsList from '../components/TransactionsList';
-import BudgetName from '../components/BudgetName';
-import ParticipatingRow from '../components/ParticipatingRow';
-import NewProductButton from '../components/NewProductButton';
+import Product from './Product';
+import Person from './Person';
+import ValidationErrorsList from './ValidationErrorsList';
+import TransactionsList from './TransactionsList';
+import BudgetName from './BudgetName';
+import ParticipatingRow from './ParticipatingRow';
+import NewProductButton from './NewProductButton';
 
 import {getProductsByPersonId} from '../core/components-utils';
 
