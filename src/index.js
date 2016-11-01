@@ -1,4 +1,4 @@
-import Budget from './containers/Budget';
+import Budget from './containers/BudgetContainer';
 import {store, history} from './store';
 import {Provider} from 'react-redux';
 import {Router, Route} from 'react-router';
