@@ -177,11 +177,11 @@ describe("UNIT / Reducers / participatingReducer", ()=> {
                     1: true
                 },
                 2: {
-                    1: true
+                    3: true
                 }
             };
 
-            const actualState = fireAction(initialState, 2, 1);
+            const actualState = fireAction(initialState, 2, 3);
 
             expect(actualState).to.eql(expectedState);
 
