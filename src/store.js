@@ -7,7 +7,7 @@ import {shareSumMiddleware} from './middlewares/share-sum-middleware';
 import {validationMiddleware} from './middlewares/validation-middleware';
 import {interchangeMiddleware} from './middlewares/interchange-middleware';
 
-import { syncHistoryWithStore } from 'react-router-redux';
+import { syncHistoryWithStore, routerMiddleware } from 'react-router-redux';
 import { hashHistory } from 'react-router';
 
 /**
@@ -28,6 +28,7 @@ export const generateStore = (args = {}) => {
         compose(
             applyMiddleware(
                 thunk,
+                routerMiddleware(hashHistory),
 
                 interchangeMiddleware(reducer),
                 shareSumMiddleware(reducer),
