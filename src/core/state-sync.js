@@ -56,3 +56,28 @@ export const pushBudget = function (state, deps = {}) {
     return deps.store.get(storeBudgetId);
 
 };
+
+export const getBudgetsList = function (deps = {}) {
+
+    _.defaultsDeep(deps, {store: store});
+
+    const allItems = deps.store.getAll();
+
+    const budgets = _.filter(
+        allItems,
+        (item, name)=> {
+            console.log(item);
+            return name.match(new RegExp(`^(${BUDGET_NAME_PREFIX})`));
+        }
+    );
+
+    const normalizedBudgets = _.mapKeys(budgets, budget => budget.budget.id );
+
+    return _.mapValues(normalizedBudgets, (budget)=> {
+        return {
+            id: budget.budget.id,
+            name: budget.budget.name
+        };
+    });
+
+};

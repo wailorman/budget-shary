@@ -1,9 +1,18 @@
-import {fetchBudget, pushBudget, BUDGET_NAME_PREFIX} from '../state-sync';
+import {
+    fetchBudget,
+    pushBudget,
+    getBudgetsList,
+    BUDGET_NAME_PREFIX
+} from '../state-sync';
+
 import {STUB_BUDGET_ID} from '../../state-stub';
 import {fakeState} from '../../../test/fixtures/fake-state';
 import {stateStub} from '../../state-stub';
+import fakeBudgets from './state-sync-fixtures';
 
 describe("UNIT / Core / Storage Sync", ()=> {
+
+    let sandbox;
 
     const deps = {
         store
@@ -16,6 +25,22 @@ describe("UNIT / Core / Storage Sync", ()=> {
     afterEach(()=> {
         store.clear();
     });
+
+
+    beforeEach(()=> {
+
+        sandbox = sinon.sandbox.create();
+
+        sandbox.stub(console, 'log');
+        sandbox.stub(console, 'error');
+        sandbox.stub(console, 'info');
+        sandbox.stub(console, 'warn');
+    });
+
+    afterEach(()=> {
+        sandbox.restore();
+    });
+
 
     const writeBudgetToStore = (id, state) => {
         store.set(BUDGET_NAME_PREFIX + id, state);
@@ -102,6 +127,57 @@ describe("UNIT / Core / Storage Sync", ()=> {
             const pushedBudget = store.get('budget2');
 
             expect(pushedBudget).to.eql(fakeState2);
+
+        });
+
+    });
+
+    describe("#getBudgetsList()", ()=> {
+
+        beforeEach(()=> {
+
+            _.forEach(fakeBudgets, (budget)=> {
+
+                const itemName = BUDGET_NAME_PREFIX + budget.budget.id;
+                const stringBudgetJson = JSON.stringify(budget);
+
+                localStorage.setItem(itemName, stringBudgetJson);
+
+            });
+
+        });
+
+        it(`should return ${fakeBudgets.length} budgets`, () => {
+
+            expect(_.keys(getBudgetsList(deps)).length).to.eql(fakeBudgets.length);
+
+        });
+
+        it(`should use items w/ prefix ${BUDGET_NAME_PREFIX} only`, () => {
+
+            localStorage.setItem('itsNotABudget', '{}');
+
+            expect(_.keys(getBudgetsList(deps)).length).to.eql(fakeBudgets.length);
+
+        });
+        
+        it(`should return object with budgets ids props`, () => {
+
+            const result = getBudgetsList(deps);
+
+            const fakeBudgetsIds = _.map(fakeBudgets, 'budget.id');
+
+            expect(_.keys(result)).to.eql(fakeBudgetsIds);
+
+        });
+        
+        it(`should return objects with .id & .name prop`, () => {
+
+            const result = getBudgetsList(deps);
+
+            const firstBudget = result[_.keys(result)[0]];
+
+            expect(_.keys(firstBudget)).to.eql(['id', 'name']);
 
         });
 
