@@ -2,28 +2,8 @@ import {pushBudget, fetchBudget} from '../core/state-sync';
 import {
     FETCH_BUDGET,
 
-    REMOVE_PRODUCT,
-    NEW_PRODUCT,
-    CHANGE_PRODUCT,
-    REMOVE_PERSON,
-    NEW_PERSON,
-    CHANGE_PERSON,
-    PROCEED_INTERCHANGE,
-    CHANGE_BUDGET_PROPS,
-    TOGGLE_PARTICIPATION
+    budgetSyncActions
 } from '../actions';
-
-const actionsToBeSynced = [
-    REMOVE_PRODUCT,
-    NEW_PRODUCT,
-    CHANGE_PRODUCT,
-    REMOVE_PERSON,
-    NEW_PERSON,
-    CHANGE_PERSON,
-    PROCEED_INTERCHANGE,
-    CHANGE_BUDGET_PROPS,
-    TOGGLE_PARTICIPATION
-];
 
 export const stateSyncMiddleware = (reducer) =>
     (store) => (next) => (action) => {
@@ -42,7 +22,7 @@ export const stateSyncMiddleware = (reducer) =>
                 // sync state with localStorage
 
                 // todo: test it!
-                if (action.type in actionsToBeSynced) {
+                if (action.type in budgetSyncActions) {
 
                     const previousState = store.getState();
 

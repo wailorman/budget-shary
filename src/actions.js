@@ -13,6 +13,20 @@ export const CHANGE_BUDGET_PROPS = 'CHANGE_BUDGET_PROPS';
 
 export const TOGGLE_PARTICIPATION = 'TOGGLE_PARTICIPATION';
 
+
+export const budgetSyncActions = [
+    REMOVE_PRODUCT,
+    NEW_PRODUCT,
+    CHANGE_PRODUCT,
+    REMOVE_PERSON,
+    NEW_PERSON,
+    CHANGE_PERSON,
+    PROCEED_INTERCHANGE,
+    CHANGE_BUDGET_PROPS,
+    TOGGLE_PARTICIPATION
+];
+
+
 export function changeBudgetProps(values) {
 
     return {
