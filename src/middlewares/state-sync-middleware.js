@@ -5,15 +5,20 @@ import {
     budgetSyncActions
 } from '../actions';
 
-export const stateSyncMiddleware = (reducer) =>
+export const stateSyncMiddleware = (reducer, deps = {}) =>
     (store) => (next) => (action) => {
+
+        _.defaultsDeep(deps, {
+            fetchBudget: fetchBudget,
+            pushBudget: pushBudget
+        });
 
         let newAction = _.cloneDeep(action);
 
         switch (action.type){
             case FETCH_BUDGET:
             {
-                newAction.result = fetchBudget({id: action.id});
+                newAction.result = deps.fetchBudget({id: action.id});
 
                 return next(newAction);
             }
@@ -21,15 +26,14 @@ export const stateSyncMiddleware = (reducer) =>
             {
                 // sync state with localStorage
 
-                // todo: test it!
-                if (action.type in budgetSyncActions) {
+                if (budgetSyncActions.indexOf(action.type) > -1) {
 
                     const previousState = store.getState();
 
                     const nextState = reducer(previousState, action);
 
                     try {
-                        pushBudget(nextState);
+                        deps.pushBudget(nextState);
                     } catch (e) {
                         console.error(`Error while pushing the state: ${e}`);
                     }

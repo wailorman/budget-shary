@@ -2,13 +2,28 @@ import {stateSyncMiddleware} from '../state-sync-middleware';
 import {BUDGET_NAME_PREFIX} from '../../core/state-sync';
 import {FETCH_BUDGET} from '../../actions';
 import localStorage from '../../../test/requirements/local-storage';
+import * as actions from '../../actions';
 
 // todo: It's an integration test!
 
 describe("UNIT / Middlewares / state sync middleware", ()=> {
 
+    let sandbox;
+
+    beforeEach(()=> {
+
+        sandbox = sinon.sandbox.create();
+
+    });
+
+    afterEach(()=> {
+        sandbox.restore();
+    });
+
+
+
     // Returns mutated action
-    const callMiddleware = (action)=> {
+    const callMiddleware = (action, deps)=> {
 
         const next = (action)=> {
             return action;
@@ -24,7 +39,7 @@ describe("UNIT / Middlewares / state sync middleware", ()=> {
             }
         };
 
-        return stateSyncMiddleware(reducer)(store)(next)(action);
+        return stateSyncMiddleware(reducer, deps)(store)(next)(action);
 
     };
 
@@ -73,6 +88,56 @@ describe("UNIT / Middlewares / state sync middleware", ()=> {
             };
 
             expect(actual).to.eql(expected);
+
+        });
+
+    });
+
+    describe("Syncing budget actions", ()=> {
+
+        let middlewareDeps, actionsToPush, actionsToNotPush;
+
+        before(()=> {
+
+            actionsToPush = actions.budgetSyncActions;
+            actionsToNotPush = _.filter(actions,
+                action => {
+                    return typeof action == 'string' && (actions.budgetSyncActions.indexOf(action) < 0);
+                }
+            );
+
+        });
+
+        beforeEach(()=> {
+
+            middlewareDeps = {
+                pushBudget: sandbox.stub(),
+                fetchBudget: sandbox.stub()
+            };
+
+        });
+
+        _.forEach(actionsToPush, (action)=> {
+
+            it(`should push budget state if passed ${action} action`, () => {
+
+                callMiddleware({type: action}, middlewareDeps);
+
+                expect(middlewareDeps.pushBudget.called).to.eql(true);
+
+            });
+
+        });
+
+        _.forEach(actionsToNotPush, (action)=> {
+
+            it(`should not push budget state if passed ${action} action`, () => {
+
+                callMiddleware({type: action}, middlewareDeps);
+
+                expect(middlewareDeps.pushBudget.called).to.eql(false);
+
+            });
 
         });
 
