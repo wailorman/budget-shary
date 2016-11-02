@@ -66,7 +66,6 @@ export const getBudgetsList = function (deps = {}) {
     const budgets = _.filter(
         allItems,
         (item, name)=> {
-            console.log(item);
             return name.match(new RegExp(`^(${BUDGET_NAME_PREFIX})`));
         }
     );
