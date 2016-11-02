@@ -3,36 +3,32 @@ import {STUB_BUDGET_ID} from '../../state-stub';
 import {fakeState} from '../../../test/fixtures/fake-state';
 import {stateStub} from '../../state-stub';
 
-const localStorage = typeof window == 'undefined' ? require('localStorage') : window.localStorage;
-
 describe("UNIT / Core / Storage Sync", ()=> {
 
     const deps = {
-        localStorage
+        store
     };
 
     beforeEach(()=> {
-        localStorage.clear();
+        store.clear();
     });
 
     afterEach(()=> {
-        localStorage.clear();
+        store.clear();
     });
 
-    const writeBudgetToLocalStorage = (id, state) => {
-        const stringState = typeof state == 'object' ? JSON.stringify(state) : state;
-
-        localStorage.setItem(BUDGET_NAME_PREFIX + id, stringState);
+    const writeBudgetToStore = (id, state) => {
+        store.set(BUDGET_NAME_PREFIX + id, state);
     };
 
     describe("#fetchBudget()", ()=> {
 
-        it(`should return null if id isn't specified`, () => {
+        it(`should return undefined if id isn't specified`, () => {
 
             // todo: Check the console
             const actual = fetchBudget({}, deps);
 
-            const expected = null;
+            const expected = undefined;
 
             expect(actual).to.eql(expected);
 
@@ -40,7 +36,7 @@ describe("UNIT / Core / Storage Sync", ()=> {
 
         it(`should return budget by id`, () => {
 
-            writeBudgetToLocalStorage(1, fakeState);
+            writeBudgetToStore(1, fakeState);
 
             const actual = fetchBudget({id: 1}, deps);
 
@@ -48,27 +44,14 @@ describe("UNIT / Core / Storage Sync", ()=> {
 
         });
 
-        it(`should return null if json string in storage isn't valid`, () => {
+        it(`should return undefined if requested budget doesn't exist`, () => {
 
-            writeBudgetToLocalStorage(1, '{"foo:');
-
-            // todo: Check the console
-            const actual = fetchBudget({id: 1}, deps);
-
-            const expected = null;
-
-            expect(actual).to.eql(expected);
-
-        });
-
-        it(`should return null if requested budget doesn't exist`, () => {
-
-            localStorage.clear();
+            store.clear();
 
             // todo: Check the console
             const actual = fetchBudget({id: 101}, deps);
 
-            expect(actual).to.eql(null);
+            expect(actual).to.eql(undefined);
 
         });
 
@@ -110,13 +93,13 @@ describe("UNIT / Core / Storage Sync", ()=> {
             let fakeState2 = _.cloneDeep(fakeState);
             fakeState2.budget = {id: 2, name: 'budget'};
 
-            expect(localStorage.length).to.eql(0);
+            expect(_.keys(store.getAll()).length).to.eql(0);
 
             pushBudget(fakeState2, deps);
 
-            expect(localStorage.length).to.eql(1);
+            expect(_.keys(store.getAll()).length).to.eql(1);
 
-            const pushedBudget = JSON.parse( localStorage.getItem('budget2') );
+            const pushedBudget = store.get('budget2');
 
             expect(pushedBudget).to.eql(fakeState2);
 

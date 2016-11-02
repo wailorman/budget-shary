@@ -5,7 +5,7 @@ export const DEFAULT_TEST_BUDGET_ID = 'budget1';
 export const BUDGET_NAME_PREFIX = 'budget';
 export const DEFAULT_BUDGET_ID = 1;
 
-const localStorageStub = typeof window == 'undefined' ? require('localStorage') : window.localStorage;
+// const localStorageStub = typeof window == 'undefined' ? require('localStorage') : window.localStorage;
 
 /**
  * 
@@ -21,34 +21,21 @@ export const fetchBudget = function (
 
     if (!id){
         console.error(`fetchBudget: id argument wasn't passed`);
-        return null;
+        return undefined;
     }
 
-    const returnStubIfEmpty = id == STUB_BUDGET_ID ? true : false;
-    const localStorageBudgetId = BUDGET_NAME_PREFIX + id;
+    const returnStub = id == STUB_BUDGET_ID ? true : false;
+    const storeBudgetId = BUDGET_NAME_PREFIX + id;
 
-    _.defaultsDeep(deps, {localStorage: localStorageStub});
+    _.defaultsDeep(deps, {store: store});
 
-    const response = deps.localStorage.getItem(localStorageBudgetId);
+    let response = deps.store.get(storeBudgetId);
 
-    let jsonParsingResult;
-
-    if (!response && returnStubIfEmpty){
-
-        jsonParsingResult = stateStub;
-
-    }else{
-
-        try {
-            jsonParsingResult = JSON.parse(response);
-        } catch (e) {
-            console.error(`fetchState: JSON parsing error: `, e);
-            jsonParsingResult = null;
-        }
-
+    if (!response){
+        response = returnStub ? stateStub : undefined;
     }
 
-    return jsonParsingResult;
+    return response;
 
 };
 
@@ -60,14 +47,12 @@ export const pushBudget = function (state, deps = {}) {
     if (!state.budget.id)
         throw new Error(`Budget doesn't have an id`);
 
-    const localStorageBudgetId = BUDGET_NAME_PREFIX + state.budget.id;
+    const storeBudgetId = BUDGET_NAME_PREFIX + state.budget.id;
 
-    _.defaultsDeep(deps, {localStorage: localStorageStub});
+    _.defaultsDeep(deps, {store: store});
 
-    const stringifyState = JSON.stringify(state);
+    deps.store.set(storeBudgetId, state);
 
-    deps.localStorage.setItem(localStorageBudgetId, stringifyState);
-
-    return JSON.parse(deps.localStorage.getItem(localStorageBudgetId));
+    return deps.store.get(storeBudgetId);
 
 };

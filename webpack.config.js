@@ -88,7 +88,7 @@ var webpackConfig = {
             'ReactDOM': 'react-dom',
             '_': 'lodash',
             'Q': 'q',
-            'store': 'store',
+            'store': __dirname + '/test/requirements/local-storage.js',
 
             '$': 'jquery/dist/jquery.min',
 

@@ -4,7 +4,7 @@ import {FETCH_BUDGET} from '../../actions';
 import localStorage from '../../../test/requirements/local-storage';
 import * as actions from '../../actions';
 
-// todo: It's an integration test!
+// todo: Rewrite test to unit!
 
 describe("UNIT / Middlewares / state sync middleware", ()=> {
 
@@ -73,7 +73,7 @@ describe("UNIT / Middlewares / state sync middleware", ()=> {
                 products: [1]
             };
 
-            localStorage.setItem(BUDGET_NAME_PREFIX + budget.id, JSON.stringify(budget));
+            store.set(BUDGET_NAME_PREFIX + budget.id, budget);
 
             const action = {
                 type: FETCH_BUDGET,
