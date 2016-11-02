@@ -5,7 +5,7 @@ export const BudgetsListElem = ({id, name})=> {
     return (
         <div className="BudgetsListElem">
 
-            <Link to={`/budgets/${id}`}>{name}</Link>
+            <Link to={`/budgets/${id}`}>{name||'Unnamed budget'}</Link>
 
         </div>
     );
