@@ -4,22 +4,7 @@ import BudgetListElem from './BudgetsListElem';
 
 import * as actionCreators from '../actions';
 
-const budgetsList = {
-    _b_1: {
-        id: '_b_1',
-        name: 'First budget'
-    },
-    stub: {
-        id: 'stub',
-        name: 'Second budget'
-    },
-    _b_3: {
-        id: '_b_3',
-        name: 'Third budget'
-    }
-};
-
-export const BudgetsList = ({dispatch})=> {
+export const BudgetsList = ({budgetsList, dispatch})=> {
 
     const actions = bindActionCreators(actionCreators, dispatch);
 
@@ -45,7 +30,7 @@ export const BudgetsList = ({dispatch})=> {
 };
 
 BudgetsList.propTypes = {
-    state: React.PropTypes.object.isRequired,
+    budgetsList: React.PropTypes.object.isRequired,
     dispatch: React.PropTypes.func.isRequired
 };
 

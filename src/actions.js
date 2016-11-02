@@ -15,6 +15,7 @@ export const PROCEED_INTERCHANGE = 'PROCEED_INTERCHANGE';
 
 export const FETCH_BUDGET = 'FETCH_BUDGET';
 export const NEW_BUDGET = 'NEW_BUDGET';
+export const FETCH_BUDGETS_LIST = 'FETCH_BUDGETS_LIST';
 
 export const TOGGLE_PARTICIPATION = 'TOGGLE_PARTICIPATION';
 
@@ -60,6 +61,12 @@ export function fetchBudget(id) {
         id
     };
     
+}
+
+export function fetchBudgetsList() {
+    return {
+        type: FETCH_BUDGETS_LIST
+    };
 }
 
 export function removeProduct(id) {

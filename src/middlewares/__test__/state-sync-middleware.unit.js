@@ -1,6 +1,6 @@
 import {stateSyncMiddleware} from '../state-sync-middleware';
 import {BUDGET_NAME_PREFIX} from '../../core/state-sync';
-import {FETCH_BUDGET} from '../../actions';
+import {FETCH_BUDGET, FETCH_BUDGETS_LIST} from '../../actions';
 import localStorage from '../../../test/requirements/local-storage';
 import * as actions from '../../actions';
 
@@ -88,6 +88,49 @@ describe("UNIT / Middlewares / state sync middleware", ()=> {
             };
 
             expect(actual).to.eql(expected);
+
+        });
+
+    });
+
+    describe("FETCH_BUDGETS_LIST", ()=> {
+
+        let deps;
+
+        const listOfBudgets = {
+            _1: {
+                id: '_1',
+                name: 'First'
+            },
+            _2: {
+                id: '_2',
+                name: 'Second'
+            }
+        };
+
+        beforeEach(()=> {
+
+            deps = {
+                getBudgetsList: sandbox.stub().returns(listOfBudgets)
+            };
+
+        });
+
+        it(`should attach list of budgets`, () => {
+
+            const action = {
+                type: FETCH_BUDGETS_LIST
+            };
+
+            const newAction = callMiddleware(action, deps);
+
+            const expectedAction = {
+                ...action,
+                result: listOfBudgets
+            };
+
+            expect(newAction).to.eql(expectedAction);
+            expect(deps.getBudgetsList.calledOnce);
 
         });
 

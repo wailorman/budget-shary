@@ -7,6 +7,7 @@ import {transactionsReducer} from './transactionsReducer';
 import {errorsReducer} from './errorsReducer';
 import {budgetReducer} from './budgetReducer';
 import {participatingReducer} from './participatingReducer';
+import {budgetsListReducer} from './budgetsListReducer';
 
 import { routerReducer } from 'react-router-redux';
 
@@ -15,6 +16,7 @@ import { routerReducer } from 'react-router-redux';
 
 export const combinedReducers = combineReducers({
     routing: routerReducer,
+    budgetsList: budgetsListReducer,
     budget: budgetReducer,
     products: productsReducer,
     persons: personsReducer,

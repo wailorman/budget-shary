@@ -1,4 +1,5 @@
 export const initialState = {
+    budgetsList: {},
     budget: {},
     persons: {},
     products: {},

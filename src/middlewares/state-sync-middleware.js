@@ -1,6 +1,7 @@
-import {pushBudget, fetchBudget} from '../core/state-sync';
+import {pushBudget, getBudgetsList, fetchBudget} from '../core/state-sync';
 import {
     FETCH_BUDGET,
+    FETCH_BUDGETS_LIST,
 
     budgetSyncActions
 } from '../actions';
@@ -10,7 +11,8 @@ export const stateSyncMiddleware = (reducer, deps = {}) =>
 
         _.defaultsDeep(deps, {
             fetchBudget: fetchBudget,
-            pushBudget: pushBudget
+            pushBudget: pushBudget,
+            getBudgetsList: getBudgetsList
         });
 
         let newAction = _.cloneDeep(action);
@@ -19,6 +21,12 @@ export const stateSyncMiddleware = (reducer, deps = {}) =>
             case FETCH_BUDGET:
             {
                 newAction.result = deps.fetchBudget({id: action.id});
+
+                return next(newAction);
+            }
+            case FETCH_BUDGETS_LIST:
+            {
+                newAction.result = deps.getBudgetsList();
 
                 return next(newAction);
             }

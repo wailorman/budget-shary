@@ -1,12 +1,14 @@
 import {connect} from 'react-redux';
 
+import {fetchBudgetsList} from '../actions';
+
 import BudgetsList from '../components/BudgetsList';
 
 
 class BudgetContainer extends React.Component {
 
     componentDidMount(){
-
+        this.props.dispatch(fetchBudgetsList());
     }
 
     render() {
@@ -21,7 +23,7 @@ BudgetContainer.propTypes = {
 
 export default connect(
     (state)=> {
-        return {state};
+        return {budgetsList: state.budgetsList};
     },
     (dispatch)=> {
         return {dispatch};
