@@ -1,4 +1,4 @@
-import {stateStub, STUB_BUDGET_ID} from '../state-stub';
+import {stateStub, generateBudget, STUB_BUDGET_ID} from '../state-stub';
 
 // for localStorage testers
 export const DEFAULT_TEST_BUDGET_ID = 'budget1';
@@ -78,5 +78,15 @@ export const getBudgetsList = function (deps = {}) {
             name: budget.budget.name
         };
     });
+
+};
+
+export const createBudget = function (deps = {}) {
+
+    _.defaultsDeep(deps, {pushBudget: pushBudget});
+
+    const budgetStateToPush = generateBudget();
+
+    return deps.pushBudget(budgetStateToPush);
 
 };

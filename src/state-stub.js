@@ -44,18 +44,20 @@ export const stateStub = {
 
 };
 
-export const initialBudgetState = {
-    budget: {
-        id: `_b_${shortid.generate()}`,
-        name: ''
-    },
-    persons: {},
-    products: {},
-    productParticipating: {},
-    transactions: [],
-    errors: {
-        products: {},
+export const generateBudget = ()=> {
+    return {
+        budget: {
+            id: `_b_${shortid.generate()}`,
+            name: ''
+        },
         persons: {},
-        common: {}
-    }
+        products: {},
+        productParticipating: {},
+        transactions: [],
+        errors: {
+            products: {},
+            persons: {},
+            common: {}
+        }
+    };
 };
