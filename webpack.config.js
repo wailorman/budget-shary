@@ -88,6 +88,7 @@ var webpackConfig = {
             'ReactDOM': 'react-dom',
             '_': 'lodash',
             'Q': 'q',
+            'store': 'store',
 
             '$': 'jquery/dist/jquery.min',
 

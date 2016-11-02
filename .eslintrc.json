@@ -37,6 +37,7 @@
     "_": true,
     "__dirname": true,
     "Q": true,
+    "store": true,
     "React": true,
     "ReactDOM": true,
     "expect": true,
