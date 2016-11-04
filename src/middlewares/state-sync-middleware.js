@@ -1,7 +1,13 @@
-import {pushBudget, getBudgetsList, fetchBudget} from '../core/state-sync';
+import {
+    pushBudget,
+    getBudgetsList,
+    fetchBudget,
+    deleteBudget
+} from '../core/state-sync';
 import {
     FETCH_BUDGET,
     FETCH_BUDGETS_LIST,
+    DELETE_BUDGET,
 
     budgetSyncActions
 } from '../actions';
@@ -12,7 +18,8 @@ export const stateSyncMiddleware = (reducer, deps = {}) =>
         _.defaultsDeep(deps, {
             fetchBudget: fetchBudget,
             pushBudget: pushBudget,
-            getBudgetsList: getBudgetsList
+            getBudgetsList: getBudgetsList,
+            deleteBudget: deleteBudget
         });
 
         let newAction = _.cloneDeep(action);
@@ -27,6 +34,14 @@ export const stateSyncMiddleware = (reducer, deps = {}) =>
             case FETCH_BUDGETS_LIST:
             {
                 newAction.result = deps.getBudgetsList();
+
+                return next(newAction);
+            }
+            case DELETE_BUDGET:
+            {
+                const result = deps.deleteBudget(action.id);
+
+                newAction.success = result;
 
                 return next(newAction);
             }

@@ -1,6 +1,6 @@
 import {stateSyncMiddleware} from '../state-sync-middleware';
 import {BUDGET_NAME_PREFIX} from '../../core/state-sync';
-import {FETCH_BUDGET, FETCH_BUDGETS_LIST} from '../../actions';
+import {FETCH_BUDGET, FETCH_BUDGETS_LIST, DELETE_BUDGET} from '../../actions';
 import localStorage from '../../../test/requirements/local-storage';
 import * as actions from '../../actions';
 
@@ -88,6 +88,42 @@ describe("UNIT / Middlewares / state sync middleware", ()=> {
             };
 
             expect(actual).to.eql(expected);
+
+        });
+
+    });
+
+    describe("DELETE_BUDGET", ()=> {
+        
+        it(`should attach .success=true if deletion was successful`, () => {
+
+            const action = {
+                type: DELETE_BUDGET
+            };
+
+            const deps = {
+                deleteBudget: sandbox.stub().returns(true)
+            };
+
+            const result = callMiddleware(action, deps);
+
+            expect(result.success).to.eql(true);
+
+        });
+
+        it(`should attach .success=false if deletion was failed`, () => {
+
+            const action = {
+                type: DELETE_BUDGET
+            };
+
+            const deps = {
+                deleteBudget: sandbox.stub().returns(false)
+            };
+
+            const result = callMiddleware(action, deps);
+
+            expect(result.success).to.eql(false);
 
         });
 

@@ -16,6 +16,7 @@ export const PROCEED_INTERCHANGE = 'PROCEED_INTERCHANGE';
 export const FETCH_BUDGET = 'FETCH_BUDGET';
 export const NEW_BUDGET = 'NEW_BUDGET';
 export const FETCH_BUDGETS_LIST = 'FETCH_BUDGETS_LIST';
+export const DELETE_BUDGET = 'DELETE_BUDGET';
 
 export const TOGGLE_PARTICIPATION = 'TOGGLE_PARTICIPATION';
 
@@ -40,6 +41,15 @@ export function changeBudgetProps(values) {
         values
     };
     
+}
+
+export function deleteBudget(id) {
+
+    return {
+        type: DELETE_BUDGET,
+        id
+    };
+
 }
 
 export function newBudget() {
