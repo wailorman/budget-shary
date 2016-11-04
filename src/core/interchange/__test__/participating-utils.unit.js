@@ -191,7 +191,7 @@ describe("UNIT / Core / Participating utils", ()=> {
 
         });
 
-        it(`should log error participating elem if nonexistent product was participated`, () => {
+        it(`should ignore nonexistent product`, () => {
 
             const fakeProductParticipating = _.chain(fakeParticipatingState.productParticipating)
                 .cloneDeep()
@@ -211,7 +211,7 @@ describe("UNIT / Core / Participating utils", ()=> {
                 fakeParticipatingState.products
             );
 
-            // and normal result, when products are exist
+            // and normal result, when all products are exist
             const actualWithNormalState = monetarySharesForProductsCollection(
                 fakeParticipatingState.productParticipating,
                 fakeParticipatingState.products
@@ -219,11 +219,7 @@ describe("UNIT / Core / Participating utils", ()=> {
 
             expect(actualWithInvalidState).to.eql(actualWithNormalState);
 
-
-            const matchRegex = /Error in calculating participating monetary share/i;
-            const consoleExpectation = console.error.calledWithMatch(matchRegex);
-
-            expect(consoleExpectation).to.eql(true);
+            expect(console.error.callCount == 0).to.eql(true);
 
         });
 

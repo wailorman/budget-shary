@@ -221,6 +221,11 @@ export const monetarySharesForProductsCollection = function (productParticipatin
 
     _.forIn(productParticipatingCollection, (productParticipatingElem, productId)=> {
 
+        // If nonexistent product was meet -- ignore it.
+        // Otherwise `products[productId].price` will threw
+        // an exception like "Cannot read property 'price' of undefined"
+        if (!products[productId]) return true;
+
         try {
             result[productId] = monetarySharesForProduct(productParticipatingElem, products[productId].price);
         } catch(e) {
