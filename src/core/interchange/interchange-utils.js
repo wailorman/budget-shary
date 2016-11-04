@@ -14,7 +14,7 @@ export const totalExpenses = function ({products}) {
     let result = 0;
 
     _.each(products, (product)=> {
-        result += parseInt(product.price);
+        result += parseInt(product.price || 0);
     });
 
     return Math.abs(result);
@@ -30,7 +30,7 @@ export const ownExpenses = function ({products}, personId) {
             return product.ownerId == personId;
         })
         .each((product)=> {
-            result += parseInt(product.price);
+            result += parseInt(product.price || 0);
         })
         .value();
 
@@ -41,7 +41,7 @@ export const ownExpenses = function ({products}, personId) {
 export const shareInMonetary = function ({products, persons}, personId) {
 
     const person = _.find(persons, {id: personId});
-    const shareInPercentage = parseInt(person.share) * 0.01;
+    const shareInPercentage = parseInt(person.share || 0) * 0.01;
 
     const totalExp = totalExpenses({products});
 
@@ -364,7 +364,7 @@ export const sumAllShares = function (persons) {
     return _.chain(persons)
         .cloneDeep()
         .map((person)=> {
-            return parseFloat(person.share) || 0;
+            return parseFloat(person.share || 0);
         })
         .sum()
         .round()
