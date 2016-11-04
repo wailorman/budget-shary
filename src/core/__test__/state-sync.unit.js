@@ -2,6 +2,7 @@ import {
     fetchBudget,
     pushBudget,
     getBudgetsList,
+    deleteBudget,
     BUDGET_NAME_PREFIX
 } from '../state-sync';
 
@@ -177,6 +178,65 @@ describe("UNIT / Core / Storage Sync", ()=> {
             const firstBudget = result[_.keys(result)[0]];
 
             expect(_.keys(firstBudget)).to.eql(['id', 'name']);
+
+        });
+
+    });
+
+    describe("#deleteBudget()", ()=> {
+
+        beforeEach(()=> {
+
+            _.forEach(fakeBudgets, (budget)=> {
+
+                const itemName = BUDGET_NAME_PREFIX + budget.budget.id;
+
+                store.set(itemName, budget);
+
+            });
+
+        });
+
+        it(`should return false if requested budget doesn't exist`, () => {
+
+            expect(deleteBudget('nonexistentBudget')).to.eql(false);
+
+        });
+
+        it(`should return true if budget was successfully deleted`, () => {
+
+            const deletingBudgetId = fakeBudgets[0].budget.id;
+
+            expect(deleteBudget(deletingBudgetId)).to.eql(true);
+
+        });
+
+        it(`should really delete it from localStorage`, () => {
+
+            const deletingBudgetId = fakeBudgets[0].budget.id;
+
+            deleteBudget(deletingBudgetId);
+
+            expect(_.keys(store.getAll()).length).to.eql(fakeBudgets.length - 1);
+
+            const remainingBudgetsIdsInLocalStorage = _.map(store.getAll(), 'budget.id');
+
+            const budgetsIdsExceptDeleted = _(fakeBudgets)
+                .filter((budget) => {
+                    return budget.budget.id != deletingBudgetId;
+                })
+                .map('budget.id')
+                .value();
+
+            expect(remainingBudgetsIdsInLocalStorage).to.eql(budgetsIdsExceptDeleted);
+
+        });
+
+        it(`should warn & return false if id didn't passed`, () => {
+
+            expect(deleteBudget()).to.eql(false);
+
+            expect(console.error.called).to.eql(true);
 
         });
 

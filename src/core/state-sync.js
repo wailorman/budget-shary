@@ -90,3 +90,26 @@ export const createBudget = function (deps = {}) {
     return deps.pushBudget(budgetStateToPush);
 
 };
+
+export const deleteBudget = function (id, deps = {}) {
+
+    _.defaultsDeep(deps, {store: store});
+
+    const prefixedId = BUDGET_NAME_PREFIX + id;
+
+    if (!id){
+        console.error(`Missing id argument`);
+        return false;
+    }
+
+    const budgetToDelete = store.get(prefixedId);
+
+    if (!budgetToDelete){
+        return false;
+    }
+
+    store.remove(prefixedId);
+
+    return true;
+
+};
