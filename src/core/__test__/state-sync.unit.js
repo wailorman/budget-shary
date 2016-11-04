@@ -139,9 +139,8 @@ describe("UNIT / Core / Storage Sync", ()=> {
             _.forEach(fakeBudgets, (budget)=> {
 
                 const itemName = BUDGET_NAME_PREFIX + budget.budget.id;
-                const stringBudgetJson = JSON.stringify(budget);
 
-                localStorage.setItem(itemName, stringBudgetJson);
+                store.set(itemName, budget);
 
             });
 
@@ -155,7 +154,7 @@ describe("UNIT / Core / Storage Sync", ()=> {
 
         it(`should use items w/ prefix ${BUDGET_NAME_PREFIX} only`, () => {
 
-            localStorage.setItem('itsNotABudget', '{}');
+            store.set('itsNotABudget', {});
 
             expect(_.keys(getBudgetsList(deps)).length).to.eql(fakeBudgets.length);
 
