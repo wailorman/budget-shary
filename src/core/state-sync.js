@@ -63,19 +63,30 @@ export const getBudgetsList = function (deps = {}) {
 
     const allItems = deps.store.getAll();
 
-    const budgets = _.filter(
-        allItems,
-        (item, name)=> {
+    const budgets = _(allItems)
+        .mapValues((item, name)=> {
+            // Attach id if budget doesn't have .budget.id property
+
+            const idNotDefined = !item.budget || (item.budget && !item.budget.id);
+
+            if (idNotDefined) {
+                const newId = name.match(/[^(budget)]+/)[0];
+                _.set(item, 'budget.id', newId);
+            }
+
+            return item;
+        })
+        .filter((item, name)=> {
             return name.match(new RegExp(`^(${BUDGET_NAME_PREFIX})`));
-        }
-    );
+        })
+        .value();
 
     const normalizedBudgets = _.mapKeys(budgets, budget => budget.budget.id );
 
     return _.mapValues(normalizedBudgets, (budget)=> {
         return {
             id: budget.budget.id,
-            name: budget.budget.name
+            name: budget.budget.name || ''
         };
     });
 

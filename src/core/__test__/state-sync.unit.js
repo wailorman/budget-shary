@@ -181,6 +181,52 @@ describe("UNIT / Core / Storage Sync", ()=> {
 
         });
 
+        it(`should attach .id to .budget prop if it's not defined`, () => {
+
+            store.clear();
+
+            const budget = {
+                budget: {
+                    name: 'some name'
+                }
+            };
+
+            store.set('budget1', budget);
+
+            const result = getBudgetsList(deps);
+
+            const expected = {
+                1: {
+                    id: '1',
+                    name: 'some name'
+                }
+            };
+
+            expect(result).to.eql(expected);
+
+        });
+
+        it(`should attach .id & .name even if .budget isn't defined`, () => {
+
+            store.clear();
+
+            const budget = {};
+
+            store.set('budget1', budget);
+
+            const result = getBudgetsList(deps);
+
+            const expected = {
+                1: {
+                    id: '1',
+                    name: ''
+                }
+            };
+
+            expect(result).to.eql(expected);
+
+        });
+
     });
 
     describe("#deleteBudget()", ()=> {
