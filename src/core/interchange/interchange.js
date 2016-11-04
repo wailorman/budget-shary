@@ -8,8 +8,8 @@ import {
 } from './interchange-utils';
 
 import {
-    calculateMonetarySharesForProductsCollection,
-    totalMonetarySharesByParticipating,
+    monetarySharesForProductsCollection,
+    totalMonetaryShares,
     monetarySharesToStateShares
 } from './participating-utils';
 
@@ -72,8 +72,8 @@ export const proceedInterchange = function (state) {
 
 export const productParticipatingToPersonShares = function (productParticipating, persons, products) {
 
-    const monetaryShares = totalMonetarySharesByParticipating(
-        calculateMonetarySharesForProductsCollection(
+    const monetaryShares = totalMonetaryShares(
+        monetarySharesForProductsCollection(
             productParticipating,
             products
         )

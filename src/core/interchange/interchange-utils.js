@@ -1,9 +1,9 @@
 import {
-    calculateMonetarySharesForProduct,
-    calculateMonetarySharesForProductsCollection,
-    getAmountOfProductParticipants,
+    monetarySharesForProduct,
+    monetarySharesForProductsCollection,
+    productParticipants,
     monetarySharesToStateShares,
-    totalMonetarySharesByParticipating
+    totalMonetaryShares
 } from './participating-utils';
 
 export const INCOME = 'INCOME';
@@ -373,9 +373,9 @@ export const sumAllShares = function (persons) {
 };
 
 export {
-    calculateMonetarySharesForProduct,
-    calculateMonetarySharesForProductsCollection,
-    getAmountOfProductParticipants,
+    monetarySharesForProduct,
+    monetarySharesForProductsCollection,
+    productParticipants,
     monetarySharesToStateShares,
-    totalMonetarySharesByParticipating
+    totalMonetaryShares
 };

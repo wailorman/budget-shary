@@ -1,4 +1,170 @@
-export const getAmountOfProductParticipants = function (productParticipatingElem) {
+/**
+ * @typedef {object} ProductParticipatingElemInMonetary
+ *
+ * @property {boolean} <person id>
+ *
+ * ```
+ * Example of ProductParticipatingElem:
+ * {
+ *     _person_12: true, <- Person#12 takes part in particular product
+ *                          and want to split expenses with Person#50
+ *     _person_50: true,
+ *
+ *     _person_19: false <- But Person#19 doesn't want to split expenses
+ *                          with #12 and #50. So he doesn't taking part in
+ *                          particular product
+ * }
+ * ```
+ *
+ */
+
+
+
+/**
+ * @typedef {object} ProductParticipatingCollection
+ *
+ * @property {ProductParticipatingElem} <product id>
+ *
+ * ```
+ * A collection of ProductParticipatingElements
+ *
+ * Example:
+ *
+ * {
+ *     _product_3: {
+ *         _person_12: true,
+ *         _person_50: true,
+ *         _person_19: false
+ *     },
+ *     _product_5: {
+ *         _person_32: true,
+ *         _person_12: false
+ *     },
+ *     ...
+ * }
+ * ```
+ */
+
+
+
+/**
+ * @typedef {object} ProductParticipatingCollectionInMonetary
+ *
+ * @property {ProductParticipatingElemInMonetary} <product id>
+ *
+ * ```
+ * It is a collection of several ProductParticipatingElements
+ * for all products in a budget
+ *
+ * Result of calculation will be like this:
+ *
+ * {
+ *     _product_3: {
+ *         _person_12: 50,
+ *         _person_50: 50
+ *     },
+ *     _product_5: {
+ *         _person_32: 700
+ *     },
+ *     ...
+ * }
+ * ```
+ */
+
+
+
+/**
+ * "Monetary share" is equivalent of "share".
+ *
+ * The difference is "share" is understood as part in a whole budget (all expenses)
+ * and measuring in percents.
+ *
+ * While "monetary share" is the same, but measuring in money
+ *
+ * @typedef {number} MonetaryShare
+ */
+
+/**
+ * Own part in all budget expenses. Measuring in percents (part of number)
+ * Examples: 0, 0.5, 0.43, 1
+ *
+ * @typedef {number} Share
+ */
+
+/**
+ * Own part in all budget expenses. Measuring in percents
+ * Share for humans (or for displaying in state)
+ * Examples: 0, 50, 43, 100
+ *
+ * @typedef {number} StateShare
+ */
+
+
+/**
+ * @typedef {object} ProductParticipatingElemInMonetary
+ *
+ * @property {MonetaryShare} <person id>
+ *
+ * ```
+ * Let's imagine we are splitting expenses between two persons.
+ * Particular product costs **100 dollars**
+ *
+ * So, this ProductParticipatingElem
+ *
+ * {
+ *     _person_12: true,
+ *     _person_50: true,
+ *     _person_19: false
+ * }
+ *
+ * will convert to this ProductParticipatingElemWithMonetaryShares:
+ *
+ * {
+ *     _person_12: 50,
+ *     _person_50: 50
+ * }
+ *
+ * because Person#12 and #50 split the price of this product equally.
+ * ```
+ */
+
+
+/**
+ * @typedef {object} TotalMonetaryShares
+ *
+ * @property {MonetaryShare} <person id>
+ *
+ * ```
+ * Example:
+ * {
+ *     _person_12: 50,
+ *     _person_50: 50,
+ *     _person_32: 700
+ * }
+ * ```
+ */
+
+/**
+ * @typedef {object} Shares
+ * ```
+ * Example:
+ * {
+ *     _person_12: 6.25,
+ *     _person_50: 6.25,
+ *     _person_32: 87.5
+ * }
+ * ```
+ */
+
+
+/**
+ * Calculating total amount or persons who TAKING PART (his value in
+ * ProductParticipatingElem == true, not false)
+ *
+ * @param {ProductParticipatingElemInMonetary} productParticipatingElem
+ * @returns {number}
+ */
+export const productParticipants = function (productParticipatingElem) {
 
     let amountOfParticipants = 0;
 
@@ -12,10 +178,19 @@ export const getAmountOfProductParticipants = function (productParticipatingElem
 
 };
 
-export const calculateMonetarySharesForProduct = function (productParticipatingElem, productPrice) {
 
-    const amountOfParticipants = getAmountOfProductParticipants(productParticipatingElem);
+/**
+ * Converts ProductParticipatingElem to ProductParticipatingElemInMonetary
+ *
+ * @param {ProductParticipatingElemInMonetary} productParticipatingElem
+ * @param {number} productPrice
+ * @returns {ProductParticipatingElemInMonetary}
+ */
+export const monetarySharesForProduct = function (productParticipatingElem, productPrice) {
 
+    const amountOfParticipants = productParticipants(productParticipatingElem);
+
+    // All persons split product price equally
     const equalShareForAllParticipants = productPrice / amountOfParticipants;
 
     let result = {};
@@ -32,17 +207,24 @@ export const calculateMonetarySharesForProduct = function (productParticipatingE
 
 };
 
-export const calculateMonetarySharesForProductsCollection = function (productParticipatingCollection, products) {
+
+/**
+ * Converts ProductParticipatingCollection to ProductParticipatingCollectionInMonetary
+ *
+ * @param {ProductParticipatingCollection} productParticipatingCollection
+ * @param {object} products -- Collection of products (picked from budget's state)
+ * @returns {ProductParticipatingCollectionInMonetary}
+ */
+export const monetarySharesForProductsCollection = function (productParticipatingCollection, products) {
 
     let result = {};
 
     _.forIn(productParticipatingCollection, (productParticipatingElem, productId)=> {
 
         try {
-            result[productId] = calculateMonetarySharesForProduct(productParticipatingElem, products[productId].price);
+            result[productId] = monetarySharesForProduct(productParticipatingElem, products[productId].price);
         } catch(e) {
-            // todo: Make error message more clear
-            console.error(`Error in calculating participating monetary share: ${e}`);
+            console.error(`Error in calculating participating monetary share for product#${productId}: `, e);
         }
 
     });
@@ -52,17 +234,23 @@ export const calculateMonetarySharesForProductsCollection = function (productPar
 };
 
 /**
- * Calculates sum of monetary shares from each product
+ * Calculates total monetary shares for each person
+ * by summing monetary shares in each ProductParticipatingElemInMonetary
+ * throw given collection (ProductParticipatingCollectionInMonetary)
  *
- * @param monetaryParticipatingShares result of calculateMonetarySharesForProductsCollection() calculation
+ * @param {ProductParticipatingCollectionInMonetary} participatingCollectionInMonetary
+ *
+ * @returns {TotalMonetaryShares}
  */
-export const totalMonetarySharesByParticipating = function (monetaryParticipatingShares) {
+export const totalMonetaryShares = function (participatingCollectionInMonetary) {
 
-    const totalMonetaryShares = {};
+    const totalMonetaryShares = {}; // for persons
 
-    _.forIn(monetaryParticipatingShares, (participatingShare)=> {
+    _.forIn(participatingCollectionInMonetary, (participatingElem)=> {
 
-        _.forIn(participatingShare, (monetaryShare, personId)=> {
+        // participatingElem is ProductParticipatingElemInMonetary
+
+        _.forIn(participatingElem, (monetaryShare, personId)=> {
 
             if ( ! totalMonetaryShares[personId] ) {
                 totalMonetaryShares[personId] = 0;
@@ -78,10 +266,11 @@ export const totalMonetarySharesByParticipating = function (monetaryParticipatin
 };
 
 /**
- * Calculates partial shares by participating monetary shares
+ * Converts monetary shares to "state shares"
  *
- * @param monetaryShares result of totalMonetarySharesByParticipating
- * @param totalExpenses
+ * @param {TotalMonetaryShares} monetaryShares
+ * @param {number} totalExpenses
+ * @returns {Shares}
  */
 export const monetarySharesToStateShares = function (monetaryShares, totalExpenses) {
 

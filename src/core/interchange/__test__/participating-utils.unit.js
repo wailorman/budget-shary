@@ -1,8 +1,8 @@
 import {
-    calculateMonetarySharesForProduct,
-    getAmountOfProductParticipants,
-    calculateMonetarySharesForProductsCollection,
-    totalMonetarySharesByParticipating,
+    monetarySharesForProduct,
+    productParticipants,
+    monetarySharesForProductsCollection,
+    totalMonetaryShares,
     monetarySharesToStateShares
 
 } from './../interchange-utils';
@@ -53,7 +53,7 @@ describe("UNIT / Core / Participating utils", ()=> {
                 3: 22.5
             };
 
-            const actual = calculateMonetarySharesForProduct(participatingElem, price);
+            const actual = monetarySharesForProduct(participatingElem, price);
 
             expect(actual).to.eql(expected);
 
@@ -68,7 +68,7 @@ describe("UNIT / Core / Participating utils", ()=> {
                 2: 117
             };
 
-            const actual = calculateMonetarySharesForProduct(participatingElem, price);
+            const actual = monetarySharesForProduct(participatingElem, price);
 
             expect(actual).to.eql(expected);
 
@@ -80,7 +80,7 @@ describe("UNIT / Core / Participating utils", ()=> {
 
             const expected = {};
 
-            const actual = calculateMonetarySharesForProduct(participatingElem, price);
+            const actual = monetarySharesForProduct(participatingElem, price);
 
             expect(actual).to.eql(expected);
 
@@ -92,7 +92,7 @@ describe("UNIT / Core / Participating utils", ()=> {
 
             const expected = {};
 
-            const actual = calculateMonetarySharesForProduct(participatingElem, price);
+            const actual = monetarySharesForProduct(participatingElem, price);
 
             expect(actual).to.eql(expected);
 
@@ -110,7 +110,7 @@ describe("UNIT / Core / Participating utils", ()=> {
 
             const expected = 3;
 
-            const actual = getAmountOfProductParticipants(participatingElement);
+            const actual = productParticipants(participatingElement);
 
             expect(actual).to.eql(expected);
 
@@ -122,7 +122,7 @@ describe("UNIT / Core / Participating utils", ()=> {
 
             const expected = 2;
 
-            const actual = getAmountOfProductParticipants(participatingElement);
+            const actual = productParticipants(participatingElement);
 
             expect(actual).to.eql(expected);
 
@@ -134,7 +134,7 @@ describe("UNIT / Core / Participating utils", ()=> {
 
             const expected = 2;
 
-            const actual = getAmountOfProductParticipants(participatingElement);
+            const actual = productParticipants(participatingElement);
 
             expect(actual).to.eql(expected);
 
@@ -146,7 +146,7 @@ describe("UNIT / Core / Participating utils", ()=> {
 
             const expected = 0;
 
-            const actual = getAmountOfProductParticipants(participatingElement);
+            const actual = productParticipants(participatingElement);
 
             expect(actual).to.eql(expected);
 
@@ -158,7 +158,7 @@ describe("UNIT / Core / Participating utils", ()=> {
 
             const expected = 0;
 
-            const actual = getAmountOfProductParticipants(participatingElement);
+            const actual = productParticipants(participatingElement);
 
             expect(actual).to.eql(expected);
 
@@ -170,7 +170,7 @@ describe("UNIT / Core / Participating utils", ()=> {
 
         it(`should calculate share for all product participant elements`, () => {
 
-            const actual = calculateMonetarySharesForProductsCollection(
+            const actual = monetarySharesForProductsCollection(
                 fakeParticipatingState.productParticipating,
                 fakeParticipatingState.products
             );
@@ -206,13 +206,13 @@ describe("UNIT / Core / Participating utils", ()=> {
 
             // Result of calculating monetary shares for each product participants
             // with nonexistent product
-            const actualWithInvalidState = calculateMonetarySharesForProductsCollection(
+            const actualWithInvalidState = monetarySharesForProductsCollection(
                 fakeProductParticipating,
                 fakeParticipatingState.products
             );
 
             // and normal result, when products are exist
-            const actualWithNormalState = calculateMonetarySharesForProductsCollection(
+            const actualWithNormalState = monetarySharesForProductsCollection(
                 fakeParticipatingState.productParticipating,
                 fakeParticipatingState.products
             );
@@ -234,7 +234,7 @@ describe("UNIT / Core / Participating utils", ()=> {
         it(`should calculate total monetary shares
             for each person`, () => {
 
-            const actual = totalMonetarySharesByParticipating(participatingResult);
+            const actual = totalMonetaryShares(participatingResult);
 
             const expected = {
                 "1": 903.5,
