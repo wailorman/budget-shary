@@ -35,6 +35,15 @@ export const fetchBudget = function (
         response = returnStub ? stateStub : undefined;
     }
 
+    // Add .budget.id prop if it's not
+    if (response) {
+        const budgetDoesNotHaveId = !response.budget || (response.budget && !response.budget.id);
+
+        if (budgetDoesNotHaveId) {
+            _.set(response, 'budget.id', id);
+        }
+    }
+
     return response;
 
 };

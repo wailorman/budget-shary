@@ -69,11 +69,13 @@ describe("UNIT / Middlewares / state sync middleware", ()=> {
         it(`should attach budget to action when FETCH_BUDGET`, () => {
 
             const budget = {
-                id: 2,
+                budget: {
+                    id: 2,
+                },
                 products: [1]
             };
 
-            store.set(BUDGET_NAME_PREFIX + budget.id, budget);
+            store.set(BUDGET_NAME_PREFIX + budget.budget.id, budget);
 
             const action = {
                 type: FETCH_BUDGET,

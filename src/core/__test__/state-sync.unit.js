@@ -7,9 +7,10 @@ import {
 } from '../state-sync';
 
 import {STUB_BUDGET_ID} from '../../state-stub';
-import {fakeState} from '../../../test/fixtures/fake-state';
 import {stateStub} from '../../state-stub';
 import fakeBudgets from './state-sync-fixtures';
+
+const fakeState = fakeBudgets[0];
 
 describe("UNIT / Core / Storage Sync", ()=> {
 
@@ -91,6 +92,29 @@ describe("UNIT / Core / Storage Sync", ()=> {
 
         });
 
+        it(`should add .id prop to budget if it's not`, () => {
+
+            const budgetWithoutId = {
+                budget: {
+                    name: 'Some name'
+                }
+            };
+
+            writeBudgetToStore(1, budgetWithoutId);
+
+            const expectedBudget = {
+                budget: {
+                    id: 1,
+                    name: 'Some name'
+                }
+            };
+
+            const actual = fetchBudget({id: 1}, deps);
+
+            expect(actual).to.eql(expectedBudget);
+
+        });
+
     });
 
     describe("#pushBudget()", ()=> {
@@ -105,29 +129,21 @@ describe("UNIT / Core / Storage Sync", ()=> {
 
         it(`should return the same budget we passed`, () => {
 
-            let fakeState2 = _.cloneDeep(fakeState);
-            fakeState2.budget = {id: 1, name: 'budget'};
+            const actual = pushBudget(fakeState, deps);
 
-            const actual = pushBudget(fakeState2, deps);
-
-            expect(actual).to.eql(fakeState2);
+            expect(actual).to.eql(fakeState);
 
         });
 
         it(`should push budget by id`, () => {
 
-            let fakeState2 = _.cloneDeep(fakeState);
-            fakeState2.budget = {id: 2, name: 'budget'};
-
-            expect(_.keys(store.getAll()).length).to.eql(0);
-
-            pushBudget(fakeState2, deps);
+            pushBudget(fakeState, deps);
 
             expect(_.keys(store.getAll()).length).to.eql(1);
 
-            const pushedBudget = store.get('budget2');
+            const pushedBudget = store.get('budget_b_1');
 
-            expect(pushedBudget).to.eql(fakeState2);
+            expect(pushedBudget).to.eql(fakeState);
 
         });
 
