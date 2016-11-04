@@ -18,6 +18,7 @@ export const BudgetsList = ({budgetsList, dispatch})=> {
                 return (
                     <BudgetListElem
                         key={budget.id}
+                        onRemove={actions.deleteBudget.bind(null, budget.id)}
                         {...budget}
                     />
                 );
