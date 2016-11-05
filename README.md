@@ -1,5 +1,7 @@
 # Budget Shary
 
+[CHANGELOG](/CHANGELOG.md)
+
 ## What it is?
 Goal of this application is to equalize _expenses_ of all persons.
 
