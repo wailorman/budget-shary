@@ -9,16 +9,16 @@ Goal of this application is to equalize _expenses_ of all persons.
 For example, two guys (Mike and Jimmy) want to drink a beer at home. Mike
 went to a shop and buy two bottles of beer and spent 60 dollars (it's very expensive beer).
 
-Our goal is to equalize expenses of all persons.
+The $60 price is High for Mike. He wants to split it with Jimmy to not be left without money.
 
-## How does it work?
+#### How?
 
 So.
 Both guys have the same _shares_ in this _budget_ -- 50%.
 Mike have $60 expenses. Jimmy -- $0 expenses.
 That is, _monetary shares_ of each guy = $30 _(totalExpenses * share)_
 
-Our goal is to equalize own expenses and monetary shares for each person.
+We need to equalize own expenses and monetary shares for each person.
 
 By this example, funds of
 ```
