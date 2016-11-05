@@ -3,7 +3,7 @@
 [CHANGELOG](/CHANGELOG.md)<br/>
 **[LIVE DEMO](https://shary.wailorman.ru/)**
 
-## What it is?
+## What is this?
 Goal of this application is to equalize _expenses_ of all persons.
 
 For example, two guys (Mike and Jimmy) want to drink a beer at home. Mike
