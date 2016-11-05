@@ -1,6 +1,7 @@
 # Budget Shary
 
-[CHANGELOG](/CHANGELOG.md)
+[CHANGELOG](/CHANGELOG.md)<br/>
+**[LIVE DEMO](https://shary.wailorman.ru/)**
 
 ## What it is?
 Goal of this application is to equalize _expenses_ of all persons.
