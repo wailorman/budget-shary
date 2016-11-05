@@ -65,7 +65,7 @@ Keeps tests files prebuilded
 ##### **`npm test`**
 Runs all tests
 
-##### **`npm run build`**
+##### **`[NODE_ENV=production] npm run build`**
 Runs webpack and compiles all assets (sources & tests)
 
 ##### **`npm test:unit`**
