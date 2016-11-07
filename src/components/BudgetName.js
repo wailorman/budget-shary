@@ -15,9 +15,15 @@ export const BudgetName = (props)=> {
         <div className="BudgetName">
 
             <TextField
+                inputStyle={{
+                    fontSize: '1.5rem',
+                    textAlign: 'center',
+                    fontWeight: '400'
+                }}
                 hintText="Budget name"
                 value={props.name || ''}
                 onChange={onChange}
+                fullWidth={true}
             />
             
         </div>
