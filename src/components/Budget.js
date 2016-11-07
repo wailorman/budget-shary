@@ -8,6 +8,8 @@ import BudgetName from './BudgetName';
 import ParticipatingRow from './ParticipatingRow';
 import NewProductButton from './NewProductButton';
 
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+
 import {getProductsByPersonId} from '../core/components-utils';
 
 import * as actionCreators from '../actions';
@@ -18,6 +20,7 @@ export function Budget ({state, dispatch}) {
     const actions = bindActionCreators(actionCreators, dispatch);
 
     return (
+        <MuiThemeProvider>
         <div>
 
             <BudgetName name={state.budget.name}
@@ -87,6 +90,7 @@ export function Budget ({state, dispatch}) {
             <TransactionsList transactions={state.transactions}/>
 
         </div>
+        </MuiThemeProvider>
     );
 }
 
