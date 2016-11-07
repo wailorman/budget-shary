@@ -1,3 +1,5 @@
 .Budget {
     font-family: Roboto, sans-serif;
+    max-width: 760px;
+    margin: 0 auto;
 }
