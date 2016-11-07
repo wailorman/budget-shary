@@ -2,6 +2,7 @@ import * as definedPropTypes from '../reducers/prop-types';
 
 import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
+import FontIcon from 'material-ui/FontIcon';
 
 import '../styles/Person.css';
 
@@ -56,10 +57,10 @@ export const Person = (props)=> {
                 <FlatButton
                     className="Person__remove-button"
                     onClick={onRemove}
-                    label="X"
-                    backgroundColor="#f1f1f1"
+                    icon={<FontIcon className="material-icons">clear</FontIcon>}
+
                     style={{
-                        minWidth: 15
+                        minWidth: 40
                     }}
                 />
 
