@@ -28,40 +28,42 @@ export const Person = (props)=> {
     return (
         <div className="Person">
 
-            <TextField
-                className="Person__name-input"
-                hintText="Name"
-                value={props.name}
-                onChange={onChange('name')}
-                errorText={_.get(props, 'validationErrors.name', []).join(', ')}
-            />
+            <div className="Person__inputs">
 
-            <TextField
-                style={{
-                    width: 150
-                }}
-                className="Person__share-input"
-                hintText="Share"
-                value={props.share}
-                onChange={onChange('share')}
-                errorText={_.get(props, 'validationErrors.share', []).join(', ')}
-            />
+                <TextField
+                    className="Person__name-input"
+                    hintText="Name"
+                    value={props.name}
+                    onChange={onChange('name')}
+                    errorText={_.get(props, 'validationErrors.name', []).join(', ')}
+                />
 
-            %
+                <TextField
+                    style={{
+                        width: 150
+                    }}
+                    className="Person__share-input"
+                    hintText="Share"
+                    value={props.share}
+                    onChange={onChange('share')}
+                    errorText={_.get(props, 'validationErrors.share', []).join(', ')}
+                />
 
-            &nbsp;
+                %
 
-            <FlatButton
-                className="Person__remove-button"
-                onClick={onRemove}
-                label="X"
-                backgroundColor="#f1f1f1"
-                style={{
-                    minWidth: 15
-                }}
-            />
+                &nbsp;
 
-            <br/>
+                <FlatButton
+                    className="Person__remove-button"
+                    onClick={onRemove}
+                    label="X"
+                    backgroundColor="#f1f1f1"
+                    style={{
+                        minWidth: 15
+                    }}
+                />
+
+            </div>
 
             {props.children}
 
