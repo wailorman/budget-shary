@@ -1,27 +1,21 @@
 import '../styles/ParticipatingSwitcher.css';
 
+import RaisedButton from 'material-ui/RaisedButton';
+
 export const ParticipatingSwitcher = (props)=> {
 
     const onClick = ()=> {
         props.onClick();
     };
 
-    const buttonStyle = {
-        fontWeight: props.state ? 'bold' : 'normal',
-        backgroundColor: props.state ? 'gray' : ''
-    };
-
     return (
         <div className="ParticipatingSwitcher">
 
-            <button
-                style={buttonStyle}
-                title={props.personName}
-                onClick={onClick}>
-
-
-                {props.personName}
-            </button>
+            <RaisedButton
+                primary={props.state}
+                onClick={onClick}
+                label={props.personName}
+            />
 
         </div>
     );
