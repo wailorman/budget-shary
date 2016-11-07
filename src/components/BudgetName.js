@@ -1,4 +1,5 @@
 import '../styles/BudgetName.css';
+import TextField from 'material-ui/TextField';
 
 export const BudgetName = (props)=> {
 
@@ -13,11 +14,11 @@ export const BudgetName = (props)=> {
     return (
         <div className="BudgetName">
 
-            <input type="text"
-                   className="BudgetName__input"
-                   placeholder="Budget name"
-                   value={props.name || ''}
-                   onChange={onChange}/>
+            <TextField
+                hintText="Budget name"
+                value={props.name || ''}
+                onChange={onChange}
+            />
             
         </div>
     );
