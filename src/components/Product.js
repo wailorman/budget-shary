@@ -1,17 +1,18 @@
-import ValidationErrorsList from "./ValidationErrorsList";
 import * as definedPropTypes from '../reducers/prop-types';
+
+import TextField from 'material-ui/TextField';
+import FlatButton from 'material-ui/FlatButton';
 
 import "../styles/Product.css";
 
 export const Product = (props)=> {
 
-    const onChange = (event) => {
+    const onChange = (propName)=>(event) => {
 
-        const initiatorClassName = event.target.className;
         const newValue = event.target.value;
 
-        const isChangedName = initiatorClassName == 'Product__name-input';
-        const isChangedPrice = initiatorClassName == 'Product__price-input';
+        const isChangedName = propName == 'name';
+        const isChangedPrice = propName == 'price';
 
 
         const name = isChangedName ? newValue : props.name;
@@ -28,27 +29,42 @@ export const Product = (props)=> {
     return (
         <div className="Product">
 
-            <ValidationErrorsList errors={props.validationErrors}/>
-
-            <input
+            <TextField
+                style={{
+                    fontSize: '0.95rem',
+                    width: 160
+                }}
                 className="Product__name-input"
-                size="17"
-                type="text"
+                hintText="Name"
                 value={props.name}
-                onChange={onChange}
+                onChange={onChange('name')}
+                errorText={_.get(props, 'validationErrors.name', []).join(', ')}
             />
 
-            <input
+            <TextField
+                style={{
+                    fontSize: '0.95rem',
+                    width: 130
+                }}
                 className="Product__price-input"
-                size="5"
-                type="text"
+                hintText="Price"
                 value={props.price}
-                onChange={onChange}
+                onChange={onChange('price')}
+                errorText={_.get(props, 'validationErrors.price', []).join(', ')}
             />
 
-            <button className="Product__remove-button" onClick={onRemove}>
-                x
-            </button>
+            &nbsp;
+
+            <FlatButton
+                className="Product__remove-button"
+                onClick={onRemove}
+                label="X"
+                backgroundColor="#f1f1f1"
+                style={{
+                    fontSize: '0.95rem',
+                    minWidth: 15
+                }}
+            />
             
             {props.children}
         </div>
