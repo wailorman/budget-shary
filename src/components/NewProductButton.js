@@ -1,5 +1,6 @@
 import '../styles/NewProductButton.css';
-import RaisedButton from 'material-ui/RaisedButton';
+import FlatButton from 'material-ui/FlatButton';
+import FontIcon from 'material-ui/FontIcon';
 
 export const NewProductButton = (props)=> {
 
@@ -8,7 +9,11 @@ export const NewProductButton = (props)=> {
     return (
         <div className="NewProductButton">
 
-            <RaisedButton onClick={onClick} label="New product"/>
+            <FlatButton
+                onClick={onClick}
+                label="New product"
+                icon={<FontIcon className="material-icons">add</FontIcon>}
+            />
 
         </div>
     );
