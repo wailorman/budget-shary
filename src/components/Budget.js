@@ -1,5 +1,7 @@
 import {bindActionCreators} from 'redux';
 
+import '../styles/Budget.css';
+
 import Product from './Product';
 import Person from './Person';
 import ValidationErrorsList from './ValidationErrorsList';
@@ -9,6 +11,7 @@ import ParticipatingRow from './ParticipatingRow';
 import NewProductButton from './NewProductButton';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import RaisedButton from 'material-ui/RaisedButton';
 
 import {getProductsByPersonId} from '../core/components-utils';
 
@@ -21,7 +24,7 @@ export function Budget ({state, dispatch}) {
 
     return (
         <MuiThemeProvider>
-        <div>
+        <div className="Budget">
 
             <BudgetName name={state.budget.name}
                         onChange={actions.changeBudgetProps.bind(null)} />
