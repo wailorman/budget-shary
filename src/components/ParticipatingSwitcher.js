@@ -14,6 +14,9 @@ export const ParticipatingSwitcher = (props)=> {
             <RaisedButton
                 primary={props.state}
                 onClick={onClick}
+                style={{
+                    minWidth: 0
+                }}
                 label={props.personName}
             />
 
