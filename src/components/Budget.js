@@ -82,7 +82,11 @@ export function Budget ({state, dispatch}) {
 
             })}
 
-            <button onClick={actions.newPerson}>{"New person"}</button>
+            <RaisedButton
+                primary={true}
+                onClick={actions.newPerson}
+                label="New person"
+            />
 
             <ValidationErrorsList errors={state.errors.common}/>
 

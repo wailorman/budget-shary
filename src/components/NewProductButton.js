@@ -1,4 +1,5 @@
 import '../styles/NewProductButton.css';
+import RaisedButton from 'material-ui/RaisedButton';
 
 export const NewProductButton = (props)=> {
 
@@ -7,9 +8,7 @@ export const NewProductButton = (props)=> {
     return (
         <div className="NewProductButton">
 
-            <button
-                onClick={onClick}
-            >New product</button>
+            <RaisedButton onClick={onClick} label="New product"/>
 
         </div>
     );
