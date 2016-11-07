@@ -11,6 +11,7 @@ import ParticipatingRow from './ParticipatingRow';
 import NewProductButton from './NewProductButton';
 
 import RaisedButton from 'material-ui/RaisedButton';
+import FontIcon from 'material-ui/FontIcon';
 
 import {getProductsByPersonId} from '../core/components-utils';
 
@@ -81,8 +82,10 @@ export function Budget ({state, dispatch}) {
             })}
 
             <RaisedButton
-                primary={true}
+                backgroundColor="#294E6B"
+                labelColor="white"
                 onClick={actions.newPerson}
+                icon={<FontIcon className="material-icons">add</FontIcon>}
                 label="New person"
             />
 
@@ -90,7 +93,12 @@ export function Budget ({state, dispatch}) {
 
             <br /><br />
 
-            <button onClick={actions.realizeInterchange}>Calculate</button>
+            <RaisedButton
+                backgroundColor="#009688"
+                labelColor='white'
+                onClick={actions.realizeInterchange}
+                label="Calculate" fullWidth={true}
+            />
 
             <TransactionsList transactions={state.transactions}/>
 
