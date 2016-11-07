@@ -24,7 +24,7 @@ ReactDOM.render(
                         backgroundColor: '#3F51B5'
                     }}
                     title={
-                        "Title"
+                        "Грудки, пиво, два ствола"
                     }
                 />
 
