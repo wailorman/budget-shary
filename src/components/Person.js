@@ -1,17 +1,18 @@
-import ValidationErrorsList from './ValidationErrorsList';
 import * as definedPropTypes from '../reducers/prop-types';
+
+import TextField from 'material-ui/TextField';
+import FlatButton from 'material-ui/FlatButton';
 
 import '../styles/Person.css';
 
 export const Person = (props)=> {
 
-    const onChange = (event) => {
+    const onChange = (propName)=>(event) => {
 
-        const initiatorClassName = event.target.className;
         const newValue = event.target.value;
 
-        const isChangedName = initiatorClassName == 'Person__name-input';
-        const isChangedShare = initiatorClassName == 'Person__share-input';
+        const isChangedName = propName == 'name';
+        const isChangedShare = propName == 'share';
 
         const name = isChangedName ? newValue : props.name;
         const share = isChangedShare ? newValue : props.share;
@@ -23,33 +24,42 @@ export const Person = (props)=> {
     const onRemove = ()=> {
         props.onRemove();
     };
-    
+
     return (
         <div className="Person">
 
-            <ValidationErrorsList errors={props.validationErrors}/>
-
-            <input
+            <TextField
                 className="Person__name-input"
-                type="text"
-                placeholder="Name"
+                hintText="Name"
                 value={props.name}
-                onChange={onChange}
+                onChange={onChange('name')}
+                errorText={_.get(props, 'validationErrors.name', []).join(', ')}
             />
 
-            <input
+            <TextField
+                style={{
+                    width: 150
+                }}
                 className="Person__share-input"
-                size="3"
-                type="text"
-                placeholder="Share"
+                hintText="Share"
                 value={props.share}
-                onChange={onChange}
-            />%
+                onChange={onChange('share')}
+                errorText={_.get(props, 'validationErrors.share', []).join(', ')}
+            />
+
+            %
 
             &nbsp;
-            <button className="Person__remove-button" onClick={onRemove}>
-                x
-            </button>
+
+            <FlatButton
+                className="Person__remove-button"
+                onClick={onRemove}
+                label="X"
+                backgroundColor="#f1f1f1"
+                style={{
+                    minWidth: 15
+                }}
+            />
 
             <br/>
 
