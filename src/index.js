@@ -20,6 +20,9 @@ ReactDOM.render(
         <MuiThemeProvider>
             <div>
                 <AppBar
+                    style={{
+                        backgroundColor: '#3F51B5'
+                    }}
                     title={
                         "Title"
                     }
