@@ -1,6 +1,6 @@
 import '../styles/ParticipatingSwitcher.css';
 
-import FlatButton from 'material-ui/FlatButton';
+import RaisedButton from 'material-ui/FlatButton';
 
 export const ParticipatingSwitcher = (props)=> {
 
@@ -11,15 +11,17 @@ export const ParticipatingSwitcher = (props)=> {
     return (
         <div className="ParticipatingSwitcher">
 
-            <FlatButton
-                backgroundColor={props.state ? "#00BCD4" : null}
+            <RaisedButton
+                backgroundColor={props.state ? "#00BCD4" : "#E7E8E9"}
+
                 labelStyle={{
                     color: props.state ? 'white' : null
                 }}
                 primary={props.state}
                 onClick={onClick}
                 style={{
-                    minWidth: 0
+                    minWidth: 0,
+                    boxShadow: 'none'
                 }}
                 label={props.personName}
             />
