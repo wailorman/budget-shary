@@ -5,8 +5,28 @@
 
 .Person__inputs {
     background-color: rgba(41, 78, 107, 0.02);
-    padding: 5px 30px;
+    padding: 5px 5px 5px 30px;
     border-radius: 2px;
     border-bottom: rgba(206, 206, 206, 0.63) 1px solid;
     margin-bottom: 5px;
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+}
+
+.Person__name-input {
+    flex-grow: 2;
+}
+.Person__share-input {
+}
+.Person__percent-sign {
+    height: inherit;
+    justify-content: stretch;
+}
+
+.Person__remove-button {
+    flex-basis: 40px;
+    align-items: center;
 }

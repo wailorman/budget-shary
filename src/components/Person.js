@@ -32,6 +32,9 @@ export const Person = (props)=> {
             <div className="Person__inputs">
 
                 <TextField
+                    style={{
+                        width: null
+                    }}
                     className="Person__name-input"
                     hintText="Name"
                     value={props.name}
@@ -41,7 +44,7 @@ export const Person = (props)=> {
 
                 <TextField
                     style={{
-                        width: 150
+                        width: null
                     }}
                     className="Person__share-input"
                     hintText="Share"
@@ -50,9 +53,13 @@ export const Person = (props)=> {
                     errorText={_.get(props, 'validationErrors.share', []).join(', ')}
                 />
 
-                %
+                <div className="Person__percent-sign">
 
-                &nbsp;
+                    %
+
+                    &nbsp;
+
+                </div>
 
                 <FlatButton
                     className="Person__remove-button"
@@ -60,7 +67,8 @@ export const Person = (props)=> {
                     icon={<FontIcon className="material-icons">clear</FontIcon>}
 
                     style={{
-                        minWidth: 40
+                        minWidth: 40,
+                        maxWidth: 45
                     }}
                 />
 
