@@ -57,8 +57,6 @@ export const Person = (props)=> {
 
                     %
 
-                    &nbsp;
-
                 </div>
 
                 <FlatButton

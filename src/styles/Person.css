@@ -24,6 +24,8 @@
 .Person__percent-sign {
     height: inherit;
     justify-content: stretch;
+
+    padding: 0 3px;
 }
 
 .Person__remove-button {
