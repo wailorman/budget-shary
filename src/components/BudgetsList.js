@@ -2,16 +2,24 @@ import {bindActionCreators} from 'redux';
 
 import BudgetListElem from './BudgetsListElem';
 
+import {List} from 'material-ui/List';
+import {ListItem} from 'material-ui/List';
+import Subheader from 'material-ui/Subheader';
+import Divider from 'material-ui/Divider';
+
 import * as actionCreators from '../actions';
+import '../styles/BudgetsList.css';
 
 export const BudgetsList = ({budgetsList, dispatch})=> {
 
     const actions = bindActionCreators(actionCreators, dispatch);
 
     return (
-        <div className="BudgetsList">
+        <List className="BudgetsList">
 
-            <button onClick={actions.newBudget}>New budget</button>
+            <Subheader>Saved budgets</Subheader>
+
+            <Divider/>
 
             {_.map(budgetsList, (budget)=> {
 
@@ -25,7 +33,13 @@ export const BudgetsList = ({budgetsList, dispatch})=> {
 
             })}
 
-        </div>
+            <ListItem
+                secondaryText={
+                    <button onClick={actions.newBudget}>New budget</button>
+                }
+            />
+
+        </List>
     );
 
 };
