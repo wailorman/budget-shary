@@ -1,4 +1,6 @@
 .ParticipatingSwitcher {
-    margin: 0 5px;
-    display: inline-block;
+    margin: 2px 5px;
+    display: flex;
+    justify-content: space-around;
+
 }

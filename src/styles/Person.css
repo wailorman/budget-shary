@@ -4,11 +4,11 @@
 }
 
 .Person__inputs {
-    background-color: rgba(41, 78, 107, 0.02);
+    background-color: rgba(27,0,255,0.05);
     padding: 5px 5px 5px 30px;
     border-radius: 2px;
     border-bottom: rgba(206, 206, 206, 0.63) 1px solid;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
 
     display: flex;
     flex-direction: row;

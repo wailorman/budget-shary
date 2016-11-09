@@ -30,9 +30,15 @@ export const Product = (props)=> {
     return (
         <div className="Product">
 
-            <div className="Product__inputs">
+            <div className="Product__inputs-and-participating">
 
-                <div className="Product__name-and-price">
+                <div className="Product__participating">
+
+                    {props.children}
+
+                </div>
+
+                <div className="Product__inputs">
 
                     <TextField
                         style={{
@@ -60,24 +66,19 @@ export const Product = (props)=> {
 
                 </div>
 
-                <FlatButton
-                    className="Product__remove-button"
-                    onClick={onRemove}
-                    icon={<FontIcon className="material-icons">clear</FontIcon>}
-
-                    style={{
-                        minWidth: 40,
-                        maxWidth: 45
-                    }}
-                />
-
             </div>
 
-            <div className="Product__children">
+            <FlatButton
 
-                {props.children}
 
-            </div>
+                className="Product__remove-button"
+                onClick={onRemove}
+                icon={<FontIcon className="material-icons">clear</FontIcon>}
+
+                style={{
+                    minWidth: 40
+                }}
+            />
 
         </div>
     );
