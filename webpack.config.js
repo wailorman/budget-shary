@@ -112,7 +112,8 @@ var webpackConfig = {
     ],
 
     devServer: {
-        outputPath: __dirname + '/dist/js'
+        outputPath: __dirname + '/dist/js',
+        host: '0.0.0.0'
     }
 };
 
