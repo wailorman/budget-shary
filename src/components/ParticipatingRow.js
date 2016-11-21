@@ -12,14 +12,14 @@ export const ParticipatingRow = (props)=> {
 
                 const switcherState = props.productParticipatingElem[person.id] || false;
 
-                return (
+                return person.name ? (
                     <ParticipatingSwitcher
                         key={person.id}
                         personName={person.name}
                         state={switcherState}
                         onClick={props.onClick.bind(null, person.id)}
                     />
-                );
+                ) : null;
                 
             })}
 
