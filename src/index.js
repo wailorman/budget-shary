@@ -6,7 +6,7 @@ import {Router, Route} from 'react-router';
 
 import './styles/index.css';
 
-import AppBar from 'material-ui/AppBar';
+import TopBar from './containers/TopBar';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 
@@ -21,14 +21,7 @@ ReactDOM.render(
     <Provider store={store}>
         <MuiThemeProvider>
             <div>
-                <AppBar
-                    style={{
-                        backgroundColor: '#3F51B5'
-                    }}
-                    title={
-                        "Грудки, пиво, два ствола"
-                    }
-                />
+                <TopBar/>
 
                 <Router history={history}>
                     <Route path="/" component={BudgetsListContainer}/>
