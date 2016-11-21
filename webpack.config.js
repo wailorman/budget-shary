@@ -5,6 +5,8 @@ var WriteFilePlugin = require('write-file-webpack-plugin');
 var WebpackBuildNotifierPlugin = require('webpack-build-notifier');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 
+var babelConfig = require('./package.json').babel;
+
 var webpackConfig = {
 
     // target: 'node',
@@ -50,21 +52,7 @@ var webpackConfig = {
                 test: /\.js$/,
                 exclude: /(node_modules)/,
                 loader: 'babel',
-                query: {
-                    retainLines: true,
-                    cacheDirectory: true,
-                    presets: [
-                        'es2015',
-                        'react'
-                    ],
-                    plugins: [
-                        'transform-runtime',
-                        "transform-object-rest-spread",
-                        ["transform-es2015-modules-commonjs-simple", {
-                            "noMangle": true
-                        }]
-                    ]
-                }
+                query: babelConfig
             },
             {
                 test: /\.json$/,

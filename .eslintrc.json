@@ -38,6 +38,7 @@
     "__dirname": true,
     "Q": true,
     "store": true,
+    "process": true,
     "React": true,
     "ReactDOM": true,
     "expect": true,
