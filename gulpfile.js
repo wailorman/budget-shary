@@ -35,7 +35,6 @@ gulp.task('deploy', function () {
 
     const files = [
         'dist/**/*.js',
-        'dist/**/*.zip',
         'dist/**/*.css',
         'dist/**/*.map',
         'dist/**/*.html',
