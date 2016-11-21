@@ -27,7 +27,6 @@
   "homepage": "https://github.com/wailorman/budget-shary",
   "babel": {
     "retainLines": true,
-    "cacheDirectory": true,
     "presets": [
       "es2015",
       "react"
