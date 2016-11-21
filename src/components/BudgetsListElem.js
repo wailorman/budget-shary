@@ -19,7 +19,7 @@ export const BudgetsListElem = ({id, name, onRemove})=> {
 
     const rightIconMenu = (
         <IconMenu iconButtonElement={rightIcon}>
-            <MenuItem onTouchTap={onRemove}>Delete</MenuItem>
+            <MenuItem onClick={onRemove}>Delete</MenuItem>
         </IconMenu>
     );
 
