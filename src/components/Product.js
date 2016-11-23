@@ -6,83 +6,88 @@ import FontIcon from 'material-ui/FontIcon';
 
 import "../styles/Product.css";
 
-export const Product = (props)=> {
+export class Product extends React.Component {
 
-    const onChange = (propName)=>(event) => {
+    render() {
 
-        const newValue = event.target.value;
+        const props = this.props;
 
-        const isChangedName = propName == 'name';
-        const isChangedPrice = propName == 'price';
+        const onChange = (propName) => (event) => {
+
+            const newValue = event.target.value;
+
+            const isChangedName = propName == 'name';
+            const isChangedPrice = propName == 'price';
 
 
-        const name = isChangedName ? newValue : props.name;
-        const price = isChangedPrice ? newValue : props.price;
+            const name = isChangedName ? newValue : props.name;
+            const price = isChangedPrice ? newValue : props.price;
 
-        props.onChange({name, price});
+            props.onChange({name, price});
 
-    };
+        };
 
-    const onRemove = ()=> {
-        props.onRemove();
-    };
+        const onRemove = () => {
+            props.onRemove();
+        };
 
-    return (
-        <div className="Product">
+        return (
+            <div className="Product">
 
-            <div className="Product__inputs-and-participating">
+                <div className="Product__inputs-and-participating">
 
-                <div className="Product__participating">
+                    <div className="Product__participating">
 
-                    {props.children}
+                        {props.children}
+
+                    </div>
+
+                    <div className="Product__inputs">
+
+                        <TextField
+                            style={{
+                                fontSize: '0.95rem',
+                                width: null
+                            }}
+                            className="Product__name-input"
+                            hintText="Name"
+                            value={props.name}
+                            onChange={onChange('name')}
+                            errorText={_.get(props, 'validationErrors.name', []).join(', ')}
+                        />
+
+                        <TextField
+                            style={{
+                                fontSize: '0.95rem',
+                                width: null
+                            }}
+                            className="Product__price-input"
+                            hintText="Price"
+                            value={props.price}
+                            onChange={onChange('price')}
+                            errorText={_.get(props, 'validationErrors.price', []).join(', ')}
+                        />
+
+                    </div>
 
                 </div>
 
-                <div className="Product__inputs">
+                <FlatButton
 
-                    <TextField
-                        style={{
-                            fontSize: '0.95rem',
-                            width: null
-                        }}
-                        className="Product__name-input"
-                        hintText="Name"
-                        value={props.name}
-                        onChange={onChange('name')}
-                        errorText={_.get(props, 'validationErrors.name', []).join(', ')}
-                    />
 
-                    <TextField
-                        style={{
-                            fontSize: '0.95rem',
-                            width: null
-                        }}
-                        className="Product__price-input"
-                        hintText="Price"
-                        value={props.price}
-                        onChange={onChange('price')}
-                        errorText={_.get(props, 'validationErrors.price', []).join(', ')}
-                    />
+                    className="Product__remove-button"
+                    onClick={onRemove}
+                    icon={<FontIcon className="material-icons">clear</FontIcon>}
 
-                </div>
+                    style={{
+                        minWidth: 40
+                    }}
+                />
 
             </div>
-
-            <FlatButton
-
-
-                className="Product__remove-button"
-                onClick={onRemove}
-                icon={<FontIcon className="material-icons">clear</FontIcon>}
-
-                style={{
-                    minWidth: 40
-                }}
-            />
-
-        </div>
-    );
-};
+        );
+    }
+}
 
 Product.propTypes = {
     name: React.PropTypes.string,
