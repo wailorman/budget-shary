@@ -6,78 +6,82 @@ import FontIcon from 'material-ui/FontIcon';
 
 import '../styles/Person.css';
 
-export const Person = (props)=> {
+export class Person extends React.Component {
+    render() {
 
-    const onChange = (propName)=>(event) => {
+        const props = this.props;
 
-        const newValue = event.target.value;
+        const onChange = (propName) => (event) => {
 
-        const isChangedName = propName == 'name';
-        const isChangedShare = propName == 'share';
+            const newValue = event.target.value;
 
-        const name = isChangedName ? newValue : props.name;
-        const share = isChangedShare ? newValue : props.share;
+            const isChangedName = propName == 'name';
+            const isChangedShare = propName == 'share';
 
-        props.onChange({name, share});
+            const name = isChangedName ? newValue : props.name;
+            const share = isChangedShare ? newValue : props.share;
 
-    };
+            props.onChange({name, share});
 
-    const onRemove = ()=> {
-        props.onRemove();
-    };
+        };
 
-    return (
-        <div className="Person">
+        const onRemove = () => {
+            props.onRemove();
+        };
 
-            <div className="Person__inputs">
+        return (
+            <div className="Person">
 
-                <TextField
-                    style={{
-                        width: null
-                    }}
-                    className="Person__name-input"
-                    hintText="Name"
-                    value={props.name}
-                    onChange={onChange('name')}
-                    errorText={_.get(props, 'validationErrors.name', []).join(', ')}
-                />
+                <div className="Person__inputs">
 
-                <TextField
-                    style={{
-                        width: null
-                    }}
-                    className="Person__share-input"
-                    hintText="Share"
-                    value={props.share}
-                    onChange={onChange('share')}
-                    errorText={_.get(props, 'validationErrors.share', []).join(', ')}
-                />
+                    <TextField
+                        style={{
+                            width: null
+                        }}
+                        className="Person__name-input"
+                        hintText="Name"
+                        value={props.name}
+                        onChange={onChange('name')}
+                        errorText={_.get(props, 'validationErrors.name', []).join(', ')}
+                    />
 
-                <div className="Person__percent-sign">
+                    <TextField
+                        style={{
+                            width: null
+                        }}
+                        className="Person__share-input"
+                        hintText="Share"
+                        value={props.share}
+                        onChange={onChange('share')}
+                        errorText={_.get(props, 'validationErrors.share', []).join(', ')}
+                    />
 
-                    %
+                    <div className="Person__percent-sign">
+
+                        %
+
+                    </div>
+
+                    <FlatButton
+                        className="Person__remove-button"
+                        onClick={onRemove}
+                        icon={<FontIcon className="material-icons">clear</FontIcon>}
+
+                        style={{
+                            minWidth: 40,
+                            maxWidth: 45
+                        }}
+                    />
 
                 </div>
 
-                <FlatButton
-                    className="Person__remove-button"
-                    onClick={onRemove}
-                    icon={<FontIcon className="material-icons">clear</FontIcon>}
-
-                    style={{
-                        minWidth: 40,
-                        maxWidth: 45
-                    }}
-                />
+                {props.children}
 
             </div>
 
-            {props.children}
-
-        </div>
-
-    );
-};
+        );
+    }
+}
 
 Person.propTypes = {
     name: React.PropTypes.string,
