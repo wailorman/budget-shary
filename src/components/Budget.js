@@ -22,7 +22,10 @@ import {STUB_BUDGET_ID} from '../state-stub';
 
 @connect(
     (state)=> {
-        return {state};
+        return {
+            state,
+            commonErrors: state.errors.common
+        };
     },
     (dispatch)=> {
         return {
@@ -42,7 +45,10 @@ export class Budget extends React.Component {
 
     render() {
 
-        const {state, dispatch} = this.props;
+        const {
+            state, dispatch,
+            commonErrors
+        } = this.props;
 
         const actions = bindActionCreators(actionCreators, dispatch);
 
@@ -99,7 +105,7 @@ export class Budget extends React.Component {
                     label="New person"
                 />
 
-                <ValidationErrorsList errors={state.errors.common}/>
+                <ValidationErrorsList errors={commonErrors}/>
 
                 <br /><br />
 
@@ -119,8 +125,10 @@ export class Budget extends React.Component {
     static propTypes = {
         state: React.PropTypes.object.isRequired,
         dispatch: React.PropTypes.func.isRequired,
+
         params: React.PropTypes.object,
 
+        commonErrors: React.PropTypes.object,
         fetchBudget: React.PropTypes.func
     }
 
