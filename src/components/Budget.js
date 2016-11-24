@@ -25,7 +25,10 @@ import {STUB_BUDGET_ID} from '../state-stub';
         return {state};
     },
     (dispatch)=> {
-        return {dispatch};
+        return {
+            dispatch,
+            fetchBudget: bindActionCreators(actionCreators.fetchBudget, dispatch)
+        };
     }
 )
 export class Budget extends React.Component {
@@ -34,7 +37,7 @@ export class Budget extends React.Component {
 
         const budgetIdToFetch = this.props.params.id || STUB_BUDGET_ID;
 
-        this.props.dispatch(actionCreators.fetchBudget(budgetIdToFetch));
+        this.props.fetchBudget(budgetIdToFetch);
     }
 
     render() {
@@ -116,7 +119,9 @@ export class Budget extends React.Component {
     static propTypes = {
         state: React.PropTypes.object.isRequired,
         dispatch: React.PropTypes.func.isRequired,
-        params: React.PropTypes.object
+        params: React.PropTypes.object,
+
+        fetchBudget: React.PropTypes.func
     }
 
 }
