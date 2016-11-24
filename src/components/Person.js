@@ -1,4 +1,3 @@
-import * as definedPropTypes from '../reducers/prop-types';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
@@ -107,12 +106,6 @@ export class Person extends React.Component {
 
     static propTypes = {
         id: React.PropTypes.string,
-        name: React.PropTypes.string,
-        share: definedPropTypes.numberOrString,
-        validationErrors: React.PropTypes.object,
-
-        onChange: React.PropTypes.func.isRequired,
-        onRemove: React.PropTypes.func.isRequired,
         children: React.PropTypes.any
     }
 
