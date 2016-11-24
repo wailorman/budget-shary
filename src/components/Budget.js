@@ -110,7 +110,7 @@ export class Budget extends React.Component {
                     label="Calculate" fullWidth={true}
                 />
 
-                <TransactionsList transactions={state.transactions}/>
+                <TransactionsList/>
 
             </div>
         );

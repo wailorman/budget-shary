@@ -1,27 +1,36 @@
 import Transaction from './Transaction';
+import {connect} from 'react-redux';
 
 
+@connect(
+    ({transactions}) => ({transactions})
+)
+export class TransactionsList extends React.Component {
 
-export const TransactionsList = ({ transactions }) => {
+    render() {
 
-    const transactionsList = transactions.map((transaction, index)=> {
-        return  <Transaction
-                    key={index}
-                    {... transaction}
-                />;
-    });
+        const { transactions } = this.props;
 
-    return (
-        <div className="TransactionsList">
-            {transactionsList}
-        </div>
-    );
-};
+        const transactionsList = transactions.map((transaction, index) => {
+            return <Transaction
+                key={index}
+                {... transaction}
+            />;
+        });
 
-TransactionsList.propTypes = {
-    transactions: React.PropTypes.arrayOf(
-        React.PropTypes.shape(Transaction.PropTypes)
-    )
-};
+        return (
+            <div className="TransactionsList">
+                {transactionsList}
+            </div>
+        );
+    }
+
+    static propTypes = {
+        transactions: React.PropTypes.arrayOf(
+            React.PropTypes.shape(Transaction.PropTypes)
+        )
+    }
+
+}
 
 export default TransactionsList;
