@@ -1,13 +1,13 @@
-import {STUB_BUDGET_ID} from '../state-stub';
+// import {STUB_BUDGET_ID} from '../state-stub';
 
-import {connect} from 'react-redux';
+// import {connect} from 'react-redux';
 
 import Budget from '../components/Budget';
 
-import {fetchBudget} from '../actions';
+// import {fetchBudget} from '../actions';
 
 
-class BudgetContainer extends React.Component {
+/*class BudgetContainer extends React.Component {
 
     componentDidMount(){
 
@@ -34,4 +34,7 @@ export default connect(
     (dispatch)=> {
         return {dispatch};
     }
-)(BudgetContainer);
+)(BudgetContainer);*/
+
+export { Budget };
+export default Budget;

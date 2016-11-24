@@ -1,4 +1,5 @@
 import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
 
 import '../styles/Budget.css';
 
@@ -16,99 +17,108 @@ import FontIcon from 'material-ui/FontIcon';
 import {getProductsByPersonId} from '../core/components-utils';
 
 import * as actionCreators from '../actions';
+import {STUB_BUDGET_ID} from '../state-stub';
 
 
-export function Budget ({state, dispatch}) {
+@connect(
+    (state)=> {
+        return {state};
+    },
+    (dispatch)=> {
+        return {dispatch};
+    }
+)
+export class Budget extends React.Component {
 
-    const actions = bindActionCreators(actionCreators, dispatch);
+    componentDidMount(){
 
-    return (
-        <div className="Budget">
+        const budgetIdToFetch = this.props.params.id || STUB_BUDGET_ID;
 
-            <BudgetName name={state.budget.name}
-                        onChange={actions.changeBudgetProps.bind(null)} />
+        this.props.dispatch(actionCreators.fetchBudget(budgetIdToFetch));
+    }
 
-            {_.map(state.persons, (person)=> {
+    render() {
+
+        const {state, dispatch} = this.props;
+
+        const actions = bindActionCreators(actionCreators, dispatch);
+
+        return (
+            <div className="Budget">
+
+                <BudgetName name={state.budget.name}
+                            onChange={actions.changeBudgetProps.bind(null)}/>
+
+                {_.map(state.persons, (person) => {
 
 
-                const ownProducts = getProductsByPersonId(person.id, state.products);
-                const ownProductsIds = _.map(ownProducts, 'id');
+                    const ownProducts = getProductsByPersonId(person.id, state.products);
+                    const ownProductsIds = _.map(ownProducts, 'id');
 
 
-                const ownErrors = _.get(state, `errors.persons[${person.id}]`, {});
-                const ownProductsErrors = _.chain(state.errors.products).pick(ownProductsIds).value();
+                    return (
 
+                        <Person
+                            key={person.id}
+                            id={person.id}
+                        >
 
-                return (
+                            {_.map(ownProductsIds, (productId) => (
 
-                    <Person
-                        key={person.id}
-                        name={person.name}
-                        share={person.share}
-                        validationErrors={ownErrors}
+                                <Product
+                                    key={productId}
+                                    id={productId}
+                                >
 
-                        onChange={actions.changePerson.bind(null, person.id)}
-                        onRemove={actions.removePerson.bind(null, person.id)}
-                    >
+                                    <ParticipatingRow
+                                        productParticipatingElem={state.productParticipating ? state.productParticipating[productId] || {} : {}}
+                                        onClick={actions.toggleParticipation.bind(null, productId)}
+                                        persons={state.persons}
+                                    />
 
-                        {_.map(ownProductsIds, (productId)=>(
+                                </Product>
 
-                            <Product
-                                key={productId}
-                                name={state.products[productId].name}
-                                price={state.products[productId].price}
-                                validationErrors={ownProductsErrors[productId]}
+                            ))}
 
-                                onChange={actions.changeProduct.bind(null, productId)}
-                                onRemove={actions.removeProduct.bind(null, productId)}
-                            >
+                            <NewProductButton onClick={actions.newProduct.bind(null, person.id)}/>
 
-                                <ParticipatingRow
-                                    productParticipatingElem={state.productParticipating ? state.productParticipating[productId] || {} : {}}
-                                    onClick={actions.toggleParticipation.bind(null, productId)}
-                                    persons={state.persons}
-                                />
+                        </Person>
 
-                            </Product>
+                    );
 
-                        ))}
+                })}
 
-                        <NewProductButton onClick={actions.newProduct.bind(null, person.id)} />
+                <RaisedButton
+                    backgroundColor="#294E6B"
+                    labelColor="white"
+                    onClick={actions.newPerson}
+                    icon={<FontIcon className="material-icons">add</FontIcon>}
+                    label="New person"
+                />
 
-                    </Person>
+                <ValidationErrorsList errors={state.errors.common}/>
 
-                );
+                <br /><br />
 
-            })}
+                <RaisedButton
+                    backgroundColor="#009688"
+                    labelColor='white'
+                    onClick={actions.realizeInterchange}
+                    label="Calculate" fullWidth={true}
+                />
 
-            <RaisedButton
-                backgroundColor="#294E6B"
-                labelColor="white"
-                onClick={actions.newPerson}
-                icon={<FontIcon className="material-icons">add</FontIcon>}
-                label="New person"
-            />
+                <TransactionsList transactions={state.transactions}/>
 
-            <ValidationErrorsList errors={state.errors.common}/>
+            </div>
+        );
+    }
 
-            <br /><br />
+    static propTypes = {
+        state: React.PropTypes.object.isRequired,
+        dispatch: React.PropTypes.func.isRequired,
+        params: React.PropTypes.object
+    }
 
-            <RaisedButton
-                backgroundColor="#009688"
-                labelColor='white'
-                onClick={actions.realizeInterchange}
-                label="Calculate" fullWidth={true}
-            />
-
-            <TransactionsList transactions={state.transactions}/>
-
-        </div>
-    );
 }
-
-Budget.propTypes = {
-    state: React.PropTypes.object.isRequired,
-    dispatch: React.PropTypes.func.isRequired
-};
 
 export default Budget;
