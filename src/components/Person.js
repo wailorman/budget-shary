@@ -1,12 +1,34 @@
 import * as definedPropTypes from '../reducers/prop-types';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 
 import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
 import FontIcon from 'material-ui/FontIcon';
 
+import { changePerson, removePerson } from '../actions';
+
 import '../styles/Person.css';
 
+
+@connect(
+    (state, {id}) => {
+
+        const person = _.get(state, `persons[${id}]`, {});
+        const validationErrors = _.get(state, `errors.persons[${person.id}]`, {});
+
+        return {
+            ...person,
+            validationErrors
+        };
+    },
+    (dispatch, {id}) => ({
+        onChange: bindActionCreators(changePerson, dispatch).bind(null, id),
+        onRemove: bindActionCreators(removePerson, dispatch).bind(null, id)
+    })
+)
 export class Person extends React.Component {
+
     render() {
 
         const props = this.props;
@@ -81,16 +103,20 @@ export class Person extends React.Component {
 
         );
     }
+
+
+    static propTypes = {
+        id: React.PropTypes.string,
+        name: React.PropTypes.string,
+        share: definedPropTypes.numberOrString,
+        validationErrors: React.PropTypes.object,
+
+        onChange: React.PropTypes.func.isRequired,
+        onRemove: React.PropTypes.func.isRequired,
+        children: React.PropTypes.any
+    }
+
+
 }
-
-Person.propTypes = {
-    name: React.PropTypes.string,
-    share: definedPropTypes.numberOrString,
-    validationErrors: React.PropTypes.object,
-
-    onChange: React.PropTypes.func.isRequired,
-    onRemove: React.PropTypes.func.isRequired,
-    children: React.PropTypes.any
-};
 
 export default Person;

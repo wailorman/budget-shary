@@ -1,11 +1,32 @@
 import * as definedPropTypes from '../reducers/prop-types';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 
 import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
 import FontIcon from 'material-ui/FontIcon';
 
+import { changeProduct, removeProduct } from '../actions';
+
 import "../styles/Product.css";
 
+
+@connect(
+    (state, {id})=>{
+
+        const product = _.get(state, `products[${id}]`, {});
+        const validationErrors = _.get(state, `errors.products[${product.id}]`, {});
+
+        return {
+            ...product,
+            validationErrors
+        };
+    },
+    (dispatch, {id}) => ({
+        onChange: bindActionCreators(changeProduct, dispatch).bind(null, id),
+        onRemove: bindActionCreators(removeProduct, dispatch).bind(null, id)
+    })
+)
 export class Product extends React.Component {
 
     render() {
@@ -87,16 +108,17 @@ export class Product extends React.Component {
             </div>
         );
     }
+
+    static propTypes = {
+        name: React.PropTypes.string,
+        price: definedPropTypes.numberOrString,
+        validationErrors: React.PropTypes.object,
+
+        onChange: React.PropTypes.func.isRequired,
+        onRemove: React.PropTypes.func.isRequired,
+        children: React.PropTypes.any
+    }
+
 }
-
-Product.propTypes = {
-    name: React.PropTypes.string,
-    price: definedPropTypes.numberOrString,
-    validationErrors: React.PropTypes.object,
-
-    onChange: React.PropTypes.func.isRequired,
-    onRemove: React.PropTypes.func.isRequired,
-    children: React.PropTypes.any
-};
 
 export default Product;
