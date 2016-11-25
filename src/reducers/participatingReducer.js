@@ -45,7 +45,7 @@ export function participatingReducer(state = {}, action = {}) {
 
         default:
         {
-            return newState;
+            return state;
         }
     }
 
