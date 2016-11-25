@@ -14,7 +14,7 @@ import '../styles/Person.css';
     (state, {id}) => {
 
         const person = _.get(state, `persons[${id}]`, {});
-        const validationErrors = _.get(state, `errors.persons[${person.id}]`, {});
+        const validationErrors = _.get(state, `errors.persons[${person.id}]`, null);
 
         return {
             ...person,
@@ -27,6 +27,14 @@ import '../styles/Person.css';
     })
 )
 export class Person extends React.Component {
+
+    shouldComponentUpdate(nextProps) {
+        const shouldUpdate =    this.props.name !== nextProps.name ||
+                                this.props.share !== nextProps.share ||
+                                this.props.validationErrors !== nextProps.validationErrors;
+
+        return shouldUpdate;
+    }
 
     render() {
 
@@ -106,6 +114,16 @@ export class Person extends React.Component {
 
     static propTypes = {
         id: React.PropTypes.string,
+
+
+        name: React.PropTypes.string,
+        share: React.PropTypes.oneOfType([
+            React.PropTypes.string,
+            React.PropTypes.number
+        ]),
+        validationErrors: React.PropTypes.object,
+
+
         children: React.PropTypes.any
     }
 
