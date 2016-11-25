@@ -6,70 +6,83 @@ import {push} from 'react-router-redux';
 
 import packageInfo from '../../package.json';
 
-export const TopBar = connect(
+@connect(
     (state) => ({
         path: state.routing.locationBeforeTransitions.pathname,
         budget: state.budget
 
     }),
     (dispatch) => ({dispatch})
-)(({path, budget, dispatch}) => {
+)
+export class TopBar extends React.Component {
 
-    let label = "";
+    render() {
 
-    const state = {budget};
+        const {path, budget, dispatch} = this.props;
 
-    const isIndexPage = path == '/';
-    const isBudgetPage = (/budgets/).test(path);
+        let label = "";
 
-    if (isIndexPage) {
-        label = (
-            <span>
+        const state = {budget};
+
+        const isIndexPage = path == '/';
+        const isBudgetPage = (/budgets/).test(path);
+
+        if (isIndexPage) {
+            label = (
+                <span>
                 {'Budget Shary '}
 
 
-                <span
-                    style={{
-                        font: 'monospaced',
-                        fontSize: '0.8rem',
-                        opacity: '.6',
-                        float: 'right'
-                    }}
-                >
+                    <span
+                        style={{
+                            font: 'monospaced',
+                            fontSize: '0.8rem',
+                            opacity: '.6',
+                            float: 'right'
+                        }}
+                    >
                     {"v" + packageInfo.version}
                 </span>
             </span>
+            );
+        } else if (isBudgetPage) {
+            label = state.budget.name;
+        }
+
+
+        const goToIndex = () => {
+            dispatch(push('/'));
+        };
+
+        const backIcon = (
+            <IconButton
+                onClick={goToIndex}
+            >
+                <FontIcon className="material-icons">
+                    keyboard_arrow_left
+                </FontIcon>
+            </IconButton>
         );
-    } else if (isBudgetPage) {
-        label = state.budget.name;
+
+        return (
+            <AppBar
+                iconElementLeft={ isBudgetPage ? backIcon : null }
+                style={{
+                    backgroundColor: '#3F51B5'
+                }}
+                title={label}
+            />
+        );
+
     }
 
-
-    const goToIndex = () => {
-        dispatch(push('/'));
+    static propTypes = {
+        path: React.PropTypes.string,
+        budget: React.PropTypes.object,
+        dispatch: React.PropTypes.func
     };
 
-    const backIcon = (
-        <IconButton
-            onClick={goToIndex}
-        >
-            <FontIcon className="material-icons">
-                keyboard_arrow_left
-            </FontIcon>
-        </IconButton>
-    );
-
-    return (
-        <AppBar
-            iconElementLeft={ isBudgetPage ? backIcon : null }
-            style={{
-                backgroundColor: '#3F51B5'
-            }}
-            title={label}
-        />
-    );
-
-});
+}
 
 export default TopBar;
 
