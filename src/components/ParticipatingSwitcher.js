@@ -1,6 +1,6 @@
 import '../styles/ParticipatingSwitcher.css';
 
-import RaisedButton from 'material-ui/FlatButton';
+import RaisedButton from 'material-ui/RaisedButton';
 
 export const ParticipatingSwitcher = (props)=> {
 
@@ -18,7 +18,7 @@ export const ParticipatingSwitcher = (props)=> {
                     color: props.state ? 'white' : null
                 }}
                 primary={props.state}
-                onClick={onClick}
+                onTouchTap={onClick}
                 style={{
                     minWidth: 0,
                     boxShadow: 'none'
