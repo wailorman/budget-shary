@@ -80,9 +80,7 @@ export class Budget extends React.Component {
                                 >
 
                                     <ParticipatingRow
-                                        productParticipatingElem={state.productParticipating ? state.productParticipating[productId] || {} : {}}
-                                        onClick={actions.toggleParticipation.bind(null, productId)}
-                                        persons={state.persons}
+                                        productId={productId}
                                     />
 
                                 </Product>
