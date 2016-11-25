@@ -5,16 +5,16 @@ import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
 import FontIcon from 'material-ui/FontIcon';
 
-import { changeProduct, removeProduct } from '../actions';
+import {changeProduct, removeProduct} from '../actions';
 
 import "../styles/Product.css";
 
 
 @connect(
-    (state, {id})=>{
+    (state, {id}) => {
 
         const product = _.get(state, `products[${id}]`, {});
-        const validationErrors = _.get(state, `errors.products[${product.id}]`, {});
+        const validationErrors = _.get(state, `errors.products[${product.id}]`, null);
 
         return {
             ...product,
@@ -27,6 +27,15 @@ import "../styles/Product.css";
     })
 )
 export class Product extends React.Component {
+
+    shouldComponentUpdate(nextProps) {
+
+        const shouldUpdate =    this.props.name !== nextProps.name ||
+                                this.props.price !== nextProps.price ||
+                                this.props.validationErrors !== nextProps.validationErrors;
+
+        return shouldUpdate;
+    }
 
     render() {
 
@@ -110,6 +119,12 @@ export class Product extends React.Component {
 
     static propTypes = {
         id: React.PropTypes.string,
+        name: React.PropTypes.string,
+        price: React.PropTypes.oneOfType([
+            React.PropTypes.string,
+            React.PropTypes.number
+        ]),
+        validationErrors: React.PropTypes.object,
         children: React.PropTypes.any
     }
 
