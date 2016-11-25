@@ -1,6 +1,6 @@
 "use strict";
 
-import { personsReducer } from '../personsReducer';
+import {personsReducer} from '../personsReducer';
 
 import {
     REMOVE_PERSON, NEW_PERSON, CHANGE_PERSON,
@@ -13,14 +13,32 @@ import {
     normalizedBigFakeState
 } from '../../../test/fixtures/fake-state';
 
-const initialState = normalizedFakeState;
+import {examplePersonsState} from './fixtures/persons-fixtures';
+import {initialState} from '../initial-state';
 
+const fakeInitialState = normalizedFakeState;
 
-describe("UNIT / Reducers / personsReducer", ()=> {
+describe("UNIT / Reducers / personsReducer", () => {
 
-    const initialStatePersons = initialState.persons;
+    const fakeInitialStatePersons = fakeInitialState.persons;
 
-    describe("FETCH_BUDGET", ()=> {
+    it(`should return default initial state if no args`, () => {
+
+        const actual = personsReducer();
+
+        expect(actual).to.eql(initialState.persons);
+
+    });
+
+    it(`should return exactly default initial state`, () => {
+
+        const actual = personsReducer();
+
+        expect(actual === initialState.persons).to.eql(true);
+
+    });
+
+    describe("FETCH_BUDGET", () => {
 
         it(`should return clean state if .result wasn't attached to action`, () => {
 
@@ -70,7 +88,7 @@ describe("UNIT / Reducers / personsReducer", ()=> {
 
     });
 
-    describe("REMOVE_PERSON", ()=> {
+    describe("REMOVE_PERSON", () => {
 
         it(`should remove existing person from the state`, () => {
 
@@ -79,7 +97,7 @@ describe("UNIT / Reducers / personsReducer", ()=> {
                 id: 1
             };
 
-            const actual = personsReducer(initialStatePersons, action);
+            const actual = personsReducer(examplePersonsState, action);
 
             const expected = {
                 2: {id: '2', name: 'Jack', share: '60'}
@@ -96,9 +114,9 @@ describe("UNIT / Reducers / personsReducer", ()=> {
                 id: 3
             };
 
-            const actual = personsReducer(initialStatePersons, action);
+            const actual = personsReducer(examplePersonsState, action);
 
-            expect(actual).to.eql(initialStatePersons);
+            expect(actual === examplePersonsState).to.eql(true);
 
         });
 
@@ -109,15 +127,15 @@ describe("UNIT / Reducers / personsReducer", ()=> {
                 id: null
             };
 
-            const actual = personsReducer(initialStatePersons, action);
+            const actual = personsReducer(examplePersonsState, action);
 
-            expect(actual).to.eql(initialStatePersons);
+            expect(actual === examplePersonsState).to.eql(true);
 
         });
 
     });
 
-    describe("NEW_PERSON", ()=> {
+    describe("NEW_PERSON", () => {
 
         it(`should add new empty person`, () => {
 
@@ -125,11 +143,11 @@ describe("UNIT / Reducers / personsReducer", ()=> {
                 type: NEW_PERSON
             };
 
-            const actual = personsReducer(initialStatePersons, action);
+            const actual = personsReducer(fakeInitialStatePersons, action);
             const newPersonId = _.last(_.keys(actual));
             const newPerson = actual[newPersonId];
 
-            expect(_.keys(actual).length).to.eql(_.keys(initialStatePersons).length + 1);
+            expect(_.keys(actual).length).to.eql(_.keys(fakeInitialStatePersons).length + 1);
             expect(newPerson.id).to.match(/\d/);
             expect(newPerson.name).to.eql('');
             expect(newPerson.share).to.eql('');
@@ -142,16 +160,16 @@ describe("UNIT / Reducers / personsReducer", ()=> {
                 type: NEW_PERSON
             };
 
-            const firstCall = personsReducer(initialStatePersons, action);
+            const firstCall = personsReducer(fakeInitialStatePersons, action);
             const actual = personsReducer(firstCall, action);
 
-            expect(_.keys(actual).length).to.eql(_.keys(initialStatePersons).length + 2);
+            expect(_.keys(actual).length).to.eql(_.keys(fakeInitialStatePersons).length + 2);
 
         });
 
     });
 
-    describe("CHANGE_PERSON", ()=> {
+    describe("CHANGE_PERSON", () => {
 
         it(`should change person fields`, () => {
 
@@ -164,7 +182,7 @@ describe("UNIT / Reducers / personsReducer", ()=> {
                 }
             };
 
-            const result = personsReducer(initialStatePersons, action);
+            const result = personsReducer(examplePersonsState, action);
 
             const changedPerson = result['1'];
 
@@ -173,6 +191,7 @@ describe("UNIT / Reducers / personsReducer", ()=> {
 
         });
 
+        // todo: Let's create a new person
         it(`should not do anything if person doesn't exist`, () => {
 
             const action = {
@@ -184,33 +203,30 @@ describe("UNIT / Reducers / personsReducer", ()=> {
                 }
             };
 
-            const result = personsReducer(initialStatePersons, action);
+            const result = personsReducer(examplePersonsState, action);
 
-            expect(result).to.eql(initialStatePersons);
+            expect(result === examplePersonsState).to.eql(true);
 
         });
 
-        it(`should return the same person if we pass old values`, () => {
+        it(`should return the same state if we pass old values`, () => {
 
             const action = {
                 type: CHANGE_PERSON,
                 id: '1',
                 values: {
-                    name: 'Mike',
-                    share: '40'
+                    ...examplePersonsState['1']
                 }
             };
 
-            const result = personsReducer(initialStatePersons, action);
+            const result = personsReducer(examplePersonsState, action);
 
-            const changedPerson = result['1'];
-
-            expect(changedPerson.name).to.eql('Mike');
-            expect(changedPerson.share).to.eql('40');
+            expect(result).to.eql(examplePersonsState);
+            expect(result === examplePersonsState).to.eql(true);
 
         });
 
-        it(`should not remove fields we didn't pass to action`, () => {
+        it(`should not remove fields we didn't pass one of them to action`, () => {
 
             const action = {
                 type: CHANGE_PERSON,
@@ -220,18 +236,18 @@ describe("UNIT / Reducers / personsReducer", ()=> {
                 }
             };
 
-            const result = personsReducer(initialStatePersons, action);
+            const result = personsReducer(examplePersonsState, action);
 
             const changedPerson = result['1'];
 
             expect(changedPerson.name).to.eql('Clean water');
-            expect(changedPerson.share).to.eql('40');
+            expect(changedPerson.share).to.eql(examplePersonsState['1'].share);
 
         });
 
     });
 
-    describe("TOGGLE_PARTICIPATION", ()=> {
+    describe("TOGGLE_PARTICIPATION", () => {
 
         it(`should change persons shares`, () => {
 
@@ -285,11 +301,142 @@ describe("UNIT / Reducers / personsReducer", ()=> {
             };
 
             const actualState = personsReducer(initialState, action);
-            
+
             expect(actualState).to.eql(expectedState);
 
         });
 
+        it(`should ignore nonexistent persons`, () => {
+
+            const initialState = {
+                1: {
+                    id: 1,
+                    name: 'Mike',
+                    share: 10
+                },
+                2: {
+                    id: 2,
+                    name: 'Alice',
+                    share: 20
+                }
+            };
+
+            const action = {
+                type: TOGGLE_PARTICIPATION,
+                productId: '1',
+                personId: '1',
+                meta: {
+                    newPersonShares: {
+                        1: 20,
+                        2: 30,
+                        3: 50
+                    }
+                }
+            };
+
+            const expectedState = {
+                1: {
+                    id: 1,
+                    name: 'Mike',
+                    share: 20
+                },
+                2: {
+                    id: 2,
+                    name: 'Alice',
+                    share: 30
+                }
+            };
+
+            const actualState = personsReducer(initialState, action);
+
+            expect(actualState).to.eql(expectedState);
+
+        });
+
+        it(`should return exactly the same state if no .meta.newPersonShares`, () => {
+
+            const initialState = {
+                1: {
+                    id: 1,
+                    name: 'Mike',
+                    share: 10
+                },
+                2: {
+                    id: 2,
+                    name: 'Alice',
+                    share: 20
+                },
+                3: {
+                    id: 3,
+                    name: 'Jimmy',
+                    share: 70
+                }
+            };
+
+            const action = {
+                type: TOGGLE_PARTICIPATION,
+                productId: '1',
+                personId: '1'
+            };
+
+            const actualState = personsReducer(initialState, action);
+
+            expect(actualState === initialState).to.eql(true);
+
+        });
+
+        it(`should return exactly the same state if no .productId or .personId`, () => {
+
+            const initialState = {
+                1: {
+                    id: 1,
+                    name: 'Mike',
+                    share: 10
+                },
+                2: {
+                    id: 2,
+                    name: 'Alice',
+                    share: 20
+                },
+                3: {
+                    id: 3,
+                    name: 'Jimmy',
+                    share: 70
+                }
+            };
+
+            const actionNoProduct = {
+                type: TOGGLE_PARTICIPATION,
+                personId: '1',
+                meta: {
+                    newPersonShares: {
+                        1: 20,
+                        2: 30,
+                        3: 50
+                    }
+                }
+            };
+
+            const actionNoPerson = {
+                type: TOGGLE_PARTICIPATION,
+                productId: '1',
+                meta: {
+                    newPersonShares: {
+                        1: 20,
+                        2: 30,
+                        3: 50
+                    }
+                }
+            };
+
+            const actualStateNoProduct = personsReducer(initialState, actionNoProduct);
+            const actualStateNoPerson = personsReducer(initialState, actionNoPerson);
+
+            expect(actualStateNoProduct === initialState).to.eql(true);
+            expect(actualStateNoPerson === initialState).to.eql(true);
+
+        });
+
     });
-    
+
 });

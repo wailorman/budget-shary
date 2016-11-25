@@ -8,8 +8,8 @@ import {
 
 import {initialState} from './initial-state';
 
-export function personsReducer(personsState = initialState.persons, action) {
-    let newState = _.cloneDeep(personsState);
+export function personsReducer(state = initialState.persons, action = {}) {
+    let newState = _.cloneDeep(state);
 
     switch (action.type) {
 
@@ -20,9 +20,12 @@ export function personsReducer(personsState = initialState.persons, action) {
 
         case REMOVE_PERSON:
         {
-            delete newState[action.id];
-
-            return newState;
+            if (newState[action.id]) {
+                delete newState[action.id];
+                return newState;
+            }else{
+                return state;
+            }
         }
 
         case NEW_PERSON:
@@ -36,9 +39,17 @@ export function personsReducer(personsState = initialState.persons, action) {
 
         case CHANGE_PERSON:
         {
-            if (!newState[action.id]) return newState;
+            if (!newState[action.id]) return state;
 
-            const consideringPerson = _.cloneDeep(newState[action.id]);
+            const consideringPerson = newState[action.id];
+
+            const isValuesOld = _.reduce(
+                action.values,
+                (isPreviousOld, value, key) => isPreviousOld || value == consideringPerson[key],
+                false // <- isPreviousOld
+            );
+
+            if (isValuesOld) return state;
 
             newState[action.id] = _.assign(consideringPerson, action.values);
 
@@ -47,20 +58,25 @@ export function personsReducer(personsState = initialState.persons, action) {
 
         case TOGGLE_PARTICIPATION:
         {
-            if (action.meta && action.meta.newPersonShares) {
+            if (
+                action.meta && action.meta.newPersonShares &&
+                action.productId && action.personId
+            ) {
 
                 _.forOwn(newState, (person, personId)=> {
                     person.share = action.meta.newPersonShares[personId] || 0;
                 });
 
+                return newState;
+
             }
 
-            return newState;
+            return state;
         }
 
         default:
         {
-            return personsState;
+            return state;
         }
     }
 
