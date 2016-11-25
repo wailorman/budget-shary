@@ -3,11 +3,10 @@ import {connect} from 'react-redux';
 
 import '../styles/Budget.css';
 
-import Person from './Person';
 import ValidationErrorsList from './ValidationErrorsList';
 import TransactionsList from './TransactionsList';
 import BudgetName from './BudgetName';
-import ProductsList from '../containers/ProductsList';
+import PersonsList from '../containers/PersonsList';
 
 import RaisedButton from 'material-ui/RaisedButton';
 import FontIcon from 'material-ui/FontIcon';
@@ -54,22 +53,7 @@ export class Budget extends React.Component {
                 <BudgetName name={state.budget.name}
                             onChange={actions.changeBudgetProps.bind(null)}/>
 
-                {_.map(state.persons, (person) => {
-
-                    return (
-
-                        <Person
-                            key={person.id}
-                            id={person.id}
-                        >
-
-                            <ProductsList ownerId={person.id} />
-
-                        </Person>
-
-                    );
-
-                })}
+                <PersonsList/>
 
                 <RaisedButton
                     backgroundColor="#294E6B"
