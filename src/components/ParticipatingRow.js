@@ -12,8 +12,8 @@ import {toggleParticipation} from '../actions';
 @connect(
     (state, {productId}) => {
         return {
-            productParticipatingElem: _.get(state, `productParticipating[${productId}]`, {}),
-            persons: state.persons // todo: Get only ids & names
+            productParticipatingElem: _.get(state, `productParticipating[${productId}]`, null),
+            persons: _.map(state.persons, ({id, name})=> ({id, name}) )
         };
     },
     (dispatch, {productId}) => {
@@ -25,6 +25,14 @@ import {toggleParticipation} from '../actions';
 )
 export class ParticipatingRow extends React.Component {
 
+    shouldComponentUpdate(nextProps) {
+
+        const shouldUpdate =    !_.isEqual(this.props.persons, nextProps.persons) ||
+                                !_.isEqual(this.props.productParticipatingElem, nextProps.productParticipatingElem);
+
+        return shouldUpdate;
+    }
+
     render() {
 
         const props = this.props;
@@ -34,7 +42,7 @@ export class ParticipatingRow extends React.Component {
 
                 {_.map(props.persons, (person) => {
 
-                    const switcherState = props.productParticipatingElem[person.id] || false;
+                    const switcherState = _.get(props, `productParticipatingElem[${person.id}]`, false);
 
                     return person.name ?
                         (
@@ -57,7 +65,14 @@ export class ParticipatingRow extends React.Component {
 
     static propTypes = {
         onClick: React.PropTypes.func,
-        persons: definedPropTypes.persons,
+        persons: React.PropTypes.arrayOf(
+            React.PropTypes.shape({
+                id: React.PropTypes.string,
+                name: React.PropTypes.string
+            })
+        ),
+
+
         productParticipatingElem: definedPropTypes.productParticipatingElem,
 
         productId: definedPropTypes.id
