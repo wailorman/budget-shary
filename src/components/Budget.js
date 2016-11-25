@@ -9,7 +9,6 @@ import BudgetName from './BudgetName';
 import PersonsList from '../containers/PersonsList';
 
 import RaisedButton from 'material-ui/RaisedButton';
-import FontIcon from 'material-ui/FontIcon';
 
 import * as actionCreators from '../actions';
 import {STUB_BUDGET_ID} from '../state-stub';
@@ -18,14 +17,15 @@ import {STUB_BUDGET_ID} from '../state-stub';
 @connect(
     (state)=> {
         return {
-            state,
+            budgetName: state.budget.name,
             commonErrors: state.errors.common
         };
     },
     (dispatch)=> {
         return {
-            dispatch,
-            fetchBudget: bindActionCreators(actionCreators.fetchBudget, dispatch)
+            fetchBudget: bindActionCreators(actionCreators.fetchBudget, dispatch),
+            onChangeBudget: bindActionCreators(actionCreators.changeBudgetProps, dispatch),
+            onRealizeInterchange: bindActionCreators(actionCreators.realizeInterchange, dispatch)
         };
     }
 )
@@ -40,37 +40,22 @@ export class Budget extends React.Component {
 
     render() {
 
-        const {
-            state, dispatch,
-            commonErrors
-        } = this.props;
-
-        const actions = bindActionCreators(actionCreators, dispatch);
-
         return (
             <div className="Budget">
 
-                <BudgetName name={state.budget.name}
-                            onChange={actions.changeBudgetProps.bind(null)}/>
+                <BudgetName name={this.props.budgetName}
+                            onChange={this.props.onChangeBudget}/>
 
                 <PersonsList/>
 
-                <RaisedButton
-                    backgroundColor="#294E6B"
-                    labelColor="white"
-                    onClick={actions.newPerson}
-                    icon={<FontIcon className="material-icons">add</FontIcon>}
-                    label="New person"
-                />
-
-                <ValidationErrorsList errors={commonErrors}/>
+                <ValidationErrorsList errors={this.props.commonErrors}/>
 
                 <br /><br />
 
                 <RaisedButton
                     backgroundColor="#009688"
                     labelColor='white'
-                    onClick={actions.realizeInterchange}
+                    onClick={this.props.onRealizeInterchange}
                     label="Calculate" fullWidth={true}
                 />
 
@@ -81,13 +66,13 @@ export class Budget extends React.Component {
     }
 
     static propTypes = {
-        state: React.PropTypes.object.isRequired,
-        dispatch: React.PropTypes.func.isRequired,
-
         params: React.PropTypes.object,
 
         commonErrors: React.PropTypes.object,
-        fetchBudget: React.PropTypes.func
+        budgetName: React.PropTypes.string,
+        fetchBudget: React.PropTypes.func,
+        onChangeBudget: React.PropTypes.func,
+        onRealizeInterchange: React.PropTypes.func
     }
 
 }
