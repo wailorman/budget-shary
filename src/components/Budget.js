@@ -3,18 +3,14 @@ import {connect} from 'react-redux';
 
 import '../styles/Budget.css';
 
-import Product from './Product';
 import Person from './Person';
 import ValidationErrorsList from './ValidationErrorsList';
 import TransactionsList from './TransactionsList';
 import BudgetName from './BudgetName';
-import ParticipatingRow from './ParticipatingRow';
-import NewProductButton from './NewProductButton';
+import ProductsList from '../containers/ProductsList';
 
 import RaisedButton from 'material-ui/RaisedButton';
 import FontIcon from 'material-ui/FontIcon';
-
-import {getProductsByPersonId} from '../core/components-utils';
 
 import * as actionCreators from '../actions';
 import {STUB_BUDGET_ID} from '../state-stub';
@@ -60,11 +56,6 @@ export class Budget extends React.Component {
 
                 {_.map(state.persons, (person) => {
 
-
-                    const ownProducts = getProductsByPersonId(person.id, state.products);
-                    const ownProductsIds = _.map(ownProducts, 'id');
-
-
                     return (
 
                         <Person
@@ -72,22 +63,7 @@ export class Budget extends React.Component {
                             id={person.id}
                         >
 
-                            {_.map(ownProductsIds, (productId) => (
-
-                                <Product
-                                    key={productId}
-                                    id={productId}
-                                >
-
-                                    <ParticipatingRow
-                                        productId={productId}
-                                    />
-
-                                </Product>
-
-                            ))}
-
-                            <NewProductButton onClick={actions.newProduct.bind(null, person.id)}/>
+                            <ProductsList ownerId={person.id} />
 
                         </Person>
 
