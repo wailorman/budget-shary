@@ -17,7 +17,7 @@ import {STUB_BUDGET_ID} from '../state-stub';
 @connect(
     (state, ownProps)=> {
         return {
-            requestedBudget: ownProps.params.id || STUB_BUDGET_ID,
+            requestedBudgetId: ownProps.params.id || STUB_BUDGET_ID,
             budgetName: state.budget.name,
             commonErrors: state.errors.common
         };
@@ -28,13 +28,25 @@ import {STUB_BUDGET_ID} from '../state-stub';
             onChangeBudget: bindActionCreators(actionCreators.changeBudgetProps, dispatch),
             onRealizeInterchange: bindActionCreators(actionCreators.realizeInterchange, dispatch)
         };
+    },
+    (stateProps, dispatchProps)=>{
+        return Object.assign({}, stateProps, dispatchProps);
     }
 )
 export class Budget extends React.Component {
 
+    shouldComponentUpdate(nextProps) {
+        const shouldUpdate =    this.props.requestedBudgetId !== nextProps.requestedBudgetId ||
+                                this.props.budgetName !== nextProps.budgetName ||
+                                this.props.commonErrors !== nextProps.commonErrors;
+
+        return shouldUpdate;
+    }
+
     componentDidMount(){
 
-        this.props.fetchBudget(this.props.requestedBudget);
+        this.props.fetchBudget(this.props.requestedBudgetId);
+
     }
 
     render() {
@@ -67,7 +79,7 @@ export class Budget extends React.Component {
     static propTypes = {
         params: React.PropTypes.object,
 
-        requestedBudget: React.PropTypes.string,
+        requestedBudgetId: React.PropTypes.string,
         commonErrors: React.PropTypes.object,
         budgetName: React.PropTypes.string,
         fetchBudget: React.PropTypes.func,
