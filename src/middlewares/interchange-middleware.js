@@ -11,6 +11,8 @@ export const interchangeMiddleware = (reducer)=> (store)=> (next)=> (action)=> {
 
     if (action.type == TOGGLE_PARTICIPATION) {
 
+        // todo: Remove nonexistent persons & products from participating state
+
         let newAction = _.clone(action);
 
         const state = reducer(store.getState(), action);
