@@ -9,54 +9,32 @@ import packageInfo from '../../package.json';
 @connect(
     (state) => ({
         path: state.routing.locationBeforeTransitions.pathname,
-        budget: state.budget
-
+        budgetName: state.budget.name
     }),
-    (dispatch) => ({dispatch})
+    (dispatch) => ({
+        goToIndex: () => {
+            dispatch(push('/'));
+        }
+    })
 )
 export class TopBar extends React.Component {
 
     render() {
 
-        const {path, budget, dispatch} = this.props;
-
         let label = "";
 
-        const state = {budget};
-
-        const isIndexPage = path == '/';
-        const isBudgetPage = (/budgets/).test(path);
+        const isIndexPage = this.props.path == '/';
+        const isBudgetPage = (/budgets/).test(this.props.path);
 
         if (isIndexPage) {
-            label = (
-                <span>
-                {'Budget Shary '}
-
-
-                    <span
-                        style={{
-                            font: 'monospaced',
-                            fontSize: '0.8rem',
-                            opacity: '.6',
-                            float: 'right'
-                        }}
-                    >
-                    {"v" + packageInfo.version}
-                </span>
-            </span>
-            );
+            label = (<VersionLabel version={packageInfo.version} />);
         } else if (isBudgetPage) {
-            label = state.budget.name;
+            label = this.props.budgetName;
         }
-
-
-        const goToIndex = () => {
-            dispatch(push('/'));
-        };
 
         const backIcon = (
             <IconButton
-                onClick={goToIndex}
+                onClick={this.props.goToIndex}
             >
                 <FontIcon className="material-icons">
                     keyboard_arrow_left
@@ -78,11 +56,36 @@ export class TopBar extends React.Component {
 
     static propTypes = {
         path: React.PropTypes.string,
-        budget: React.PropTypes.object,
-        dispatch: React.PropTypes.func
+        budgetName: React.PropTypes.string,
+
+        goToIndex: React.PropTypes.func
     };
 
 }
+
+const VersionLabel = ({version}) => (
+
+    <span>
+        {'Budget Shary '}
+
+        <span
+            style={{
+                font: 'monospaced',
+                fontSize: '0.8rem',
+                opacity: '.6',
+                float: 'right'
+            }}
+        >
+            {"v" + version}
+        </span>
+
+    </span>
+
+);
+
+VersionLabel.propTypes = {
+    version: React.PropTypes.string
+};
 
 export default TopBar;
 
