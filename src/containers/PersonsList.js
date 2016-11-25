@@ -15,7 +15,10 @@ import FontIcon from 'material-ui/FontIcon';
     }),
     (dispatch) => ({
         onNewPerson: bindActionCreators(newPerson, dispatch)
-    })
+    }),
+    (stateProps, dispatchProps)=>{
+        return Object.assign({}, stateProps, dispatchProps);
+    }
 )
 export class PersonsList extends React.Component {
     render() {

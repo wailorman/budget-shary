@@ -25,6 +25,9 @@ import NewProductButton from '../components/NewProductButton';
             onNewProductClick: bindActionCreators(newProduct, dispatch).bind(null, ownerId)
         };
 
+    },
+    (stateProps, dispatchProps)=>{
+        return Object.assign({}, stateProps, dispatchProps);
     }
 )
 export class ProductsList extends React.Component {

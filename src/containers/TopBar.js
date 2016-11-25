@@ -15,7 +15,10 @@ import packageInfo from '../../package.json';
         goToIndex: () => {
             dispatch(push('/'));
         }
-    })
+    }),
+    (stateProps, dispatchProps)=>{
+        return Object.assign({}, stateProps, dispatchProps);
+    }
 )
 export class TopBar extends React.Component {
 
