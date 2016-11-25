@@ -13,6 +13,7 @@ import { routerReducer } from 'react-router-redux';
 
 // todo: >> action = {} ... and test it! --> Means that default action argument should == {}
 
+// todo: Check reducers' immutability
 
 export const combinedReducers = combineReducers({
     routing: routerReducer,
