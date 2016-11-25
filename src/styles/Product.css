@@ -37,6 +37,8 @@
     align-items: stretch;
 
     padding-right: 5px;
+
+    min-width: 65%;
 }
 
 

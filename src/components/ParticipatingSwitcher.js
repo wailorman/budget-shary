@@ -20,7 +20,7 @@ export const ParticipatingSwitcher = (props)=> {
                 primary={props.state}
                 onTouchTap={onClick}
                 style={{
-                    minWidth: 0,
+                    minWidth: '100%',
                     boxShadow: 'none'
                 }}
                 label={props.personName}
