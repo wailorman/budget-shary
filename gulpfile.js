@@ -37,6 +37,8 @@ gulp.task('deploy', function () {
         'dist/**/*.js',
         'dist/**/*.css',
         'dist/**/*.map',
+        'dist/**/*.png',
+        'dist/**/*.json',
         'dist/**/*.html',
     ];
 
