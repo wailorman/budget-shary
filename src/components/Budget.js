@@ -15,8 +15,9 @@ import {STUB_BUDGET_ID} from '../state-stub';
 
 
 @connect(
-    (state)=> {
+    (state, ownProps)=> {
         return {
+            requestedBudget: ownProps.params.id || STUB_BUDGET_ID,
             budgetName: state.budget.name,
             commonErrors: state.errors.common
         };
@@ -33,9 +34,7 @@ export class Budget extends React.Component {
 
     componentDidMount(){
 
-        const budgetIdToFetch = this.props.params.id || STUB_BUDGET_ID;
-
-        this.props.fetchBudget(budgetIdToFetch);
+        this.props.fetchBudget(this.props.requestedBudget);
     }
 
     render() {
@@ -68,6 +67,7 @@ export class Budget extends React.Component {
     static propTypes = {
         params: React.PropTypes.object,
 
+        requestedBudget: React.PropTypes.string,
         commonErrors: React.PropTypes.object,
         budgetName: React.PropTypes.string,
         fetchBudget: React.PropTypes.func,

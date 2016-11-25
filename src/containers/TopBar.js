@@ -7,13 +7,17 @@ import {push} from 'react-router-redux';
 import packageInfo from '../../package.json';
 
 export const TopBar = connect(
-    (state)=> ({state}),
+    (state) => ({
+        path: state.routing.locationBeforeTransitions.pathname,
+        budget: state.budget
+
+    }),
     (dispatch) => ({dispatch})
-)(({state, dispatch}) => {
+)(({path, budget, dispatch}) => {
 
     let label = "";
 
-    const path = state.routing.locationBeforeTransitions.pathname;
+    const state = {budget};
 
     const isIndexPage = path == '/';
     const isBudgetPage = (/budgets/).test(path);
@@ -41,7 +45,7 @@ export const TopBar = connect(
     }
 
 
-    const goToIndex = ()=> {
+    const goToIndex = () => {
         dispatch(push('/'));
     };
 
