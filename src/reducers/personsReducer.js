@@ -30,9 +30,10 @@ export function personsReducer(state = initialState.persons, action = {}) {
 
         case NEW_PERSON:
         {
-            const newPersonId = _.uniqueId('_person_');
+            if ( !action.id || state[action.id] )
+                return state;
 
-            newState[newPersonId] = {id: newPersonId, name: '', share: ''};
+            newState[action.id] = {id: action.id, name: '', share: ''};
 
             return newState;
         }

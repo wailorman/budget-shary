@@ -9,18 +9,13 @@ import {
 } from '../../actions';
 
 import {
-    normalizedFakeState,
     normalizedBigFakeState
 } from '../../../test/fixtures/fake-state';
 
 import {examplePersonsState} from './fixtures/persons-fixtures';
 import {initialState} from '../initial-state';
 
-const fakeInitialState = normalizedFakeState;
-
 describe("UNIT / Reducers / personsReducer", () => {
-
-    const fakeInitialStatePersons = fakeInitialState.persons;
 
     it(`should return default initial state if no args`, () => {
 
@@ -137,33 +132,115 @@ describe("UNIT / Reducers / personsReducer", () => {
 
     describe("NEW_PERSON", () => {
 
+        it(`persons collection length should increase`, () => {
+
+            const action = {
+                type: NEW_PERSON,
+                id: '100'
+            };
+
+            const actual = personsReducer(examplePersonsState, action);
+
+            expect(_.keys(actual).length).to.eql(_.keys(examplePersonsState).length + 1);
+
+        });
+
         it(`should add new empty person`, () => {
 
             const action = {
-                type: NEW_PERSON
+                type: NEW_PERSON,
+                id: '100'
             };
 
-            const actual = personsReducer(fakeInitialStatePersons, action);
-            const newPersonId = _.last(_.keys(actual));
-            const newPerson = actual[newPersonId];
+            const actual = personsReducer(examplePersonsState, action);
 
-            expect(_.keys(actual).length).to.eql(_.keys(fakeInitialStatePersons).length + 1);
-            expect(newPerson.id).to.match(/\d/);
+            const expected = {
+                ...examplePersonsState,
+                100: {
+                    id: '100', name: '', share: ''
+                }
+            };
+
+            expect(actual).to.eql(expected);
+
+        });
+
+        it(`should add person by action's .id`, () => {
+
+            const action = {
+                type: NEW_PERSON,
+                id: '100'
+            };
+
+            const actual = personsReducer(examplePersonsState, action);
+            const newPerson = actual[action.id];
+
+            expect(newPerson.id).to.eql(action.id);
+
+        });
+
+        it(`new person should be w/ empty fields`, () => {
+
+            const action = {
+                type: NEW_PERSON,
+                id: '100'
+            };
+
+            const actual = personsReducer(examplePersonsState, action);
+            const newPerson = actual[action.id];
+
             expect(newPerson.name).to.eql('');
             expect(newPerson.share).to.eql('');
 
         });
 
-        it(`should add another empty person`, () => {
+        it(`should return exactly the same state if no .id passed`, () => {
 
             const action = {
                 type: NEW_PERSON
             };
 
-            const firstCall = personsReducer(fakeInitialStatePersons, action);
-            const actual = personsReducer(firstCall, action);
+            const actual = personsReducer(examplePersonsState, action);
 
-            expect(_.keys(actual).length).to.eql(_.keys(fakeInitialStatePersons).length + 2);
+            expect(actual === examplePersonsState).to.eql(true);
+
+        });
+
+        it(`should return exactly the same state if person w/ such id already exists`, () => {
+
+            const action = {
+                type: NEW_PERSON,
+                id: '1'
+            };
+
+            const actual = personsReducer(examplePersonsState, action);
+
+            expect(actual === examplePersonsState).to.eql(true);
+
+        });
+
+        it(`should add another empty person`, () => {
+
+            const action1 = {
+                type: NEW_PERSON,
+                id: '101'
+            };
+
+            const action2 = {
+                type: NEW_PERSON,
+                id: '102'
+            };
+
+            const firstState = personsReducer(examplePersonsState, action1);
+            const secondState = personsReducer(firstState, action2);
+
+            const expected = {
+                ...examplePersonsState,
+                101: { id: '101', name: '', share: '' },
+                102: { id: '102', name: '', share: '' }
+            };
+
+            expect(secondState).to.eql(expected);
 
         });
 
