@@ -8,10 +8,6 @@ import {
     TOGGLE_PARTICIPATION
 } from '../../actions';
 
-import {
-    normalizedBigFakeState
-} from '../../../test/fixtures/fake-state';
-
 import {examplePersonsState} from './fixtures/persons-fixtures';
 import {initialState} from '../initial-state';
 
@@ -55,10 +51,10 @@ describe("UNIT / Reducers / personsReducer", () => {
             const action = {
                 type: FETCH_BUDGET,
                 id: 'budget1',
-                result: normalizedBigFakeState
+                result: { persons: examplePersonsState }
             };
 
-            const expected = normalizedBigFakeState.persons;
+            const expected = examplePersonsState;
 
             const actual = personsReducer({}, action);
 
@@ -75,7 +71,7 @@ describe("UNIT / Reducers / personsReducer", () => {
 
             const expected = {};
 
-            const actual = personsReducer(normalizedBigFakeState.persons, action);
+            const actual = personsReducer(examplePersonsState, action);
 
             expect(actual).to.eql(expected);
 
