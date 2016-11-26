@@ -1,4 +1,5 @@
 import {push} from 'react-router-redux';
+import shortid from 'shortid';
 
 import {createBudget} from './core/state-sync';
 
@@ -89,6 +90,7 @@ export function removeProduct(id) {
 export function newProduct(ownerId) {
     return {
         type: NEW_PRODUCT,
+        id: `_product_${shortid.generate()}`,
         ownerId
     };
 }
@@ -113,7 +115,8 @@ export function removePerson(id) {
 
 export function newPerson() {
     return {
-        type: NEW_PERSON
+        type: NEW_PERSON,
+        id: `_person_${shortid.generate()}`
     };
 }
 
