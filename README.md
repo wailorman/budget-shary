@@ -2,7 +2,7 @@
 
 [CHANGELOG](/CHANGELOG.md)<br/>
 **[LIVE DEMO](https://shary.wailorman.ru/)**<br/>
-[BUILDS](https://dev.shary.wailorman.ru/builds/)
+[BUILDS](https://32225.selcdn.ru/budget-shary/builds/)
 
 ## What is this?
 Goal of this application is to equalize _expenses_ of all persons.
