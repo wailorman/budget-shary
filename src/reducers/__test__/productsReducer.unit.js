@@ -5,7 +5,6 @@ import {
     REMOVE_PRODUCT, NEW_PRODUCT, CHANGE_PRODUCT,
     REMOVE_PERSON, FETCH_BUDGET
 } from '../../actions';
-import {normalizedFakeState, normalizedBigFakeState} from '../../../test/fixtures/fake-state';
 
 import {getProductsByPersonId} from '../../core/components-utils';
 import { normalizedArrayLength } from '../../../test/helpers/utils';
@@ -13,11 +12,7 @@ import { normalizedArrayLength } from '../../../test/helpers/utils';
 import {exampleProductsState} from './fixtures/products-fixtures';
 import {initialState} from '../initial-state';
 
-const fakeInitialState = normalizedFakeState;
-
 describe("UNIT / Reducers / productsReducer", ()=> {
-
-    const fakeInitialStateProducts = fakeInitialState.products;
 
     it(`should return default initial state if no args`, () => {
 
@@ -57,10 +52,10 @@ describe("UNIT / Reducers / productsReducer", ()=> {
             const action = {
                 type: FETCH_BUDGET,
                 id: 'budget1',
-                result: normalizedBigFakeState
+                result: { products: exampleProductsState }
             };
 
-            const expected = normalizedBigFakeState.products;
+            const expected = exampleProductsState;
 
             const actual = productsReducer({}, action);
 
@@ -77,7 +72,7 @@ describe("UNIT / Reducers / productsReducer", ()=> {
 
             const expected = {};
 
-            const actual = productsReducer(normalizedBigFakeState.products, action);
+            const actual = productsReducer(exampleProductsState, action);
 
             expect(actual).to.eql(expected);
 
@@ -159,7 +154,7 @@ describe("UNIT / Reducers / productsReducer", ()=> {
             const {state} = doNewProduct({id: '103', ownerId: '1'});
 
             expect(normalizedArrayLength(state))
-                .to.eql(normalizedArrayLength(fakeInitialStateProducts) + 1);
+                .to.eql(normalizedArrayLength(exampleProductsState) + 1);
 
         });
 
