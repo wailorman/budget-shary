@@ -31,11 +31,12 @@ export function productsReducer(state = initialState.products, action = {}) {
             }
         }
 
-        case NEW_PRODUCT:
-        {
-            const newProductId = _.uniqueId('_product_');
+        case NEW_PRODUCT: {
 
-            newState[newProductId] = {id: newProductId, name: '', price: '', ownerId: action.ownerId};
+            if ( !action.ownerId || !action.id || state[action.id] )
+                return state;
+
+            newState[action.id] = {id: action.id, name: '', price: '', ownerId: action.ownerId};
 
             return newState;
         }

@@ -134,15 +134,20 @@ describe("UNIT / Reducers / productsReducer", ()=> {
 
     describe("NEW_PRODUCT", ()=> {
 
-        const doNewProduct = (actionParams = {ownerId: '1'})=> {
+        const doNewProduct = (
+            actionParams,
+            initialState = exampleProductsState
+        ) => {
+
+            _.defaultsDeep(actionParams, {ownerId: '1'});
 
             const action = {
                 type: NEW_PRODUCT,
-                ownerId: actionParams.ownerId
+                ...actionParams
             };
 
-            const state = productsReducer(fakeInitialStateProducts, action);
-            const addedProductId = _.last(_.keys(state));
+            const state = productsReducer(initialState, action);
+            const addedProductId = actionParams.id;
             const addedProduct = state[addedProductId];
 
             return {state, addedProduct};
@@ -151,43 +156,58 @@ describe("UNIT / Reducers / productsReducer", ()=> {
 
         it(`products array length should increase`, () => {
 
-            const {state} = doNewProduct();
+            const {state} = doNewProduct({id: '103', ownerId: '1'});
 
             expect(normalizedArrayLength(state))
                 .to.eql(normalizedArrayLength(fakeInitialStateProducts) + 1);
 
         });
 
-        it(`id of new product should be a number`, () => {
+        it(`id of new product should be == action.id`, () => {
 
-            const {addedProduct} = doNewProduct();
+            const {addedProduct} = doNewProduct({id: '110', ownerId: '1'});
 
-            expect(addedProduct.id).to.match(/\d/);
+            expect(addedProduct.id).to.eql('110');
 
         });
 
         it(`name & price should be empty`, () => {
 
-            const {addedProduct} = doNewProduct();
+            const {addedProduct} = doNewProduct({id: '90', ownerId: '1'});
 
             expect(addedProduct.name).to.eql('');
             expect(addedProduct.price).to.eql('');
-
         });
 
         it(`ownerId should eql to action's ownerId`, () => {
 
-            const {addedProduct} = doNewProduct();
+            const {addedProduct} = doNewProduct({id: '10', ownerId: '5'});
 
-            expect(addedProduct.ownerId).to.eql('1');
+            expect(addedProduct.ownerId).to.eql('5');
 
         });
 
-        it(`ownerId == null or undefined if ownerId wasn't passed`, () => {
+        it(`should return exactly the same state if ownerId wasn't passed`, () => {
 
-            const {addedProduct} = doNewProduct({ownerId: null});
+            const {state} = doNewProduct({ownerId: null}, exampleProductsState);
 
-            expect(addedProduct.ownerId).to.eql(null);
+            expect(state === exampleProductsState).to.eql(true);
+
+        });
+
+        it(`should return exactly the same state if product w/ id already exists`, () => {
+
+            const {state} = doNewProduct({id: '1', ownerId: '1'}, exampleProductsState);
+
+            expect(state === exampleProductsState).to.eql(true);
+
+        });
+
+        it(`should return exactly the same state if .id didn't passed`, () => {
+
+            const {state} = doNewProduct({ownerId: '1'}, exampleProductsState);
+
+            expect(state === exampleProductsState).to.eql(true);
 
         });
 
