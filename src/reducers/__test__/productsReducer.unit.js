@@ -230,6 +230,56 @@ describe("UNIT / Reducers / productsReducer", ()=> {
 
         });
 
+        it(`should change name if .name is different`, () => {
+
+            const initialState = {
+                1: {id: '1', name: 'Milk', price: '50'}
+            };
+
+            const action = {
+                type: CHANGE_PRODUCT,
+                id: '1',
+                values: {
+                    name: 'Potato',
+                    price: '50'
+                }
+            };
+
+            const expected = {
+                1: {id: '1', name: 'Potato', price: '50'}
+            };
+
+            const actual = productsReducer(initialState, action);
+
+            expect(actual).to.eql(expected);
+
+        });
+
+        it(`should change share if .share is different`, () => {
+
+            const initialState = {
+                1: {id: '1', name: 'Milk', price: '50'}
+            };
+
+            const action = {
+                type: CHANGE_PRODUCT,
+                id: '1',
+                values: {
+                    name: 'Milk',
+                    price: '60'
+                }
+            };
+
+            const expected = {
+                1: {id: '1', name: 'Milk', price: '60'}
+            };
+
+            const actual = productsReducer(initialState, action);
+
+            expect(actual).to.eql(expected);
+
+        });
+
         it(`should not do anything if product doesn't exist`, () => {
 
             const action = {
@@ -243,23 +293,6 @@ describe("UNIT / Reducers / productsReducer", ()=> {
 
             const result = productsReducer(exampleProductsState, action);
 
-            expect(result === exampleProductsState).to.eql(true);
-
-        });
-
-        it(`should return the same product if we pass old values`, () => {
-
-            const action = {
-                type: CHANGE_PRODUCT,
-                id: '1',
-                values: {
-                    ...exampleProductsState['1']
-                }
-            };
-
-            const result = productsReducer(exampleProductsState, action);
-
-            expect(result).to.eql(exampleProductsState);
             expect(result === exampleProductsState).to.eql(true);
 
         });

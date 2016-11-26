@@ -44,14 +44,6 @@ export function personsReducer(state = initialState.persons, action = {}) {
 
             const consideringPerson = newState[action.id];
 
-            const isValuesOld = _.reduce(
-                action.values,
-                (isPreviousOld, value, key) => isPreviousOld || value == consideringPerson[key],
-                false // <- isPreviousOld
-            );
-
-            if (isValuesOld) return state;
-
             newState[action.id] = _.assign(consideringPerson, action.values);
 
             return newState;

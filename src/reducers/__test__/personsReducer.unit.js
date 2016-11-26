@@ -257,14 +257,65 @@ describe("UNIT / Reducers / personsReducer", () => {
 
             const result = personsReducer(examplePersonsState, action);
 
-            const changedPerson = result['1'];
+            const expected = {
+                ...examplePersonsState,
+                1: { id: action.id, ...action.values }
+            };
 
-            expect(changedPerson.name).to.eql('Clean water');
-            expect(changedPerson.share).to.eql('50');
+            expect(result).to.eql(expected);
 
         });
 
-        // todo: Let's create a new person
+        it(`should change name if .name is different`, () => {
+
+            const initialState = {
+                1: {id: '1', name: 'Mike', share: '50'}
+            };
+
+            const action = {
+                type: CHANGE_PERSON,
+                id: '1',
+                values: {
+                    name: 'Tom',
+                    share: '50'
+                }
+            };
+
+            const expected = {
+                1: {id: '1', name: 'Tom', share: '50'}
+            };
+
+            const actual = personsReducer(initialState, action);
+
+            expect(actual).to.eql(expected);
+
+        });
+
+        it(`should change share if .share is different`, () => {
+
+            const initialState = {
+                1: {id: '1', name: 'Mike', share: '50'}
+            };
+
+            const action = {
+                type: CHANGE_PERSON,
+                id: '1',
+                values: {
+                    name: 'Mike',
+                    share: '60'
+                }
+            };
+
+            const expected = {
+                1: {id: '1', name: 'Mike', share: '60'}
+            };
+
+            const actual = personsReducer(initialState, action);
+
+            expect(actual).to.eql(expected);
+
+        });
+
         it(`should not do anything if person doesn't exist`, () => {
 
             const action = {
@@ -278,23 +329,6 @@ describe("UNIT / Reducers / personsReducer", () => {
 
             const result = personsReducer(examplePersonsState, action);
 
-            expect(result === examplePersonsState).to.eql(true);
-
-        });
-
-        it(`should return the same state if we pass old values`, () => {
-
-            const action = {
-                type: CHANGE_PERSON,
-                id: '1',
-                values: {
-                    ...examplePersonsState['1']
-                }
-            };
-
-            const result = personsReducer(examplePersonsState, action);
-
-            expect(result).to.eql(examplePersonsState);
             expect(result === examplePersonsState).to.eql(true);
 
         });

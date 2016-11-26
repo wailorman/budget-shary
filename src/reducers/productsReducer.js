@@ -47,14 +47,6 @@ export function productsReducer(state = initialState.products, action = {}) {
 
             const consideringProduct = newState[action.id];
 
-            const isValuesOld = _.reduce(
-                action.values,
-                (isPreviousOld, value, key) => isPreviousOld || value == consideringProduct[key],
-                false // <- isPreviousOld
-            );
-
-            if (isValuesOld) return state;
-
             newState[action.id] = _.assign(consideringProduct, action.values);
 
             return newState;
