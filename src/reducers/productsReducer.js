@@ -11,8 +11,8 @@ import {
 import {getProductsByPersonId} from './../core/components-utils';
 
 
-export function productsReducer(productsState = initialState.products, action) {
-    let newState = _.cloneDeep(productsState);
+export function productsReducer(state = initialState.products, action = {}) {
+    let newState = _.cloneDeep(state);
 
     switch (action.type) {
 
@@ -23,9 +23,12 @@ export function productsReducer(productsState = initialState.products, action) {
 
         case REMOVE_PRODUCT:
         {
-            delete newState[action.id];
-
-            return newState;
+            if (newState[action.id]) {
+                delete newState[action.id];
+                return newState;
+            }else{
+                return state;
+            }
         }
 
         case NEW_PRODUCT:
@@ -39,9 +42,17 @@ export function productsReducer(productsState = initialState.products, action) {
 
         case CHANGE_PRODUCT:
         {
-            if (!newState[action.id]) return newState;
+            if (!newState[action.id]) return state;
 
-            const consideringProduct = _.cloneDeep(newState[action.id]);
+            const consideringProduct = newState[action.id];
+
+            const isValuesOld = _.reduce(
+                action.values,
+                (isPreviousOld, value, key) => isPreviousOld || value == consideringProduct[key],
+                false // <- isPreviousOld
+            );
+
+            if (isValuesOld) return state;
 
             newState[action.id] = _.assign(consideringProduct, action.values);
 
@@ -64,7 +75,7 @@ export function productsReducer(productsState = initialState.products, action) {
 
         default:
         {
-            return productsState;
+            return state;
         }
     }
 

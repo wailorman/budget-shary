@@ -10,11 +10,30 @@ import {normalizedFakeState, normalizedBigFakeState} from '../../../test/fixture
 import {getProductsByPersonId} from '../../core/components-utils';
 import { normalizedArrayLength } from '../../../test/helpers/utils';
 
-const initialState = normalizedFakeState;
+import {exampleProductsState} from './fixtures/products-fixtures';
+import {initialState} from '../initial-state';
+
+const fakeInitialState = normalizedFakeState;
 
 describe("UNIT / Reducers / productsReducer", ()=> {
 
-    const initialStateProducts = initialState.products;
+    const fakeInitialStateProducts = fakeInitialState.products;
+
+    it(`should return default initial state if no args`, () => {
+
+        const actual = productsReducer();
+
+        expect(actual).to.eql(initialState.products);
+
+    });
+
+    it(`should return exactly default initial state`, () => {
+
+        const actual = productsReducer();
+
+        expect(actual === initialState.products).to.eql(true);
+
+    });
 
     describe("FETCH_BUDGET", ()=> {
 
@@ -75,7 +94,7 @@ describe("UNIT / Reducers / productsReducer", ()=> {
                 id: 1
             };
 
-            const actual = productsReducer(initialStateProducts, action);
+            const actual = productsReducer(exampleProductsState, action);
 
             const expected = {
                 2: {id: '2', name: 'Milk', price: '60', ownerId: '2'}
@@ -92,9 +111,9 @@ describe("UNIT / Reducers / productsReducer", ()=> {
                 id: 3
             };
 
-            const actual = productsReducer(initialStateProducts, action);
+            const actual = productsReducer(exampleProductsState, action);
 
-            expect(actual).to.eql(initialStateProducts);
+            expect(actual === exampleProductsState).to.eql(true);
 
         });
 
@@ -105,9 +124,9 @@ describe("UNIT / Reducers / productsReducer", ()=> {
                 id: null
             };
 
-            const actual = productsReducer(initialStateProducts, action);
+            const actual = productsReducer(exampleProductsState, action);
 
-            expect(actual).to.eql(initialStateProducts);
+            expect(actual === exampleProductsState).to.eql(true);
 
         });
 
@@ -122,7 +141,7 @@ describe("UNIT / Reducers / productsReducer", ()=> {
                 ownerId: actionParams.ownerId
             };
 
-            const state = productsReducer(initialStateProducts, action);
+            const state = productsReducer(fakeInitialStateProducts, action);
             const addedProductId = _.last(_.keys(state));
             const addedProduct = state[addedProductId];
 
@@ -135,7 +154,7 @@ describe("UNIT / Reducers / productsReducer", ()=> {
             const {state} = doNewProduct();
 
             expect(normalizedArrayLength(state))
-                .to.eql(normalizedArrayLength(initialStateProducts) + 1);
+                .to.eql(normalizedArrayLength(fakeInitialStateProducts) + 1);
 
         });
 
@@ -187,7 +206,7 @@ describe("UNIT / Reducers / productsReducer", ()=> {
                 }
             };
 
-            const result = productsReducer(initialStateProducts, action);
+            const result = productsReducer(exampleProductsState, action);
 
             const changedProduct = result['1'];
 
@@ -207,9 +226,9 @@ describe("UNIT / Reducers / productsReducer", ()=> {
                 }
             };
 
-            const result = productsReducer(initialStateProducts, action);
+            const result = productsReducer(exampleProductsState, action);
 
-            expect(result).to.eql(initialStateProducts);
+            expect(result === exampleProductsState).to.eql(true);
 
         });
 
@@ -219,21 +238,18 @@ describe("UNIT / Reducers / productsReducer", ()=> {
                 type: CHANGE_PRODUCT,
                 id: '1',
                 values: {
-                    name: 'Water',
-                    price: '40'
+                    ...exampleProductsState['1']
                 }
             };
 
-            const result = productsReducer(initialStateProducts, action);
+            const result = productsReducer(exampleProductsState, action);
 
-            const changedProduct = result['1'];
-
-            expect(changedProduct.name).to.eql('Water');
-            expect(changedProduct.price).to.eql('40');
+            expect(result).to.eql(exampleProductsState);
+            expect(result === exampleProductsState).to.eql(true);
 
         });
 
-        it(`should not remove fields we didn't pass to action`, () => {
+        it(`should not remove fields we didn't pass one of them to action`, () => {
 
             const action = {
                 type: CHANGE_PRODUCT,
@@ -243,12 +259,12 @@ describe("UNIT / Reducers / productsReducer", ()=> {
                 }
             };
 
-            const result = productsReducer(initialStateProducts, action);
+            const result = productsReducer(exampleProductsState, action);
 
             const changedProduct = result['1'];
 
             expect(changedProduct.name).to.eql('Clean water');
-            expect(changedProduct.price).to.eql('40');
+            expect(changedProduct.price).to.eql(exampleProductsState['1'].price);
 
         });
 
@@ -263,7 +279,7 @@ describe("UNIT / Reducers / productsReducer", ()=> {
                 id: actionParams.id
             };
 
-            const state = productsReducer(initialStateProducts, action);
+            const state = productsReducer(exampleProductsState, action);
 
             return {state};
 
@@ -273,15 +289,15 @@ describe("UNIT / Reducers / productsReducer", ()=> {
             
             const personId = '1';
             
-            const ownedProductsBefore = getProductsByPersonId(personId, initialStateProducts);
+            const ownedProductsBefore = getProductsByPersonId(personId, exampleProductsState);
 
-            expect(normalizedArrayLength(ownedProductsBefore) > 0).to.eql(true);
+            expect(_.keys(ownedProductsBefore).length > 0).to.eql(true);
 
             const {state} = doRemovePerson({id: personId});
             
             const ownedProductsAfter = getProductsByPersonId(personId, state);
 
-            expect(normalizedArrayLength(ownedProductsAfter) == 0).to.eql(true);
+            expect(_.keys(ownedProductsAfter) .length == 0).to.eql(true);
 
         });
 
@@ -291,11 +307,9 @@ describe("UNIT / Reducers / productsReducer", ()=> {
 
             const {state} = doRemovePerson({id: personId});
 
-            expect(state).to.eql(
-                {
-                    2: {id: '2', name: 'Milk', price: '60', ownerId: '2'}
-                }
-            );
+            expect(state).to.eql({
+                2: { ...exampleProductsState[2] }
+            });
 
         });
 
