@@ -1,3 +1,13 @@
+#2.3.0-beta
+* **Materialize interface** and other restylings
+* Add PWA manifest.json
+* (bug-fix) No more errors with creating new persons/products with existing ids ([3df9031](https://github.com/wailorman/budget-shary/commit/3df9031c8416254f0adc483c7c6adead235e17f9),
+                                                                                 [3e0dd64](https://github.com/wailorman/budget-shary/commit/3e0dd64d9d17eabd0e21aab6b265c30485c95b70),
+                                                                                 [9de30e5](https://github.com/wailorman/budget-shary/commit/9de30e57fecb14c4d3fd4b6aa3b5e10411f72694))
+* (dev) Auto-deploy all travis builds to Selectel (see [77d3df2](https://github.com/wailorman/budget-shary/commit/77d3df25fa20978a7a23894abcc17101f1e03f72))
+* (dev) Optimize rendering (More containers, better _shouldComponentUpdate()_)
+
+
 #2.2.0-beta
 * Bottom margin after participating buttons on phones ([8f33731](https://github.com/wailorman/budget-shary/commit/8f33731))
 * **Multiple budgets**.<br/>
