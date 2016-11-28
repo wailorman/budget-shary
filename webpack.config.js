@@ -89,7 +89,7 @@ var webpackConfig = {
             'sinonSandbox': __dirname + '/test/helpers/sinon-sandbox.js',
             'given': __dirname + '/test/requirements/providing/given-mocha-testdata.js'
         }),
-        new WriteFilePlugin(),
+        new WriteFilePlugin({ log: false }),
         new ExtractTextPlugin("[name].css"),
 
         // for webstorm
@@ -101,7 +101,24 @@ var webpackConfig = {
 
     devServer: {
         outputPath: __dirname + '/dist/js',
-        host: '0.0.0.0'
+        host: '0.0.0.0',
+
+        // It suppress error shown in console, so it has to be set to false.
+        quiet: false,
+        // It suppress everything except error, so it has to be set to false as well
+        // to see success build.
+        noInfo: false,
+        stats: {
+            // Config for minimal console.log mess.
+            assets: false,
+            colors: true,
+            version: false,
+            hash: false,
+            timings: false,
+            chunks: false,
+            chunkModules: false,
+            children: false
+        },
     }
 };
 
