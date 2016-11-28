@@ -1,49 +1,6 @@
 import shortid from 'shortid';
 export const STUB_BUDGET_ID = 'stub';
 
-export const stateStub = {
-
-    budget: {
-        id: STUB_BUDGET_ID,
-        name: 'Pretty budget'
-    },
-    persons: {
-        _1: {id: '_1', name: 'Jack', share: '30'},
-        _2: {id: '_2', name: 'Alice', share: '60'},
-        _3: {id: '_3', name: 'Mike', share: '10'}
-    },
-    products: {
-        _1: {id: '_1', name: 'Milk', price: '45', ownerId: '_1'},
-        _2: {id: '_2', name: 'Beer', price: '234', ownerId: '_1'},
-        _3: {id: '_3', name: 'Chips', price: '12', ownerId: '_1'},
-        _4: {id: '_4', name: 'Water', price: '89', ownerId: '_1'},
-        _5: {id: '_5', name: 'Apples', price: '65', ownerId: '_1'},
-        _6: {id: '_6', name: 'Alcohol', price: '234', ownerId: '_1'},
-
-        _7: {id: '_7', name: 'Cigarettes', price: '345', ownerId: '_2'},
-        _8: {id: '_8', name: 'Potatoes', price: '234', ownerId: '_2'},
-        _9: {id: '_9', name: 'Fish', price: '890', ownerId: '_2'},
-        _10: {id: '_10', name: 'Beef', price: '1234', ownerId: '_2'},
-        _11: {id: '_11', name: 'Water', price: '671', ownerId: '_2'},
-        _12: {id: '_12', name: 'Sweets', price: '55', ownerId: '_2'},
-        _13: {id: '_13', name: 'Tomatoes', price: '176', ownerId: '_2'},
-        _14: {id: '_14', name: 'Gears', price: '1876', ownerId: '_2'},
-
-        _15: {id: '_15', name: 'Tongs', price: '504', ownerId: '_3'},
-        _16: {id: '_16', name: 'Wine', price: '646', ownerId: '_3'},
-        _17: {id: '_17', name: 'Cake', price: '756', ownerId: '_3'},
-        _18: {id: '_18', name: 'Chips', price: '50', ownerId: '_3'}
-    },
-    productParticipating: {},
-    transactions: [],
-    errors: {
-        products: {},
-        persons: {},
-        common: {}
-    }
-
-};
-
 export const generateBudget = ()=> {
     return {
         budget: {
@@ -60,4 +17,119 @@ export const generateBudget = ()=> {
             common: {}
         }
     };
+};
+
+export const stateStub = {
+
+    "budget": {
+        "id": STUB_BUDGET_ID,
+        "name": "Example budget"
+    },
+    "products": {
+        "_product_ryrGguKzg": {
+            "id": "_product_ryrGguKzg",
+            "name": "Cola",
+            "price": "150",
+            "ownerId": "_person_S1tZg_KMx"
+        },
+        "_product_SJtzedKfx": {
+            "id": "_product_SJtzedKfx",
+            "name": "Chips",
+            "price": "50",
+            "ownerId": "_person_S1tZg_KMx"
+        },
+        "_product_rkkXxdKzx": {
+            "id": "_product_rkkXxdKzx",
+            "name": "Cake",
+            "price": "300",
+            "ownerId": "_person_S1tZg_KMx"
+        },
+        "_product_SJSQluYGg": {
+            "id": "_product_SJSQluYGg",
+            "name": "Flowers",
+            "price": "300",
+            "ownerId": "_person_ryCZe_tMx"
+        },
+        "_product_BJYQgOKfg": {
+            "id": "_product_BJYQgOKfg",
+            "name": "Beer",
+            "price": "200",
+            "ownerId": "_person_H1Wfe_FMl"
+        },
+        "_product_Hyk4gdYfl": {
+            "id": "_product_Hyk4gdYfl",
+            "name": "Nuts",
+            "price": "40",
+            "ownerId": "_person_H1Wfe_FMl"
+        },
+        "_product_HyC4eutzx": {
+            "id": "_product_HyC4eutzx",
+            "name": "Candles",
+            "price": "30",
+            "ownerId": "_person_ryCZe_tMx"
+        }
+    },
+    "persons": {
+        "_person_S1tZg_KMx": {
+            "id": "_person_S1tZg_KMx",
+            "name": "Mike",
+            "share": 28.504672897196258
+        },
+        "_person_ryCZe_tMx": {
+            "id": "_person_ryCZe_tMx",
+            "name": "Alice",
+            "share": 28.971962616822427
+        },
+        "_person_H1Wfe_FMl": {
+            "id": "_person_H1Wfe_FMl",
+            "name": "Jimmy",
+            "share": 42.523364485981304
+        }
+    },
+    "productParticipating": {
+        "_product_ryrGguKzg": {
+            "_person_S1tZg_KMx": true,
+            "_person_H1Wfe_FMl": true,
+            "_person_ryCZe_tMx": true
+        },
+        "_product_SJtzedKfx": {
+            "_person_S1tZg_KMx": true,
+            "_person_H1Wfe_FMl": true
+        },
+        "_product_rkkXxdKzx": {
+            "_person_ryCZe_tMx": true,
+            "_person_H1Wfe_FMl": true
+        },
+        "_product_SJSQluYGg": {
+            "_person_S1tZg_KMx": true,
+            "_person_H1Wfe_FMl": true,
+            "_person_ryCZe_tMx": true
+        },
+        "_product_HyC4eutzx": {
+            "_person_S1tZg_KMx": true,
+            "_person_ryCZe_tMx": true,
+            "_person_H1Wfe_FMl": true
+        },
+        "_product_BJYQgOKfg": {
+            "_person_S1tZg_KMx": true,
+            "_person_H1Wfe_FMl": true
+        },
+        "_product_Hyk4gdYfl": {
+            "_person_S1tZg_KMx": true,
+            "_person_H1Wfe_FMl": true
+        }
+    },
+    "transactions": [
+        {
+            "from": "Jimmy",
+            "to": "Mike",
+            "total": 200.4
+        },
+        {
+            "from": "Jimmy",
+            "to": "Alice",
+            "total": 9
+        }
+    ]
+
 };
