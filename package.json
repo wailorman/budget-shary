@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "npm run-script build && npm run-script test:unit && npm run-script test:integration",
+    "test": "npm run-script build && npm run-script test:unit",
     "test:integration": "node --harmony node_modules/karma/bin/karma start --single-run",
     "test:integration:dev": "node --harmony node_modules/karma/bin/karma start",
     "test:unit:old": "node --harmony node_modules/mocha-webpack/bin/mocha-webpack --webpack-config webpack.config.js \"**/*.unit.js\"",
