@@ -2,7 +2,7 @@ const NODE_ENV = !process.env.NODE_ENV ? 'development' : process.env.NODE_ENV;
 
 var webpack = require('webpack');
 var WriteFilePlugin = require('write-file-webpack-plugin');
-var WebpackBuildNotifierPlugin = require('webpack-build-notifier');
+// var WebpackBuildNotifierPlugin = require('webpack-build-notifier');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 var babelConfig = require('./package.json').babel;
@@ -11,11 +11,12 @@ var webpackConfig = {
 
     // target: 'node',
 
-    node: {
+    // node: {
         // fs: 'empty',
+        // module: 'empty'
         // child_process: 'empty',
         // process: 'empty'
-    },
+    // },
 
     externals: {
         'react/lib/ReactContext': true,
@@ -23,26 +24,16 @@ var webpackConfig = {
         'react/addons': true
     },
 
-    entry: NODE_ENV == 'production' ? {
-
+    entry: {
         'bundle': './src/index.js'
-
-    } : NODE_ENV == 'test' ? {
-
-        "unit": `${__dirname}/test/unit/index`
-
-    } : { // NODE_ENV == 'development' =>
-
-        'bundle': './src/index.js',
-        "unit-browser": `mocha!${__dirname}/test/unit/index-browser`,
-        "unit": `${__dirname}/test/unit/index`,
-        "integration-dev": `mocha!${__dirname}/test/integration/index`
-
     },
 
     output: {
         path: __dirname + '/dist/js',
-        filename: '[name].build.js'
+        filename: '[name].build.js',
+
+        devtoolModuleFilenameTemplate: "[absolute-resource-path]",
+        devtoolFallbackModuleFilenameTemplate: "[absolute-resource-path]?[hash]",
     },
 
     module: {
@@ -76,18 +67,7 @@ var webpackConfig = {
             'ReactDOM': 'react-dom',
             '_': 'lodash',
             'Q': 'q',
-            'store': __dirname + '/test/requirements/local-storage.js',
-
-            '$': 'jquery/dist/jquery.min',
-
-            'TestUtils': 'react-addons-test-utils',
-
-            'expect': __dirname + '/test/requirements/providing/chai-expect.js',
-            'assert': __dirname + '/test/requirements/providing/chai-assert.js',
-            'enzyme': 'enzyme',
-            'sinon': 'imports?define=>false,require=>false!sinon/pkg/sinon',
-            'sinonSandbox': __dirname + '/test/helpers/sinon-sandbox.js',
-            'given': __dirname + '/test/requirements/providing/given-mocha-testdata.js'
+            'store': __dirname + '/test/requirements/local-storage.js'
         }),
         new WriteFilePlugin({ log: false }),
         new ExtractTextPlugin("[name].css"),
@@ -110,7 +90,7 @@ var webpackConfig = {
         noInfo: false,
         stats: {
             // Config for minimal console.log mess.
-            assets: false,
+            assets: true,
             colors: true,
             version: false,
             hash: false,
