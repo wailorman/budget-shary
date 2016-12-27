@@ -12,23 +12,26 @@ import {getProductsByPersonId} from './../core/components-utils';
 
 
 export function productsReducer(state = initialState.products, action = {}) {
-    let newState = _.cloneDeep(state);
-
     switch (action.type) {
 
         case FETCH_BUDGET:
         {
-            return _.get(action, 'result.products', initialState.products);
+            return {
+                ...((action.result || {}).products || initialState.products)
+            };
         }
 
         case REMOVE_PRODUCT:
         {
-            if (newState[action.id]) {
-                delete newState[action.id];
-                return newState;
-            }else{
-                return state;
-            }
+            if (!state[action.id]) return state;
+
+            return Object
+                .keys(state)
+                .filter(id => id != action.id)
+                .reduce((result, currentId) => ({
+                    ...result,
+                    [currentId]: state[currentId]
+                }), {});
         }
 
         case NEW_PRODUCT: {
@@ -36,36 +39,43 @@ export function productsReducer(state = initialState.products, action = {}) {
             if ( !action.ownerId || !action.id || state[action.id] )
                 return state;
 
-            newState[action.id] = {id: action.id, name: '', price: '', ownerId: action.ownerId};
-
-            return newState;
+            return {
+                ...state,
+                [action.id]: {
+                    id: action.id,
+                    name: '',
+                    price: '',
+                    ownerId: action.ownerId
+                }
+            };
         }
 
         case CHANGE_PRODUCT:
         {
-            if (!newState[action.id]) return state;
+            if (!state[action.id]) return state;
 
-            const consideringProduct = newState[action.id];
-
-            newState[action.id] = _.assign(consideringProduct, action.values);
-
-            return newState;
+            return {
+                ...state,
+                [action.id]: {
+                    ...state[action.id],
+                    ...action.values
+                }
+            };
         }
 
         case REMOVE_PERSON:
         {
-            const personId = action.id;
 
-            const personOwnProducts = getProductsByPersonId(personId, newState);
-            const personOwnProductsIds = _.keys(personOwnProducts);
-
-            personOwnProductsIds.forEach((productId)=> {
-                delete newState[productId];
-            });
-
-            return newState;
+            return Object
+                .keys(state)
+                .map(id => state[id])
+                .filter(product => product.ownerId != action.id)
+                .map(product => product.id)
+                .reduce((result, currentId) => ({
+                    ...result,
+                    [currentId]: state[currentId]
+                }), {});
         }
-
         default:
         {
             return state;
