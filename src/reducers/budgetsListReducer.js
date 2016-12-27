@@ -5,26 +5,32 @@ import {
 
 import {initialState} from './initial-state';
 
-export function budgetsListReducer(budgetsListState = initialState.budgetsList, action) {
-    let newState = _.cloneDeep(budgetsListState);
-
+export function budgetsListReducer(state = initialState.budgetsList, action) {
     switch (action.type) {
         // todo: Cover with tests
         case FETCH_BUDGETS_LIST:
         {
-            return _.get(action, 'result', initialState.budgetsList);
+            return {
+                ...((action.result || {}) || initialState.budgetsList)
+            };
         }
         case DELETE_BUDGET:
         {
             if (action.success){
-                return _.pickBy(newState, (budget)=> budget.id != action.id);
-            }else{
-                return budgetsListState;
+                return Object
+                    .keys(state)
+                    .filter(budgetId => budgetId != action.id)
+                    .reduce((result, currentId) => ({
+                        ...result,
+                        [currentId]: state[currentId]
+                    }), {});
+            } else {
+                return state;
             }
         }
         default:
         {
-            return budgetsListState;
+            return state;
         }
     }
 }
