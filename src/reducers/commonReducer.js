@@ -5,21 +5,24 @@ import {
 } from '../actions';
 
 
-export function commonReducer(commonState = {}, action = {}) {
-    let newCommonState = _.cloneDeep(commonState);
+export function commonReducer(state = {}, action = {}) {
 
     switch (action.type) {
         case FETCH_BUDGET:
         {
-            return _.get(action, 'result.common', initialState.common);
+            return {
+                ...((action.result || {}).common || initialState.common)
+            };
         }
         default:
         {
             if (action.meta && action.meta.newShareSum) {
-                newCommonState.shareSum = action.meta.newShareSum;
-                return newCommonState;
+                return {
+                    ...state,
+                    shareSum: action.meta.newShareSum
+                };
             } else {
-                return commonState;
+                return state;
             }
         }
 
