@@ -7,22 +7,24 @@ import {
 
 export function budgetReducer(state = {}, action = {}) {
 
-    let newState = _.cloneDeep(state);
-
     switch (action.type){
         case FETCH_BUDGET:
         {
-            return _.get(action, 'result.budget', initialState.budget);
+            return {
+                ...((action.result || {}).budget || initialState.budget)
+            };
         }
 
         case CHANGE_BUDGET_PROPS:
         {
-            newState.name = action.values.name;
-            return newState;
+            return {
+                ...state,
+                name: action.values.name
+            };
         }
         default:
         {
-            return newState;
+            return state;
         }
     }
 
