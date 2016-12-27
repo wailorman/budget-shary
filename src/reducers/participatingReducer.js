@@ -8,39 +8,63 @@ import {
 
 export function participatingReducer(state = {}, action = {}) {
 
-    let newState = _.cloneDeep(state);
-
     switch (action.type){
         case FETCH_BUDGET:
         {
-            return _.get(action, 'result.productParticipating', initialState.productParticipating);
+            return {
+                ...((action.result || {}).productParticipating || initialState.productParticipating)
+            };
         }
 
         case TOGGLE_PARTICIPATION:
         {
             const {productId, personId} = action;
 
-            if (!newState[action.productId])
-                newState[productId] = {};
-
-            newState[productId][personId] = !newState[productId][personId];
-
-            return newState;
+            return {
+                ...state,
+                [ productId ]: {
+                    ...state[productId],
+                    [ personId ]: !((state[productId] || {})[personId] || false)
+                }
+            };
         }
 
         case REMOVE_PRODUCT:
         {
-            delete newState[action.id];
-            return newState;
+            if (!state[action.id]) return state;
+
+            return Object
+                .keys(state)
+                .filter(id => id != action.id)
+                .reduce((result, currentId) => ({
+                    ...result,
+                    [currentId]: state[currentId]
+                }), {});
         }
 
         case REMOVE_PERSON:
         {
-            _.forIn(newState, (productParticipationElem)=> {
-                delete productParticipationElem[action.id];
-            });
+            return Object
+                .keys(state)
+                .map(productId => {
 
-            return newState;
+                    const participatingElem = state[productId];
+
+                    const res = Object
+                        .keys(participatingElem)
+                        .filter(personId => personId != action.id)
+                        .reduce((result, currentId) => ({
+                            ...result,
+                            [currentId]: state[productId][currentId]
+                        }), {});
+
+                    return [productId, res];
+
+                })
+                .reduce((result, [currentId, res]) => ({
+                    ...result,
+                    [currentId]: res
+                }), {});
         }
 
         default:

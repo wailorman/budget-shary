@@ -26,21 +26,11 @@ export function personsReducer(state = initialState.persons, action = {}) {
 
             return Object
                 .keys(state)
-                .map(personId => state[personId])
-                .reduce((result, currentPerson) => {
-
-                    if (currentPerson.id != action.id){
-                        result = {
-                            ...result,
-                            [currentPerson.id]: {
-                                ...currentPerson
-                            }
-                        };
-                    }
-
-                    return result;
-
-                }, {});
+                .filter(id => id != action.id)
+                .reduce((result, currentId) => ({
+                    ...result,
+                    [currentId]: state[currentId]
+                }), {});
         }
 
         case NEW_PERSON:
