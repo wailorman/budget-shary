@@ -9,6 +9,7 @@ import {interchangeMiddleware} from './middlewares/interchange-middleware';
 
 import { syncHistoryWithStore, routerMiddleware } from 'react-router-redux';
 import { hashHistory } from 'react-router';
+import defaults from 'lodash/defaults'
 
 /**
  * Redux store factory
@@ -20,7 +21,7 @@ import { hashHistory } from 'react-router';
  */
 export const generateStore = (args = {}) => {
 
-    _.defaults(args, {reducer: reducer, initialState: defaultState});
+    defaults(args, {reducer: reducer, initialState: defaultState});
 
     return createStore(
         args.reducer,
