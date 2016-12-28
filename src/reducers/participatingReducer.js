@@ -25,14 +25,14 @@ export function participatingReducer(state = {}, action = {}) {
 
             return stateMap.setIn(
                 [productId, personId],
-                !stateMap.get(productId, Immutable.Map()).get(personId, false)
+                !stateMap.getIn([productId, personId], true)
             ).toJS();
         }
 
         case REMOVE_PRODUCT:
         {
             return Immutable.Map(state)
-                .filterNot(id => id == action.id)
+                .filterNot((pElem, id) => id == action.id)
                 .toJS();
         }
 
@@ -42,8 +42,8 @@ export function participatingReducer(state = {}, action = {}) {
                 .map((participatingElem) => Immutable.Map(participatingElem));
 
             return stateMap
-                .map((productId, participatingElem) =>
-                    participatingElem.filterNot(personId => personId == action.id)
+                .map((participatingElem) =>
+                    participatingElem.filterNot((pElem, id) => id == action.id)
                 )
                 .toJS();
         }
