@@ -1,29 +1,27 @@
-import {initialState} from './initial-state';
-
 import {
     FETCH_BUDGET,
     CHANGE_BUDGET_PROPS
 } from './../actions';
 
-export function budgetReducer(state = {}, action = {}) {
+import * as Immutable from 'immutable';
 
-    switch (action.type){
-        case FETCH_BUDGET:
-        {
-            return {
-                ...((action.result || {}).budget || initialState.budget)
-            };
+export function budgetReducer (state = {}, action = {}) {
+
+    switch (action.type) {
+        case FETCH_BUDGET: {
+
+            const result = Immutable.Map(action.result.budget);
+
+            return result.toJS();
         }
 
-        case CHANGE_BUDGET_PROPS:
-        {
-            return {
-                ...state,
-                name: action.values.name
-            };
+        case CHANGE_BUDGET_PROPS: {
+
+            const result = Immutable.Map(state);
+
+            return result.merge(Immutable.Map(action.values)).toJS();
         }
-        default:
-        {
+        default: {
             return state;
         }
     }
