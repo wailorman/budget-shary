@@ -1,4 +1,3 @@
-import {initialState} from './initial-state';
 import {
     FETCH_BUDGET,
     TOGGLE_PARTICIPATION,
@@ -6,65 +5,47 @@ import {
     REMOVE_PERSON
 } from './../actions';
 
+import * as Immutable from 'immutable';
+
 export function participatingReducer(state = {}, action = {}) {
 
     switch (action.type){
         case FETCH_BUDGET:
         {
-            return {
-                ...((action.result || {}).productParticipating || initialState.productParticipating)
-            };
+            return Immutable.Map(action.result.productParticipating).toJS();
         }
 
         case TOGGLE_PARTICIPATION:
         {
             const {productId, personId} = action;
 
-            return {
-                ...state,
-                [ productId ]: {
-                    ...state[productId],
-                    [ personId ]: !((state[productId] || {})[personId] || false)
-                }
-            };
+            const stateMap = Immutable.Map(state)
+                .map((participatingElem) => Immutable.Map(participatingElem));
+
+
+            return stateMap.setIn(
+                [productId, personId],
+                !stateMap.get(productId, Immutable.Map()).get(personId, false)
+            ).toJS();
         }
 
         case REMOVE_PRODUCT:
         {
-            if (!state[action.id]) return state;
-
-            return Object
-                .keys(state)
-                .filter(id => id != action.id)
-                .reduce((result, currentId) => ({
-                    ...result,
-                    [currentId]: state[currentId]
-                }), {});
+            return Immutable.Map(state)
+                .filterNot(id => id == action.id)
+                .toJS();
         }
 
         case REMOVE_PERSON:
         {
-            return Object
-                .keys(state)
-                .map(productId => {
+            const stateMap = Immutable.Map(state)
+                .map((participatingElem) => Immutable.Map(participatingElem));
 
-                    const participatingElem = state[productId];
-
-                    const res = Object
-                        .keys(participatingElem)
-                        .filter(personId => personId != action.id)
-                        .reduce((result, currentId) => ({
-                            ...result,
-                            [currentId]: state[productId][currentId]
-                        }), {});
-
-                    return [productId, res];
-
-                })
-                .reduce((result, [currentId, res]) => ({
-                    ...result,
-                    [currentId]: res
-                }), {});
+            return stateMap
+                .map((productId, participatingElem) =>
+                    participatingElem.filterNot(personId => personId == action.id)
+                )
+                .toJS();
         }
 
         default:

@@ -1,18 +1,15 @@
-import {initialState} from './initial-state';
-
 import {
     FETCH_BUDGET
 } from '../actions';
 
+import * as Immutable from 'immutable';
 
 export function commonReducer(state = {}, action = {}) {
 
     switch (action.type) {
         case FETCH_BUDGET:
         {
-            return {
-                ...((action.result || {}).common || initialState.common)
-            };
+            return Immutable.Map(action.result.common).toJS();
         }
         default:
         {

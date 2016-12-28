@@ -8,30 +8,21 @@ import {
     REMOVE_PERSON
 } from '../actions';
 
-import {getProductsByPersonId} from './../core/components-utils';
-
+import * as Immutable from 'immutable';
 
 export function productsReducer(state = initialState.products, action = {}) {
     switch (action.type) {
 
         case FETCH_BUDGET:
         {
-            return {
-                ...((action.result || {}).products || initialState.products)
-            };
+            return Immutable.Map(action.result.products).toJS();
         }
 
         case REMOVE_PRODUCT:
         {
-            if (!state[action.id]) return state;
-
-            return Object
-                .keys(state)
-                .filter(id => id != action.id)
-                .reduce((result, currentId) => ({
-                    ...result,
-                    [currentId]: state[currentId]
-                }), {});
+            return Immutable.Map(state)
+                .filterNot(({id}) => id == action.id)
+                .toJS();
         }
 
         case NEW_PRODUCT: {
@@ -39,42 +30,38 @@ export function productsReducer(state = initialState.products, action = {}) {
             if ( !action.ownerId || !action.id || state[action.id] )
                 return state;
 
-            return {
-                ...state,
-                [action.id]: {
+            return Immutable.Map(state)
+                .set(action.id, {
                     id: action.id,
                     name: '',
                     price: '',
                     ownerId: action.ownerId
-                }
-            };
+                })
+                .toJS();
         }
 
         case CHANGE_PRODUCT:
         {
             if (!state[action.id]) return state;
 
-            return {
-                ...state,
-                [action.id]: {
-                    ...state[action.id],
-                    ...action.values
-                }
-            };
+
+            return Immutable.Map(state)
+                .merge({
+                    [action.id]: {
+                        ...state[action.id],
+                        ...action.values
+                    }
+                })
+                .toJS();
         }
 
         case REMOVE_PERSON:
         {
 
-            return Object
-                .keys(state)
-                .map(id => state[id])
-                .filter(product => product.ownerId != action.id)
-                .map(product => product.id)
-                .reduce((result, currentId) => ({
-                    ...result,
-                    [currentId]: state[currentId]
-                }), {});
+            return Immutable.Map(state)
+                .filterNot(({id}) => id == action.id)
+                .toJS();
+
         }
         default:
         {
