@@ -25,7 +25,7 @@ export function participatingReducer(state = {}, action = {}) {
 
             return stateMap.setIn(
                 [productId, personId],
-                !stateMap.getIn([productId, personId], true)
+                !stateMap.getIn([productId, personId], false)
             ).toJS();
         }
 
