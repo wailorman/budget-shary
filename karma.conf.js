@@ -1,17 +1,9 @@
-var webpack = require('webpack');
-var _ = require('lodash');
-var originalTestConfig = require('./webpack.config-mocha');
-var karmaWebpackConfig = _.pick(originalTestConfig, ['context', 'module', 'plugins', 'devtool']);
-
-// remove write-file-webpack-plugin
-karmaWebpackConfig.plugins = _.take(karmaWebpackConfig.plugins, 1);
-
 module.exports = function (config) {
 
     config.set({
 
-        frameworks: ['mocha'],
-        reporters: ['mocha'],
+        frameworks: ['mocha', 'sinon'],
+        reporters: ['progress', 'mocha', 'coverage'],
 
         plugins: [
             require('karma-webpack'),
@@ -19,22 +11,27 @@ module.exports = function (config) {
             require('karma-phantomjs-launcher'),
             require('karma-chrome-launcher'),
             require('karma-mocha-reporter'),
-            require('karma-mocha')
+            require('karma-coverage'),
+            require('karma-mocha'),
+            require('karma-sinon')
         ],
 
         files: [
-            './node_modules/phantomjs-polyfill/bind-polyfill.js',
             './test/requirements/karma.js',
-            './test/integration/**/*.int.js'
+            // './test/integration/**/*.int.js',
+            './src/**/*.unit.js'
         ],
 
         exclude: [],
 
         preprocessors: {
-            './**/*.int.js': ['webpack', 'sourcemap']
+            // './**/*.int.js': ['webpack', 'sourcemap'],
+            './test/requirements/karma.js': ['webpack', 'sourcemap'],
+            './src/**/*.unit.js': ['webpack', 'sourcemap'],
+            './src/**/!(unit).js': ['coverage']
         },
 
-        browsers: ['PhantomJS'],
+        browsers: ['Chrome'],
 
         // Exit the test runner as well when the test suite returns.
         singleRun: false,
@@ -42,10 +39,15 @@ module.exports = function (config) {
         // enable / disable watching file and executing tests whenever any file changes
         autoWatch: true,
 
-        webpack: karmaWebpackConfig,
+        webpack: require('./webpack.config'),
 
         webpackServer: {
             noInfo: true //please don't spam the console when running in karma!
+        },
+
+        coverageReporter: {
+            type : 'html',
+            dir : 'coverage'
         }
 
     });

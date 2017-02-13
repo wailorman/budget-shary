@@ -11,12 +11,12 @@ var webpackConfig = {
 
     // target: 'node',
 
-    // node: {
-        // fs: 'empty',
-        // module: 'empty'
-        // child_process: 'empty',
+    node: {
+        fs: 'empty',
+        module: 'empty',
+        child_process: 'empty',
         // process: 'empty'
-    // },
+    },
 
     externals: {
         'react/lib/ReactContext': true,

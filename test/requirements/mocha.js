@@ -1,5 +1,9 @@
-global.sinon = require('sinon');
-global.expect = require('chai').expect;
-global.assert = require('chai').assert;
-
 require('./universal');
+
+const glob = typeof global == 'undefined' ? window : global;
+
+_.extend(glob, {
+
+    sinon: require('sinon')
+
+});

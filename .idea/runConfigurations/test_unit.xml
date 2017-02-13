@@ -6,9 +6,9 @@
     <pass-parent-env>true</pass-parent-env>
     <envs />
     <ui>bdd</ui>
-    <extra-mocha-options>--require source-map-support/register --require ./test/unit/mocha-requirements.js</extra-mocha-options>
+    <extra-mocha-options>--require source-map-support/register --opts mocha.opts</extra-mocha-options>
     <test-kind>PATTERN</test-kind>
-    <test-pattern>**/*.unit.js</test-pattern>
+    <test-pattern>src/**/*.unit.js</test-pattern>
     <method />
   </configuration>
 </component>

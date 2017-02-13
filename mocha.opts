@@ -1,2 +1,1 @@
---require source-map-support/register
---require ./test/unit/mocha-requirements.js
+--require babel-core/register --require ./test/requirements/mocha.js
