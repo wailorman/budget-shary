@@ -147,8 +147,8 @@ export function toggleParticipation(productId, personId) {
 
     return {
         type: TOGGLE_PARTICIPATION,
-        productId: productId.toString(),
-        personId: personId.toString()
+        productId: productId,
+        personId: personId
     };
     
 }

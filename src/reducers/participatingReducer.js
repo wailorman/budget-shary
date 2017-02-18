@@ -5,47 +5,40 @@ import {
     REMOVE_PERSON
 } from './../actions';
 
-import * as Immutable from 'immutable';
+import * as reducerUtils from '../utils/reducer-utils';
+import { initialState } from './initial-state';
 
-export function participatingReducer(state = {}, action = {}) {
+export function participatingReducer(state = initialState.productParticipating, action = {}) {
 
     switch (action.type){
         case FETCH_BUDGET:
         {
-            return Immutable.Map(action.result.productParticipating).toJS();
+            return reducerUtils.fetch('result.productParticipating', state, action);
         }
 
         case TOGGLE_PARTICIPATION:
         {
             const {productId, personId} = action;
 
-            const stateMap = Immutable.Map(state)
-                .map((participatingElem) => Immutable.Map(participatingElem));
+            if (!productId || !personId) return state;
 
-
-            return stateMap.setIn(
+            return state.setIn(
                 [productId, personId],
-                !stateMap.getIn([productId, personId], false)
-            ).toJS();
+                !state.getIn([productId, personId], false)
+            );
         }
 
         case REMOVE_PRODUCT:
         {
-            return Immutable.Map(state)
-                .filterNot((pElem, id) => id == action.id)
-                .toJS();
+            return state
+                .filter((pElem, id) => id != action.id);
         }
 
         case REMOVE_PERSON:
         {
-            const stateMap = Immutable.Map(state)
-                .map((participatingElem) => Immutable.Map(participatingElem));
-
-            return stateMap
-                .map((participatingElem) =>
-                    participatingElem.filterNot((pElem, id) => id == action.id)
-                )
-                .toJS();
+            return state
+                .map((pElem) =>
+                    pElem.filter((participState, personId) => personId != action.id) );
         }
 
         default:

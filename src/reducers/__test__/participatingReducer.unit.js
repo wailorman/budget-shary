@@ -1,39 +1,86 @@
 import {participatingReducer} from '../participatingReducer';
 import {
     toggleParticipation,
-    REMOVE_PERSON, REMOVE_PRODUCT
+    REMOVE_PERSON, REMOVE_PRODUCT, FETCH_BUDGET
 } from '../../actions';
+
+import { Map } from 'immutable';
+import sinonSandbox from '../../../test/helpers/sinon-sandbox';
+import * as reducerUtils from '../../utils/reducer-utils';
+
+const { assert } = require('chai').use(require('chai-immutable'));
+
+const exampleMap = Map({
+    'prod1': Map({
+        'pers1': true,
+        'pers2': false
+    }),
+    'prod2': Map({
+        'pers3': true,
+        'pers2': true
+    })
+});
 
 describe("UNIT / Reducers / participatingReducer", ()=> {
 
+    let sandbox;
+
+    sinonSandbox((sinon) => {
+        sandbox = sinon;
+    });
+
+    describe("FETCH_BUDGET", () => {
+
+        it(`should call reducer utils method`, () => {
+
+            const spy1 = sandbox.spy(reducerUtils, "fetch");
+
+            const action = {
+                type: FETCH_BUDGET,
+                id: 'budget1',
+                result: { productParticipating: exampleMap }
+            };
+
+            participatingReducer(exampleMap, action);
+
+            assert.ok(spy1.calledOnce, "wasn't called");
+            assert.ok(spy1.calledWithExactly('result.productParticipating', exampleMap, action));
+
+        });
+
+    });
+
     describe("REMOVE_PRODUCT", ()=> {
 
-        it(`should remove product from participating if it was removed`, () => {
+        it(`should remove product from participating`, () => {
 
             const action = {
                 type: REMOVE_PRODUCT,
-                id: 1
+                id: 'prod1'
             };
 
-            const previousState = {
-                1: {
-                    1: true,
-                    2: false
-                },
-                2: {
-                    3: true
-                }
+            assert.equal(
+                participatingReducer(exampleMap, action),
+                exampleMap.delete('prod1')
+            );
+
+            assert.isUndefined(
+                participatingReducer(exampleMap, action).get('prod1')
+            );
+
+        });
+
+        it(`should leave alone if no such product`, () => {
+
+            const action = {
+                type: REMOVE_PRODUCT,
+                id: 'prod100'
             };
 
-            const expectedState = {
-                2: {
-                    3: true
-                }
-            };
-
-            const actualState = participatingReducer(previousState, action);
-
-            expect(actualState).to.eql(expectedState);
+            assert.equal(
+                participatingReducer(exampleMap, action),
+                exampleMap
+            );
 
         });
 
@@ -41,35 +88,34 @@ describe("UNIT / Reducers / participatingReducer", ()=> {
 
     describe("REMOVE_PERSON", ()=> {
 
-        it(`should remove person from participating if it was removed`, () => {
+        it(`should remove person from all participating elements`, () => {
 
             const action = {
                 type: REMOVE_PERSON,
-                id: 2
+                id: 'pers2'
             };
 
-            const previousState = {
-                1: {
-                    1: true,
-                    2: false
-                },
-                2: {
-                    3: true
-                }
+            assert.isUndefined(
+                participatingReducer(exampleMap, action).getIn(['prod1', 'pers2'])
+            );
+
+            assert.isUndefined(
+                participatingReducer(exampleMap, action).getIn(['prod2', 'pers2'])
+            );
+
+        });
+
+        it(`should leave alone if no such person`, () => {
+
+            const action = {
+                type: REMOVE_PERSON,
+                id: 'pers200'
             };
 
-            const expectedState = {
-                1: {
-                    1: true
-                },
-                2: {
-                    3: true
-                }
-            };
-
-            const actualState = participatingReducer(previousState, action);
-
-            expect(actualState).to.eql(expectedState);
+            assert.equal(
+                participatingReducer(exampleMap, action),
+                exampleMap
+            );
 
         });
 
@@ -77,113 +123,146 @@ describe("UNIT / Reducers / participatingReducer", ()=> {
 
     describe("TOGGLE_PARTICIPATION", ()=> {
 
-        const fireAction = function (initialState, productId, personId) {
+        it(`should return the same state w/out productId or personId`, () => {
 
-            const action = toggleParticipation(productId, personId);
+            assert.equal(
+                exampleMap,
+                participatingReducer(
+                    exampleMap,
+                    toggleParticipation('prod1', null)
+                )
+            );
 
-            return participatingReducer(initialState, action);
+            assert.equal(
+                exampleMap,
+                participatingReducer(
+                    exampleMap,
+                    toggleParticipation(null, 'pers1')
+                )
+            );
 
-        };
+        });
 
         it(`should make person a product participant`, () => {
 
-            const initialState = {};
+            const result = participatingReducer(
+                Map(),
+                toggleParticipation('prod1', 'pers1')
+            );
 
-            const expectedState = {
-                1: {
-                    1: true
-                }
-            };
+            assert.equal( result.getIn(['prod1', 'pers1']), true );
+            assert.sizeOf( result, 1 );
+            assert.sizeOf( result.get('prod1'), 1 );
 
-            const actualState = fireAction(initialState, 1, 1);
-
-            expect(actualState).to.eql(expectedState);
-            
         });
         
-        it(`should remove person from product participants`, () => {
+        it(`should omit person from participants`, () => {
 
-            const initialState = {
-                1: {
-                    1: true
-                }
-            };
+            const result = participatingReducer(
+                participatingReducer(
+                    Map(),
+                    toggleParticipation('prod1', 'pers1')
+                ),
+                toggleParticipation('prod1', 'pers1')
+            );
 
-            const expectedState = {
-                1: {
-                    1: false
-                }
-            };
-
-            const actualState = fireAction(initialState, 1, 1);
-
-            expect(actualState).to.eql(expectedState);
+            assert.equal( result.getIn(['prod1', 'pers1']), false );
             
         });
-        
-        it(`should add another person to participants`, () => {
 
-            const initialState = {
-                1: {
-                    1: true
-                }
-            };
+        it(`should persist value after twice toggle`, () => {
 
-            const expectedState = {
-                1: {
-                    1: true,
-                    2: true
-                }
-            };
+            const result1 = participatingReducer(
+                exampleMap,
+                toggleParticipation('prod1', 'pers1')
+            );
 
-            const actualState = fireAction(initialState, 1, 2);
+            const result2 = participatingReducer(
+                result1,
+                toggleParticipation('prod1', 'pers1')
+            );
 
-            expect(actualState).to.eql(expectedState);
+            assert.notEqual(
+                result1.getIn(['prod1', 'pers1']),
+                result2.getIn(['prod1', 'pers1']),
+            );
 
         });
 
-        it(`should remove only second person from participants`, () => {
+        it(`should add person to participants`, () => {
 
-            const initialState = {
-                1: {
-                    1: true,
-                    2: true
-                }
-            };
+            const result = participatingReducer(
+                exampleMap,
+                toggleParticipation('prod1', 'pers10')
+            );
 
-            const expectedState = {
-                1: {
-                    1: true,
-                    2: false
-                }
-            };
-
-            const actualState = fireAction(initialState, 1, 2);
-
-            expect(actualState).to.eql(expectedState);
+            assert.equal( result.getIn(['prod1', 'pers10']), true );
 
         });
 
-        it(`should add participant to another product`, () => {
+        it(`should add product w/ person`, () => {
 
-            const initialState = {
-                1: {
-                    1: true
-                }
-            };
+            const result = participatingReducer(
+                exampleMap,
+                toggleParticipation('prod10', 'pers1')
+            );
 
-            const expectedState = {
-                1: {
-                    1: true
-                },
-                2: {
-                    3: true
-                }
-            };
+            assert.equal( result.getIn(['prod10', 'pers1']), true );
 
-            const actualState = fireAction(initialState, 2, 3);
+        });
 
-            expect(actualState).to.eql(expectedState);
+        describe("should not touch other elements", () => {
+
+            it(`after twice toggle`, () => {
+
+                const result1 = participatingReducer(
+                    exampleMap,
+                    toggleParticipation('prod1', 'pers1')
+                );
+
+                const result2 = participatingReducer(
+                    result1,
+                    toggleParticipation('prod1', 'pers1')
+                );
+
+                assert.equal(
+                    result1.deleteIn(['prod1', 'pers1']),
+                    exampleMap.deleteIn(['prod1', 'pers1'])
+                );
+                assert.equal(
+                    result2.deleteIn(['prod1', 'pers1']),
+                    exampleMap.deleteIn(['prod1', 'pers1'])
+                );
+
+            });
+
+            it(`after product add`, () => {
+
+                const result = participatingReducer(
+                    exampleMap,
+                    toggleParticipation('prod10', 'pers1')
+                );
+
+                assert.equal(
+                    result.delete('prod10'),
+                    exampleMap.delete('prod10')
+                );
+
+            });
+
+            it(`after person add`, () => {
+
+                const result = participatingReducer(
+                    exampleMap,
+                    toggleParticipation('prod1', 'pers10')
+                );
+
+                assert.equal(
+                    result.deleteIn(['prod1', 'pers10']),
+                    exampleMap.deleteIn(['prod1', 'pers10'])
+                );
+
+            });
 
         });
         

@@ -1,5 +1,5 @@
 import { OrderedMap, Map } from 'immutable';
-const { expect, assert } = require('chai');
+const { assert } = require('chai');
 import sinonSandbox from '../../test/helpers/sinon-sandbox';
 import * as immutableConverter from './immutable-converter';
 
