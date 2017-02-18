@@ -1,5 +1,5 @@
 import { Map, fromJS } from 'immutable';
-import { nestedMap } from './immutable-converter';
+import * as immutableConverter from './immutable-converter';
 import get from 'lodash/get';
 
 export const addWithDefaults = (defaultValues) => (state, action) => {
@@ -31,10 +31,10 @@ export const remove = (state, action) => {
 
 };
 
-export const fetch = (resultsPath) => (state, action) => {
+export const fetch = (resultsPath, state, action) => {
 
     const results = get(action, resultsPath, {});
 
-    return nestedMap(results);
+    return immutableConverter.nestedMap(results);
 
 };

@@ -298,9 +298,9 @@ describe("UNIT / Utils / Reducer utils", () => {
                 }
             };
 
-            fetch('result.items')(exampleMap, action);
+            fetch('result.items', exampleMap, action);
 
-            assert.ok( spy.calledOnce, "wasn't called" );
+            assert.equal( spy.callCount, 1, "call count" );
             assert.ok( spy.calledWithExactly(action.result.items), "wrong arguments" );
 
         });
