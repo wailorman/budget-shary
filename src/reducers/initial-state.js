@@ -1,4 +1,4 @@
-import { Map, OrderedMap, List } from 'immutable';
+import { Map, OrderedMap } from 'immutable';
 
 export const initialState = {
     budgetsList: OrderedMap({}),

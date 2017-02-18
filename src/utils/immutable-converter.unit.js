@@ -1,5 +1,5 @@
 import {nestedMap} from './immutable-converter';
-import Immutable, { OrderedMap, List } from 'immutable';
+import Immutable, { OrderedMap } from 'immutable';
 
 describe("UNIT / Utils / Immutable converter", () => {
 

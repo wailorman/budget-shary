@@ -9,7 +9,7 @@ import {interchangeMiddleware} from './middlewares/interchange-middleware';
 
 import { syncHistoryWithStore, routerMiddleware } from 'react-router-redux';
 import { hashHistory } from 'react-router';
-import defaults from 'lodash/defaults'
+import defaults from 'lodash/defaults';
 
 /**
  * Redux store factory

@@ -1,5 +1,4 @@
-import { Map, OrderedMap, fromJS } from 'immutable';
-import { nestedMap } from './immutable-converter';
+import { Map, fromJS } from 'immutable';
 
 export const addWithDefaults = (defaultValues) => (state, action) => {
     if ( !action.id || state.get(action.id) ) return state;
