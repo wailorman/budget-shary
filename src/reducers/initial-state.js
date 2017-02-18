@@ -7,11 +7,7 @@ export const initialState = {
     products: OrderedMap({}),
     productParticipating: {},
     transactions: [],
-    common: {},
-    errors: {
-        products: {},
-        persons: {},
-        common: {}
-    }
+    common: Map({}),
+    errors: Map({})
 
 };
