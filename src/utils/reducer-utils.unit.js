@@ -1,10 +1,15 @@
 import { OrderedMap, Map } from 'immutable';
+const { expect, assert } = require('chai');
+import sinonSandbox from '../../test/helpers/sinon-sandbox';
+import * as immutableConverter from './immutable-converter';
+
 
 import {
     addWithDefaults,
     add,
     update,
-    remove
+    remove,
+    fetch
 } from './reducer-utils';
 
 
@@ -14,6 +19,12 @@ const exampleMap = OrderedMap({
 });
 
 describe("UNIT / Utils / Reducer utils", () => {
+
+    let sandbox;
+
+    sinonSandbox((sinon) => {
+        sandbox = sinon;
+    });
 
     describe("#addWithDefaults()", () => {
 
@@ -265,6 +276,32 @@ describe("UNIT / Utils / Reducer utils", () => {
                 remove(exampleMap, action)
                     .equals(exampleMap)
             );
+
+        });
+
+    });
+
+    describe("fetch()", () => {
+
+        it(`should call nestedMap()`, () => {
+
+            const spy = sandbox.spy(immutableConverter, "nestedMap");
+
+            const action = {
+                result: {
+                    items: {
+                        '1': {
+                            id: '1',
+                            name: 'Some some'
+                        }
+                    }
+                }
+            };
+
+            fetch('result.items')(exampleMap, action);
+
+            assert.ok( spy.calledOnce, "wasn't called" );
+            assert.ok( spy.calledWithExactly(action.result.items), "wrong arguments" );
 
         });
 

@@ -1,4 +1,6 @@
 import { Map, fromJS } from 'immutable';
+import { nestedMap } from './immutable-converter';
+import get from 'lodash/get';
 
 export const addWithDefaults = (defaultValues) => (state, action) => {
     if ( !action.id || state.get(action.id) ) return state;
@@ -26,5 +28,13 @@ export const update = (state, action) => {
 export const remove = (state, action) => {
 
     return state.delete(action.id);
+
+};
+
+export const fetch = (resultsPath) => (state, action) => {
+
+    const results = get(action, resultsPath, {});
+
+    return nestedMap(results);
 
 };
