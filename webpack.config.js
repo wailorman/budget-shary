@@ -67,7 +67,8 @@ var webpackConfig = {
             'ReactDOM': 'react-dom',
             '_': 'lodash',
             'Q': 'q',
-            'store': __dirname + '/test/requirements/local-storage.js'
+            'store': __dirname + '/test/requirements/local-storage.js',
+            'Immutable': 'immutable'
         }),
         new WriteFilePlugin({ log: false }),
         new ExtractTextPlugin("[name].css"),

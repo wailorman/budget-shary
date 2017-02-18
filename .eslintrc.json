@@ -51,6 +51,7 @@
     "beforeEach": true,
     "afterEach": true,
     "console": true,
-    "sinon": true
+    "sinon": true,
+    "Immutable": true
   }
 }

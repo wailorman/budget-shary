@@ -19,6 +19,8 @@ Object.assign(glob, {
     _: require('lodash'),
     Q: require('q'),
 
+    Immutable: require('immutable'),
+
     store: require('../requirements/local-storage')
 
 });
