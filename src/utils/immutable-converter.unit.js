@@ -147,6 +147,18 @@ describe("UNIT / Utils / Immutable converter", () => {
 
         });
 
+        it(`should convert array of strings to List`, () => {
+
+            const result = nestedMap({
+                errors: {
+                    common: ['Share share share!']
+                }
+            });
+
+            assert.equal(result.get('errors').get('common').get(0), 'Share share share!');
+
+        });
+
     });
 
 });
