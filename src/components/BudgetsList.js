@@ -21,13 +21,14 @@ export const BudgetsList = ({budgetsList, dispatch})=> {
 
             <Divider/>
 
-            {_.map(budgetsList, (budget)=> {
+            {budgetsList.map(budget => {
 
                 return (
                     <BudgetListElem
-                        key={budget.id}
+                        key={budget.get('id')}
+                        id={budget.get('id')}
+                        name={budget.get('name')}
                         onRemove={actions.deleteBudget.bind(null, budget.id)}
-                        {...budget}
                     />
                 );
 
@@ -45,7 +46,7 @@ export const BudgetsList = ({budgetsList, dispatch})=> {
 };
 
 BudgetsList.propTypes = {
-    budgetsList: React.PropTypes.object.isRequired,
+    budgetsList: Immutable.Map.isMap,
     dispatch: React.PropTypes.func.isRequired
 };
 

@@ -1,6 +1,6 @@
 export const initialState = {
-    budgetsList: {},
-    budget: {},
+    budgetsList: Immutable.Map({}),
+    budget: Immutable.Map({}),
     persons: {},
     products: {},
     productParticipating: {},

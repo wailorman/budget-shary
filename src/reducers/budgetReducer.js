@@ -9,13 +9,12 @@ export function budgetReducer (state = {}, action = {}) {
 
     switch (action.type) {
         case FETCH_BUDGET: {
-            return Immutable.Map(action.result.budget).toJS();
+            return Immutable.Map(action.result.budget);
         }
 
         case CHANGE_BUDGET_PROPS: {
             return Immutable.Map(state)
-                .merge(Immutable.Map(action.values))
-                .toJS();
+                .merge(Immutable.Map(action.values));
         }
         default: {
             return state;

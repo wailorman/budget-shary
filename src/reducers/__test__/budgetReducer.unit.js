@@ -29,9 +29,9 @@ describe("UNIT / Reducers / budgetReducer", ()=> {
                 name: 'First name'
             };
 
-            const expected = {
+            const expected = Immutable.Map({
                 name: 'Another name'
-            };
+            });
 
             const actual = budgetReducer(state, action);
 
@@ -56,9 +56,9 @@ describe("UNIT / Reducers / budgetReducer", ()=> {
 
             const state = {};
 
-            const expected = {
+            const expected = Immutable.Map({
                 name: 'Pretty budget'
-            };
+            });
 
             const actual = budgetReducer(state, action);
 

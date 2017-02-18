@@ -57,9 +57,7 @@ function getRandomColor() {
 // <button onClick={onRemove}>x</button>
 
 BudgetsListElem.propTypes = {
-    id: React.PropTypes.oneOfType([
-        React.PropTypes.number, React.PropTypes.string
-    ]),
+    id:  React.PropTypes.string,
     name: React.PropTypes.string,
     onRemove: React.PropTypes.func.isRequired
 };
