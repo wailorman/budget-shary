@@ -4,7 +4,7 @@ export const initialState = {
     budgetsList: OrderedMap({}),
     budget: Map({}),
     persons: OrderedMap({}),
-    products: {},
+    products: OrderedMap({}),
     productParticipating: {},
     transactions: [],
     common: {},

@@ -6,13 +6,30 @@ import {
     REMOVE_PERSON, FETCH_BUDGET
 } from '../../actions';
 
-import {getProductsByPersonId} from '../../core/components-utils';
-import { normalizedArrayLength } from '../../../test/helpers/utils';
+import { OrderedMap, Map } from 'immutable';
+import sinonSandbox from '../../../test/helpers/sinon-sandbox';
+import * as reducerUtils from '../../utils/reducer-utils';
 
-import {exampleProductsState} from './fixtures/products-fixtures';
 import {initialState} from '../initial-state';
 
+const exampleProductsObj = {
+    1: {id: '1', name: 'Water', price: '40', ownerId: '1'},
+    2: {id: '2', name: 'Milk', price: '60', ownerId: '2'}
+};
+
+const exampleProductsMap = OrderedMap({
+    '1': Map({id: '1', name: 'Water', price: '40', ownerId: '1'}),
+    '2': Map({id: '2', name: 'Milk', price: '60', ownerId: '2'}),
+    '3': Map({id: '3', name: 'Chips', price: '10', ownerId: '2'})
+});
+
 describe("UNIT / Reducers / productsReducer", ()=> {
+
+    let sandbox;
+
+    sinonSandbox((sinon) => {
+        sandbox = sinon;
+    });
 
     it(`should return default initial state if no args`, () => {
 
@@ -32,179 +49,94 @@ describe("UNIT / Reducers / productsReducer", ()=> {
 
     describe("FETCH_BUDGET", ()=> {
 
-        // todo
-        // it(`should return clean state if .result wasn't attached to action`, () => {
-        //
-        //     const action = {
-        //         type: FETCH_BUDGET,
-        //         id: 'budget1'
-        //     };
-        //
-        //     const expected = {};
-        //
-        //     const actual = productsReducer({}, action);
-        //
-        //     expect(actual).to.eql(expected);
-        //
-        // });
+        it(`should call reducer utils method`, () => {
 
-        it(`should return products if .result is attached`, () => {
+            const spy1 = sandbox.spy(reducerUtils, "fetch");
 
             const action = {
                 type: FETCH_BUDGET,
                 id: 'budget1',
-                result: { products: exampleProductsState }
+                result: { products: exampleProductsObj }
             };
 
-            const expected = exampleProductsState;
+            productsReducer(exampleProductsMap, action);
 
-            const actual = productsReducer({}, action);
-
-            expect(actual).to.eql(expected);
+            assert.ok(spy1.calledOnce, "wasn't called");
+            assert.ok(spy1.calledWithExactly('result.products', exampleProductsMap, action));
 
         });
-
-        // it(`should clean previous state if .result wasn't attached`, () => {
-        //
-        //     const action = {
-        //         type: FETCH_BUDGET,
-        //         id: 'budget1'
-        //     };
-        //
-        //     const expected = {};
-        //
-        //     const actual = productsReducer(exampleProductsState, action);
-        //
-        //     expect(actual).to.eql(expected);
-        //
-        // });
 
     });
 
     describe("REMOVE_PRODUCT", ()=> {
 
+        it(`should call reducer utils method`, () => {
+
+            const spy = sandbox.spy(reducerUtils, "remove");
+
+            const action = {
+                type: REMOVE_PRODUCT,
+                id: '1'
+            };
+
+            productsReducer(exampleProductsMap, action);
+
+            assert.ok( spy.calledOnce );
+            assert.ok( spy.calledWithExactly(exampleProductsMap, action) );
+
+        });
+
         it(`should remove existing product from the state`, () => {
 
             const action = {
                 type: REMOVE_PRODUCT,
-                id: 1
+                id: '1'
             };
 
-            const actual = productsReducer(exampleProductsState, action);
+            const result = productsReducer(exampleProductsMap, action);
 
-            const expected = {
-                2: {id: '2', name: 'Milk', price: '60', ownerId: '2'}
-            };
-
-            expect(actual).to.eql(expected);
+            assert.isUndefined(result.get('id'));
+            assert.equal(result.size, exampleProductsMap.size - 1);
 
         });
-
-        // todo
-        // it(`should leave state alone if product doesn't exist`, () => {
-        //
-        //     const action = {
-        //         type: REMOVE_PRODUCT,
-        //         id: 3
-        //     };
-        //
-        //     const actual = productsReducer(exampleProductsState, action);
-        //
-        //     expect(actual === exampleProductsState).to.eql(true);
-        //
-        // });
-        //
-        // it(`should leave state alone if product id == null`, () => {
-        //
-        //     const action = {
-        //         type: REMOVE_PRODUCT,
-        //         id: null
-        //     };
-        //
-        //     const actual = productsReducer(exampleProductsState, action);
-        //
-        //     expect(actual === exampleProductsState).to.eql(true);
-        //
-        // });
 
     });
 
     describe("NEW_PRODUCT", ()=> {
 
-        const doNewProduct = (
-            actionParams,
-            initialState = exampleProductsState
-        ) => {
+        it(`should call reducer utils method`, () => {
 
-            _.defaultsDeep(actionParams, {ownerId: '1'});
+            const spy = sandbox.spy(reducerUtils, "add");
 
             const action = {
                 type: NEW_PRODUCT,
-                ...actionParams
+                id: '100'
             };
 
-            const state = productsReducer(initialState, action);
-            const addedProductId = actionParams.id;
-            const addedProduct = state[addedProductId];
+            productsReducer(exampleProductsMap, action);
 
-            return {state, addedProduct};
-
-        };
-
-        it(`products array length should increase`, () => {
-
-            const {state} = doNewProduct({id: '103', ownerId: '1'});
-
-            expect(normalizedArrayLength(state))
-                .to.eql(normalizedArrayLength(exampleProductsState) + 1);
+            assert.ok( spy.calledOnce, "wasn't called" );
+            assert.ok( spy.calledWithExactly(exampleProductsMap, action), "wrong arguments" );
 
         });
 
-        it(`id of new product should be == action.id`, () => {
+        it(`should create person w/ right attrs`, () => {
 
-            const {addedProduct} = doNewProduct({id: '110', ownerId: '1'});
+            const action = {
+                type: NEW_PRODUCT,
+                id: '100',
+                values: {
+                    name: '',
+                    price: '',
+                    ownerId: '2'
+                }
+            };
 
-            expect(addedProduct.id).to.eql('110');
+            const result = productsReducer(exampleProductsMap, action).get('100');
 
-        });
-
-        it(`name & price should be empty`, () => {
-
-            const {addedProduct} = doNewProduct({id: '90', ownerId: '1'});
-
-            expect(addedProduct.name).to.eql('');
-            expect(addedProduct.price).to.eql('');
-        });
-
-        it(`ownerId should eql to action's ownerId`, () => {
-
-            const {addedProduct} = doNewProduct({id: '10', ownerId: '5'});
-
-            expect(addedProduct.ownerId).to.eql('5');
-
-        });
-
-        it(`should return exactly the same state if ownerId wasn't passed`, () => {
-
-            const {state} = doNewProduct({ownerId: null}, exampleProductsState);
-
-            expect(state === exampleProductsState).to.eql(true);
-
-        });
-
-        it(`should return exactly the same state if product w/ id already exists`, () => {
-
-            const {state} = doNewProduct({id: '1', ownerId: '1'}, exampleProductsState);
-
-            expect(state === exampleProductsState).to.eql(true);
-
-        });
-
-        it(`should return exactly the same state if .id didn't passed`, () => {
-
-            const {state} = doNewProduct({ownerId: '1'}, exampleProductsState);
-
-            expect(state === exampleProductsState).to.eql(true);
+            assert.deepEqual( result.get('name'), '' );
+            assert.deepEqual( result.get('price'), '' );
+            assert.deepEqual( result.get('ownerId'), '2' );
 
         });
 
@@ -212,109 +144,55 @@ describe("UNIT / Reducers / productsReducer", ()=> {
 
     describe("CHANGE_PRODUCT", ()=> {
 
-        it(`should change product fields`, () => {
+        it(`should call reducer utils method`, () => {
+
+            const spy = sandbox.spy(reducerUtils, "update");
 
             const action = {
                 type: CHANGE_PRODUCT,
                 id: '1',
                 values: {
                     name: 'Clean water',
-                    price: '50'
+                    price: '50',
+                    ownerId: '5'
                 }
             };
 
-            const result = productsReducer(exampleProductsState, action);
+            productsReducer(exampleProductsMap, action);
 
-            const changedProduct = result['1'];
-
-            expect(changedProduct.name).to.eql('Clean water');
-            expect(changedProduct.price).to.eql('50');
+            assert.ok( spy.calledOnce, "wasn't called" );
+            assert.ok( spy.calledWithExactly(exampleProductsMap, action), "wrong arguments" );
 
         });
 
-        it(`should change name if .name is different`, () => {
-
-            const initialState = {
-                1: {id: '1', name: 'Milk', price: '50'}
-            };
+        it(`should change person fields`, () => {
 
             const action = {
                 type: CHANGE_PRODUCT,
                 id: '1',
-                values: {
-                    name: 'Potato',
-                    price: '50'
-                }
-            };
-
-            const expected = {
-                1: {id: '1', name: 'Potato', price: '50'}
-            };
-
-            const actual = productsReducer(initialState, action);
-
-            expect(actual).to.eql(expected);
-
-        });
-
-        it(`should change share if .share is different`, () => {
-
-            const initialState = {
-                1: {id: '1', name: 'Milk', price: '50'}
-            };
-
-            const action = {
-                type: CHANGE_PRODUCT,
-                id: '1',
-                values: {
-                    name: 'Milk',
-                    price: '60'
-                }
-            };
-
-            const expected = {
-                1: {id: '1', name: 'Milk', price: '60'}
-            };
-
-            const actual = productsReducer(initialState, action);
-
-            expect(actual).to.eql(expected);
-
-        });
-
-        it(`should not do anything if product doesn't exist`, () => {
-
-            const action = {
-                type: CHANGE_PRODUCT,
-                id: '201',
                 values: {
                     name: 'Clean water',
-                    price: '50'
+                    price: '50',
+                    ownerId: '5'
                 }
             };
 
-            const result = productsReducer(exampleProductsState, action);
+            const result = productsReducer(exampleProductsMap, action).get('1');
 
-            expect(result === exampleProductsState).to.eql(true);
+            assert.equal(
+                result.get('name'),
+                'Clean water'
+            );
 
-        });
+            assert.equal(
+                result.get('price'),
+                '50'
+            );
 
-        it(`should not remove fields we didn't pass one of them to action`, () => {
-
-            const action = {
-                type: CHANGE_PRODUCT,
-                id: '1',
-                values: {
-                    name: 'Clean water'
-                }
-            };
-
-            const result = productsReducer(exampleProductsState, action);
-
-            const changedProduct = result['1'];
-
-            expect(changedProduct.name).to.eql('Clean water');
-            expect(changedProduct.price).to.eql(exampleProductsState['1'].price);
+            assert.equal(
+                result.get('ownerId'),
+                '5'
+            );
 
         });
 
@@ -322,44 +200,30 @@ describe("UNIT / Reducers / productsReducer", ()=> {
 
     describe("REMOVE_PERSON", ()=> {
 
-        const doRemovePerson = (actionParams = {id: '1'})=> {
+        it(`should remove all person's products`, () => {
 
             const action = {
                 type: REMOVE_PERSON,
-                id: actionParams.id
+                id: '2'
             };
 
-            const state = productsReducer(exampleProductsState, action);
+            const result = productsReducer(exampleProductsMap, action);
 
-            return {state};
-
-        };
-
-        it(`should remove all person's products`, () => {
-            
-            const personId = '1';
-            
-            const ownedProductsBefore = getProductsByPersonId(personId, exampleProductsState);
-
-            expect(_.keys(ownedProductsBefore).length > 0).to.eql(true);
-
-            const {state} = doRemovePerson({id: personId});
-            
-            const ownedProductsAfter = getProductsByPersonId(personId, state);
-
-            expect(_.keys(ownedProductsAfter) .length == 0).to.eql(true);
+            assert.equal(result.size, 1);
+            assert.ok(result.get('1'));
 
         });
 
-        it(`should return object as new state, not array`, () => {
+        it(`should not remove any product w/ another person`, () => {
 
-            const personId = '1';
+            const action = {
+                type: REMOVE_PERSON,
+                id: '200'
+            };
 
-            const {state} = doRemovePerson({id: personId});
+            const result = productsReducer(exampleProductsMap, action);
 
-            expect(state).to.eql({
-                2: { ...exampleProductsState[2] }
-            });
+            assert.ok(result.equals(exampleProductsMap));
 
         });
 

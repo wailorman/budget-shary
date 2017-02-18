@@ -8,61 +8,27 @@ import {
     REMOVE_PERSON
 } from '../actions';
 
-import * as Immutable from 'immutable';
+import * as reducerUtils from '../utils/reducer-utils';
 
 export function productsReducer(state = initialState.products, action = {}) {
     switch (action.type) {
 
         case FETCH_BUDGET:
-        {
-            return Immutable.Map(action.result.products).toJS();
-        }
+            return reducerUtils.fetch('result.products', state, action);
 
         case REMOVE_PRODUCT:
-        {
-            return Immutable.Map(state)
-                .filterNot(({id}) => id == action.id)
-                .toJS();
-        }
+            return reducerUtils.remove(state, action);
 
-        case NEW_PRODUCT: {
-
-            if ( !action.ownerId || !action.id || state[action.id] )
-                return state;
-
-            return Immutable.Map(state)
-                .set(action.id, {
-                    id: action.id,
-                    name: '',
-                    price: '',
-                    ownerId: action.ownerId
-                })
-                .toJS();
-        }
+        case NEW_PRODUCT:
+            return reducerUtils.add(state, action);
 
         case CHANGE_PRODUCT:
-        {
-            if (!state[action.id]) return state;
-
-
-            return Immutable.Map(state)
-                .merge({
-                    [action.id]: {
-                        ...state[action.id],
-                        ...action.values
-                    }
-                })
-                .toJS();
-        }
+            return reducerUtils.update(state, action);
 
         case REMOVE_PERSON:
-        {
+            return state
+                .filter((product) => product.get('ownerId') != action.id);
 
-            return Immutable.Map(state)
-                .filterNot(({id}) => id == action.id)
-                .toJS();
-
-        }
         default:
         {
             return state;
