@@ -9,49 +9,24 @@ import {
 import {initialState} from './initial-state';
 
 import * as Immutable from 'immutable';
+import { nestedMap } from '../utils/immutable-converter';
+import * as reducerUtils from '../utils/reducer-utils';
 
 export function personsReducer(state = initialState.persons, action = {}) {
 
     switch (action.type) {
 
         case FETCH_BUDGET:
-        {
-            return Immutable.Map(action.result.persons).toJS();
-        }
+            return nestedMap(action.result.persons);
 
         case REMOVE_PERSON:
-        {
-            return Immutable.Map(state)
-                .filterNot((person, id) => action.id == id)
-                .toJS();
-        }
+            return reducerUtils.remove(state, action);
 
         case NEW_PERSON:
-        {
-            if ( !action.id || state[action.id] ) return state;
-
-            return Immutable.Map(state)
-                .set(action.id, {
-                    id: action.id,
-                    name: '',
-                    share: ''
-                })
-                .toJS();
-        }
+            return reducerUtils.add(state, action);
 
         case CHANGE_PERSON:
-        {
-            if (!state[action.id]) return state;
-
-            return Immutable.Map(state)
-                .merge({
-                    [action.id]: {
-                        ...state[action.id],
-                        ...action.values
-                    }
-                })
-                .toJS();
-        }
+            return reducerUtils.update(state, action);
 
         case TOGGLE_PARTICIPATION:
         {

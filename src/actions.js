@@ -116,7 +116,11 @@ export function removePerson(id) {
 export function newPerson() {
     return {
         type: NEW_PERSON,
-        id: `_person_${shortid.generate()}`
+        id: `_person_${shortid.generate()}`,
+        values: {
+            name: '',
+            share: ''
+        }
     };
 }
 

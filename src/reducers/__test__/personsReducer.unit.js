@@ -1,6 +1,9 @@
-"use strict";
-
 import {personsReducer} from '../personsReducer';
+import { OrderedMap, Map } from 'immutable';
+import sinonSandbox from '../../../test/helpers/sinon-sandbox';
+import * as reducerUtils from '../../utils/reducer-utils';
+
+const { expect, assert } = require('chai');
 
 import {
     REMOVE_PERSON, NEW_PERSON, CHANGE_PERSON,
@@ -8,10 +11,27 @@ import {
     TOGGLE_PARTICIPATION
 } from '../../actions';
 
-import {examplePersonsState} from './fixtures/persons-fixtures';
 import {initialState} from '../initial-state';
 
+
+const examplePersonsObj = {
+    1: {id: '1', name: 'Mike', share: '40'},
+    2: {id: '2', name: 'Jack', share: '60'}
+};
+
+const examplePersonsMap = OrderedMap({
+    '1': Map({id: '1', name: 'Mike', share: '40'}),
+    '2': Map({id: '2', name: 'Jack', share: '60'})
+});
+
+
 describe("UNIT / Reducers / personsReducer", () => {
+
+    let sandbox;
+
+    sinonSandbox((sinon) => {
+        sandbox = sinon;
+    });
 
     it(`should return default initial state if no args`, () => {
 
@@ -52,14 +72,12 @@ describe("UNIT / Reducers / personsReducer", () => {
             const action = {
                 type: FETCH_BUDGET,
                 id: 'budget1',
-                result: { persons: examplePersonsState }
+                result: { persons: examplePersonsObj }
             };
 
-            const expected = examplePersonsState;
-
-            const actual = personsReducer({}, action);
-
-            expect(actual).to.eql(expected);
+            assert(
+                personsReducer({}, action).get('1').get('name') == 'Mike'
+            );
 
         });
 
@@ -82,169 +100,96 @@ describe("UNIT / Reducers / personsReducer", () => {
 
     describe("REMOVE_PERSON", () => {
 
-        it(`should remove existing person from the state`, () => {
+        it(`should call reducer utils method`, () => {
+
+            const spy = sandbox.spy(reducerUtils, "remove");
 
             const action = {
                 type: REMOVE_PERSON,
-                id: 1
+                id: '1'
             };
 
-            const actual = personsReducer(examplePersonsState, action);
+            personsReducer(examplePersonsMap, action);
 
-            const expected = {
-                2: {id: '2', name: 'Jack', share: '60'}
-            };
-
-            expect(actual).to.eql(expected);
+            assert.ok( spy.calledOnce );
+            assert.ok( spy.calledWithExactly(examplePersonsMap, action) );
 
         });
 
-        // todo
-        // it(`should leave state alone if person doesn't exist`, () => {
-        //
-        //     const action = {
-        //         type: REMOVE_PERSON,
-        //         id: 3
-        //     };
-        //
-        //     const actual = personsReducer(examplePersonsState, action);
-        //
-        //     expect(actual === examplePersonsState).to.eql(true);
-        //
-        // });
+        it(`should remove person`, () => {
 
-        // it(`should leave state alone if person id == null`, () => {
-        //
-        //     const action = {
-        //         type: REMOVE_PERSON,
-        //         id: null
-        //     };
-        //
-        //     const actual = personsReducer(examplePersonsState, action);
-        //
-        //     expect(actual === examplePersonsState).to.eql(true);
-        //
-        // });
+            const action = {
+                type: REMOVE_PERSON,
+                id: '1'
+            };
+
+            const result = personsReducer(examplePersonsMap, action);
+
+            assert.isUndefined(result.get('1'));
+
+        });
 
     });
 
     describe("NEW_PERSON", () => {
 
-        it(`persons collection length should increase`, () => {
+        it(`should call reducer utils method`, () => {
+
+            const spy = sandbox.spy(reducerUtils, "add");
 
             const action = {
                 type: NEW_PERSON,
                 id: '100'
             };
 
-            const actual = personsReducer(examplePersonsState, action);
+            personsReducer(examplePersonsMap, action);
 
-            expect(_.keys(actual).length).to.eql(_.keys(examplePersonsState).length + 1);
+            assert.ok( spy.calledOnce, "wasn't called" );
+            assert.ok( spy.calledWithExactly(examplePersonsMap, action), "wrong arguments" );
 
         });
 
-        it(`should add new empty person`, () => {
+        it(`should create person w/ right attrs`, () => {
 
             const action = {
                 type: NEW_PERSON,
-                id: '100'
-            };
-
-            const actual = personsReducer(examplePersonsState, action);
-
-            const expected = {
-                ...examplePersonsState,
-                100: {
-                    id: '100', name: '', share: ''
+                id: '100',
+                values: {
+                    name: '',
+                    share: ''
                 }
             };
 
-            expect(actual).to.eql(expected);
+            const result = personsReducer(examplePersonsMap, action).get('100');
 
-        });
-
-        it(`should add person by action's .id`, () => {
-
-            const action = {
-                type: NEW_PERSON,
-                id: '100'
-            };
-
-            const actual = personsReducer(examplePersonsState, action);
-            const newPerson = actual[action.id];
-
-            expect(newPerson.id).to.eql(action.id);
-
-        });
-
-        it(`new person should be w/ empty fields`, () => {
-
-            const action = {
-                type: NEW_PERSON,
-                id: '100'
-            };
-
-            const actual = personsReducer(examplePersonsState, action);
-            const newPerson = actual[action.id];
-
-            expect(newPerson.name).to.eql('');
-            expect(newPerson.share).to.eql('');
-
-        });
-
-        it(`should return exactly the same state if no .id passed`, () => {
-
-            const action = {
-                type: NEW_PERSON
-            };
-
-            const actual = personsReducer(examplePersonsState, action);
-
-            expect(actual === examplePersonsState).to.eql(true);
-
-        });
-
-        it(`should return exactly the same state if person w/ such id already exists`, () => {
-
-            const action = {
-                type: NEW_PERSON,
-                id: '1'
-            };
-
-            const actual = personsReducer(examplePersonsState, action);
-
-            expect(actual === examplePersonsState).to.eql(true);
-
-        });
-
-        it(`should add another empty person`, () => {
-
-            const action1 = {
-                type: NEW_PERSON,
-                id: '101'
-            };
-
-            const action2 = {
-                type: NEW_PERSON,
-                id: '102'
-            };
-
-            const firstState = personsReducer(examplePersonsState, action1);
-            const secondState = personsReducer(firstState, action2);
-
-            const expected = {
-                ...examplePersonsState,
-                101: { id: '101', name: '', share: '' },
-                102: { id: '102', name: '', share: '' }
-            };
-
-            expect(secondState).to.eql(expected);
+            assert.deepEqual( result.get('name'), '' );
+            assert.deepEqual( result.get('share'), '' );
 
         });
 
     });
 
     describe("CHANGE_PERSON", () => {
+
+        it(`should call reducer utils method`, () => {
+
+            const spy = sandbox.spy(reducerUtils, "update");
+
+            const action = {
+                type: CHANGE_PERSON,
+                id: '1',
+                values: {
+                    name: 'Clean water',
+                    share: '50'
+                }
+            };
+
+            personsReducer(examplePersonsMap, action);
+
+            assert.ok( spy.calledOnce, "wasn't called" );
+            assert.ok( spy.calledWithExactly(examplePersonsMap, action), "wrong arguments" );
+
+        });
 
         it(`should change person fields`, () => {
 
@@ -257,100 +202,17 @@ describe("UNIT / Reducers / personsReducer", () => {
                 }
             };
 
-            const result = personsReducer(examplePersonsState, action);
+            const result = personsReducer(examplePersonsMap, action).get('1');
 
-            const expected = {
-                ...examplePersonsState,
-                1: { id: action.id, ...action.values }
-            };
+            assert.equal(
+                result.get('name'),
+                'Clean water'
+            );
 
-            expect(result).to.eql(expected);
-
-        });
-
-        it(`should change name if .name is different`, () => {
-
-            const initialState = {
-                1: {id: '1', name: 'Mike', share: '50'}
-            };
-
-            const action = {
-                type: CHANGE_PERSON,
-                id: '1',
-                values: {
-                    name: 'Tom',
-                    share: '50'
-                }
-            };
-
-            const expected = {
-                1: {id: '1', name: 'Tom', share: '50'}
-            };
-
-            const actual = personsReducer(initialState, action);
-
-            expect(actual).to.eql(expected);
-
-        });
-
-        it(`should change share if .share is different`, () => {
-
-            const initialState = {
-                1: {id: '1', name: 'Mike', share: '50'}
-            };
-
-            const action = {
-                type: CHANGE_PERSON,
-                id: '1',
-                values: {
-                    name: 'Mike',
-                    share: '60'
-                }
-            };
-
-            const expected = {
-                1: {id: '1', name: 'Mike', share: '60'}
-            };
-
-            const actual = personsReducer(initialState, action);
-
-            expect(actual).to.eql(expected);
-
-        });
-
-        it(`should not do anything if person doesn't exist`, () => {
-
-            const action = {
-                type: CHANGE_PERSON,
-                id: '201',
-                values: {
-                    name: 'Clean water',
-                    share: '50'
-                }
-            };
-
-            const result = personsReducer(examplePersonsState, action);
-
-            expect(result === examplePersonsState).to.eql(true);
-
-        });
-
-        it(`should not remove fields we didn't pass one of them to action`, () => {
-
-            const action = {
-                type: CHANGE_PERSON,
-                id: '1',
-                values: {
-                    name: 'Clean water'
-                }
-            };
-
-            const result = personsReducer(examplePersonsState, action);
-
-            const changedPerson = result['1'];
-
-            expect(changedPerson.name).to.eql('Clean water');
-            expect(changedPerson.share).to.eql(examplePersonsState['1'].share);
+            assert.equal(
+                result.get('share'),
+                '50'
+            );
 
         });
 

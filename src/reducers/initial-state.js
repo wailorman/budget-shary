@@ -1,7 +1,9 @@
+import { Map, OrderedMap, List } from 'immutable';
+
 export const initialState = {
-    budgetsList: Immutable.Map({}),
-    budget: Immutable.Map({}),
-    persons: {},
+    budgetsList: OrderedMap({}),
+    budget: Map({}),
+    persons: OrderedMap({}),
     products: {},
     productParticipating: {},
     transactions: [],
