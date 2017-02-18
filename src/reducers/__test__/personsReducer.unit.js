@@ -13,12 +13,6 @@ import {
 
 import {initialState} from '../initial-state';
 
-
-const examplePersonsObj = {
-    1: {id: '1', name: 'Mike', share: '40'},
-    2: {id: '2', name: 'Jack', share: '60'}
-};
-
 const examplePersonsMap = OrderedMap({
     '1': Map({id: '1', name: 'Mike', share: '40'}),
     '2': Map({id: '2', name: 'Jack', share: '60'})
@@ -51,50 +45,22 @@ describe("UNIT / Reducers / personsReducer", () => {
 
     describe("FETCH_BUDGET", () => {
 
-        // todo
-        // it(`should return clean state if .result wasn't attached to action`, () => {
-        //
-        //     const action = {
-        //         type: FETCH_BUDGET,
-        //         id: 'budget1'
-        //     };
-        //
-        //     const expected = {};
-        //
-        //     const actual = personsReducer({}, action);
-        //
-        //     expect(actual).to.eql(expected);
-        //
-        // });
+        it(`should call reducer utils method`, () => {
 
-        it(`should return persons if .result is attached`, () => {
+            const spy1 = sandbox.spy(reducerUtils, "fetch");
 
             const action = {
                 type: FETCH_BUDGET,
                 id: 'budget1',
-                result: { persons: examplePersonsObj }
+                result: { persons: examplePersonsMap }
             };
 
-            assert(
-                personsReducer({}, action).get('1').get('name') == 'Mike'
-            );
+            personsReducer(examplePersonsMap, action);
+
+            assert.ok(spy1.calledOnce, "wasn't called");
+            assert.ok(spy1.calledWithExactly('result.products', examplePersonsMap, action));
 
         });
-
-        // it(`should clean previous state if .result wasn't attached`, () => {
-        //
-        //     const action = {
-        //         type: FETCH_BUDGET,
-        //         id: 'budget1'
-        //     };
-        //
-        //     const expected = {};
-        //
-        //     const actual = personsReducer(examplePersonsState, action);
-        //
-        //     expect(actual).to.eql(expected);
-        //
-        // });
 
     });
 
@@ -126,6 +92,7 @@ describe("UNIT / Reducers / personsReducer", () => {
             const result = personsReducer(examplePersonsMap, action);
 
             assert.isUndefined(result.get('1'));
+            assert.equal(result.size, examplePersonsMap.size - 1);
 
         });
 

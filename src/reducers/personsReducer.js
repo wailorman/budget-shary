@@ -9,7 +9,6 @@ import {
 import {initialState} from './initial-state';
 
 import * as Immutable from 'immutable';
-import { nestedMap } from '../utils/immutable-converter';
 import * as reducerUtils from '../utils/reducer-utils';
 
 export function personsReducer(state = initialState.persons, action = {}) {
@@ -17,7 +16,7 @@ export function personsReducer(state = initialState.persons, action = {}) {
     switch (action.type) {
 
         case FETCH_BUDGET:
-            return nestedMap(action.result.persons);
+            return reducerUtils.fetch('result.persons', state, action);
 
         case REMOVE_PERSON:
             return reducerUtils.remove(state, action);
