@@ -1,5 +1,7 @@
 import {nestedMap} from './immutable-converter';
-import Immutable, { OrderedMap } from 'immutable';
+import Immutable, { OrderedMap, List, Map } from 'immutable';
+
+const { assert } = require('chai').use(require('chai-immutable'));
 
 describe("UNIT / Utils / Immutable converter", () => {
 
@@ -12,7 +14,7 @@ describe("UNIT / Utils / Immutable converter", () => {
                     a: '1',
                     b: '2'
                 }),
-                OrderedMap({
+                Map({
                     a: '1',
                     b: '2'
                 })
@@ -35,14 +37,14 @@ describe("UNIT / Utils / Immutable converter", () => {
                         }
                     }
                 }),
-                OrderedMap({
-                    a: OrderedMap({
-                        b: OrderedMap({
+                Map({
+                    a: Map({
+                        b: Map({
                             c: '1'
                         })
                     }),
-                    d: OrderedMap({
-                        e: OrderedMap({
+                    d: Map({
+                        e: Map({
                             f: '2'
                         })
                     })
@@ -80,8 +82,8 @@ describe("UNIT / Utils / Immutable converter", () => {
 
         it(`should be ordered map`, () => {
 
-            assert(
-                Immutable.OrderedMap.isOrderedMap(
+            assert.ok(
+                Immutable.Map.isMap(
                     nestedMap({
                         a: {
                             b: {
@@ -121,8 +123,8 @@ describe("UNIT / Utils / Immutable converter", () => {
                 'name3'
             );
 
-            assert(
-                Immutable.OrderedMap.isOrderedMap( result.get('a').get('b') )
+            assert.ok(
+                Immutable.Map.isMap( result.get('a').get('b') )
             );
 
         });
@@ -139,7 +141,7 @@ describe("UNIT / Utils / Immutable converter", () => {
                 }
             });
 
-            assert(
+            assert.ok(
                 Immutable.Map.isMap(
                     result.get('a').get('b').get('1')
                 )
@@ -147,7 +149,7 @@ describe("UNIT / Utils / Immutable converter", () => {
 
         });
 
-        it(`should convert array of strings to List`, () => {
+        it(`should convert deep array of strings to List`, () => {
 
             const result = nestedMap({
                 errors: {
@@ -156,6 +158,44 @@ describe("UNIT / Utils / Immutable converter", () => {
             });
 
             assert.equal(result.get('errors').get('common').get(0), 'Share share share!');
+
+        });
+
+        it(`should convert array of items argument to List`, () => {
+
+            const result = nestedMap([
+                { from: '1', to: '2', total: 611.4 },
+                { from: '1', to: '3', total: 1144.4 }
+            ]);
+
+            const expected = List([
+                Map({ from: '1', to: '2', total: 611.4 }),
+                Map({ from: '1', to: '3', total: 1144.4 })
+            ]);
+
+            assert.equal(
+                result,
+                expected
+            );
+
+        });
+
+        it(`should convert array of strings argument to List`, () => {
+
+            const result = nestedMap([
+                '123',
+                '456'
+            ]);
+
+            const expected = List([
+                '123',
+                '456'
+            ]);
+
+            assert.equal(
+                result,
+                expected
+            );
 
         });
 

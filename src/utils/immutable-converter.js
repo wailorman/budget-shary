@@ -1,35 +1,46 @@
 import { OrderedMap, Map, List } from 'immutable';
 
-export const nestedMap = (obj) => {
-    return OrderedMap(Object.entries(obj).map(([key, value]) => {
+export const nestedMap = (arg) => {
 
-        if (typeof(value) == 'object' && value instanceof Array){
+    const isObject = val => typeof(val) == 'object';
+    const isArray = val => typeof(val) == 'object' && val instanceof Array;
+    const isCollection = val => isArray(val) && val[0].id;
+    const isArrayOfObjects = val => val.map( elem => typeof elem == 'object' ).some(x=>x);
+    const isJustObject = val => Object.entries(val).map((pair) => !typeof pair[1] == 'object').some(x => x);
 
-            if (value[0].id){
+    if (isObject(arg)){
 
-                return [
-                    key,
-                    OrderedMap(
-                        value.map((item) =>
-                            [item.id, Map(item)]
-                        )
-                    )
-                ];
-
-            } else {
-
-                return [
-                    key,
-                    List(value)
-                ];
-
-            }
-
-        } else if (typeof value == 'object'){
-            return [key, nestedMap(value)];
+        if (isJustObject(arg)){
+            return Map(arg);
         } else {
-            return [key, value];
+            if (isArray(arg)){
+
+                if (isCollection(arg)){
+                    return OrderedMap(
+                        Object
+                            .entries(arg)
+                            .map((pair) => ([pair[1].id, nestedMap(pair[1])]))
+                    );
+                }else{
+
+                    if (isArrayOfObjects(arg)){
+                        return List(
+                            arg.map((val) => Map(val))
+                        );
+                    }else{
+                        return List(arg);
+                    }
+                }
+
+            }else{
+                return Map(
+                    Object.entries(arg).map(([key, val])=>[key, nestedMap(val)])
+                );
+            }
         }
 
-    }));
+    }else{
+        return arg;
+    }
+
 };
