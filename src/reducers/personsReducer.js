@@ -34,7 +34,7 @@ export function personsReducer(state = initialState.persons, action = {}) {
                 action.productId && action.personId
             ) {
 
-                return Immutable.Map(state)
+                return state
                     .map(person => Immutable.Map(person))
                     .map((person, personId) =>
                         person.set('share', action.meta.newPersonShares[personId], 0))

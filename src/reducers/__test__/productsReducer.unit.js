@@ -12,12 +12,12 @@ import * as reducerUtils from '../../utils/reducer-utils';
 
 import {initialState} from '../initial-state';
 
-const exampleProductsObj = {
+const exampleObj = {
     1: {id: '1', name: 'Water', price: '40', ownerId: '1'},
     2: {id: '2', name: 'Milk', price: '60', ownerId: '2'}
 };
 
-const exampleProductsMap = OrderedMap({
+const exampleMap = OrderedMap({
     '1': Map({id: '1', name: 'Water', price: '40', ownerId: '1'}),
     '2': Map({id: '2', name: 'Milk', price: '60', ownerId: '2'}),
     '3': Map({id: '3', name: 'Chips', price: '10', ownerId: '2'})
@@ -51,18 +51,18 @@ describe("UNIT / Reducers / productsReducer", ()=> {
 
         it(`should call reducer utils method`, () => {
 
-            const spy1 = sandbox.spy(reducerUtils, "fetch");
+            const spy = sandbox.spy(reducerUtils, "fetch");
 
             const action = {
                 type: FETCH_BUDGET,
                 id: 'budget1',
-                result: { products: exampleProductsObj }
+                result: { products: exampleObj }
             };
 
-            productsReducer(exampleProductsMap, action);
+            productsReducer(exampleMap, action);
 
-            assert.ok(spy1.calledOnce, "wasn't called");
-            assert.ok(spy1.calledWithExactly('result.products', exampleProductsMap, action));
+            assert.ok(spy.calledOnce, "wasn't called");
+            assert.ok(spy.calledWithExactly('result.products', exampleMap, action));
 
         });
 
@@ -79,10 +79,10 @@ describe("UNIT / Reducers / productsReducer", ()=> {
                 id: '1'
             };
 
-            productsReducer(exampleProductsMap, action);
+            productsReducer(exampleMap, action);
 
             assert.ok( spy.calledOnce );
-            assert.ok( spy.calledWithExactly(exampleProductsMap, action) );
+            assert.ok( spy.calledWithExactly(exampleMap, action) );
 
         });
 
@@ -93,10 +93,10 @@ describe("UNIT / Reducers / productsReducer", ()=> {
                 id: '1'
             };
 
-            const result = productsReducer(exampleProductsMap, action);
+            const result = productsReducer(exampleMap, action);
 
             assert.isUndefined(result.get('id'));
-            assert.equal(result.size, exampleProductsMap.size - 1);
+            assert.equal(result.size, exampleMap.size - 1);
 
         });
 
@@ -113,10 +113,10 @@ describe("UNIT / Reducers / productsReducer", ()=> {
                 id: '100'
             };
 
-            productsReducer(exampleProductsMap, action);
+            productsReducer(exampleMap, action);
 
             assert.ok( spy.calledOnce, "wasn't called" );
-            assert.ok( spy.calledWithExactly(exampleProductsMap, action), "wrong arguments" );
+            assert.ok( spy.calledWithExactly(exampleMap, action), "wrong arguments" );
 
         });
 
@@ -132,7 +132,7 @@ describe("UNIT / Reducers / productsReducer", ()=> {
                 }
             };
 
-            const result = productsReducer(exampleProductsMap, action).get('100');
+            const result = productsReducer(exampleMap, action).get('100');
 
             assert.deepEqual( result.get('name'), '' );
             assert.deepEqual( result.get('price'), '' );
@@ -158,10 +158,10 @@ describe("UNIT / Reducers / productsReducer", ()=> {
                 }
             };
 
-            productsReducer(exampleProductsMap, action);
+            productsReducer(exampleMap, action);
 
             assert.ok( spy.calledOnce, "wasn't called" );
-            assert.ok( spy.calledWithExactly(exampleProductsMap, action), "wrong arguments" );
+            assert.ok( spy.calledWithExactly(exampleMap, action), "wrong arguments" );
 
         });
 
@@ -177,7 +177,7 @@ describe("UNIT / Reducers / productsReducer", ()=> {
                 }
             };
 
-            const result = productsReducer(exampleProductsMap, action).get('1');
+            const result = productsReducer(exampleMap, action).get('1');
 
             assert.equal(
                 result.get('name'),
@@ -207,7 +207,7 @@ describe("UNIT / Reducers / productsReducer", ()=> {
                 id: '2'
             };
 
-            const result = productsReducer(exampleProductsMap, action);
+            const result = productsReducer(exampleMap, action);
 
             assert.equal(result.size, 1);
             assert.ok(result.get('1'));
@@ -221,9 +221,9 @@ describe("UNIT / Reducers / productsReducer", ()=> {
                 id: '200'
             };
 
-            const result = productsReducer(exampleProductsMap, action);
+            const result = productsReducer(exampleMap, action);
 
-            assert.ok(result.equals(exampleProductsMap));
+            assert.ok(result.equals(exampleMap));
 
         });
 

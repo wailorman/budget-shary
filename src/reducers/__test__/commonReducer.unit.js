@@ -4,6 +4,10 @@ import { Map } from 'immutable';
 import sinonSandbox from '../../../test/helpers/sinon-sandbox';
 import * as reducerUtils from '../../utils/reducer-utils';
 
+const exampleObj = {
+    shareSum: '40'
+};
+
 const exampleMap = Map({
     shareSum: '40'
 });
@@ -14,16 +18,6 @@ describe("UNIT / Reducers / commonReducer", ()=> {
 
     sinonSandbox((sinon) => {
         sandbox = sinon;
-    });
-
-    it(`should return {} as initial state`, () => {
-        
-        const actual = commonReducer();
-        
-        const expected = {};
-        
-        expect(actual).to.eql(expected);
-        
     });
 
     it(`should return the same state if no action was passed`, () => {
@@ -46,9 +40,7 @@ describe("UNIT / Reducers / commonReducer", ()=> {
                 type: FETCH_BUDGET,
                 id: 'budget1',
                 result: {
-                    common: {
-                        shareSum: '40'
-                    }
+                    common: exampleObj
                 }
             };
 

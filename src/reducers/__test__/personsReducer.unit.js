@@ -13,7 +13,12 @@ import {
 
 import {initialState} from '../initial-state';
 
-const examplePersonsMap = OrderedMap({
+const exampleObj = {
+    '1': {id: '1', name: 'Mike', share: '40'},
+    '2': {id: '2', name: 'Jack', share: '60'}
+};
+
+const exampleMap = OrderedMap({
     '1': Map({id: '1', name: 'Mike', share: '40'}),
     '2': Map({id: '2', name: 'Jack', share: '60'})
 });
@@ -47,18 +52,18 @@ describe("UNIT / Reducers / personsReducer", () => {
 
         it(`should call reducer utils method`, () => {
 
-            const spy1 = sandbox.spy(reducerUtils, "fetch");
+            const spy = sandbox.spy(reducerUtils, "fetch");
 
             const action = {
                 type: FETCH_BUDGET,
                 id: 'budget1',
-                result: { persons: examplePersonsMap }
+                result: { persons: exampleObj }
             };
 
-            personsReducer(examplePersonsMap, action);
+            personsReducer(exampleMap, action);
 
-            assert.ok(spy1.calledOnce, "wasn't called");
-            assert.ok(spy1.calledWithExactly('result.products', examplePersonsMap, action));
+            assert.ok(spy.calledOnce, "wasn't called");
+            assert.ok(spy.calledWithExactly('result.persons', exampleMap, action));
 
         });
 
@@ -75,10 +80,10 @@ describe("UNIT / Reducers / personsReducer", () => {
                 id: '1'
             };
 
-            personsReducer(examplePersonsMap, action);
+            personsReducer(exampleMap, action);
 
             assert.ok( spy.calledOnce );
-            assert.ok( spy.calledWithExactly(examplePersonsMap, action) );
+            assert.ok( spy.calledWithExactly(exampleMap, action) );
 
         });
 
@@ -89,10 +94,10 @@ describe("UNIT / Reducers / personsReducer", () => {
                 id: '1'
             };
 
-            const result = personsReducer(examplePersonsMap, action);
+            const result = personsReducer(exampleMap, action);
 
             assert.isUndefined(result.get('1'));
-            assert.equal(result.size, examplePersonsMap.size - 1);
+            assert.equal(result.size, exampleMap.size - 1);
 
         });
 
@@ -109,10 +114,10 @@ describe("UNIT / Reducers / personsReducer", () => {
                 id: '100'
             };
 
-            personsReducer(examplePersonsMap, action);
+            personsReducer(exampleMap, action);
 
             assert.ok( spy.calledOnce, "wasn't called" );
-            assert.ok( spy.calledWithExactly(examplePersonsMap, action), "wrong arguments" );
+            assert.ok( spy.calledWithExactly(exampleMap, action), "wrong arguments" );
 
         });
 
@@ -127,7 +132,7 @@ describe("UNIT / Reducers / personsReducer", () => {
                 }
             };
 
-            const result = personsReducer(examplePersonsMap, action).get('100');
+            const result = personsReducer(exampleMap, action).get('100');
 
             assert.deepEqual( result.get('name'), '' );
             assert.deepEqual( result.get('share'), '' );
@@ -151,10 +156,10 @@ describe("UNIT / Reducers / personsReducer", () => {
                 }
             };
 
-            personsReducer(examplePersonsMap, action);
+            personsReducer(exampleMap, action);
 
             assert.ok( spy.calledOnce, "wasn't called" );
-            assert.ok( spy.calledWithExactly(examplePersonsMap, action), "wrong arguments" );
+            assert.ok( spy.calledWithExactly(exampleMap, action), "wrong arguments" );
 
         });
 
@@ -169,7 +174,7 @@ describe("UNIT / Reducers / personsReducer", () => {
                 }
             };
 
-            const result = personsReducer(examplePersonsMap, action).get('1');
+            const result = personsReducer(exampleMap, action).get('1');
 
             assert.equal(
                 result.get('name'),

@@ -21,6 +21,17 @@ const exampleMap = Map({
     })
 });
 
+const exampleObj = {
+    'prod1': {
+        'pers1': true,
+        'pers2': false
+    },
+    'prod2': {
+        'pers3': true,
+        'pers2': true
+    }
+};
+
 describe("UNIT / Reducers / participatingReducer", ()=> {
 
     let sandbox;
@@ -33,18 +44,18 @@ describe("UNIT / Reducers / participatingReducer", ()=> {
 
         it(`should call reducer utils method`, () => {
 
-            const spy1 = sandbox.spy(reducerUtils, "fetch");
+            const spy = sandbox.spy(reducerUtils, "fetch");
 
             const action = {
                 type: FETCH_BUDGET,
                 id: 'budget1',
-                result: { productParticipating: exampleMap }
+                result: { productParticipating: exampleObj }
             };
 
             participatingReducer(exampleMap, action);
 
-            assert.ok(spy1.calledOnce, "wasn't called");
-            assert.ok(spy1.calledWithExactly('result.productParticipating', exampleMap, action));
+            assert.ok(spy.calledOnce, "wasn't called");
+            assert.ok(spy.calledWithExactly('result.productParticipating', exampleMap, action));
 
         });
 
