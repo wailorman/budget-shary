@@ -194,189 +194,71 @@ describe("UNIT / Reducers / personsReducer", () => {
 
         it(`should change persons shares`, () => {
 
-            const initialState = {
-                1: {
-                    id: 1,
-                    name: 'Mike',
-                    share: 10
-                },
-                2: {
-                    id: 2,
-                    name: 'Alice',
-                    share: 20
-                },
-                3: {
-                    id: 3,
-                    name: 'Jimmy',
-                    share: 70
-                }
-            };
-
             const action = {
                 type: TOGGLE_PARTICIPATION,
-                productId: '1',
-                personId: '1',
                 meta: {
                     newPersonShares: {
-                        1: 20,
-                        2: 30,
-                        3: 50
+                        '1': '20',
+                        '2': '30'
                     }
                 }
             };
 
-            const expectedState = {
-                1: {
-                    id: 1,
-                    name: 'Mike',
-                    share: 20
-                },
-                2: {
-                    id: 2,
-                    name: 'Alice',
-                    share: 30
-                },
-                3: {
-                    id: 3,
-                    name: 'Jimmy',
-                    share: 50
+            const result = personsReducer(exampleMap, action);
+
+            assert.equal(result.getIn(['1', 'share']), '20');
+            assert.equal(result.getIn(['2', 'share']), '30');
+
+        });
+
+        it(`should set to 0 persons' shares not specified in action`, () => {
+
+            const action = {
+                type: TOGGLE_PARTICIPATION,
+                meta: {
+                    newPersonShares: {
+                        '100': '50'
+                    }
                 }
             };
 
-            const actualState = personsReducer(initialState, action);
+            const result = personsReducer(exampleMap, action);
 
-            expect(actualState).to.eql(expectedState);
+            assert.equal(result.getIn(['1', 'share']), '0');
+            assert.equal(result.getIn(['2', 'share']), '0');
 
         });
 
         it(`should ignore nonexistent persons`, () => {
 
-            const initialState = {
-                1: {
-                    id: 1,
-                    name: 'Mike',
-                    share: 10
-                },
-                2: {
-                    id: 2,
-                    name: 'Alice',
-                    share: 20
-                }
-            };
-
             const action = {
                 type: TOGGLE_PARTICIPATION,
-                productId: '1',
-                personId: '1',
                 meta: {
                     newPersonShares: {
-                        1: 20,
-                        2: 30,
-                        3: 50
+                        '1': '20',
+                        '2': '30',
+                        '3': '50'
                     }
                 }
             };
 
-            const expectedState = {
-                1: {
-                    id: 1,
-                    name: 'Mike',
-                    share: 20
-                },
-                2: {
-                    id: 2,
-                    name: 'Alice',
-                    share: 30
-                }
-            };
+            const result = personsReducer(exampleMap, action);
 
-            const actualState = personsReducer(initialState, action);
-
-            expect(actualState).to.eql(expectedState);
+            assert.equal(result.getIn(['1', 'share']), '20');
+            assert.equal(result.getIn(['2', 'share']), '30');
+            assert.equal(result.size, exampleMap.size);
 
         });
 
         it(`should return exactly the same state if no .meta.newPersonShares`, () => {
 
-            const initialState = {
-                1: {
-                    id: 1,
-                    name: 'Mike',
-                    share: 10
-                },
-                2: {
-                    id: 2,
-                    name: 'Alice',
-                    share: 20
-                },
-                3: {
-                    id: 3,
-                    name: 'Jimmy',
-                    share: 70
-                }
-            };
-
             const action = {
-                type: TOGGLE_PARTICIPATION,
-                productId: '1',
-                personId: '1'
+                type: TOGGLE_PARTICIPATION
             };
 
-            const actualState = personsReducer(initialState, action);
+            const result = personsReducer(exampleMap, action);
 
-            expect(actualState === initialState).to.eql(true);
-
-        });
-
-        it(`should return exactly the same state if no .productId or .personId`, () => {
-
-            const initialState = {
-                1: {
-                    id: 1,
-                    name: 'Mike',
-                    share: 10
-                },
-                2: {
-                    id: 2,
-                    name: 'Alice',
-                    share: 20
-                },
-                3: {
-                    id: 3,
-                    name: 'Jimmy',
-                    share: 70
-                }
-            };
-
-            const actionNoProduct = {
-                type: TOGGLE_PARTICIPATION,
-                personId: '1',
-                meta: {
-                    newPersonShares: {
-                        1: 20,
-                        2: 30,
-                        3: 50
-                    }
-                }
-            };
-
-            const actionNoPerson = {
-                type: TOGGLE_PARTICIPATION,
-                productId: '1',
-                meta: {
-                    newPersonShares: {
-                        1: 20,
-                        2: 30,
-                        3: 50
-                    }
-                }
-            };
-
-            const actualStateNoProduct = personsReducer(initialState, actionNoProduct);
-            const actualStateNoPerson = personsReducer(initialState, actionNoPerson);
-
-            expect(actualStateNoProduct === initialState).to.eql(true);
-            expect(actualStateNoPerson === initialState).to.eql(true);
+            assert.equal( result, exampleMap );
 
         });
 

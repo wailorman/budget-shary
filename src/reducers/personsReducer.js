@@ -30,15 +30,12 @@ export function personsReducer(state = initialState.persons, action = {}) {
         case TOGGLE_PARTICIPATION:
         {
             if (
-                action.meta && action.meta.newPersonShares &&
-                action.productId && action.personId
+                action.meta && action.meta.newPersonShares
             ) {
 
                 return state
-                    .map(person => Immutable.Map(person))
                     .map((person, personId) =>
-                        person.set('share', action.meta.newPersonShares[personId], 0))
-                    .toJS();
+                        person.set('share', action.meta.newPersonShares[personId] || '0'));
 
             }
 
