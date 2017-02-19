@@ -80,7 +80,7 @@ describe("UNIT / Utils / Immutable converter", () => {
 
         });
 
-        it(`should be ordered map`, () => {
+        it(`should be map`, () => {
 
             assert.ok(
                 Immutable.Map.isMap(
@@ -112,6 +112,88 @@ describe("UNIT / Utils / Immutable converter", () => {
                     ]
                 }
             });
+
+            assert.equal(
+                result.get('a').get('b').get('1').get('name'),
+                'name1'
+            );
+
+            assert.equal(
+                result.get('a').get('b').get('3').get('name'),
+                'name3'
+            );
+
+            assert.ok(
+                Immutable.Map.isMap( result.get('a').get('b') )
+            );
+
+        });
+
+        it(`normalized collection w/ number keys`, () => {
+
+            const result = nestedMap({
+                a: {
+                    b: {
+                        1: { id: '1', name: 'name1' },
+                        2: { id: '2', name: 'name2' },
+                        3: { id: '3', name: 'name3' }
+                    }
+                }
+            });
+
+            assert.equal(
+                result,
+                Map({
+                    a: Map({
+                        b: OrderedMap({
+                            '1': Map({ id: '1', name: 'name1' }),
+                            '2': Map({ id: '2', name: 'name2' }),
+                            '3': Map({ id: '3', name: 'name3' })
+                        })
+                    })
+                })
+            );
+
+            assert.equal(
+                result.get('a').get('b').get('1').get('name'),
+                'name1'
+            );
+
+            assert.equal(
+                result.get('a').get('b').get('3').get('name'),
+                'name3'
+            );
+
+            assert.ok(
+                Immutable.Map.isMap( result.get('a').get('b') )
+            );
+
+        });
+
+        it(`normalized collection w/ string keys`, () => {
+
+            const result = nestedMap({
+                a: {
+                    b: {
+                        '1': { id: '1', name: 'name1' },
+                        '2': { id: '2', name: 'name2' },
+                        '3': { id: '3', name: 'name3' }
+                    }
+                }
+            });
+
+            assert.equal(
+                result,
+                Map({
+                    a: Map({
+                        b: OrderedMap({
+                            '1': Map({ id: '1', name: 'name1' }),
+                            '2': Map({ id: '2', name: 'name2' }),
+                            '3': Map({ id: '3', name: 'name3' })
+                        })
+                    })
+                })
+            );
 
             assert.equal(
                 result.get('a').get('b').get('1').get('name'),

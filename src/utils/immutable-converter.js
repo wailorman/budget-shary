@@ -4,43 +4,57 @@ export const nestedMap = (arg) => {
 
     const isObject = val => typeof(val) == 'object';
     const isArray = val => typeof(val) == 'object' && val instanceof Array;
-    const isCollection = val => isArray(val) && val[0].id;
     const isArrayOfObjects = val => val.map( elem => typeof elem == 'object' ).some(x=>x);
     const isJustObject = val => Object.entries(val).map((pair) => !typeof pair[1] == 'object').some(x => x);
+
+    const isCollection = val => (isArray(val) || isObject(val)) && val[Object.keys(val)[0]].id;
 
     if (isObject(arg)){
 
         if (isJustObject(arg)){
+
             return Map(arg);
+
         } else {
-            if (isArray(arg)){
+
+            if (isArray(arg) || isCollection(arg)){
 
                 if (isCollection(arg)){
+
                     return OrderedMap(
                         Object
                             .entries(arg)
                             .map((pair) => ([pair[1].id, nestedMap(pair[1])]))
                     );
+
                 }else{
 
                     if (isArrayOfObjects(arg)){
+
                         return List(
                             arg.map((val) => Map(val))
                         );
+
                     }else{
+
                         return List(arg);
+
                     }
                 }
 
             }else{
+
                 return Map(
                     Object.entries(arg).map(([key, val])=>[key, nestedMap(val)])
                 );
+
             }
         }
 
     }else{
+
         return arg;
+
     }
 
 };
