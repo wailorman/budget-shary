@@ -8,7 +8,6 @@ import {
 
 import {initialState} from './initial-state';
 
-import * as Immutable from 'immutable';
 import * as reducerUtils from '../utils/reducer-utils';
 
 export function personsReducer(state = initialState.persons, action = {}) {

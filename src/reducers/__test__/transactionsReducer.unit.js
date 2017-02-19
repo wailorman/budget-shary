@@ -6,8 +6,6 @@ import {
     FETCH_BUDGET
 } from '../../actions';
 
-import { fakeStateCase1, fakeStateCase1WithTransactions, normalizedBigFakeState } from '../../../test/fixtures/fake-state';
-
 import { List, Map } from 'immutable';
 
 const exampleArr = [
