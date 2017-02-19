@@ -14,7 +14,7 @@
     "deploy": "gulp deploy",
     "predeploy:win32": "rm -rf ./dist/js && set NODE_ENV=production& npm run build && gulp zip",
     "lint": "./node_modules/.bin/eslint ./src",
-    "cover": "node --harmony ./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha -- --opts mocha.opts ./src/**/*.unit.js"
+    "cover": "node ./node_modules/cross-env/bin/cross-env.js ./node_modules/nyc/bin/nyc.js npm run test:unit"
   },
   "repository": {
     "type": "git",
@@ -37,6 +37,7 @@
       "transform-runtime",
       "transform-object-rest-spread",
       "transform-decorators-legacy",
+      "istanbul",
       [
         "transform-es2015-modules-commonjs-simple",
         {
@@ -45,10 +46,32 @@
       ]
     ]
   },
+  "nyc": {
+    "check-coverage": true,
+    "branches": 100,
+    "function": 100,
+    "lines": 100,
+    "statements": 100,
+    "include": [
+      "src/**/*.js"
+    ],
+    "reporter": [
+      "html",
+      "text",
+      "lcov"
+    ],
+    "sourceMap": false,
+    "instrument": false,
+    "require": [
+      "babel-register"
+    ]
+  },
   "dependencies": {
     "async": "^1.5.2",
     "babel-core": "^6.22.1",
+    "babel-istanbul": "^0.12.1",
     "babel-loader": "^6.2.0",
+    "babel-plugin-istanbul": "^4.0.0",
     "babel-plugin-transform-decorators-legacy": "^1.3.4",
     "babel-plugin-transform-object-rest-spread": "^6.6.5",
     "babel-plugin-transform-runtime": "^6.15.0",
@@ -74,6 +97,7 @@
     "lodash": "^4.17.4",
     "material-ui": "^0.16.4",
     "null-loader": "^0.1.1",
+    "nyc": "^10.1.2",
     "q": "^1.4.1",
     "raw-loader": "^0.5.1",
     "react": "^15.4.1",
@@ -102,12 +126,14 @@
     "babel-polyfill": "^6.20.0",
     "chai": "^3.4.1",
     "chai-enzyme": "^0.5.1",
+    "cross-env": "^3.1.4",
     "deep-freeze": "0.0.1",
     "enzyme": "^2.5.1",
     "eslint": "^3.8.1",
     "eslint-plugin-mocha": "^4.7.0",
     "eslint-plugin-react": "^6.4.1",
     "gulp-util": "^3.0.7",
+    "isparta": "^4.0.0",
     "istanbul": "1.0.0-alpha.2",
     "karma": "^1.4.1",
     "karma-chrome-launcher": "^2.0.0",
