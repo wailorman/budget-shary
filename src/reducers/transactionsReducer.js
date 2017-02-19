@@ -4,16 +4,17 @@ import {
     PROCEED_INTERCHANGE
 } from '../actions';
 
-import * as Immutable from 'immutable';
+import * as reducerUtils from '../utils/reducer-utils';
 
 export function transactionsReducer(state = initialState.transactions, action = {}) {
 
     switch (action.type) {
         case FETCH_BUDGET:
-            return Immutable.List(action.result.transactions).toJS();
+            return reducerUtils.fetch('result.transactions', state, action);
 
         case PROCEED_INTERCHANGE:
-            return action.meta.transactions;
+            return reducerUtils.fetch('meta.transactions', state, action);
+
         default:
             return state || [];
     }

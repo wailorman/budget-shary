@@ -1,66 +1,66 @@
 import { transactionsReducer } from '../transactionsReducer';
-
+import sinonSandbox from '../../../test/helpers/sinon-sandbox';
+import * as reducerUtils from '../../utils/reducer-utils';
 import {
-
     PROCEED_INTERCHANGE,
-
     FETCH_BUDGET
-
 } from '../../actions';
 
 import { fakeStateCase1, fakeStateCase1WithTransactions, normalizedBigFakeState } from '../../../test/fixtures/fake-state';
 
+import { List, Map } from 'immutable';
+
+const exampleArr = [
+    { from: '1', to: '2', total: 611.4 },
+    { from: '1', to: '3', total: 1144.4 }
+];
+
+const exampleList = List([
+    Map({ from: '1', to: '2', total: 611.4 }),
+    Map({ from: '1', to: '3', total: 1144.4 })
+]);
+
 describe("UNIT / Reducers / transactionsReducer", ()=> {
 
+    let sandbox;
 
-    describe("FETCH_BUDGET", ()=> {
+    sinonSandbox((sinon) => {
+        sandbox = sinon;
+    });
 
-        // todo
-        // it(`should return clean state if .result wasn't attached to action`, () => {
-        //
-        //     const action = {
-        //         type: FETCH_BUDGET,
-        //         id: 'budget1'
-        //     };
-        //
-        //     const expected = [];
-        //
-        //     const actual = transactionsReducer({}, action);
-        //
-        //     expect(actual).to.eql(expected);
-        //
-        // });
+    describe("FETCH_BUDGET", () => {
 
-        it(`should return transactions if .result is attached`, () => {
+        it(`should call reducer utils method`, () => {
+
+            const spy = sandbox.spy(reducerUtils, "fetch");
 
             const action = {
                 type: FETCH_BUDGET,
                 id: 'budget1',
-                result: normalizedBigFakeState
+                result: { transactions: exampleArr }
             };
 
-            const expected = normalizedBigFakeState.transactions;
+            transactionsReducer(List(), action);
 
-            const actual = transactionsReducer({}, action);
-
-            expect(actual).to.eql(expected);
+            assert.ok(spy.calledOnce, "wasn't called");
+            assert.ok(spy.calledWithExactly('result.transactions', List(), action));
 
         });
 
-        // it(`should clean previous state if .result wasn't attached`, () => {
-        //
-        //     const action = {
-        //         type: FETCH_BUDGET,
-        //         id: 'budget1'
-        //     };
-        //
-        //     const expected = [];
-        //
-        //     const actual = transactionsReducer(normalizedBigFakeState.transactions, action);
-        //
-        //     expect(actual).to.eql(expected);
-        //
-        // });
+        it(`should correctly convert to List & Maps`, () => {
+
+            const action = {
+                type: FETCH_BUDGET,
+                id: 'budget1',
+                result: { transactions: exampleArr }
+            };
+
+            assert.equal(
+                transactionsReducer(List(), action),
+                exampleList
+            );
+
+        });
 
     });
 
@@ -77,22 +77,30 @@ describe("UNIT / Reducers / transactionsReducer", ()=> {
 
     });
 
-    it(`should put interchange results`, () => {
+    describe("PROCEED_INTERCHANGE", () => {
 
-        const transactions = fakeStateCase1WithTransactions.transactions;
+        it(`should put interchange results`, () => {
 
-        const action = {
-            type: PROCEED_INTERCHANGE,
-            meta: {
-                transactions
-            }
-        };
+            const action = {
+                type: PROCEED_INTERCHANGE,
+                meta: {
+                    transactions: [
+                        { from: '1', to: '2', total: 611.4 },
+                        { from: '1', to: '3', total: 1144.4 }
+                    ]
+                }
+            };
 
-        const expected = transactions;
+            assert.equal(
+                transactionsReducer(List(), action),
+                exampleList
+            );
 
-        const actual = transactionsReducer(fakeStateCase1, action);
+        });
 
-        expect(actual).to.eql(expected);
+        // todo should substitute
+
+        // todo should call fetch
 
     });
 
