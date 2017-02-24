@@ -5,9 +5,9 @@ import { initialState } from './initial-state';
 
 import * as reducerUtils from '../utils/reducer-utils';
 
-module.exports = function commonReducer(state, action) {
+export function commonReducer(state, action) {
 
-    if (!state) return state;
+    if (!state) return initialState.common;
     if (!action) return state;
 
     switch (action.type) {
