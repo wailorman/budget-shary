@@ -1,6 +1,7 @@
 .idea/
 node_modules/
-dist/**/*.build.js
-dist/**/*.build.js.map
+dist/js
+.ny
 .tmp/
 coverage/
+.nyc_output/
