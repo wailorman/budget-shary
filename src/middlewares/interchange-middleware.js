@@ -20,9 +20,9 @@ export const interchangeMiddleware = (reducer)=> (store)=> (next)=> (action)=> {
         try {
 
             const result = productParticipatingToPersonShares(
-                state.productParticipating,
-                state.persons,
-                state.products
+                state.productParticipating.toJS(),
+                state.persons.toJS(),
+                state.products.toJS()
             );
 
             _.set(newAction, 'meta.newPersonShares', result);
@@ -39,7 +39,7 @@ export const interchangeMiddleware = (reducer)=> (store)=> (next)=> (action)=> {
 
         let newAction = _.clone(action);
 
-        const state = store.getState();
+        const state = store.getState().toJS();
 
         try {
             const result = proceedInterchange(state).transactions;
