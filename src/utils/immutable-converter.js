@@ -7,7 +7,7 @@ export const nestedMap = (arg) => {
     const isArrayOfObjects = val => val.map( elem => typeof elem == 'object' ).some(x=>x);
     const isJustObject = val => Object.entries(val).map((pair) => !typeof pair[1] == 'object').some(x => x);
 
-    const isCollection = val => (isArray(val) || isObject(val)) && val[Object.keys(val)[0]].id;
+    const isCollection = val => (isArray(val) || isObject(val)) && val[Object.keys(val)[0]] && val[Object.keys(val)[0]].id;
 
     if (isObject(arg)){
 
