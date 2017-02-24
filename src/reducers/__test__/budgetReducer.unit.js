@@ -1,8 +1,26 @@
 import {budgetReducer} from '../budgetReducer';
-import {initialState} from '../initial-state';
+import { Map } from 'immutable';
 import {CHANGE_BUDGET_PROPS, FETCH_BUDGET} from '../../actions';
+import sinonSandbox from '../../../test/helpers/sinon-sandbox';
+import * as reducerUtils from '../../utils/reducer-utils';
+
+const exampleObj = {
+    id: 'budget1',
+    name: 'Budget!'
+};
+
+const exampleMap = Map({
+    id: 'budget1',
+    name: 'Budget!'
+});
 
 describe("UNIT / Reducers / budgetReducer", ()=> {
+
+    let sandbox;
+
+    sinonSandbox((sinon) => {
+        sandbox = sinon;
+    });
 
     it(`should return initial state if no action passed`, () => {
 
@@ -14,9 +32,32 @@ describe("UNIT / Reducers / budgetReducer", ()=> {
 
     });
 
+    describe("FETCH_BUDGET", ()=> {
+
+        it(`should call reducer utils method`, () => {
+
+            const spy = sandbox.spy(reducerUtils, "fetch");
+
+            const action = {
+                type: FETCH_BUDGET,
+                id: 'budget1',
+                result: { budget: exampleObj }
+            };
+
+            budgetReducer(exampleMap, action);
+
+            assert.ok(spy.calledOnce, "wasn't called");
+            assert.ok(spy.calledWithExactly('result.budget', exampleMap, action));
+
+        });
+
+    });
+
     describe("CHANGE_BUDGET_PROPS", ()=> {
 
-        it(`should change name of active budget`, () => {
+        it('should call reducerUtils method', () => {
+
+            const spy = sandbox.spy(reducerUtils, "update");
 
             const action = {
                 type: CHANGE_BUDGET_PROPS,
@@ -25,68 +66,13 @@ describe("UNIT / Reducers / budgetReducer", ()=> {
                 }
             };
 
-            const state = {
-                name: 'First name'
-            };
+            budgetReducer(exampleMap, action);
 
-            const expected = Immutable.Map({
-                name: 'Another name'
-            });
-
-            const actual = budgetReducer(state, action);
-
-            expect(actual).to.eql(expected);
-
-        });
-        
-    });
-
-    describe("FETCH_BUDGET", ()=> {
-
-        it(`should fetch budget properties`, () => {
-
-            const action = {
-                type: FETCH_BUDGET,
-                result: {
-                    budget: {
-                        name: 'Pretty budget'
-                    }
-                }
-            };
-
-            const state = {};
-
-            const expected = Immutable.Map({
-                name: 'Pretty budget'
-            });
-
-            const actual = budgetReducer(state, action);
-
-            expect(actual).to.eql(expected);
-
-        });
-
-        it(`should return initialState if action doesn't have budget property`, () => {
-
-            const action = {
-                type: FETCH_BUDGET,
-                result: {
-                    persons: {
-                        1: {
-                            id: 1,
-                            name: 'Anton',
-                            share: '100'
-                        }
-                    }
-                }
-            };
-
-            const actual = budgetReducer({}, action);
-
-            expect(actual).to.eql(initialState.budget);
+            assert.ok( spy.calledOnce, "wasn't called" );
+            assert.ok( spy.calledWithExactly(exampleMap, action), "wrong arguments" );
 
         });
 
     });
-    
+
 });
