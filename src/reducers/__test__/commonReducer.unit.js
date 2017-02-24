@@ -1,4 +1,4 @@
-import { commonReducer } from '../commonReducer';
+import commonReducer from '../commonReducer';
 import {FETCH_BUDGET} from '../../actions';
 import { Map } from 'immutable';
 import sinonSandbox from '../../../test/helpers/sinon-sandbox';
@@ -18,6 +18,14 @@ describe("UNIT / Reducers / commonReducer", ()=> {
 
     sinonSandbox((sinon) => {
         sandbox = sinon;
+    });
+
+    it(`should return the same state if no args`, () => {
+
+        const actual = commonReducer();
+
+        expect(actual).to.eql(undefined);
+
     });
 
     it(`should return the same state if no action was passed`, () => {

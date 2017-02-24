@@ -5,7 +5,10 @@ import { initialState } from './initial-state';
 
 import * as reducerUtils from '../utils/reducer-utils';
 
-export function commonReducer(state = initialState.common, action = {}) {
+module.exports = function commonReducer(state, action) {
+
+    if (!state) return state;
+    if (!action) return state;
 
     switch (action.type) {
         case FETCH_BUDGET:
