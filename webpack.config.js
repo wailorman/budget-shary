@@ -5,7 +5,7 @@ var WriteFilePlugin = require('write-file-webpack-plugin');
 // var WebpackBuildNotifierPlugin = require('webpack-build-notifier');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 
-var babelConfig = require('./package.json').babel;
+var babelConfig = require('./package1.json').babel;
 
 var webpackConfig = {
 

@@ -14,7 +14,9 @@
     "deploy": "gulp deploy",
     "predeploy:win32": "rm -rf ./dist/js && set NODE_ENV=production& npm run build && gulp zip",
     "lint": "./node_modules/.bin/eslint ./src",
-    "cover": "node ./node_modules/cross-env/bin/cross-env.js ./node_modules/nyc/bin/nyc.js npm run test:unit"
+    "cover": "node ./node_modules/cross-env/bin/cross-env.js ./node_modules/nyc/bin/nyc.js npm run test:unit",
+    "storybook": "./node_modules/.bin/start-storybook -p 6006",
+    "build-storybook": "build-storybook"
   },
   "repository": {
     "type": "git",
@@ -119,6 +121,7 @@
     "write-file-webpack-plugin": "^3.1.8"
   },
   "devDependencies": {
+    "@kadira/storybook": "^2.35.3",
     "babel-cli": "^6.22.2",
     "babel-eslint": "^7.1.1",
     "babel-plugin-source-map-support-for-6": "^0.0.5",
