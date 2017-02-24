@@ -4,8 +4,9 @@ import {
 } from './../actions';
 
 import * as Immutable from 'immutable';
+import { initialState } from './initial-state';
 
-export function budgetReducer (state = {}, action = {}) {
+export function budgetReducer (state = initialState.budget, action = {}) {
 
     switch (action.type) {
         case FETCH_BUDGET: {
