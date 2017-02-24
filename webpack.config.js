@@ -40,7 +40,7 @@ var webpackConfig = {
 
         loaders: [
             {
-                test: /\.js$/,
+                test: /\.(js|jsx)$/,
                 exclude: /(node_modules)/,
                 loader: 'babel',
                 query: babelConfig
@@ -59,6 +59,10 @@ var webpackConfig = {
             }
         ]
 
+    },
+
+    resolve: {
+        extensions: ['', '.js', '.jsx']
     },
 
     plugins: [
@@ -105,7 +109,7 @@ var webpackConfig = {
 
 if (NODE_ENV == 'development' || NODE_ENV == 'test') {
 
-    webpackConfig.devtool = 'source-map';
+    webpackConfig.devtool = 'eval-source-map';
 
 }
 
