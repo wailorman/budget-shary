@@ -4,17 +4,18 @@ import IconButton from 'material-ui/IconButton';
 import {connect} from 'react-redux';
 import {push} from 'react-router-redux';
 
+import {getLabel} from '../selectors/topbar';
+import {getPath} from '../selectors/router';
+
 import packageInfo from '../../package.json';
 
 @connect(
     (state) => ({
-        path: state.routing.locationBeforeTransitions.pathname,
-        budgetName: state.budget.name
+        path: getPath(state),
+        label: getLabel(state)
     }),
     (dispatch) => ({
-        goToIndex: () => {
-            dispatch(push('/'));
-        }
+        goToIndex: () => dispatch(push('/'))
     }),
     (stateProps, dispatchProps)=>{
         return Object.assign({}, stateProps, dispatchProps);
@@ -32,7 +33,7 @@ export class TopBar extends React.Component {
         if (isIndexPage) {
             label = (<VersionLabel version={packageInfo.version} />);
         } else if (isBudgetPage) {
-            label = this.props.budgetName;
+            label = this.props.label;
         }
 
         const backIcon = (
@@ -59,7 +60,7 @@ export class TopBar extends React.Component {
 
     static propTypes = {
         path: React.PropTypes.string,
-        budgetName: React.PropTypes.string,
+        label: React.PropTypes.string,
 
         goToIndex: React.PropTypes.func
     };
@@ -91,4 +92,3 @@ VersionLabel.propTypes = {
 };
 
 export default TopBar;
-
