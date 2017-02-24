@@ -5,9 +5,9 @@ import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
 import FontIcon from 'material-ui/FontIcon';
 
-import { changePerson, removePerson } from '../actions';
+import { changePerson, removePerson } from '../../actions';
 
-import '../styles/Person.css';
+import '../../styles/Person.css';
 
 
 @connect(
@@ -27,6 +27,21 @@ import '../styles/Person.css';
     })
 )
 export class Person extends React.Component {
+
+    static propTypes = {
+        id: React.PropTypes.string,
+
+
+        name: React.PropTypes.string,
+        share: React.PropTypes.oneOfType([
+            React.PropTypes.string,
+            React.PropTypes.number
+        ]),
+        validationErrors: React.PropTypes.object,
+
+
+        children: React.PropTypes.any
+    }
 
     shouldComponentUpdate(nextProps) {
         const shouldUpdate =    this.props.name !== nextProps.name ||
@@ -110,23 +125,6 @@ export class Person extends React.Component {
 
         );
     }
-
-
-    static propTypes = {
-        id: React.PropTypes.string,
-
-
-        name: React.PropTypes.string,
-        share: React.PropTypes.oneOfType([
-            React.PropTypes.string,
-            React.PropTypes.number
-        ]),
-        validationErrors: React.PropTypes.object,
-
-
-        children: React.PropTypes.any
-    }
-
 
 }
 

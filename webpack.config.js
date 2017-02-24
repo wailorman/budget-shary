@@ -51,7 +51,7 @@ var webpackConfig = {
             },
             {
                 test: /\.css/,
-                loader: ExtractTextPlugin.extract("style-loader", "css-loader")
+                loader: 'style-loader!css-loader!'
             },
             {
                 test: /\.(ttf|woff|woff2|eot|svg|png|jpg)$/,
@@ -105,7 +105,7 @@ var webpackConfig = {
 
 if (NODE_ENV == 'development' || NODE_ENV == 'test') {
 
-    webpackConfig.devtool = 'eval';
+    webpackConfig.devtool = 'source-map';
 
 }
 

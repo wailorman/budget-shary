@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import {newPerson} from '../actions';
 
 import ProductsList from '../containers/ProductsList';
-import Person from '../components/Person';
+import Person from '../components/Person/Person';
 
 import RaisedButton from 'material-ui/RaisedButton';
 import FontIcon from 'material-ui/FontIcon';
