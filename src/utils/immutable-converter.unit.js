@@ -1,4 +1,4 @@
-import {nestedMap} from './immutable-converter';
+import {nestedMap, toObject} from './immutable-converter';
 import Immutable, { OrderedMap, List, Map } from 'immutable';
 
 const { assert } = require('chai').use(require('chai-immutable'));
@@ -278,6 +278,109 @@ describe("UNIT / Utils / Immutable converter", () => {
                 result,
                 expected
             );
+
+        });
+
+    });
+
+    describe('#toObject()', () => {
+
+        it(`1-level Map to object`, ()=>{
+
+            const expected = {
+                a: 'b',
+                c: 'd'
+            };
+
+            const result = toObject(Map({
+                a: 'b',
+                c: 'd'
+            }));
+
+            assert.deepEqual(expected, result);
+
+        });
+
+        it(`2-level Map to object`, ()=>{
+
+            const expected = {
+                a: 'b',
+                c: {
+                    d: 'e'
+                }
+            };
+
+            const result = toObject(Map({
+                a: 'b',
+                c: Map({
+                    d: 'e'
+                })
+            }));
+
+            assert.deepEqual(expected, result);
+
+        });
+
+        it(`Map w/ List to object`, ()=>{
+
+            const expected = {
+                a: 'b',
+                c: [
+                    '1',
+                    '2'
+                ]
+            };
+
+            const result = toObject(Map({
+                a: 'b',
+                c: List([
+                    '1',
+                    '2'
+                ])
+            }));
+
+            assert.deepEqual(expected, result);
+
+
+        });
+
+        it(`object w/ Maps to object`, ()=>{
+
+            const expected = {
+                a: 'b',
+                c: {
+                    d: 'e'
+                }
+            };
+
+            const result = toObject({
+                a: 'b',
+                c: Map({
+                    d: 'e'
+                })
+            });
+
+            assert.deepEqual(expected, result);
+
+        });
+
+        it(`undefined to undefined`, ()=>{
+
+            const expected = undefined;
+
+            const result = toObject(undefined);
+
+            assert.deepEqual(expected, result);
+
+        });
+
+        it(`null to null`, ()=>{
+
+            const expected = null;
+
+            const result = toObject(null);
+
+            assert.deepEqual(expected, result);
 
         });
 

@@ -58,3 +58,16 @@ export const nestedMap = (arg) => {
     }
 
 };
+
+export const toObject = (arg) => {
+    if (arg && arg.toJS){
+        return arg.toJS();
+    } else if (arg && typeof arg == 'object') {
+        return Object.keys(arg).reduce((prev, key) => {
+            prev[key] = toObject(arg[key]);
+            return prev;
+        }, {});
+    } else {
+        return arg;
+    }
+};
