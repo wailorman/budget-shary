@@ -55,21 +55,54 @@ describe("UNIT / Reducers / budgetReducer", ()=> {
 
     describe("CHANGE_BUDGET_PROPS", ()=> {
 
-        it('should call reducerUtils method', () => {
+        // it('should call reducerUtils method', () => {
+        //
+        //     const spy = sandbox.spy(reducerUtils, "update");
+        //
+        //     const action = {
+        //         type: CHANGE_BUDGET_PROPS,
+        //         values: {
+        //             name: 'Another name'
+        //         }
+        //     };
+        //
+        //     budgetReducer(exampleMap, action);
+        //
+        //     assert.ok( spy.calledOnce, "wasn't called" );
+        //     assert.ok( spy.calledWithExactly(exampleMap, action), "wrong arguments" );
+        //
+        // });
 
-            const spy = sandbox.spy(reducerUtils, "update");
+        it('should update budget props', () => {
 
             const action = {
                 type: CHANGE_BUDGET_PROPS,
+                id: 'budget1',
                 values: {
-                    name: 'Another name'
+                    name: 'hey'
                 }
             };
 
-            budgetReducer(exampleMap, action);
+            const result = budgetReducer(exampleMap, action);
 
-            assert.ok( spy.calledOnce, "wasn't called" );
-            assert.ok( spy.calledWithExactly(exampleMap, action), "wrong arguments" );
+            assert.equal( result.get('name'), 'hey' );
+            assert.equal( result.get('id'), 'budget1' );
+
+        });
+
+        it(`should not update state if it's not ours budget`, ()=>{
+
+            const action = {
+                type: CHANGE_BUDGET_PROPS,
+                id: 'budget100',
+                values: {
+                    name: 'hey'
+                }
+            };
+
+            const result = budgetReducer(exampleMap, action);
+
+            assert.equal(result, exampleMap);
 
         });
 
