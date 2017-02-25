@@ -18,7 +18,9 @@ import '../styles/Members.css';
 (dispatch, ownProps) => {
     return {
         fetchBudget: () => dispatch(fetchBudget(ownProps.params.id)),
-        changeBudgetProps: (event) => dispatch(changeBudgetProps({name: event.target.value}))
+        changeBudgetProps: (event) => dispatch(
+            changeBudgetProps(ownProps.params.id, {name: event.target.value})
+        )
     };
 })
 export default class Members extends React.Component {
