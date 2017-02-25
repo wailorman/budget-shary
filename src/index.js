@@ -1,8 +1,10 @@
-import Budget from './containers/BudgetContainer';
-import BudgetsListContainer from './containers/BudgetsListContainer';
 import {store, history} from './store';
 import {Provider} from 'react-redux';
 import {Router, Route} from 'react-router';
+
+import Budget from './containers/BudgetContainer';
+import BudgetsListContainer from './containers/BudgetsListContainer';
+import Members from './containers/Members';
 
 import './styles/index.css';
 
@@ -25,7 +27,9 @@ ReactDOM.render(
 
                 <Router history={history}>
                     <Route path="/" component={BudgetsListContainer}/>
+                    <Route path="/budgets" component={BudgetsListContainer}/>
                     <Route path="/budgets/:id" component={Budget}/>
+                    <Route path="/budgets/:id/members" component={Members}/>
                 </Router>
             </div>
         </MuiThemeProvider>

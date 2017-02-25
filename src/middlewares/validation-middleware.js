@@ -5,11 +5,11 @@ import {validate} from '../core/validation/validation';
 
 export const validationMiddleware = (reducer) => (store) => (next) => (action) => {
 
-    const getActionWithValidationResult = (state, action)=> {
+    /*const getActionWithValidationResult = (state, action)=> {
 
         let newAction = _.cloneDeep(action);
 
-        const validationResult = validate(state);
+        const validationResult = validate(state.toJS());
 
         if (_.isEmpty(validationResult) == false) {
             _.set(newAction, `meta.errors`, validationResult);
@@ -31,7 +31,9 @@ export const validationMiddleware = (reducer) => (store) => (next) => (action) =
 
     const newAction = getActionWithValidationResult(nextState, action);
 
-    return next(newAction);
+    return next(newAction);*/
+
+    return next(action);
 
 };
 

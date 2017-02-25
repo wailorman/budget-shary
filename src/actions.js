@@ -35,13 +35,14 @@ export const budgetSyncActions = [
 ];
 
 
-export function changeBudgetProps(values) {
+export function changeBudgetProps(id, values) {
 
     return {
         type: CHANGE_BUDGET_PROPS,
-        values
+        id,
+        values: { id, ...values }
     };
-    
+
 }
 
 export function deleteBudget(id) {
@@ -71,7 +72,7 @@ export function fetchBudget(id) {
         type: FETCH_BUDGET,
         id
     };
-    
+
 }
 
 export function fetchBudgetsList() {
@@ -150,5 +151,5 @@ export function toggleParticipation(productId, personId) {
         productId: productId,
         personId: personId
     };
-    
+
 }

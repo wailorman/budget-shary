@@ -2,6 +2,7 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
 import {newPerson} from '../actions';
+import {personsListSelector} from '../selectors/persons';
 
 import ProductsList from '../containers/ProductsList';
 import Person from '../components/Person/Person';
@@ -11,7 +12,7 @@ import FontIcon from 'material-ui/FontIcon';
 
 @connect(
     (state) => ({
-        persons: state.persons
+        persons: personsListSelector(state)
     }),
     (dispatch) => ({
         onNewPerson: bindActionCreators(newPerson, dispatch)
@@ -21,11 +22,16 @@ import FontIcon from 'material-ui/FontIcon';
     }
 )
 export class PersonsList extends React.Component {
+    static propTypes = {
+        persons: React.PropTypes.array,
+        onNewPerson: React.PropTypes.func
+    }
+
     render() {
 
         return (
             <div className="PersonsList">
-                {_.map(this.props.persons, (person) => {
+                {this.props.persons.map((person) => {
 
                     return (
 
@@ -53,11 +59,6 @@ export class PersonsList extends React.Component {
             </div>
         );
 
-    }
-
-    static propTypes = {
-        persons: React.PropTypes.object,
-        onNewPerson: React.PropTypes.func
     }
 }
 

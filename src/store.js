@@ -1,6 +1,7 @@
 import {createStore, applyMiddleware, compose} from 'redux';
 import thunk from 'redux-thunk';
-import {reducer, defaultState} from './reducers/reducers';
+import {reducer} from './reducers/reducers';
+import {initialState} from './reducers/initial-state';
 
 import {stateSyncMiddleware} from './middlewares/state-sync-middleware';
 import {shareSumMiddleware} from './middlewares/share-sum-middleware';
@@ -21,7 +22,7 @@ import defaults from 'lodash/defaults';
  */
 export const generateStore = (args = {}) => {
 
-    defaults(args, {reducer: reducer, initialState: defaultState});
+    defaults(args, {reducer: reducer, initialState: initialState});
 
     return createStore(
         args.reducer,

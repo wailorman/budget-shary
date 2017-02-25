@@ -3,6 +3,9 @@ import {connect} from 'react-redux';
 
 import '../styles/Budget.css';
 
+import { commonErrorsSelector } from '../selectors/errors';
+import { budgetNameSelector } from '../selectors/budget';
+
 import ValidationErrorsList from './ValidationErrorsList';
 import TransactionsList from './TransactionsList';
 import BudgetName from './BudgetName';
@@ -18,8 +21,8 @@ import {STUB_BUDGET_ID} from '../state-stub';
     (state, ownProps)=> {
         return {
             requestedBudgetId: ownProps.params.id || STUB_BUDGET_ID,
-            budgetName: state.budget.name,
-            commonErrors: state.errors.common
+            budgetName: budgetNameSelector(state),
+            commonErrors: commonErrorsSelector(state)
         };
     },
     (dispatch)=> {
@@ -34,6 +37,16 @@ import {STUB_BUDGET_ID} from '../state-stub';
     }
 )
 export class Budget extends React.Component {
+    static propTypes = {
+        params: React.PropTypes.object,
+
+        requestedBudgetId: React.PropTypes.string,
+        commonErrors: React.PropTypes.object,
+        budgetName: React.PropTypes.string,
+        fetchBudget: React.PropTypes.func,
+        onChangeBudget: React.PropTypes.func,
+        onRealizeInterchange: React.PropTypes.func
+    }
 
     shouldComponentUpdate(nextProps) {
         const shouldUpdate =    this.props.requestedBudgetId !== nextProps.requestedBudgetId ||
@@ -55,7 +68,7 @@ export class Budget extends React.Component {
             <div className="Budget">
 
                 <BudgetName name={this.props.budgetName}
-                            onChange={this.props.onChangeBudget}/>
+                            onChange={(values) => this.props.onChangeBudget(this.props.requestedBudgetId, values)}/>
 
                 <PersonsList/>
 
@@ -74,17 +87,6 @@ export class Budget extends React.Component {
 
             </div>
         );
-    }
-
-    static propTypes = {
-        params: React.PropTypes.object,
-
-        requestedBudgetId: React.PropTypes.string,
-        commonErrors: React.PropTypes.object,
-        budgetName: React.PropTypes.string,
-        fetchBudget: React.PropTypes.func,
-        onChangeBudget: React.PropTypes.func,
-        onRealizeInterchange: React.PropTypes.func
     }
 
 }

@@ -1,4 +1,4 @@
-import { Map, OrderedMap } from 'immutable';
+import { List, Map, OrderedMap } from 'immutable';
 
 export const initialState = {
     budgetsList: OrderedMap({}),
@@ -6,7 +6,7 @@ export const initialState = {
     persons: OrderedMap({}),
     products: OrderedMap({}),
     productParticipating: Map({}),
-    transactions: [],
+    transactions: List([]),
     common: Map({}),
     errors: Map({})
 
