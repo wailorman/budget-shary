@@ -12,29 +12,29 @@ export const ParticipatingSwitcher = (props)=> {
         <div className="ParticipatingSwitcher">
 
             <RaisedButton
-                backgroundColor={props.state ? "#00BCD4" : "#E7E8E9"}
+                backgroundColor={props.enabled ? "#00BCD4" : "#E7E8E9"}
 
                 labelStyle={{
-                    color: props.state ? 'white' : null
+                    color: props.enabled ? 'white' : null
                 }}
-                primary={props.state}
+                primary={props.enabled}
                 onTouchTap={onClick}
                 style={{
                     minWidth: '100%',
                     boxShadow: 'none'
                 }}
-                label={props.personName}
+                label={props.label}
             />
 
         </div>
     );
-    
+
 };
 
 ParticipatingSwitcher.propTypes = {
-    personName: React.PropTypes.string,
+    label: React.PropTypes.string,
     onClick: React.PropTypes.func.isRequired,
-    state: React.PropTypes.bool
+    enabled: React.PropTypes.bool
 };
 
 export default ParticipatingSwitcher;
