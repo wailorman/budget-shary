@@ -109,7 +109,7 @@ var webpackConfig = {
 
 if (NODE_ENV == 'development' || NODE_ENV == 'test') {
 
-    webpackConfig.devtool = 'eval-source-map';
+    webpackConfig.devtool = 'eval';
 
 }
 
