@@ -11,6 +11,7 @@ import {
 
     budgetSyncActions
 } from '../actions';
+import {toObject} from '../utils/immutable-converter';
 
 export const stateSyncMiddleware = (reducer, deps = {}) =>
     (store) => (next) => (action) => {
@@ -56,7 +57,7 @@ export const stateSyncMiddleware = (reducer, deps = {}) =>
                     const nextState = reducer(previousState, action);
 
                     try {
-                        deps.pushBudget(nextState);
+                        deps.pushBudget(toObject(nextState));
                     } catch (e) {
                         console.error(`Error while pushing the state: ${e}`);
                     }
