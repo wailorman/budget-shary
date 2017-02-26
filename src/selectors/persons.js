@@ -1,15 +1,20 @@
 import { createSelector } from 'reselect';
 
-export const personsSelector = (state) => state.persons.toArray();
+export const personsSelector = (state) => state.persons;
 
-export const personsMapSelector = (state) => state.persons;
+// export const personsMapSelector = (state) => state.persons;
+//
+// export const personsListSelector = createSelector(
+//     personsSelector,
+//     (persons) => persons.map((person) => person.toJS())
+// );
 
-export const personsListSelector = createSelector(
+export const personsIdsSelector = createSelector(
     personsSelector,
-    (persons) => persons.map((person) => person.toJS())
+    (persons) => Object.keys( persons.toObject() )
 );
 
 export const onePersonSelector = (personId) => createSelector(
-    personsListSelector,
-    (persons) => persons.filter((person) => personId == person.id)
+    personsSelector,
+    (persons) => persons.get(personId).toJS()
 );

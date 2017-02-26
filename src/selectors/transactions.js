@@ -1,3 +1,8 @@
-// import { createSelector } from 'reselect';
+import { createSelector } from 'reselect';
 
-export const transactionsSelector = (state) => state.transactions.toArray();
+export const transactionsSelector = (state) => state.transactions;
+
+export const transactionsArraySelector = createSelector(
+    transactionsSelector,
+    (transactions) => transactions.toJS()
+);
