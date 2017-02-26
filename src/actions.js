@@ -89,12 +89,13 @@ export function removeProduct(id) {
 }
 
 export function newProduct(ownerId) {
+    const id = `_product_${shortid.generate()}`;
     return {
         type: NEW_PRODUCT,
-        id: `_product_${shortid.generate()}`,
+        id,
         ownerId,
         values: {
-            id: `_product_${shortid.generate()}`,
+            id,
             name: '',
             price: '',
             ownerId
@@ -121,10 +122,12 @@ export function removePerson(id) {
 }
 
 export function newPerson() {
+    const id = `_person_${shortid.generate()}`;
     return {
         type: NEW_PERSON,
-        id: `_person_${shortid.generate()}`,
+        id,
         values: {
+            id,
             name: '',
             share: ''
         }
