@@ -92,7 +92,13 @@ export function newProduct(ownerId) {
     return {
         type: NEW_PRODUCT,
         id: `_product_${shortid.generate()}`,
-        ownerId
+        ownerId,
+        values: {
+            id: `_product_${shortid.generate()}`,
+            name: '',
+            price: '',
+            ownerId
+        }
     };
 }
 
