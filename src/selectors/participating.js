@@ -1,5 +1,3 @@
-import {Map} from 'immutable';
-
 import {createSelector} from 'reselect';
 import {personsMapSelector} from './persons';
 
@@ -10,13 +8,14 @@ export const productParticipatingSelector = (productId) => createSelector(
     personsMapSelector,
 
     (participating, persons) => {
-        return participating
-            .get(productId, Map())
-            .map((participState, personId) => {
-                const personName = persons.get(personId).name;
-                // debugger;
-                return [ personId, personName, participState ];
+        const res = persons
+            .map((person, personId) => {
+                const participState = participating.getIn([productId, personId], false);
+
+                return [ personId, person.get('name'), participState ];
             })
             .toArray();
+
+        return res;
     }
 );

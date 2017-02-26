@@ -64,6 +64,49 @@ describe('UNIT / Selectors / Participating', () => {
 
         });
 
+        it(`should return participating for all persons (not from participating too)`, ()=>{
+
+            const state = {
+                persons: Map({
+                    'pers1': {
+                        name: 'Tobby'
+                    },
+                    'pers2': {
+                        name: 'Mike'
+                    }
+                }),
+                products: Map({
+                    'prod1': {
+                        name: 'Milk',
+                        price: '100'
+                    },
+                    'prod2': {
+                        name: 'Cholocate',
+                        price: '50'
+                    }
+                }),
+                productParticipating: Map({
+                    'prod1': Map({
+                        'pers1': true,
+                        'pers2': false
+                    }),
+                    'prod2': Map({
+                        'pers2': false
+                    })
+                })
+            };
+
+            const expected = [
+                ['pers1', 'Tobby', false],
+                ['pers2', 'Mike', false]
+            ];
+
+            const actual = productParticipatingSelector('prod2')(state);
+
+            assert.deepEqual( actual, expected );
+
+        });
+
     });
 
 });
