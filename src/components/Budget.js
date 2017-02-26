@@ -48,13 +48,13 @@ export class Budget extends React.Component {
         onRealizeInterchange: React.PropTypes.func
     }
 
-    shouldComponentUpdate(nextProps) {
-        const shouldUpdate =    this.props.requestedBudgetId !== nextProps.requestedBudgetId ||
-                                this.props.budgetName !== nextProps.budgetName ||
-                                this.props.commonErrors !== nextProps.commonErrors;
-
-        return shouldUpdate;
-    }
+    // shouldComponentUpdate(nextProps) {
+    //     const shouldUpdate =    this.props.requestedBudgetId !== nextProps.requestedBudgetId ||
+    //                             this.props.budgetName !== nextProps.budgetName ||
+    //                             this.props.commonErrors !== nextProps.commonErrors;
+    //
+    //     return shouldUpdate;
+    // }
 
     componentDidMount(){
 

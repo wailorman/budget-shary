@@ -1,22 +1,18 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {getProductsByPersonId} from '../core/components-utils';
-
 import {newProduct} from '../actions';
 
 import Product from '../components/Product';
 import ParticipatingRow from '../components/ParticipatingRow';
 import NewProductButton from '../components/NewProductButton';
 
+import {ownProductsIdsSelector} from '../selectors/products';
+
 @connect(
     (state, {ownerId}) => {
-
-        const ownProducts = getProductsByPersonId(ownerId, state.products);
-        const ownProductsIds = _.map(ownProducts, 'id');
-
         return {
-            productsIds: ownProductsIds
+            productsIds: ownProductsIdsSelector(ownerId)(state)
         };
     },
     (dispatch, {ownerId})=> {

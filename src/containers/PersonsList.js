@@ -2,7 +2,7 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
 import {newPerson} from '../actions';
-import {personsListSelector} from '../selectors/persons';
+import {personsIdsSelector} from '../selectors/persons';
 
 import ProductsList from '../containers/ProductsList';
 import Person from '../components/Person/Person';
@@ -12,7 +12,7 @@ import FontIcon from 'material-ui/FontIcon';
 
 @connect(
     (state) => ({
-        persons: personsListSelector(state)
+        personsIds: personsIdsSelector(state)
     }),
     (dispatch) => ({
         onNewPerson: bindActionCreators(newPerson, dispatch)
@@ -23,7 +23,7 @@ import FontIcon from 'material-ui/FontIcon';
 )
 export class PersonsList extends React.Component {
     static propTypes = {
-        persons: React.PropTypes.array,
+        personsIds: React.PropTypes.array,
         onNewPerson: React.PropTypes.func
     }
 
@@ -31,16 +31,19 @@ export class PersonsList extends React.Component {
 
         return (
             <div className="PersonsList">
-                {this.props.persons.map((person) => {
+
+                {this.props.personsIds.map((personId) => {
 
                     return (
 
                         <Person
-                            key={person.id}
-                            id={person.id}
-                        >
+                            key={personId}
+                            id={personId}
+                            >
 
-                            <ProductsList ownerId={person.id}/>
+
+                            <ProductsList ownerId={personId}/>
+
 
                         </Person>
 
@@ -52,9 +55,12 @@ export class PersonsList extends React.Component {
                     backgroundColor="#294E6B"
                     labelColor="white"
                     onClick={this.props.onNewPerson}
-                    icon={<FontIcon className="material-icons">add</FontIcon>}
+                    icon={
+                        <FontIcon className="material-icons">add</FontIcon>
+                    }
                     label="New person"
-                />
+                    />
+
 
             </div>
         );

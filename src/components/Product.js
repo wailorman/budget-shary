@@ -9,12 +9,15 @@ import {changeProduct, removeProduct} from '../actions';
 
 import "../styles/Product.css";
 
+import { oneProductSelector } from '../selectors/products';
+import { productErrorsSelector } from '../selectors/errors';
+
 
 @connect(
     (state, {id}) => {
 
-        const product = _.get(state, `products[${id}]`, {});
-        const validationErrors = _.get(state, `errors.products[${product.id}]`, null);
+        const product = oneProductSelector(id)(state);
+        const validationErrors = productErrorsSelector(id)(state);
 
         return {
             ...product,
@@ -28,14 +31,14 @@ import "../styles/Product.css";
 )
 export class Product extends React.Component {
 
-    shouldComponentUpdate(nextProps) {
-
-        const shouldUpdate =    this.props.name !== nextProps.name ||
-                                this.props.price !== nextProps.price ||
-                                this.props.validationErrors !== nextProps.validationErrors;
-
-        return shouldUpdate;
-    }
+    // shouldComponentUpdate(nextProps) {
+    //
+    //     const shouldUpdate =    this.props.name !== nextProps.name ||
+    //                             this.props.price !== nextProps.price ||
+    //                             this.props.validationErrors !== nextProps.validationErrors;
+    //
+    //     return shouldUpdate;
+    // }
 
     render() {
 

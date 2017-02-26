@@ -1,13 +1,13 @@
 import Transaction from './Transaction';
 import {connect} from 'react-redux';
 
-import { transactionsSelector } from '../selectors/transactions';
+import { transactionsArraySelector } from '../selectors/transactions';
 
 @connect(
     (state) => {
         return {
-            transactions: transactionsSelector(state)
-        }
+            transactions: transactionsArraySelector(state)
+        };
     }
 )
 export class TransactionsList extends React.Component {

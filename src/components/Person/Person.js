@@ -9,12 +9,14 @@ import { changePerson, removePerson } from '../../actions';
 
 import '../../styles/Person.css';
 
+import {onePersonSelector} from '../../selectors/persons';
+import {personErrorsSelector} from '../../selectors/errors';
 
 @connect(
     (state, {id}) => {
 
-        const person = _.get(state, `persons[${id}]`, {});
-        const validationErrors = _.get(state, `errors.persons[${person.id}]`, null);
+        const person = onePersonSelector(id)(state);
+        const validationErrors = personErrorsSelector(id)(state);
 
         return {
             ...person,
@@ -43,13 +45,13 @@ export class Person extends React.Component {
         children: React.PropTypes.any
     }
 
-    shouldComponentUpdate(nextProps) {
-        const shouldUpdate =    this.props.name !== nextProps.name ||
-                                this.props.share !== nextProps.share ||
-                                this.props.validationErrors !== nextProps.validationErrors;
-
-        return shouldUpdate;
-    }
+    // shouldComponentUpdate(nextProps) {
+    //     const shouldUpdate =    this.props.name !== nextProps.name ||
+    //                             this.props.share !== nextProps.share ||
+    //                             this.props.validationErrors !== nextProps.validationErrors;
+    //
+    //     return shouldUpdate;
+    // }
 
     render() {
 

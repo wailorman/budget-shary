@@ -1,11 +1,11 @@
 import {createSelector} from 'reselect';
-import {personsMapSelector} from './persons';
+import {personsSelector} from './persons';
 
 export const participatingSelector = (state) => state.productParticipating;
 
 export const productParticipatingSelector = (productId) => createSelector(
     participatingSelector,
-    personsMapSelector,
+    personsSelector,
 
     (participating, persons) => {
         const res = persons
