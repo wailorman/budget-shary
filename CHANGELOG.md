@@ -1,4 +1,4 @@
-#2.3.0-beta
+# 2.3.0-beta
 * **Materialize interface** and other restylings
 * Add PWA manifest.json
 * (bug-fix) No more errors with creating new persons/products with existing ids ([3df9031](https://github.com/wailorman/budget-shary/commit/3df9031c8416254f0adc483c7c6adead235e17f9),
@@ -8,7 +8,7 @@
 * (dev) Optimize rendering (More containers, better _shouldComponentUpdate()_)
 
 
-#2.2.0-beta
+# 2.2.0-beta
 * Bottom margin after participating buttons on phones ([8f33731](https://github.com/wailorman/budget-shary/commit/8f33731))
 * **Multiple budgets**.<br/>
   Now you should not to erase previous budget to create a new one. You can just
